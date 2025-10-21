@@ -1,0 +1,130 @@
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 120px auto 0 auto;
+    position: absolute;
+    top: 500px;
+}
+
+.heading {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.list::-webkit-scrollbar {
+    width: 12px;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.5);
+    border-radius: 3px;
+}
+
+.list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.songItem {
+    margin-top: 1rem;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: rgba(30, 30, 30, 0.55);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.songItem.activeSongItem {
+    background-color: rgba(65, 65, 65, 0.8);
+}
+
+.songRow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.songText {
+    flex: 1;
+}
+
+.title {
+    margin: 0;
+    color: #fff;
+    font-weight: bold;
+}
+
+.artist {
+    margin: 0;
+    color: #aaa;
+}
+
+.songImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        max-width: 400px;
+        margin: -30px auto 0 auto;
+    }
+
+    .songItem {
+        margin-top: 0.5rem;
+        padding: 5px 10px;
+        border-radius: 15px;
+        background-color: rgba(30, 30, 30, 0.336);
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .songItem.activeSongItem {
+        background-color: rgba(100, 98, 98, 0.301);
+    }
+
+    .heading {
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: small;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .title {
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .artist {
+        color: #aaa;
+        font-size: 0.8rem;
+    }
+
+    .list {
+        gap: 0.3rem;
+        max-height: 300px;
+        padding-right: 5px;
+    }
+
+    .songImage {
+        width: 45px;
+        height: 45px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+}

@@ -1,0 +1,67 @@
+.nav {
+    background: linear-gradient(to bottom, #252525, #111112f1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+}
+
+.all {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    align-items: center;
+    padding: 5px;
+    padding-bottom: 0.6rem;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.homeLogo {
+    background-image: url("/assets/icons/home.png");
+}
+
+.playerLogo {
+    background-image: url("/assets/icons/player.png");
+}
+
+.libraryLogo {
+    background-image: url("/assets/icons/library.png");
+}
+
+.homeLogo,
+.playerLogo,
+.libraryLogo {
+    width: 120px;
+    height: 35px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    transition: background-image 0.30s;
+    opacity: 50%;
+}
+
+/* HOVERS */
+.homeLogo:hover,
+.playerLogo:hover,
+.libraryLogo:hover {
+    opacity: 100%;
+}
+
+@media (min-width: 769px) {
+    .mobileOnly {
+        display: none;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+
+    .desktopOnly {
+        display: none;
+    }
+}

@@ -1,0 +1,84 @@
+.authContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 250px;
+    position: relative;
+}
+
+.circleWrapper {
+    position: absolute;
+    z-index: 0;
+}
+
+.circle1 {
+    top: -300px;
+    left: -300px;
+}
+
+.formWrapper {
+    position: absolute;
+    top: -190px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input {
+    height: 40px;
+    width: 260px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 0 10px;
+    margin-bottom: 12px;
+}
+
+.switchWrapper {
+    max-width: 260px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.switchButton {
+    background: none;
+    border: none;
+    color: #888;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+.switchButton:hover {
+    color: #aaa;
+}
+
+.errorText {
+    color: red;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .circle1 {
+        top: -300px;
+        left: -200px;
+    }
+
+    .formWrapper {
+        top: -250px;
+    }
+
+    .input {
+        height: 36px;
+        width: 220px;
+    }
+
+    .switchButton {
+        font-size: 0.9rem;
+    }
+}

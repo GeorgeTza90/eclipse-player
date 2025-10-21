@@ -1,0 +1,12 @@
+# Auto normalize line endings across OSes
+* text=auto
+
+# Keep JavaScript, JSON, JSX, CSS, HTML with LF endings (preferred by Node/React)
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+
+# Windows-specific files (like batch scripts)
+*.bat text eol=crlf

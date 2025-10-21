@@ -1,0 +1,86 @@
+.trackContainer {
+    width: 200px;
+    height: 270px;
+    margin-right: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgba(37, 37, 37, 0.31);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.albumImage {
+    width: 80%;
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+    margin: 5px 0;
+    object-fit: cover;
+    transition: 0.3s;
+}
+
+.trackInfo {
+    padding: 0 5px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.trackTitle {
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 2px 0;
+}
+
+.trackArtist {
+    color: #d6d6d6;
+    font-size: 14px;
+    margin: 2px 0;
+}
+
+.trackAlbum {
+    color: #a0a0a0;
+    font-size: 12px;
+    margin: 2px 0;
+}
+
+.trackContainer:hover {
+    background-color: rgba(153, 153, 153, 0.274);
+}
+
+.albumImage:hover {
+    width: 90%;
+}
+
+@media (max-width: 768px) {
+    .trackContainer {
+        width: 7.2rem;
+        height: 14rem;
+        margin-right: 3px;
+        border-radius: 7px;
+        line-height: 1.3rem;
+    }
+
+    .trackTitle {
+        color: #fff;
+        font-weight: lighter;
+        font-size: 14px;
+        margin: 1px 0;
+    }
+
+    .trackArtist {
+        color: #d6d6d6c4;
+        font-size: 13px;
+        margin: 2px 0;
+    }
+
+    .trackAlbum {
+        color: #a0a0a0b6;
+        font-size: 12px;
+        margin: 2px 0;
+    }
+
+
+
+}

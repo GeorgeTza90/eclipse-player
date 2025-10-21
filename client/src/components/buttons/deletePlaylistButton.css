@@ -1,0 +1,46 @@
+.delete-button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-button:hover {
+    opacity: 0.7;
+}
+
+.delete-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.delete-text {
+    color: #8b4646ff;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

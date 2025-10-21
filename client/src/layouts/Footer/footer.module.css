@@ -1,0 +1,80 @@
+.footer {
+    background: linear-gradient(to top, #171717, #141414c1);
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    justify-items: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 3.8rem;
+    margin-top: 500px;
+}
+
+.trademark {
+    text-decoration: double;
+    color: aliceblue;
+    z-index: 1;
+}
+
+.labeled {
+    font-family: 'Times New Roman', Times;
+    color: rgba(240, 248, 255, 0.285);
+    text-decoration: double;
+
+}
+
+@media (max-width: 768px) {
+    .footer {
+        display: none;
+    }
+
+    .nav {
+        display: block;
+        background: linear-gradient(to bottom, #0f0f0f, #151516f1);
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 2.5rem;
+    }
+
+    .all {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        justify-items: center;
+        align-items: center;
+    }
+
+    .homeLogo {
+        background-image: url("/assets/icons/home.png");
+    }
+
+    .playerLogo {
+        background-image: url("/assets/icons/player.png");
+    }
+
+    .libraryLogo {
+        background-image: url("/assets/icons/library.png");
+    }
+
+    .homeLogo,
+    .playerLogo,
+    .libraryLogo {
+        width: 100px;
+        height: 35px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+        transition: background-image 0.30s;
+        opacity: 50%;
+        margin-top: 0.2rem;
+    }
+
+    /* HOVERS */
+    .homeLogo:hover,
+    .playerLogo:hover,
+    .libraryLogo:hover {
+        opacity: 100%;
+    }
+}

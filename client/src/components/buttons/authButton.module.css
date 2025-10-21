@@ -1,0 +1,29 @@
+.authButton {
+    background-color: #2f2d2dff;
+    color: #c5c5c5;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-top: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.authButton:hover {
+    background-color: rgb(92, 92, 92);
+    color: #ffffff;
+    opacity: 0.7;
+}
+
+.authButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .authButton {
+        font-size: 13.5px;
+    }
+}
