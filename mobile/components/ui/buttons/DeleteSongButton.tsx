@@ -3,13 +3,15 @@ import { Alert, Pressable, Text, StyleSheet, ActivityIndicator } from "react-nat
 import { useAuth } from "@/contexts/AuthContext";
 import { deleteSongFromPlaylist as apiDeleteSong } from "@/services/api";
 import { DeleteSongButtonProps } from "@/types/buttons";
+import { useToast } from "@/contexts/ToastContext";
 
 export default function DeleteSongButton({ playlistId, songId, onDeleted }: DeleteSongButtonProps) {
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
+  const {showToast} = useToast();
 
   const handleDelete = () => {
-    if (!token) return Alert.alert("Error", "User not authenticated");
+    if (!token) return showToast("User not authenticated", "error");
 
     Alert.alert(
       "Delete Song",
@@ -26,7 +28,7 @@ export default function DeleteSongButton({ playlistId, songId, onDeleted }: Dele
               onDeleted?.();
             } catch (err: any) {
               console.error(err);
-              Alert.alert("Error", err.message || "Failed to delete song");
+              showToast("Failed to delete song", "error");
             } finally {
               setLoading(false);
             }
@@ -38,11 +40,7 @@ export default function DeleteSongButton({ playlistId, songId, onDeleted }: Dele
 
   return (
     <Pressable onPress={handleDelete} style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}>
-      {loading ? (
-        <ActivityIndicator size="small" color="#fff" />
-      ) : (
-        <Text style={styles.buttonText}>X</Text>
-      )}
+      {loading ? (<ActivityIndicator size="small" color="#fff" />) : (<Text style={styles.buttonText}>X</Text>)}
     </Pressable>
   );
 }

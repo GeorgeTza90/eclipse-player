@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { fetchPlaylistSongs, moveSongInPlaylist } from "@/services/api";
@@ -7,7 +7,7 @@ import { useAudio } from "@/contexts/AudioContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Song, PlaylistSong } from "@/types/songs";
 import { SongRow } from "./PlaylistSongItem";
-import { Image } from "expo-image";
+import { useToast } from "@/contexts/ToastContext";
 
 export default function PlaylistDetail() {
   const { id, title } = useLocalSearchParams<{ id: string; title: string }>();
@@ -17,6 +17,7 @@ export default function PlaylistDetail() {
   const [trash, setTrash] =useState(false);
   const router = useRouter();
   const { playSong } = useAudio();
+  const { showToast } = useToast();
 
   const loadSongs = async () => {
     if (!token) return;
@@ -25,7 +26,7 @@ export default function PlaylistDetail() {
       setSongs(data);
     } catch (err) {
       console.error("Failed to load playlist songs", err);
-      Alert.alert("Error", "Failed to load playlist songs");
+      showToast("Failed to load playlist songs", "error");
     } finally {
       setLoading(false);
     }
@@ -36,7 +37,7 @@ export default function PlaylistDetail() {
       playSong(song, songs, title); 
       router.push("/player");
     } catch (err: any) {
-      Alert.alert("Error", "Could not play song");
+      showToast("Could not play song", "error");
     }
   }; 
   
@@ -51,7 +52,7 @@ export default function PlaylistDetail() {
     } catch (err: any) {
       console.error("Failed to move song", err);      
       setSongs(previous);
-      Alert.alert("Error", err.message || "Failed to move song. Order reverted.");
+      showToast("Failed to move song. Order reverted.", "error");
     }
   };
 
@@ -70,8 +71,7 @@ export default function PlaylistDetail() {
   useEffect(() => {
     loadSongs();
   }, [id, token]);
-
-  useEffect(() => console.log(trash), [trash]);
+  
 
   return (
     <View style={styles.container}>

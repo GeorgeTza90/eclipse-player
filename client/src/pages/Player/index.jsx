@@ -8,8 +8,6 @@ function Player() {
     const isMobile = useIsMobile();
     const { playlistName } = useAudio();
 
-    console.log(playlistName);
-
     return (<>
         <div id="heading" style={{ display: "flex", justifyContent: "center" }}>
             <img src="/assets/images/logo.png" style={{ position: 'absolute', width: 180, top: isMobile ? 10 : 55 }} />

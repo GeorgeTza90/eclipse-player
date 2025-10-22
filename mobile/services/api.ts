@@ -1,6 +1,12 @@
 import { API_URL } from "@/config";
-import { Song } from "@/types/songs";
+import { PlaylistSong, Song } from "@/types/songs";
 import { Playlist } from "@/types/playlists";
+
+function getFullUrl(path: string) {
+    if (!path) return "";
+    if (path.startsWith("http")) return path; // Cloudinary ή άλλο full URL
+    return `${API_URL}/data${path}`;           // local server
+}
 
 // Songs
 export async function fetchSongs(): Promise<Song[]> {
@@ -9,8 +15,8 @@ export async function fetchSongs(): Promise<Song[]> {
     const data: Song[] = await response.json();
     return data.map(song => ({
         ...song,
-        url: `${API_URL}/data${song.url}`,
-        image: `${API_URL}/data${song.image}`,
+        url: song.url,
+        image: song.image,
     }));
 }
 
@@ -121,13 +127,12 @@ export async function fetchPlaylistSongs(token: string, playlistId: number) {
     if (!res.ok) throw new Error(data.error || "Failed to fetch playlist songs");
     return data.map((song: any) => ({
         ...song,
-        url: `${API_URL}/data${song.url}`,
-        image: `${API_URL}/data${song.image}`
+        url: song.url,
+        image: song.image,
     }));
 }
 
 export async function addSongToPlaylist(playlistId: number, songId: number, token: string) {
-    console.log(songId);
     const res = await fetch(`${API_URL}/api/playlists/${playlistId}/songs`, {
         method: 'POST',
         headers: {
@@ -137,7 +142,12 @@ export async function addSongToPlaylist(playlistId: number, songId: number, toke
         body: JSON.stringify({ songId })
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to add song");
+    if (!res.ok) {
+        if (data.error === "Song already in playlist") {
+            return { status: "duplicate", message: data.error };
+        }
+        throw new Error(data.error || "Failed to add song");
+    }
     return data;
 }
 

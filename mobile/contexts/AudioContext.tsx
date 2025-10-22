@@ -1,4 +1,3 @@
-// contexts/AudioContext.tsx
 import { useRouter } from 'expo-router';
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';

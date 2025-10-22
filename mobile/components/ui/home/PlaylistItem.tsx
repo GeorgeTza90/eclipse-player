@@ -1,7 +1,6 @@
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { PlaylistItemProps } from "@/types/playlists";
-import { deletePlaylist } from "@/services/api";
 import DeletePlaylistButton from "../buttons/DeletePlaylistButton";
 
 const PlaylistItem: React.FC<PlaylistItemProps> = ({ playlist, token, onDelete, onPress }) => {

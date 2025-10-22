@@ -3,7 +3,10 @@ import { createContext, useState, useContext } from "react";
 const LibraryContext = createContext();
 
 export const LibraryProvider = ({ children }) => {
-  const [songs, setSongs] = useState([]);
+  const [songs, setSongs] = useState(() => {
+    const saved = localStorage.getItem("library");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   return (
     <LibraryContext.Provider value={{ songs, setSongs }}>

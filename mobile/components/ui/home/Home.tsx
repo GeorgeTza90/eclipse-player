@@ -11,7 +11,7 @@ export default function Home() {
     return (
         <View style={styles.container}>   
             {!user && (
-                <AuthCard />                    
+                <AuthCard />
             )}   
             {user && token && (
                 <View style={{ marginTop: -100 }}>                    

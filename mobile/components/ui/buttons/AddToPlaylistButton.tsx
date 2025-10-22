@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { TouchableOpacity, Text, Modal, View, FlatList, StyleSheet, Alert } from "react-native";
+import { TouchableOpacity, Text, Modal, View, FlatList, StyleSheet } from "react-native";
 import { useAuth } from "@/contexts/AuthContext";
 import { fetchUserPlaylists, addSongToPlaylist } from "@/services/api";
 import { Playlist } from "@/types/playlists";
 import { AddToPlaylistButtonProps } from "@/types/buttons";
+import { useToast } from "@/contexts/ToastContext";
 
 export default function AddToPlaylistButton({ song }: AddToPlaylistButtonProps) {
   const { token } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [loading, setLoading] = useState(false);
+  const { showToast } = useToast();
 
   const loadPlaylists = async () => {
     if (!token) return;
@@ -19,7 +21,7 @@ export default function AddToPlaylistButton({ song }: AddToPlaylistButtonProps) 
       setPlaylists(data);
     } catch (err) {
       console.error("Failed to fetch playlists", err);
-      Alert.alert("Error", "Could not load playlists");
+      showToast("Could not load playlists", "error");
     } finally {
       setLoading(false);
     }
@@ -28,12 +30,16 @@ export default function AddToPlaylistButton({ song }: AddToPlaylistButtonProps) 
   const handleAddToPlaylist = async (playlistId: number) => {
     if (!token) return;
     try {        
-      await addSongToPlaylist( playlistId, Number(song.id), token);
-      Alert.alert("Success", `Added "${song.title}" to playlist`);
-      setModalVisible(false);
-    } catch (err) {
+      const result = await addSongToPlaylist(playlistId, Number(song.id), token);
+      if (result.status === "duplicate") {
+        showToast(`"${song.title}" is already in this playlist`, "info");
+      } else {
+        showToast(`Added "${song.title}" to playlist`, "success");
+        setModalVisible(false);
+      }
+    } catch (err: any) {
       console.error("Failed to add song to playlist", err);
-      Alert.alert("Error", "Could not add song");
+      showToast(err?.message || "Could not add song", "error");
     }
   };
 
@@ -72,7 +78,7 @@ export default function AddToPlaylistButton({ song }: AddToPlaylistButtonProps) 
 
 const styles = StyleSheet.create({
   button: { borderRadius: 6, alignItems: "center"},
-  buttonText: { color: "#e7ffeaff", fontWeight: "bold", fontSize: 20 },
+  buttonText: { color: "#e7ffeaff", fontWeight: "bold", fontSize: 25 },
   modalOverlay: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.5)" },
   modalContent: { width: "80%", backgroundColor: "#333", padding: 20, borderRadius: 8, maxHeight: "70%" },
   modalTitle: { color: "#fff", fontWeight: "bold", fontSize: 16, marginBottom: 10 },

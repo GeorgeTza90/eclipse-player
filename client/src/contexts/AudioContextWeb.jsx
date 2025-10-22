@@ -3,17 +3,49 @@ import { createContext, useState, useContext, useEffect, useRef } from "react";
 const AudioContext = createContext(undefined);
 
 export const AudioProvider = ({ children }) => {
-  const [library, setLibrary] = useState([]);
-  const [playlistName, setPlaylistName] = useState("");
-  const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  const [currentSong, setCurrentSong] = useState(null);
-  const [volume, setVolumeState] = useState(1);
+  const [library, setLibrary] = useState(() => {
+    const saved = localStorage.getItem("audio_library");
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [playlistName, setPlaylistName] = useState(() => localStorage.getItem("audio_playlistName") || "");
+  const [currentSongIndex, setCurrentSongIndex] = useState(() => {
+    const saved = localStorage.getItem("audio_currentSongIndex");
+    return saved ? Number(saved) : 0;
+  });
+  const [currentSong, setCurrentSong] = useState(() => {
+    const saved = localStorage.getItem("audio_currentSong");
+    return saved ? JSON.parse(saved) : null;
+  });
+  const [volume, setVolumeState] = useState(() => {
+    const saved = localStorage.getItem("audio_volume");
+    return saved ? Number(saved) : 1;
+  });
   const [positionRealtime, setPositionRealtime] = useState(0);
   const audioRef = useRef(null);
 
-  const isPlaying = audioRef.current?.paused === false;
-  const duration = audioRef.current?.duration || 0;
+  // persist changes
+  useEffect(() => {
+    localStorage.setItem("audio_library", JSON.stringify(library));
+  }, [library]);
 
+  useEffect(() => {
+    localStorage.setItem("audio_playlistName", playlistName);
+  }, [playlistName]);
+
+  useEffect(() => {
+    localStorage.setItem("audio_currentSongIndex", currentSongIndex);
+  }, [currentSongIndex]);
+
+  useEffect(() => {
+    if (currentSong) localStorage.setItem("audio_currentSong", JSON.stringify(currentSong));
+  }, [currentSong]);
+
+  useEffect(() => {
+    localStorage.setItem("audio_volume", volume);
+    if (audioRef.current) audioRef.current.volume = volume;
+  }, [volume]);
+
+  // handle song change / play
   useEffect(() => {
     if (currentSong) {
       if (!audioRef.current) audioRef.current = new Audio(currentSong.url);
@@ -25,19 +57,16 @@ export const AudioProvider = ({ children }) => {
       const updateTime = () => setPositionRealtime(audioRef.current?.currentTime ?? 0);
       audioRef.current.addEventListener("timeupdate", updateTime);
 
-      return () => {
-        audioRef.current?.removeEventListener("timeupdate", updateTime);
-      };
+      return () => audioRef.current?.removeEventListener("timeupdate", updateTime);
     }
   }, [currentSong]);
 
-  // Updated playSong to accept playlistName
   const playSong = (song, playlist, name = "") => {
     if (playlist) {
       setLibrary(playlist);
       const index = playlist.findIndex((s) => s.id === song.id);
       setCurrentSongIndex(index >= 0 ? index : 0);
-      setPlaylistName(name); // store playlist/album name
+      setPlaylistName(name);
     }
     setCurrentSong(song);
   };
@@ -68,10 +97,7 @@ export const AudioProvider = ({ children }) => {
     setCurrentSong(library[prevIndex]);
   };
 
-  const setVolume = (vol) => {
-    setVolumeState(vol);
-    if (audioRef.current) audioRef.current.volume = vol;
-  };
+  const setVolume = (vol) => setVolumeState(vol);
 
   const seekTo = (pos) => {
     if (!audioRef.current) return;
@@ -83,10 +109,10 @@ export const AudioProvider = ({ children }) => {
     <AudioContext.Provider
       value={{
         currentSong,
-        isPlaying,
+        isPlaying: audioRef.current?.paused === false,
         library,
         playlistName,
-        duration,
+        duration: audioRef.current?.duration || 0,
         volume,
         position: positionRealtime,
         playSong,

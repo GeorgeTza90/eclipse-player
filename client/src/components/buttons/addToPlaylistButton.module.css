@@ -53,12 +53,13 @@
 }
 
 .cancel {
-    background-color: #999;
+    background-color: #99999962;
+    color: #a0a0a0;
     margin-top: 10px;
 }
 
 .button:hover {
-    color: #c5ffd6;
+    color: #ffffff;
     background-color: #868686;
 }
 

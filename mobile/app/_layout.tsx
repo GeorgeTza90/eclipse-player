@@ -6,6 +6,7 @@ import { AudioProvider } from "@/contexts/AudioContext";
 import { LibraryProvider } from "@/contexts/LibraryContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { ToastProvider } from "@/contexts/ToastContext";
 
 
 export default function RootLayout() {
@@ -13,21 +14,25 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AuthProvider>
-          <LibraryProvider>
-            <AudioProvider>
+          <ToastProvider>        
+            <LibraryProvider>
+              <AudioProvider>
 
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-              </Stack>
-              <StatusBar style="auto" />
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(tabs)" />
+                  <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+                </Stack>
+                <StatusBar style="auto" />
 
-            </AudioProvider>
-          </LibraryProvider>   
+              </AudioProvider>
+            </LibraryProvider>   
+          </ToastProvider>        
         </AuthProvider>  
       </ThemeProvider>
+      
     </GestureHandlerRootView>
 
   );

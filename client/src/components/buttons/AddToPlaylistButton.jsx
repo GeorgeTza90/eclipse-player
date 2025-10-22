@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { fetchUserPlaylists } from "../../services/GetService";
 import { addSongToPlaylist } from "../../services/PostService";
+import { useToast } from "../../contexts/ToastContextWeb";
 import styles from "./addToPlaylistButton.module.css";
 
 export default function AddToPlaylistButton({ song }) {
     const { token } = useAuth();
+    const { showToast } = useToast();
     const [modalVisible, setModalVisible] = useState(false);
     const [playlists, setPlaylists] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    // Load playlists when modal opens
     useEffect(() => {
         if (modalVisible && token) {
             const loadPlaylists = async () => {
@@ -20,32 +21,33 @@ export default function AddToPlaylistButton({ song }) {
                     setPlaylists(data);
                 } catch (err) {
                     console.error("Failed to fetch playlists", err);
-                    alert("Could not load playlists");
+                    showToast("Could not load playlists", "error");
                 } finally {
                     setLoading(false);
                 }
             };
             loadPlaylists();
         }
-    }, [modalVisible, token]);
+    }, [modalVisible, token, showToast]);
 
     const handleAddToPlaylist = async (playlistId) => {
-        console.log("touched");
         if (!token) return;
         try {
             await addSongToPlaylist(playlistId, song.id, token);
-            alert(`Added "${song.title}" to playlist`);
+            showToast(`Added "${song.title}" to playlist`, "success");
             setModalVisible(false);
         } catch (err) {
-            console.error("Failed to add song to playlist", err);
-            alert("Could not add song");
+            const msg = err.message?.includes("already in playlist")
+                ? `"${song.title}" is already in this playlist`
+                : "Could not add song to playlist";
+            console.error(msg, err);
+            showToast(msg, "error");
         }
     };
 
     return (
         <>
-            <button
-                className={styles.button}
+            <button className={styles.button}
                 onClick={(e) => {
                     e.stopPropagation();
                     setModalVisible(true);

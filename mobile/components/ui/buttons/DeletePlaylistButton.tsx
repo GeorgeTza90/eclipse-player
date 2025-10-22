@@ -3,41 +3,45 @@ import { Alert, Pressable, Text, StyleSheet, ActivityIndicator } from "react-nat
 import { useAuth } from "@/contexts/AuthContext";
 import { deletePlaylist as apiDeletePlaylist } from "@/services/api";
 import { DeletePlaylistButtonProps } from "@/types/buttons";
+import { useToast } from "@/contexts/ToastContext";
 
 export default function DeletePlaylistButton({ playlistId, onDeleted }: DeletePlaylistButtonProps) {
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
+  const { showToast } = useToast();
 
-  const handleDelete = () => {
-    if (!token) return Alert.alert("Error", "User not authenticated");
-
+  const confirmDelete = () => {
     Alert.alert(
       "Delete Playlist",
       "Are you sure you want to delete this playlist?",
       [
         { text: "Cancel", style: "cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              setLoading(true);
-              await apiDeletePlaylist(playlistId, token);
-              onDeleted?.();
-            } catch (err: any) {
-              console.error(err);
-              Alert.alert("Error", err.message || "Failed to delete playlist");
-            } finally {
-              setLoading(false);
-            }
-          },
-        },
+        { text: "Delete", style: "destructive", onPress: handleDelete }
       ]
     );
   };
 
+  const handleDelete = async () => {
+    if (!token) {
+      showToast("User not authenticated", "error");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await apiDeletePlaylist(playlistId, token);
+      showToast("Playlist deleted successfully", "success");
+      onDeleted?.();
+    } catch (err: any) {
+      console.error(err);
+      showToast(err?.message || "Failed to delete playlist", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <Pressable onPress={handleDelete} style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}>
+    <Pressable onPress={confirmDelete} style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}>
       {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.buttonText}>X</Text>}
     </Pressable>
   );

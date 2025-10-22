@@ -50,21 +50,27 @@ export default function CollectionDetail() {
         data={albumSongs}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => handlePressSong(item)} style={styles.track}>
-            <Text style={styles.trackNumber}>{index + 1}.</Text>
-            <Text style={styles.trackTitle}>{item.title}</Text>
+          <View style={styles.track}>
+            {/* Αυτό πατάει μόνο για play */}
+            <TouchableOpacity style={styles.trackInfo} onPress={() => handlePressSong(item)}>
+              <Text style={styles.trackNumber}>{index + 1}.</Text>
+              <Text style={styles.trackTitle}>{item.title}</Text>
+            </TouchableOpacity>
+
+            {/* Κουμπί AddToPlaylistButton */}
             {user && (
-              <View style={{ marginLeft: 10 }}>
-                <AddToPlaylistButton song={item}/>
+              <View style={styles.addButtonWrapper}>
+                <AddToPlaylistButton song={item} />
               </View>
-            )}            
+            )}
+
+            {/* Duration */}
             {item.duration && (
               <Text style={styles.trackDuration}>
                 {Math.floor(item.duration / 60)}:{("0" + (item.duration % 60)).slice(-2)}
               </Text>
-            )}            
-          </TouchableOpacity>
-          
+            )}
+          </View>          
         )}
       />
     </View>
@@ -79,8 +85,10 @@ const styles = StyleSheet.create({
   type: { color: "#888", fontSize: 12, marginBottom: 5 },
   albumName: { color: "#fff", fontSize: 20, fontWeight: "bold", marginBottom: 5 },
   artistInfo: { color: "#d6d6d6", fontSize: 14 },
-  track: { flexDirection: "row", alignItems: "center", paddingVertical: 0, borderBottomColor: "#333", borderBottomWidth: 1, paddingTop: 10, paddingBottom: 10 },
+  track: { flexDirection: "row", alignItems: "center", paddingVertical: 5, borderBottomColor: "#333", borderBottomWidth: 1 },
+  trackInfo: { flex: 1, flexDirection: "row", alignItems: "center" },
   trackNumber: { color: "#888", width: 25 },
   trackTitle: { color: "#fff", flex: 1 },
+  addButtonWrapper: { marginHorizontal: 10 },
   trackDuration: { color: "#888", width: 50, textAlign: "right" },
 });
