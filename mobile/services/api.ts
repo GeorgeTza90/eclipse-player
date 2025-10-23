@@ -1,6 +1,8 @@
 import { API_URL } from "@/config";
-import { PlaylistSong, Song } from "@/types/songs";
+import { Song } from "@/types/songs";
 import { Playlist } from "@/types/playlists";
+
+console.log(API_URL);
 
 function getFullUrl(path: string) {
     if (!path) return "";
