@@ -1,12 +1,18 @@
+import { useEffect, useState } from "react";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import styles from "./playlist.module.css"
 
 export default function Playlist({ name = "Playlist" }) {
   const { library, currentSong, playSong } = useAudio();
+  const [currentName, setCurrentName] = useState();
+
+  useEffect(() => {
+    setCurrentName(name);
+  }, [library])
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.heading}>{name}</h3>
+      <h3 className={styles.heading}>{currentName}</h3>
       <div className={styles.list}>
         {library.map((item) => (
           <div
