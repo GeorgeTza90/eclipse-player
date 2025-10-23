@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./PlaylistDetail.module.css";
+import styles from "./playlistDetail.module.css";
 import { fetchPlaylistSongs } from "../../services/GetService";
 import { moveSongInPlaylist } from "../../services/PostService";
 import { useAudio } from "../../contexts/AudioContextWeb";
