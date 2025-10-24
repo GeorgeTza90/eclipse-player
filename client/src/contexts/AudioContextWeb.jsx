@@ -23,7 +23,6 @@ export const AudioProvider = ({ children }) => {
   const [positionRealtime, setPositionRealtime] = useState(0);
   const audioRef = useRef(null);
 
-  // persist changes
   useEffect(() => {
     localStorage.setItem("audio_library", JSON.stringify(library));
   }, [library]);

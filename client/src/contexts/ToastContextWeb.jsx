@@ -1,4 +1,3 @@
-// contexts/ToastContext.js
 import { createContext, useContext, useState, useCallback } from "react";
 
 const ToastContext = createContext();
