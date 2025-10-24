@@ -45,7 +45,6 @@ export const AudioProvider = ({ children }) => {
     if (audioRef.current) audioRef.current.volume = volume;
   }, [volume]);
 
-  // handle song change / play
   useEffect(() => {
     if (currentSong) {
       if (!audioRef.current) audioRef.current = new Audio(currentSong.url);
