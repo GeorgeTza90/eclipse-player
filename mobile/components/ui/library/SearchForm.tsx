@@ -37,7 +37,7 @@ const SearchForm: React.FC = () => {
           onSearch(text);
         }}
         style={styles.input}
-        placeholderTextColor="#ccc"
+        placeholderTextColor="#cccccc67"
       />
     </View>
   );
@@ -45,7 +45,7 @@ const SearchForm: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { justifyContent: "center", alignItems: "center", padding: 10, width: "100%", top: 15, marginBottom: 30 },
-  input: { paddingVertical: 8, paddingHorizontal: 12, borderRadius: 16, width: 300, maxWidth: 300, backgroundColor: "rgba(59, 59, 59, 0.514)", color: "#fff", fontSize: 16 },
+  input: { paddingVertical: 8, paddingHorizontal: 12, borderRadius: 16, width: 300, maxWidth: 300, backgroundColor: "rgba(47, 47, 48, 0.36)", color: "#fff", fontSize: 16 },
 });
 
 export default SearchForm;
