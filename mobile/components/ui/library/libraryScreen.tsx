@@ -6,6 +6,7 @@ import { preloadImages } from "@/utils/preloadImages";
 import { useLibrary } from "@/contexts/LibraryContext";
 import { Song } from "@/types/songs";
 import CollectionCard from "@/components/ui/library/CollectionCard";
+import SearchForm from "./SearchForm";
 
 const { width } = Dimensions.get("window");
 
@@ -58,6 +59,9 @@ export default function LibraryScreen() {
 
   return (
     <View style={{ paddingHorizontal: 10 }}>
+
+      <SearchForm />
+
       {/* Singles & EPs */}
       <Text style={styles.categoryTitle}>Singles & EPs</Text>
       <FlatList
@@ -100,8 +104,7 @@ export default function LibraryScreen() {
 }
 
 const styles = StyleSheet.create({
-  categoryTitle: { fontSize: 20, fontWeight: "bold", color: "#fff", marginBottom: 10, marginTop: 20 },
-  trackContainer: { width: width * 0.45, height: "82%", marginRight: 15, borderRadius: 12, overflow: "hidden", backgroundColor: "#25252550" },
+  categoryTitle: { fontSize: 20, fontWeight: "bold", color: "#fff", marginBottom: 10, marginTop: 10 },  
   albumImage: { alignSelf: "center", width: "90%", height: undefined, aspectRatio: 1, borderRadius: 10, margin: 5 },
   trackInfo: { paddingHorizontal: 5, marginTop: 5 },
   trackTitle: { color: "#fff", fontWeight: "bold", fontSize: 16 },

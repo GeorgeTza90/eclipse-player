@@ -14,7 +14,7 @@ export default function PlayerScreen() {
 
   return (
     <TabLayoutWrapper title="">
-      <View style={{ position: 'absolute', top: -400, left: -25, right: 0, bottom: 0, zIndex: 0 }}>
+      <View style={{ position: 'absolute', top: -430, left: -25, right: 0, bottom: 0, zIndex: 0 }}>
         <Circle size={450} shadowColor="#3d3d3dff" color2 = "#0a0a0aff" color1 = "#1f1e1eff"/>
       </View>
       <Image
@@ -31,8 +31,8 @@ export default function PlayerScreen() {
 const styles = StyleSheet.create({
   logo: {
     width: width,
-    height: width / 3,
+    height: width / 4.5,
     alignSelf: 'center',
-    marginTop: -60,
+    marginTop: -70,
   },
 });

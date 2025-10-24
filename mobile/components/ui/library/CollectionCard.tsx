@@ -27,9 +27,9 @@ export default function CollectionCard({ item, onPress }: Cards) {
 }
 
 const styles = StyleSheet.create({
-  trackContainer: { width: width * 0.45, height: "82%", marginRight: 15, borderRadius: 12, overflow: "hidden", backgroundColor: "#25252550" },
-  albumImage: { alignSelf: "center", width: "90%", height: undefined, aspectRatio: 1, borderRadius: 10, margin: 5 },
-  trackInfo: { paddingHorizontal: 5, marginTop: 5 },
+  trackContainer: { width: width * 0.35, height: "75%", marginRight: 15, borderRadius: 12, overflow: "hidden", backgroundColor: "#25252550", justifyContent: "center", padding: 10 },
+  albumImage: { alignSelf: "center", width: "90%", height: undefined, aspectRatio: 1, borderRadius: 10, margin: 2 },
+  trackInfo: { paddingHorizontal: 5, marginTop: 7 },
   trackTitle: { color: "#fff", fontWeight: "bold", fontSize: 16 },
   trackArtist: { color: "#d6d6d6", fontSize: 14 },
   trackAlbum: { color: "#a0a0a0", fontSize: 12 },

@@ -5,6 +5,7 @@ import { preloadImages } from "../../utils/preloadImages";
 import CollectionCard from "../../components/library/CollectionCard";
 import { useNavigate } from "react-router-dom";
 import styles from "./libraryScreen.module.css";
+import SearchForm from "./SearchForm";
 
 export default function LibraryScreen() {
   const navigate = useNavigate();
@@ -54,6 +55,8 @@ export default function LibraryScreen() {
 
   return (
     <div className={styles.container}>
+
+      <SearchForm />
 
       {/* Singles & EPs */}
       <h2 className={styles.categoryTitle}>Singles & EPs</h2>

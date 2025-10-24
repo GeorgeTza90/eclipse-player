@@ -29,7 +29,7 @@ export default function AudioPlayer() {
     <View style={styles.container}>
 
       {/* Circle */}
-      <View style={{ position: 'absolute', top: -225, left: -35, right: 0, bottom: 0, zIndex: 0 }}>
+      <View style={{ position: 'absolute', top: -190, left: -28, right: 0, bottom: 0, zIndex: 0 }}>
         <Circle size={390} shadowColor={shadowColor} intensity={intensity}/>
       </View>
       
@@ -107,7 +107,7 @@ export default function AudioPlayer() {
         </View>     
 
         {/* Circle 2*/}
-        <View style={{ position: 'absolute', top: 180, left: 60, right: 0, bottom: 0, zIndex: 0 }}>
+        <View style={{ position: 'absolute', top: 215, left: 65, right: 0, bottom: 0, zIndex: 0 }}>
           <Circle size={200} color2 = "#0e0e0eff" color1 = "#1b1a1aff" shadowColor={shadowColor} intensity={intensity * 0.25} heightOffset={-8}/>
         </View>
            
@@ -117,7 +117,7 @@ export default function AudioPlayer() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 160 },
+  container: { flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 145 },
   playerContent: { flex: 1, alignItems: 'center', justifyContent: 'center'},
   headerRowWrapper: { width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 20 },
   headerRow: { flexDirection: 'row', alignItems: 'center', maxWidth: 400 },

@@ -43,7 +43,7 @@ export default function Playlist({ name = "Playlist" }) {
 }
 
 const styles = StyleSheet.create({
-  container: { width: width, height: height * 0.35, marginTop: 120 },
+  container: { width: width, height: height * 0.35, marginTop: 120, top: -40 },
   heading: { color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
   list: { flexGrow: 0 },
   listContent: { paddingBottom: 40 },

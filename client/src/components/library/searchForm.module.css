@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input {
+    padding: 7px 10px;
+    border-radius: 1rem;
+    width: 18rem;
+    margin-right: 1rem;
+    background-color: rgba(59, 59, 59, 0.514);
+    border: 1px solid rgba(85, 85, 85, 0);
+    color: rgb(255, 255, 255);
+}
