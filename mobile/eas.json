@@ -1,22 +1,38 @@
 {
     "cli": {
-        "version": ">= 16.25.0"
+        "version": ">= 16.25.0",
+        "appVersionSource": "app.json"
     },
     "build": {
         "production": {
+            "env": {
+                "NODE_ENV": "production"
+            },
             "android": {
                 "buildType": "app-bundle"
             },
-            "ios": {}
+            "ios": {
+                "buildConfiguration": "Release"
+            }
         },
         "development": {
+            "env": {
+                "NODE_ENV": "development"
+            },
             "android": {
                 "buildType": "apk"
             },
-            "ios": {}
+            "ios": {
+                "buildConfiguration": "Debug"
+            }
         }
     },
     "submit": {
-        "production": {}
+        "production": {
+            "android": {
+                "serviceAccountKeyPath": "./credentials/google-service-account-key.json"
+            },
+            "ios": {}
+        }
     }
 }
