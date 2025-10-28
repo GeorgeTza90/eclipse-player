@@ -29,9 +29,7 @@
     },
     "submit": {
         "production": {
-            "android": {
-                "serviceAccountKeyPath": "./credentials/google-service-account-key.json"
-            },
+            "android": {},
             "ios": {}
         }
     }
