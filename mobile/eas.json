@@ -9,7 +9,8 @@
                 "NODE_ENV": "production"
             },
             "android": {
-                "buildType": "app-bundle"
+                "buildType": "app-bundle",
+                "withoutCredentials": false
             },
             "ios": {
                 "buildConfiguration": "Release"
@@ -20,7 +21,8 @@
                 "NODE_ENV": "development"
             },
             "android": {
-                "buildType": "apk"
+                "buildType": "apk",
+                "withoutCredentials": true
             },
             "ios": {
                 "buildConfiguration": "Debug"
@@ -28,9 +30,6 @@
         }
     },
     "submit": {
-        "production": {
-            "android": {},
-            "ios": {}
-        }
+        "production": {}
     }
 }
