@@ -15,16 +15,12 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   const [positionRealtime, setPositionRealtime] = useState(0);
 
   const router = useRouter();
-
   const player = useAudioPlayer(currentSong ? currentSong.url : null);
   const status = useAudioPlayerStatus(player);
 
   const isPlaying = status?.playing ?? false;
   const duration = (player?.duration ?? 0) * 1000;
-
-  player.currentTime
-
-  // Play when currentSong changes
+  
   useEffect(() => {
     if (currentSong && player) {
       try { player.play(); } 
@@ -32,7 +28,6 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [currentSong, player]);
 
-  // Realtime position updater
   useEffect(() => {
     if (!player) return;
 
@@ -58,12 +53,12 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 
     setTimeout(() => {
       if (currentSong) router.push('/player');
-    }, 50);
+    }, 100);
 
     setTimeout(() => {
-      try { player?.play(); } 
-      catch (err) { console.warn('Audio play error:', err); }
-    }, 100);
+      try { player?.play() } 
+      catch (err) { console.warn('Audio play error:', err) }
+    }, 120);
   };
 
   const togglePlay = () => {
@@ -102,8 +97,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     player.seekTo(positionMillis / 1000);
     setPositionRealtime(positionMillis);
   };
-
-  // Auto-next when song ends
+  
   useEffect(() => {
     if (!status) return;
     if (!status.playing && status.currentTime && status.duration && status.currentTime >= status.duration) {
