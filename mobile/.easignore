@@ -1,0 +1,52 @@
+# Dependencies (EAS installs them automatically)
+node_modules/
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Expo cache
+.expo/
+.expo-shared/
+*.expo
+
+# Local build outputs
+android/build/
+ios/build/
+
+# Metro bundler cache
+.metro-cache/
+
+# TypeScript build outputs
+lib/
+dist/
+
+# Logs
+*.log
+npm-debug.log
+yarn-error.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Tests
+**/__tests__/
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
+
+# Optional: Ignore other temporary or large folders
+.sass-cache/
+tmp/
+.cache/

@@ -1,6 +1,8 @@
-import { API_URL } from "@/config";
+import Constants from 'expo-constants';
 import { Song } from "@/types/songs";
 import { Playlist } from "@/types/playlists";
+
+const API_URL = Constants.expoConfig?.extra?.API_URL;
 
 function getFullUrl(path: string) {
     if (!path) return "";

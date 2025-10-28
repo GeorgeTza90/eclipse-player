@@ -1,0 +1,22 @@
+{
+    "cli": {
+        "version": ">= 16.25.0"
+    },
+    "build": {
+        "production": {
+            "android": {
+                "buildType": "app-bundle"
+            },
+            "ios": {}
+        },
+        "development": {
+            "android": {
+                "buildType": "apk"
+            },
+            "ios": {}
+        }
+    },
+    "submit": {
+        "production": {}
+    }
+}
