@@ -2,12 +2,10 @@ import { API_URL } from "@/config";
 import { Song } from "@/types/songs";
 import { Playlist } from "@/types/playlists";
 
-console.log(API_URL);
-
 function getFullUrl(path: string) {
     if (!path) return "";
-    if (path.startsWith("http")) return path; // Cloudinary ή άλλο full URL
-    return `${API_URL}/data${path}`;           // local server
+    if (path.startsWith("http")) return path;
+    return `${API_URL}/data${path}`;
 }
 
 // Songs
