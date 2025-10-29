@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "bundleIdentifier": "com.georgetza.eclipseplayer",
+      "bundleIdentifier": "com.georgetza.Eclipseplayer",
       "supportsTablet": true
     },
     "android": {
