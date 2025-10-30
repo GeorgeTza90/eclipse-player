@@ -71,23 +71,41 @@ exports.login = async (req, res) => {
 
 // --- Google Login ---
 exports.googleLogin = async (req, res) => {
-  const { idToken } = req.body;
+  const { idToken, platform } = req.body;
   if (!idToken) return res.status(400).json({ error: 'ID token is required' });
+  if (!platform) return res.status(400).json({ error: 'Platform is required (web, android, ios)' });
 
-  try {    
+  let clientId;
+  switch (platform) {
+    case 'web':
+      clientId = process.env.GOOGLE_CLIENT_ID_WEB;
+      break;
+    case 'android':
+      clientId = process.env.GOOGLE_CLIENT_ID_ANDROID;
+      break;
+    case 'ios':
+      clientId = process.env.GOOGLE_CLIENT_ID_IOS;
+      break;
+    default:
+      return res.status(400).json({ error: 'Invalid platform' });
+  }
+
+  try {
+    const client = new OAuth2Client(clientId);
     const ticket = await client.verifyIdToken({
       idToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: clientId,
     });
+
     const payload = ticket.getPayload();
     const { email, name, sub: googleId } = payload;
 
-        const [rows] = await db.query('SELECT id, username, email, premium FROM users WHERE email = ?', [email]);
+    const [rows] = await db.query('SELECT id, username, email, premium FROM users WHERE email = ?', [email]);
     let user;
 
     if (rows.length > 0) {
       user = rows[0];
-    } else {      
+    } else {
       const [result] = await db.query(
         'INSERT INTO users (username, email, google_id, password) VALUES (?, ?, ?, ?)',
         [name, email, googleId, null]
@@ -96,7 +114,7 @@ exports.googleLogin = async (req, res) => {
       const [userRows] = await db.query('SELECT id, username, email, premium FROM users WHERE id = ?', [userId]);
       user = userRows[0];
     }
-    
+
     const token = jwt.sign(
       { id: user.id, email: user.email, username: user.username, premium: user.premium },
       JWT_SECRET,
