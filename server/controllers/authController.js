@@ -3,7 +3,6 @@ const db = require('../db/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sendEmail = require('../utils/sendEmail');
-const { OAuth2Client } = require('google-auth-library');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const RESET_SECRET = process.env.RESET_PASSWORD_SECRET;
