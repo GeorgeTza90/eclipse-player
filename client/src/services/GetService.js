@@ -1,5 +1,4 @@
 import { API_URL } from "../config";
-console.log(API_URL);
 
 // Songs
 export async function fetchSongs() {

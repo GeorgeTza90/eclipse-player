@@ -55,6 +55,17 @@ export async function registerUser(username: string, email: string, password: st
     return data;
 }
 
+export async function forgotPassword(email: string) {
+    const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to send reset link');
+    return data;
+}
+
 // Playlists
 export async function fetchUserPlaylists(token: string): Promise<Playlist[]> {
     const res = await fetch(`${API_URL}/api/playlists`, {

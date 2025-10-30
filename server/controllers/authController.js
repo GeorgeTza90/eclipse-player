@@ -7,7 +7,6 @@ const { OAuth2Client } = require('google-auth-library');
 const JWT_SECRET = process.env.JWT_SECRET;
 const RESET_SECRET = process.env.RESET_PASSWORD_SECRET;
 const FRONTEND_URL = process.env.FRONTEND_URL;
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // --- Register ---
 exports.register = async (req, res) => {
@@ -72,15 +71,16 @@ exports.login = async (req, res) => {
 // --- Google Login ---
 exports.googleLogin = async (req, res) => {
   const { idToken, platform } = req.body;
+  console.log(idToken);
   if (!idToken) return res.status(400).json({ error: "ID token is required" });
   if (!platform || platform !== "web")
     return res.status(400).json({ error: "Invalid or missing platform" });
 
   try {
-    // ✅ Χρησιμοποίησε το client που ήδη έχεις δημιουργήσει πάνω-πάνω
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID_WEB);
     const ticket = await client.verifyIdToken({
       idToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: process.env.GOOGLE_CLIENT_ID_WEB,
     });
 
     const payload = ticket.getPayload();
