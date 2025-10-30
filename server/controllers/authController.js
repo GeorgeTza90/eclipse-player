@@ -91,21 +91,24 @@ exports.googleLogin = async (req, res) => {
   }
 
   try {
+    // ⚡️ Χρήση Google OAuth2Client για επαλήθευση ID token
     const client = new OAuth2Client(clientId);
     const ticket = await client.verifyIdToken({
-      idToken,
+      idToken,        // το token που στέλνει το frontend
       audience: clientId,
     });
 
     const payload = ticket.getPayload();
     const { email, name, sub: googleId } = payload;
 
+    // Έλεγχος αν υπάρχει ήδη ο χρήστης
     const [rows] = await db.query('SELECT id, username, email, premium FROM users WHERE email = ?', [email]);
     let user;
 
     if (rows.length > 0) {
       user = rows[0];
     } else {
+      // Δημιουργία νέου χρήστη
       const [result] = await db.query(
         'INSERT INTO users (username, email, google_id, password) VALUES (?, ?, ?, ?)',
         [name, email, googleId, null]
@@ -115,6 +118,7 @@ exports.googleLogin = async (req, res) => {
       user = userRows[0];
     }
 
+    // Δημιουργία JWT token
     const token = jwt.sign(
       { id: user.id, email: user.email, username: user.username, premium: user.premium },
       JWT_SECRET,
