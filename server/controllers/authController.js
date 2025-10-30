@@ -75,15 +75,11 @@ exports.googleLogin = async (req, res) => {
   if (!accessToken) return res.status(400).json({ error: "Access token is required" });
   if (!platform || platform !== "web") return res.status(400).json({ error: "Invalid or missing platform" });
 
-  try {
-    // Παίρνουμε user info από Google
+  try {    
     const { data } = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo`, {
       headers: { Authorization: `Bearer ${accessToken}` }
     });
-
-    const { email, name, sub: googleId } = data;
-
-    // Βρίσκουμε ή δημιουργούμε χρήστη στη βάση
+    const { email, name, sub: googleId } = data;    
     const [rows] = await db.query("SELECT id, username, email, premium FROM users WHERE email = ?", [email]);
     let user;
 
@@ -98,8 +94,7 @@ exports.googleLogin = async (req, res) => {
       const [userRows] = await db.query("SELECT id, username, email, premium FROM users WHERE id = ?", [userId]);
       user = userRows[0];
     }
-
-    // Δημιουργούμε JWT token
+    
     const token = jwt.sign(
       { id: user.id, email: user.email, username: user.username, premium: user.premium },
       JWT_SECRET,

@@ -104,18 +104,14 @@ export default function AuthCard() {
                     />
                 )}
 
-                {/* Google login button */}
-                <button
-                    type="button"
-                    onClick={onGoogleLogin}
-                    className={styles.googleButton}
-                >
-                    Login with Google
-                </button>
-
                 {/* Submit Button & Error */}
                 <AuthButton loading={loading} isLogin={isLogin} onClick={onSubmit} />
                 {(error || localError) && (<p className={styles.errorText}>{error || localError}</p>)}
+
+                {/* Google login button */}
+                <button type="button" onClick={onGoogleLogin} className={styles.googleButton}>
+                    Login with Google
+                </button>
 
                 {/* Log/Reg Switcher */}
                 <div className={styles.switchWrapper}>
