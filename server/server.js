@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const path = require('path');
 const songsRoutes = require('./routes/songs');
 const authRoutes = require('./routes/auth');
 const playlistRoutes = require('./routes/playlists');
