@@ -51,6 +51,10 @@
     },
     "extra": {
       "API_URL": "https://portfolio-production-6bae.up.railway.app",
+      "EXPO_CLIENT_ID": "819729741703-tq0kfoqr2nh0t5ahul9knv641l7nd4jj.apps.googleusercontent.com",
+      "IOS_CLIENT_ID": "<your-ios-client-id>",
+      "ANDROID_CLIENT_ID": "819729741703-tq0kfoqr2nh0t5ahul9knv641l7nd4jj.apps.googleusercontent.com",
+      "WEB_CLIENT_ID": "<your-web-client-id>",
       "eas": {
         "projectId": "a5a0e935-c15e-4d79-bbe4-f39aab9baadd"
       }

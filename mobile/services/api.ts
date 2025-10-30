@@ -44,6 +44,18 @@ export async function loginUser(email: string, password: string) {
     return data;
 }
 
+export async function googleLogin(idToken: string, platform: 'web' | 'mobile') {
+    const res = await fetch(`${API_URL}/api/auth/google-login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken, platform }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Google login failed');
+    return data;
+}
+
 export async function registerUser(username: string, email: string, password: string) {
     const res = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
