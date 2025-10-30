@@ -38,12 +38,12 @@ export default function AuthCard() {
         });
 
     const onGoogleLogin = () => {
-        window.google.accounts.id.initialize({
+        const client = window.google.accounts.oauth2.initTokenClient({
             client_id: GOOGLE_CLIENT_ID,
+            scope: 'openid email profile',
             callback: async (response) => {
                 try {
-                    console.log("Google One Tap response:", response);
-                    const data = await googleLogin(response.credential, "web");
+                    const data = await googleLogin(response.access_token, "web");
                     login(data.user, data.token);
                 } catch (err) {
                     console.error("Google login failed:", err);
@@ -52,9 +52,8 @@ export default function AuthCard() {
             },
         });
 
-        window.google.accounts.id.prompt();
+        client.requestAccessToken({ prompt: 'select_account' });
     };
-
 
     return (
         <div className={styles.authContainer}>

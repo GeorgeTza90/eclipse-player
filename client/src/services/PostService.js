@@ -23,16 +23,16 @@ export async function registerUser(username, email, password) {
   return data;
 }
 
-export async function googleLogin(idToken, platform = "web") {
-    const res = await fetch(`${API_URL}/api/auth/google-login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken, platform }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Google login failed");
-    return data;
-}
+export const googleLogin = async (accessToken, platform) => {  
+  const res = await fetch(`${API_URL}/api/auth/google-login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ accessToken, platform })
+  });
+
+  if (!res.ok) throw new Error("Google login failed");
+  return res.json();
+};
 
 
 // Playlists
