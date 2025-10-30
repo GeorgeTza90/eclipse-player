@@ -71,47 +71,58 @@ exports.login = async (req, res) => {
 
 // --- Google Login ---
 exports.googleLogin = async (req, res) => {
-    const { idToken, platform } = req.body;
-    if (!idToken) return res.status(400).json({ error: 'ID token is required' });
-    if (!platform || platform !== 'web') return res.status(400).json({ error: 'Invalid or missing platform' });
+  const { idToken, platform } = req.body;
+  if (!idToken) return res.status(400).json({ error: "ID token is required" });
+  if (!platform || platform !== "web")
+    return res.status(400).json({ error: "Invalid or missing platform" });
 
-    try {
-        const client = new OAuth2Client(GOOGLE_CLIENT_ID_WEB);
-        const ticket = await client.verifyIdToken({
-            idToken,
-            audience: GOOGLE_CLIENT_ID_WEB,
-        });
+  try {
+    // ✅ Χρησιμοποίησε το client που ήδη έχεις δημιουργήσει πάνω-πάνω
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
 
-        const payload = ticket.getPayload();
-        const { email, name, sub: googleId } = payload;
-        
-        const [rows] = await db.query('SELECT id, username, email, premium FROM users WHERE email = ?', [email]);
-        let user;
+    const payload = ticket.getPayload();
+    const { email, name, sub: googleId } = payload;
 
-        if (rows.length > 0) {
-            user = rows[0];
-        } else {
-            const [result] = await db.query(
-                'INSERT INTO users (username, email, google_id, password) VALUES (?, ?, ?, ?)',
-                [name, email, googleId, null]
-            );
-            const userId = result.insertId;
-            const [userRows] = await db.query('SELECT id, username, email, premium FROM users WHERE id = ?', [userId]);
-            user = userRows[0];
-        }
+    const [rows] = await db.query(
+      "SELECT id, username, email, premium FROM users WHERE email = ?",
+      [email]
+    );
+    let user;
 
-        const token = jwt.sign(
-            { id: user.id, email: user.email, username: user.username, premium: user.premium },
-            JWT_SECRET,
-            { expiresIn: '7d' }
-        );
-
-        res.json({ user, token });
-
-    } catch (err) {
-        console.error('Google login error:', err);
-        res.status(400).json({ error: 'Google login failed' });
+    if (rows.length > 0) {
+      user = rows[0];
+    } else {
+      const [result] = await db.query(
+        "INSERT INTO users (username, email, google_id, password) VALUES (?, ?, ?, ?)",
+        [name, email, googleId, null]
+      );
+      const userId = result.insertId;
+      const [userRows] = await db.query(
+        "SELECT id, username, email, premium FROM users WHERE id = ?",
+        [userId]
+      );
+      user = userRows[0];
     }
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        premium: user.premium,
+      },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({ user, token });
+  } catch (err) {
+    console.error("Google login error:", err);
+    res.status(400).json({ error: "Google login failed" });
+  }
 };
 
 // --- Forgot Password ---
