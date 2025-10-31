@@ -5,6 +5,7 @@ import Player from "./pages/Player/index";
 import Library from "./pages/Library/index";
 import CollectionDetail from "./components/library/CollectionDetail";
 import PlaylistDetail from "./components/library/PlaylistDetail";
+import ResetPassword from "./components/home/ResetPassword";
 
 
 function AppRouter() {
@@ -19,18 +20,8 @@ function AppRouter() {
                 <Route path="/library" element={<Library />} />
                 <Route path="/library/CollectionDetail" element={<CollectionDetail />} />
                 <Route path="/library/PlaylistDetail" element={<PlaylistDetail />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
 
-
-
-                {/* <Route path="/profile" element={<Profile />} />                
-                <Route path="/player/upload" element={<Uploader />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/store" element={<Store />} />
-                <Route path="/purchase" element={<Home />} />
-                
-                <Route path="/search/:slug" element={<SearchDetail />} /> */}
             </Route>
         </Routes>
     );

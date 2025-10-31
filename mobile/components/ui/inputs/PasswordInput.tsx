@@ -24,6 +24,6 @@ export default function PasswordInput({
 
 const styles = StyleSheet.create({
   inputWrapper: { position: 'relative', width: 260 },
-  input: { height: 40, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#fff', paddingRight: 40, marginBottom: 12 },
+  input: { color: "#131313ff", height: 40, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#fff', paddingRight: 40, marginBottom: 12 },
   eyeIcon: { position: 'absolute', right: 10, top: 10 },
 });

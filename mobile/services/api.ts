@@ -68,11 +68,13 @@ export async function registerUser(username: string, email: string, password: st
 }
 
 export async function forgotPassword(email: string) {
+    console.log("Reached");
     const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
     });
+    console.log("Sending forgot password request to:", API_URL);
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Failed to send reset link');
     return data;

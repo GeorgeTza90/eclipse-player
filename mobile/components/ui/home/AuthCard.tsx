@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Text, TouchableOpacity, Button } from 'react-native';
+import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import Circle from '@/components/ui/player/Circle';
@@ -7,7 +7,7 @@ import { useAuthActions } from '@/hooks/useAuthActions';
 import AuthButton from '../buttons/authButtons';
 import { validateAndSubmitAuth } from '@/utils/validateAndSubmitAuth';
 import PasswordInput from '../inputs/PasswordInput';
-import { googleLogin } from '@/services/api';
+import { googleLogin, forgotPassword } from '@/services/api';
 import { GOOGLE_CLIENT_IDS } from '../../../config';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -21,8 +21,9 @@ export default function AuthCard() {
   const [username, setUsername] = useState('');
   const [isLogin, setIsLogin] = useState(true);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);  
   const { handleLogin, handleRegister, loading, error } = useAuthActions();
 
   // --- Google Auth Session
@@ -51,21 +52,45 @@ export default function AuthCard() {
     }
   };
 
+  const handleForgotPassword = async () => {
+    if (!email) return setLocalError("Please enter your email first.");     
+    try {
+      const data = await forgotPassword(email);
+      console.log("Forgot password response:", data); // debug
+      setMessage(`An email to reset Password has been sent to: ${email}`);
+    } catch (err: any) {
+      console.error("Forgot password failed:", err);
+      setLocalError("Failed to send reset email. Try again later.");
+    }
+  };
+
+  useEffect(() => {
+    if (!localError) return;
+    const timer = setTimeout(() => setLocalError(null), 4000);
+    return () => clearTimeout(timer);
+  }, [localError]);
+
+  useEffect(() => {
+    if (!message) return;
+    const timer = setTimeout(() => setMessage(''), 8000);
+    return () => clearTimeout(timer);
+  }, [message]);
+
   const onSubmit = () =>
-    validateAndSubmitAuth({
-      isLogin,
-      username,
-      email,
-      password,
-      confirmPassword,
-      setLocalError,
-      handleLogin,
-      handleRegister,
-    });
+      validateAndSubmitAuth({
+        isLogin,
+        username,
+        email,
+        password,
+        confirmPassword,
+        setLocalError,
+        handleLogin,
+        handleRegister,
+      });
 
   return (
     <View style={styles.container}>
-      <View style={{ position: 'absolute', top: -350, left: -195, zIndex: 0 }}>
+      <View style={{ position: 'absolute', top: -350, left: -195, zIndex: 0, justifyContent: 'center' }}>
         <Circle size={390} shadowColor={shadowColor} intensity={intensity} />
       </View>
 
@@ -77,9 +102,7 @@ export default function AuthCard() {
         <PasswordInput value={password} onChangeText={setPassword} show={showPassword} setShow={setShowPassword} placeholder="Password" />
         {!isLogin && (
           <PasswordInput value={confirmPassword} onChangeText={setConfirmPassword} show={showConfirmPassword} setShow={setShowConfirmPassword} placeholder="Confirm Password" />
-        )}
-
-        <AuthButton loading={loading} isLogin={isLogin} onPress={onSubmit} />
+        )}        
 
         {/* Google Login Button */}
         <TouchableOpacity
@@ -89,16 +112,24 @@ export default function AuthCard() {
         >
             <Text style={styles.googleButtonText}>Login with Google</Text>
         </TouchableOpacity>
-
+        <AuthButton loading={loading} isLogin={isLogin} onPress={onSubmit} />
+        {(error || localError) && <Text style={{ color: 'red', marginTop: 12, maxWidth: 260 }}>{error || localError}</Text>}
+        {message && <Text style={{ color: 'green', marginTop: 12, maxWidth: 260 }}>{message}</Text>}
 
         <View style={{ maxWidth: 260, alignItems: 'center' }}>
           <TouchableOpacity onPress={() => setIsLogin(!isLogin)} style={{ marginTop: 10 }}>
             <Text style={{ color: '#888', marginTop: 8 }}>
               {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
             </Text>
-          </TouchableOpacity>
-          {(error || localError) && <Text style={{ color: 'red', marginTop: 12 }}>{error || localError}</Text>}
+          </TouchableOpacity>          
         </View>
+
+        {/* Forgot Password */}
+        {isLogin && (
+          <TouchableOpacity onPress={handleForgotPassword} style={{ marginTop: 12, marginLeft: 70 }}>
+            <Text style={{ color: '#888' }}>Forgot Password?</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -106,28 +137,9 @@ export default function AuthCard() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 160 },
-  input: { height: 40, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#fff', paddingRight: 40, marginBottom: 12 },
-  googleButton: {
-    backgroundColor: "#4285F4",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: "center",
-    marginVertical: 10,
-  },
-  googleButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  switchText: {
-    color: "#888",
-    marginTop: 8,
-    textAlign: "center",
-  },
-  errorText: {
-    color: "red",
-    marginTop: 12,
-    textAlign: "center",
-  },
+  input: { height: 45, color: "#131313ff", borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#fff', paddingRight: 40, marginBottom: 12 },
+  googleButton: { backgroundColor: "#4285F4", paddingVertical: 12, paddingHorizontal: 15, borderRadius: 8, alignItems: "center",marginBottom: 10 },
+  googleButtonText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
+  switchText: { color: "#888", marginTop: 8, textAlign: "center" },
+  errorText: { color: "red", marginTop: 12, textAlign: "center" },
 });

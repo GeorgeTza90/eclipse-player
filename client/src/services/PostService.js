@@ -23,7 +23,7 @@ export async function registerUser(username, email, password) {
   return data;
 }
 
-export const googleLogin = async (accessToken, platform) => {  
+export async function googleLogin(accessToken, platform) {  
   const res = await fetch(`${API_URL}/api/auth/google-login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -33,6 +33,29 @@ export const googleLogin = async (accessToken, platform) => {
   if (!res.ok) throw new Error("Google login failed");
   return res.json();
 };
+
+export async function forgotPassword(email) {
+  const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to send reset email");
+  return data;
+}
+
+export async function resetPassword(token, newPassword) {
+  const res = await fetch(`${API_URL}/api/auth/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, newPassword }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Reset password failed");
+  return data;
+}
 
 
 // Playlists

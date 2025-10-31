@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContextWeb";
-import styles from "./authCard.module.css";
-import Circle from "../../components/ui/Circle";
 import { useAuthActions } from "../../hooks/useAuthActions";
-import AuthButton from "../buttons/AuthButton";
 import { validateAndSubmitAuth } from "../../utils/validateAndSubmitAuth";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import { googleLogin } from "../../services/PostService";
-import PasswordInput from "../inputs/PasswordInput";
+import { googleLogin, forgotPassword } from "../../services/PostService";
 import { GOOGLE_CLIENT_ID } from "../../config";
+import AuthButton from "../buttons/AuthButton";
+import styles from "./authCard.module.css";
+import Circle from "../../components/ui/Circle";
+import PasswordInput from "../inputs/PasswordInput";
 
 export default function AuthCard() {
     const { login } = useAuth();
@@ -22,6 +22,7 @@ export default function AuthCard() {
     const [localError, setLocalError] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [message, setMessage] = useState("");
     const isMobile = useIsMobile();
     const { handleLogin, handleRegister, loading, error } = useAuthActions();
 
@@ -55,15 +56,33 @@ export default function AuthCard() {
         client.requestAccessToken({ prompt: 'select_account' });
     };
 
+    const handleForgotPassword = async () => {
+        if (!email) return setLocalError("Please enter your email first.");
+        try {
+            await forgotPassword(email);
+            setMessage(`An email to reset Password has been send to: ${email}`);
+        } catch (err) {
+            setLocalError("Failed to send reset email. Try again later.");
+        }
+    };
+
+    useEffect(() => {
+        if (!localError) return;
+        const timer = setTimeout(() => { setLocalError("") }, 4000);
+        return () => clearTimeout(timer);
+    }, [localError])
+
+    useEffect(() => {
+        if (!message) return;
+        const timer = setTimeout(() => { setMessage("") }, 8000);
+        return () => clearTimeout(timer);
+    }, [message])
+
     return (
         <div className={styles.authContainer}>
             {/* Circle */}
             <div className={`${styles.circleWrapper} ${styles.circle1}`}>
-                <Circle
-                    size={isMobile ? 400 : 600}
-                    shadowColor={shadowColor}
-                    intensity={intensity * 0.5}
-                />
+                <Circle size={isMobile ? 400 : 600} shadowColor={shadowColor} intensity={intensity * 0.5} />
             </div>
 
             {/* Log/Reg Form */}
@@ -104,14 +123,15 @@ export default function AuthCard() {
                     />
                 )}
 
-                {/* Submit Button & Error */}
-                <AuthButton loading={loading} isLogin={isLogin} onClick={onSubmit} />
-                {(error || localError) && (<p className={styles.errorText}>{error || localError}</p>)}
-
                 {/* Google login button */}
                 <button type="button" onClick={onGoogleLogin} className={styles.googleButton}>
                     Login with Google
                 </button>
+
+                {/* Submit Button & Error */}
+                <AuthButton loading={loading} isLogin={isLogin} onClick={onSubmit} />
+                {(error || localError) && (<p className={styles.errorText}>{error || localError}</p>)}
+                {message && (<p className={styles.messageText}>{message}</p>)}
 
                 {/* Log/Reg Switcher */}
                 <div className={styles.switchWrapper}>
@@ -123,6 +143,17 @@ export default function AuthCard() {
                         {isLogin
                             ? "Don't have an account? Register"
                             : "Already have an account? Login"}
+                    </button>
+                </div>
+
+                {/* Forgot Password */}
+                <div className={styles.switchWrapper}>
+                    <button
+                        type="button"
+                        className={styles.switchButton}
+                        onClick={() => handleForgotPassword()}
+                    >
+                        {isLogin && "Forgot Password?"}
                     </button>
                 </div>
             </div>
