@@ -10,7 +10,12 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
-  origin: ["http://localhost:5173", "https://console.cloudinary.com", "https://eclipseplayer.netlify.app"],
+  origin: [
+    "http://localhost:5173",
+    "https://console.cloudinary.com",
+    "https://eclipseplayer.netlify.app",
+    "https://eclipseplayer.com"
+  ],
   credentials: true
 }));
 
