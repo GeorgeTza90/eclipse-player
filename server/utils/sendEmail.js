@@ -1,26 +1,22 @@
 require('dotenv').config();
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendEmail(to, subject, html) {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
+  try {
+    const data = await resend.emails.send({
+      from: "Eclipse Player <onboarding@resend.dev>",
+      to,
+      subject,
+      html,
     });
 
-    const mailOptions = {
-        from: `"Eclipse Player" <${process.env.EMAIL_USER}>`,
-        to,
-        subject,
-        html,
-    };
-
-    console.log('EMAIL_USER:', process.env.EMAIL_USER);
-    console.log('EMAIL_PASS:', process.env.EMAIL_PASS);
-
-    await transporter.sendMail(mailOptions);
+    console.log('Email sent:', data);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
 }
 
 module.exports = sendEmail;
