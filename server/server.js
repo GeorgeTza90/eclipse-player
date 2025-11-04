@@ -4,6 +4,7 @@ require('dotenv').config();
 const songsRoutes = require('./routes/songs');
 const authRoutes = require('./routes/auth');
 const playlistRoutes = require('./routes/playlists');
+const artistsRoutes = require('./routes/artists');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/songs', songsRoutes);
 app.use('/api/playlists', playlistRoutes);
+app.use('/api/artists', artistsRoutes);
 
 // Test route
 app.get('/', (req, res) => res.send({ message: 'Server is running!' }));

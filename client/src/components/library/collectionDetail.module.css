@@ -40,6 +40,20 @@
     font-size: 14px;
 }
 
+.artirtButton {
+    color: #d6d6d6;
+    background-color: transparent;
+    cursor: pointer;
+    border: transparent;
+    font-size: 17px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.artirtButton:hover {
+    text-decoration: underline;
+    color: #e6e6e6;
+}
+
 .track {
     display: flex;
     align-items: center;
@@ -65,7 +79,7 @@
 }
 
 .track:hover {
-    background-color: #333;
+    background: linear-gradient(to right, #252525, #111112f1);
     border-radius: 0.5rem;
 }
 

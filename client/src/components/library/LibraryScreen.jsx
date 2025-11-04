@@ -1,23 +1,33 @@
 import { useEffect, useState } from "react";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
-import { fetchSongs } from "../../services/GetService";
+import { fetchArtists, fetchSongs } from "../../services/GetService";
 import { preloadImages } from "../../utils/preloadImages";
-import CollectionCard from "../../components/library/CollectionCard";
 import { useNavigate } from "react-router-dom";
-import styles from "./libraryScreen.module.css";
+import CollectionCard from "../../components/library/CollectionCard";
 import SearchForm from "./SearchForm";
+import styles from "./libraryScreen.module.css";
+import Categorizer from "../../utils/songsCetegorizer";
 
 export default function LibraryScreen() {
   const navigate = useNavigate();
   const { songs, setSongs } = useLibrary();
+  const { artists, setArtists } = useLibrary();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadSongsAndImages = async () => {
       try {
-        const data = await fetchSongs();
-        await preloadImages(data.map((song) => song.image));
-        setSongs(data);
+        const [songsData, artistsData] = await Promise.all([
+          fetchSongs(),
+          fetchArtists(),
+        ]);
+
+        await preloadImages([
+          ...songsData.map((song) => song.image),
+          ...artistsData.map((artist) => artist.image_url)
+        ]);
+        setSongs(songsData);
+        setArtists(artistsData);
       } catch (err) {
         console.warn("Error loading songs or images:", err);
       } finally {
@@ -26,29 +36,17 @@ export default function LibraryScreen() {
     };
 
     loadSongsAndImages();
-  }, [setSongs]);
+  }, [setSongs, setArtists]);
 
-  const singlesEpsMap = new Map();
-  songs.forEach((s) => {
-    if ((s.type === "single" || s.type === "ep") && !singlesEpsMap.has(s.album)) {
-      singlesEpsMap.set(s.album, s);
-    }
-  });
-  const singlesEps = Array.from(singlesEpsMap.values());
 
-  const albumsMap = new Map();
-  songs.forEach((s) => {
-    if (s.type === "album" && !albumsMap.has(s.album)) {
-      albumsMap.set(s.album, s);
-    }
-  });
-  const albums = Array.from(albumsMap.values());
+  const singlesEps = Categorizer(songs, "single", "ep");
+  const albums = Categorizer(songs, "album");
 
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
         <div className="spinner" />
-        <p style={{ color: "#fff", marginTop: 10 }}>Loading library...</p>
+        <p style={{ color: "#fff", marginTop: 5 }}>Loading library...</p>
       </div>
     );
   }
@@ -65,6 +63,7 @@ export default function LibraryScreen() {
           <CollectionCard
             key={item.id}
             item={item}
+            type={"song"}
             onClick={() => navigate(`/library/CollectionDetail?album=${encodeURIComponent(item.album)}`)}
           />
         ))}
@@ -77,7 +76,23 @@ export default function LibraryScreen() {
           <CollectionCard
             key={item.album}
             item={item}
+            type={"song"}
             onClick={() => navigate(`/library/CollectionDetail?album=${encodeURIComponent(item.album)}`)}
+          />
+        ))}
+      </div>
+
+      {/* Artists */}
+      <h2 className={styles.categoryTitle}>Artists</h2>
+      <div className={styles.horizontalScroll}>
+        {artists.map((item) => (
+          <CollectionCard
+            key={item.name}
+            item={item}
+            type={"artist"}
+            onClick={() => {
+              navigate(`/library/ArtistInfo?artist=${encodeURIComponent(item.name)}`);
+            }}
           />
         ))}
       </div>

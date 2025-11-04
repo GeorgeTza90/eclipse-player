@@ -37,7 +37,11 @@ export default function CollectionDetail() {
                     <p className={styles.type}>{albumInfo.type.toUpperCase()}</p>
                     <p className={styles.albumName}>{albumInfo.album}</p>
                     <p className={styles.artistInfo}>
-                        {albumInfo.artist} • {albumSongs.length} songs • {durationString}
+                        <button
+                            onClick={() => { navigate(`/library/ArtistInfo?artist=${encodeURIComponent(albumInfo.artist)}`) }}
+                            className={styles.artirtButton}
+                        >{albumInfo.artist}</button>
+                        • {albumSongs.length} songs • {durationString}
                     </p>
                 </div>
             </div>

@@ -1,7 +1,6 @@
 const db = require("../db/db");
 
 // --- Playlists CRUD ---
-
 exports.getPlaylists = async (req, res) => {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: "Unauthorized" });
@@ -76,7 +75,6 @@ exports.deletePlaylist = async (req, res) => {
 
 
 // --- Playlist Songs CRUD ---
-
 exports.getPlaylistSongs = async (req, res) => {
     const userId = req.user?.id;
     const { playlistId } = req.params;

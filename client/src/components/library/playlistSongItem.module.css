@@ -4,6 +4,7 @@
     padding: 8px 0;
     border-bottom: 1px solid #333;
     cursor: pointer;
+    border-radius: 1rem;
 }
 
 .text {
@@ -46,6 +47,10 @@
     width: 30px;
     text-align: right;
     margin-left: 8px;
+}
+
+.songRow:hover {
+    background: linear-gradient(to right, #252525, #111112f1);
 }
 
 @media (max-width: 768px) {

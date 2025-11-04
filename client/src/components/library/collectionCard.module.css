@@ -1,6 +1,7 @@
 .trackContainer {
-    width: 200px;
-    height: 270px;
+    width: 180px;
+    height: 255px;
+    padding: 2px 0px;
     margin-right: 15px;
     border-radius: 12px;
     overflow: hidden;
@@ -9,10 +10,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    line-height: 1.2rem;
+}
+
+.artistContainer {
+    width: 225px;
+    height: 225px;
+    margin-right: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .albumImage {
-    width: 80%;
+    width: 75%;
     aspect-ratio: 1 / 1;
     border-radius: 10px;
     margin: 5px 0;
@@ -20,7 +34,22 @@
     transition: 0.3s;
 }
 
+.artistImage {
+    width: 70%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    margin: 5px 0;
+    object-fit: cover;
+    transition: 0.3s;
+}
+
 .trackInfo {
+    padding: 0 5px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.artistInfo {
     padding: 0 5px;
     margin-top: 5px;
     text-align: center;
@@ -45,6 +74,10 @@
     margin: 2px 0;
 }
 
+.artistContainer:hover {
+    background-color: rgba(153, 153, 153, 0.274);
+}
+
 .trackContainer:hover {
     background-color: rgba(153, 153, 153, 0.274);
 }
@@ -53,10 +86,28 @@
     width: 90%;
 }
 
+.artistImage:hover {
+    width: 80%;
+}
+
+.artistInfo:hover {
+    display: hidden
+}
+
+.trackInfo:hover {}
+
 @media (max-width: 768px) {
     .trackContainer {
         width: 7.2rem;
-        height: 14rem;
+        height: 11rem;
+        margin-right: 3px;
+        border-radius: 7px;
+        line-height: 0.9rem;
+    }
+
+    .artistContainer {
+        width: 7.2rem;
+        height: 9em;
         margin-right: 3px;
         border-radius: 7px;
         line-height: 1.3rem;
@@ -65,13 +116,13 @@
     .trackTitle {
         color: #fff;
         font-weight: lighter;
-        font-size: 14px;
+        font-size: 12px;
         margin: 1px 0;
     }
 
     .trackArtist {
         color: #d6d6d6c4;
-        font-size: 13px;
+        font-size: 11px;
         margin: 2px 0;
     }
 

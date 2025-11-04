@@ -120,10 +120,11 @@ export const AudioProvider = ({ children }) => {
         previous,
         setVolume,
         seekTo,
+        setLibrary,
       }}
     >
       {children}
-    </AudioContext.Provider>
+    </AudioContext.Provider >
   );
 };
 

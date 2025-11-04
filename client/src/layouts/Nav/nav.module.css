@@ -64,4 +64,8 @@
     .desktopOnly {
         display: none;
     }
+
+    .mobileOnly {
+        display: block;
+    }
 }

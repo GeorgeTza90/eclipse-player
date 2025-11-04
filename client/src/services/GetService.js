@@ -16,6 +16,28 @@ export async function fetchSongById(songId) {
   return res.json();
 }
 
+// Artists
+export async function fetchArtists() {  
+  const res = await fetch(`${API_URL}/api/artists`);  
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error?.message || "Failed to fetch artists");
+  }
+  return res.json();
+}
+
+export async function fetchArtist(artistName) {
+  if (!artistName) throw new Error("Artist name is required");
+
+  const res = await fetch(`${API_URL}/api/artists/${encodeURIComponent(artistName)}`);
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error?.message || "Failed to fetch artist");
+  }
+  return res.json();
+}
+
+
 // Playlists
 export async function fetchUserPlaylists(token) {
   const res = await fetch(`${API_URL}/api/playlists`, {
