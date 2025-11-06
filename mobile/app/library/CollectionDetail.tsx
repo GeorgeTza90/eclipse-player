@@ -1,4 +1,3 @@
-// app/library/CollectionDetail.tsx
 import React from "react";
 import CollectionDetailComponent from '@/components/ui/library/CollectionDetail';
 

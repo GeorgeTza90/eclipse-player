@@ -32,6 +32,26 @@ export async function fetchSongById(songId: number): Promise<Song> {
     return song;
 }
 
+// Artists
+export async function fetchArtists() {
+    const res = await fetch(`${API_URL}/api/artists`);
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.message || "Failed to fetch artists");
+    }
+    return res.json();
+}
+
+export async function fetchArtist(artistName: string) {
+    if (!artistName) throw new Error("Artist name is required");
+    const res = await fetch(`${API_URL}/api/artists/${encodeURIComponent(artistName)}`);
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.message || "Failed to fetch artist");
+    }
+    return res.json();
+}
+
 // Auth
 export async function loginUser(email: string, password: string) {
     const res = await fetch(`${API_URL}/api/auth/login`, {

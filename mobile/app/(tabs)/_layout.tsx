@@ -17,51 +17,51 @@ export default function TabLayout() {
         tabBarShowLabel: false,
       }}>
 
-    <Tabs.Screen
-      name="index"
-      options={{        
-        tabBarIcon: ({ focused }) => (
-          <Image
-            source={require('@/assets/icons/home.png')}
-            style={{
-              width: 35,
-              height: 35,
-              tintColor: focused ? Colors.light.tint : Colors.light.icon, 
-            }}
-          />
-        ),
-      }}
-    />
-    <Tabs.Screen
-      name="player"
-      options={{        
-        tabBarIcon: ({ focused }) => (
-          <Image
-            source={require('@/assets/icons/player.png')}
-            style={{
-              width: 35,
-              height: 35,
-              tintColor: focused ? Colors.light.tint : Colors.light.icon, 
-            }}
-          />
-        ),
-      }}
-    />    
-    <Tabs.Screen
-      name="library"
-      options={{        
-        tabBarIcon: ({ focused }) => (
-          <Image
-            source={require('@/assets/icons/library.png')}
-            style={{
-              width: 35,
-              height: 35,
-              tintColor: focused ? Colors.light.tint : Colors.light.icon, 
-            }}
-          />
-        ),
-      }}
-    />   
+      <Tabs.Screen
+        name="index"
+        options={{        
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/icons/home.png')}
+              style={{
+                width: 35,
+                height: 35,
+                tintColor: focused ? Colors.light.tint : Colors.light.icon, 
+              }}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="player"
+        options={{        
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/icons/player.png')}
+              style={{
+                width: 35,
+                height: 35,
+                tintColor: focused ? Colors.light.tint : Colors.light.icon, 
+              }}
+            />
+          ),
+        }}
+      />    
+      <Tabs.Screen
+        name="library"
+        options={{        
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/icons/library.png')}
+              style={{
+                width: 35,
+                height: 35,
+                tintColor: focused ? Colors.light.tint : Colors.light.icon, 
+              }}
+            />
+          ),
+        }}
+      />   
 
     </Tabs>
   );

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, Dimensions, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
-import { fetchSongs } from "@/services/api";
+import { fetchArtists, fetchSongs } from "@/services/api";
 import { preloadImages } from "@/utils/preloadImages";
 import { useLibrary } from "@/contexts/LibraryContext";
 import { Song } from "@/types/songs";
+import { Artist } from "@/types/artists";
 import CollectionCard from "@/components/ui/library/CollectionCard";
 import SearchForm from "./SearchForm";
 
@@ -13,23 +14,31 @@ const { width } = Dimensions.get("window");
 export default function LibraryScreen() {
   const router = useRouter();
   const { songs, setSongs } = useLibrary();
+  const { artists, setArtists } = useLibrary();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadSongsAndImages = async () => {
       try {        
-        const data = await fetchSongs();
-        await preloadImages(data.map((song) => song.image));
-        setSongs(data);        
+        const [ songsData, artistsData] = await Promise.all([
+          fetchSongs(),
+          fetchArtists(),
+        ]); 
+        await preloadImages([
+          ...songsData.map((song) => song.image),
+          ...artistsData.map((artist: Artist) => artist.image_url),
+        ]);
+        setSongs(songsData);        
+        setArtists(artistsData);
       } catch (err) {
-        console.warn("Error loading songs or images:", err);
+        console.warn("Error loading library:", err);
       } finally {
         setLoading(false);
       }
     };
 
     loadSongsAndImages();
-  }, []);  
+  }, [setSongs, setArtists]);  
 
   const singlesEpsMap = new Map<string, Song>();
     songs.forEach((s) => {
@@ -71,7 +80,7 @@ export default function LibraryScreen() {
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <CollectionCard          
-            item={item}
+            songItem={item}
             onPress={() => router.push(`/library/CollectionDetail?album=${item.album}`)}
           />
         )}
@@ -90,7 +99,7 @@ export default function LibraryScreen() {
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <CollectionCard
-            item={item}
+            songItem={item}
             onPress={() => router.push(`/library/CollectionDetail?album=${item.album}`)}
           />
         )}
@@ -99,7 +108,26 @@ export default function LibraryScreen() {
         windowSize={5}
         removeClippedSubviews={false}
       />
-    </View>
+
+      {/* Artists */}
+      <Text style={styles.categoryTitle}>Artists</Text>
+      <FlatList
+        data={artists}
+        keyExtractor={(item) => item.name}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <CollectionCard
+            artistItem={item}
+            onPress={() => router.push(`/library/ArtistInfo?artist=${item.name}`)}
+          />
+        )}
+        initialNumToRender={5}
+        maxToRenderPerBatch={10}
+        windowSize={5}
+        removeClippedSubviews={false}
+      />
+    </View>    
   );
 }
 

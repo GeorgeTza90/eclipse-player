@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { useLibrary } from "../../../contexts/LibraryContext";
 import { Song } from "@/types/songs";
+import { Artist } from "@/types/artists";
 
 const SearchForm: React.FC = () => {
   const [searchKey, setSearchKey] = useState<string>("");
@@ -9,22 +10,36 @@ const SearchForm: React.FC = () => {
     songs: Song[];
     setSongs: (songs: Song[]) => void;
   };
+  const { artists, setArtists } = useLibrary() as {
+    artists: Artist[];
+    setArtists: (artist: Artist[]) => void;
+  };
   const [originalSongs, setOriginalSongs] = useState<Song[]>([]);
+  const [originalArtists, setOriginalArtists] = useState<Artist[]>([]);
 
   useEffect(() => {
-    if (songs.length > 0 && originalSongs.length === 0) setOriginalSongs(songs);
-  }, [songs, originalSongs]);
+    if (songs.length > 0 && originalSongs.length === 0) setOriginalSongs([...songs]);
+    if (artists.length > 0 && originalArtists.length === 0) setOriginalArtists([...artists]);
+  }, [songs, originalSongs, artists, originalArtists]);
 
   const onSearch = (key: string) => {
     const lowerKey = key.toLowerCase().trim();
-    if (lowerKey === "") return setSongs(originalSongs);
+
+    if (lowerKey === "") return (setArtists(originalArtists), setSongs(originalSongs));
+
     const filteredSongs = originalSongs.filter(
       (s) =>
         s.title.toLowerCase().includes(lowerKey) ||
         s.artist.toLowerCase().includes(lowerKey) ||
         s.album.toLowerCase().includes(lowerKey)
     );
+
+    const filteredArtists = artists.filter(a =>
+      a.name.toLowerCase().includes(lowerKey)
+    )
+   
     setSongs(filteredSongs);
+    setArtists(filteredArtists);
   };
 
   return (
