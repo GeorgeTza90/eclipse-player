@@ -23,8 +23,6 @@ export const AudioProvider = ({ children }) => {
   const [positionRealtime, setPositionRealtime] = useState(0);
   const audioRef = useRef(null);
 
-  console.log(currentSong);
-
   useEffect(() => {
     localStorage.setItem("audio_library", JSON.stringify(library));
   }, [library]);
@@ -55,15 +53,9 @@ export const AudioProvider = ({ children }) => {
       audioRef.current.play().catch(console.warn);
 
       const updateTime = () => setPositionRealtime(audioRef.current?.currentTime ?? 0);
-      const handleEnded = () => next();  // <-- call next() when finished
-
       audioRef.current.addEventListener("timeupdate", updateTime);
-      audioRef.current.addEventListener("ended", handleEnded);
 
-      return () => {
-        audioRef.current?.removeEventListener("timeupdate", updateTime);
-        audioRef.current?.removeEventListener("ended", handleEnded);
-      };
+      return () => audioRef.current?.removeEventListener("timeupdate", updateTime);
     }
   }, [currentSong]);
 
@@ -90,13 +82,11 @@ export const AudioProvider = ({ children }) => {
   };
 
   const next = () => {
-    setCurrentSongIndex((index) => {
-      const nextIndex = (index + 1) % library.length;
-      setCurrentSong(library[nextIndex]);
-      return nextIndex;
-    });
+    if (!library.length) return;
+    const nextIndex = (currentSongIndex + 1) % library.length;
+    setCurrentSongIndex(nextIndex);
+    setCurrentSong(library[nextIndex]);
   };
-
 
   const previous = () => {
     if (!library.length) return;
