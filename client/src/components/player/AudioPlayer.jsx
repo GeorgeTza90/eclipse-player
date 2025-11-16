@@ -67,7 +67,7 @@ export default function AudioPlayer() {
 
         {/* Time Slider */}
         <div className={styles.sliderRow}>
-          <span className={styles.time}>{formatTime(position)}</span>
+          <span className={styles.time}>{formatTime(position * 1000)}</span>
           <input
             type="range"
             min={0}
@@ -77,7 +77,7 @@ export default function AudioPlayer() {
             onChange={(e) => seekTo(Number(e.target.value))}
             style={sliderStyle}
           />
-          <span className={styles.time}>{formatTime(duration)}</span>
+          <span className={styles.time}>{formatTime(duration * 1000)}</span>
         </div>
         <br />
 
