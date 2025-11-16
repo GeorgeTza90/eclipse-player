@@ -277,7 +277,7 @@ exports.seed = async function(knex) {
         album: "Scaling The Summit",
         year: 2023,
         image: `${cloudinaryAPI}/image/upload/v1761067105/Scaling_The_Summit_gqblvn.jpg`,
-        url: `${cloudinaryAPI}/video/upload/v1761067256/Drawing_New_Worlds_fkrgcd.mp3`,
+        url: `${cloudinaryAPI}/video/upload/v1761067225/Doctrine_Of_The_Wicked_wganjn.mp3`,
         type: "ep",
         duration: 277,
         averageColor: "#ffceabff",
