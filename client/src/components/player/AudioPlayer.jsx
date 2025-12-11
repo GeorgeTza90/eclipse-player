@@ -4,9 +4,9 @@ import Circle from "../ui/Circle";
 import PlayButton from "../buttons/PlayButton";
 import { formatTime } from "../../hooks/useFormatTime";
 import styles from "./audioPlayer.module.css";
-import { useIsMobile } from "../../hooks/useIsMobile"
+import { useIsMobile } from "../../hooks/useIsMobile";
 
-export default function AudioPlayer() {
+export default function AudioPlayer({ onToggleLyrics }) {
   const {
     currentSong, isPlaying, position, duration, volume, togglePlay,
     stop, next, previous, setVolume, seekTo
@@ -14,7 +14,18 @@ export default function AudioPlayer() {
 
   const shadowColor = currentSong?.averageColor ?? "#bebebe";
   const [intensity, setIntensity] = useState(30);
-  const isMobile = useIsMobile()
+  const [lyricsActive, setLyricsActive] = useState(false);
+  const isMobile = useIsMobile();
+
+  const handleLyrics = () => {
+    const newState = !lyricsActive;
+    setLyricsActive(newState);
+
+    // Only send the boolean to parent
+    if (onToggleLyrics) {
+      onToggleLyrics(newState);
+    }
+  };
 
   useEffect(() => {
     setIntensity(volume * 30);
@@ -40,11 +51,11 @@ export default function AudioPlayer() {
 
   return (
     <div className={styles.container}>
-      {/* Circle */}
+      {/* Circles */}
       <Circle size={isMobile ? 400 : 600} top={isMobile ? 120 : 150} intensity={isMobile ? intensity * 0.6 : intensity} heightOffset={8} shadowColor={shadowColor} />
       <Circle size={isMobile ? 250 : 300} top={isMobile ? 550 : 800} intensity={intensity * 0.5} heightOffset={6} shadowColor={shadowColor} color2="#0e0e0eff" color1="#1b1a1aff" />
 
-      {/* Player */}
+      {/* Player UI */}
       <div className={styles.playerContent}>
         {/* Info */}
         <div className={styles.infoRow}>
@@ -54,7 +65,6 @@ export default function AudioPlayer() {
             <p className={styles.artist}>{currentSong?.artist || "Artist Name"}</p>
           </div>
         </div>
-        <br />
 
         {/* Controls */}
         <div className={styles.controls}>
@@ -63,7 +73,6 @@ export default function AudioPlayer() {
           <PlayButton type={isPlaying ? "pause" : "play"} onClick={togglePlay} />
           <PlayButton type="next" onClick={next} />
         </div>
-        <br />
 
         {/* Time Slider */}
         <div className={styles.sliderRow}>
@@ -79,7 +88,6 @@ export default function AudioPlayer() {
           />
           <span className={styles.time}>{formatTime(duration * 1000)}</span>
         </div>
-        <br />
 
         {/* Volume */}
         <div className={styles.sliderRow}>
@@ -99,8 +107,17 @@ export default function AudioPlayer() {
             <img className={styles.volIcon} src="/assets/icons/volMax2.png" />
           </button>
         </div>
+
+        {/* Lyrics Toggle Button */}
+        <div>
+          <button
+            className={styles.lyricsButton}
+            onClick={handleLyrics}
+          >
+            {lyricsActive ? "Playlist" : "Lyrics"}
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-

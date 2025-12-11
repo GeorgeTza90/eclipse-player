@@ -1,12 +1,20 @@
 .playlistItem {
-    margin-bottom: 10px;
-    padding: 8px 10px;
+    padding: 10px 5px;
     background-color: #222;
     border-radius: 6px;
-    display: flex;
-    align-items: center;
     border-bottom: 1px solid #333;
     cursor: pointer;
+    display: grid;
+    grid-template-columns: 9rem 1rem;
+}
+
+.titleRow {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    align-items: center;
+    justify-content: left;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .title {
@@ -17,20 +25,12 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin: 0.5rem 0.2rem;
 }
 
 .count {
-    color: #ccc;
+    color: #979797da;
     font-size: 14px;
     margin-left: 5px;
     flex-shrink: 0;
-}
-
-.text {
-    color: #888;
-    margin: 0 5px;
-}
-
-.deleteButton {
-    margin-left: auto;
 }

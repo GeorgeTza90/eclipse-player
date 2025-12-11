@@ -7,9 +7,10 @@ export default function PlaylistItem({ playlist, token, onDelete, onPress }) {
             className={styles.playlistItem}
             onClick={() => onPress(playlist)}
         >
-            <span className={styles.title}>{playlist.title}</span>
-            <span className={styles.text}> - </span>
-            <span className={styles.count}>{playlist.songCount ?? 0} songs</span>
+            <div className={styles.titleRow}>
+                <span className={styles.title}>{playlist.title}</span>
+                <span className={styles.count}>{playlist.songCount ?? 0} songs</span>
+            </div>
             <DeletePlaylistButton playlistId={playlist.id} onDeleted={onDelete} />
         </div>
     );

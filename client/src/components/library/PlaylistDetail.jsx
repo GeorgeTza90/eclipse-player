@@ -60,7 +60,6 @@ export default function PlaylistDetail() {
 
         setSongs(reorderedSongs);
 
-        // Update backend
         if (!token || !id) return;
         try {
             await moveSongInPlaylist(

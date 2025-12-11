@@ -26,3 +26,9 @@
 .addButton:hover {
     opacity: 0.8;
 }
+
+.playlistsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 12rem);
+
+}

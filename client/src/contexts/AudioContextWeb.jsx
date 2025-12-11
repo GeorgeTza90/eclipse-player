@@ -53,7 +53,7 @@ export const AudioProvider = ({ children }) => {
       audioRef.current.play().catch(console.warn);
 
       const updateTime = () => setPositionRealtime(audioRef.current?.currentTime ?? 0);
-      const handleEnded = () => next();  // <-- call next() when finished
+      const handleEnded = () => next();
 
       audioRef.current.addEventListener("timeupdate", updateTime);
       audioRef.current.addEventListener("ended", handleEnded);
