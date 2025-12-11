@@ -127,6 +127,10 @@
         justify-items: center;
     }
 
+    .infoRow {
+        margin-bottom: 2.5rem;
+    }
+
     .image {
         width: 100px;
         height: 100px;
@@ -134,7 +138,7 @@
     }
 
     .sliderRow {
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.5rem;
         width: 150%;
         max-width: 320px;
     }
@@ -142,9 +146,12 @@
     .controls {
         gap: 2rem;
         margin-top: -1rem;
-        margin-bottom: 1.2rem;
+        margin-bottom: 1.5rem;
         z-index: 2;
     }
 
+    .lyricsButton {
+        margin-top: 0.5rem;
+    }
 
 }

@@ -1,6 +1,7 @@
 .container {
     padding: 20px;
     margin-top: 20px;
+    margin: -20px;
 }
 
 .infoText {
@@ -31,4 +32,12 @@
     display: grid;
     grid-template-columns: repeat(3, 12rem);
 
+}
+
+@media (max-width: 768px) {
+    .playlistsContainer {
+        display: grid;
+        grid-template-columns: repeat(2, 12rem);
+
+    }
 }

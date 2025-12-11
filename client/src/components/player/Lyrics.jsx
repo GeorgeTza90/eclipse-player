@@ -9,10 +9,10 @@ export default function Lyrics({ currentSong }) {
             <div className={styles.list}>
                 {currentSong.lyrics ? (
                     currentSong.lyrics.split("\n").map((line, i) => (
-                        <p key={i}>{line}</p>
+                        <p key={i} className={styles.lyrics}>{line || "\u00A0"}</p>
                     ))
                 ) : (
-                    <p>No Lyrics Yet</p>
+                    <p className={styles.lyrics}>No Lyrics Yet</p>
                 )}
             </div>
         </div>

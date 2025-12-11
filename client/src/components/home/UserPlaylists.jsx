@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // React Router
+import { useNavigate } from "react-router-dom";
 import styles from "./userPlaylists.module.css";
 import PlaylistItem from "./PlaylistItem";
 import AddPlaylistModal from "./AddPlaylistModal";

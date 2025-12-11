@@ -1,7 +1,6 @@
 .deleteButton {
     padding: 5px 10px;
     border-radius: 5px;
-    margin-left: 10px;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -24,6 +23,7 @@
     color: #8b4646ff;
     font-weight: bold;
     font-size: 14px;
+
 }
 
 .spinner {
@@ -45,4 +45,15 @@
     }
 }
 
-@media (max-width: 768px) {}
+@media (max-width: 768px) {
+    .deleteButton {
+        margin-left: 10px;
+    }
+
+    .deleteText {
+        color: #8b4646ff;
+        font-weight: bold;
+        font-size: 14px;
+        margin-left: 3rem;
+    }
+}

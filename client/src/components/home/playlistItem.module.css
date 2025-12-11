@@ -1,5 +1,6 @@
 .playlistItem {
     padding: 10px 5px;
+    margin: 0.5rem;
     background-color: #222;
     border-radius: 6px;
     border-bottom: 1px solid #333;
@@ -33,4 +34,18 @@
     font-size: 14px;
     margin-left: 5px;
     flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .playlistItem {
+        margin-top: 1rem;
+        padding: 10px 5px;
+        width: 10rem;
+        background-color: #222;
+        border-radius: 6px;
+        border-bottom: 1px solid #333;
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: 6rem 1rem;
+    }
 }

@@ -8,7 +8,7 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 
 function Player() {
     const isMobile = useIsMobile();
-    const { playlistName, currentSong } = useAudio(); // get currentSong from context
+    const { playlistName, currentSong } = useAudio();
     const [lyricsActive, setLyricsActive] = useState(false);
 
     const handleLyrics = (active) => {
