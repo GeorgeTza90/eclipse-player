@@ -21,7 +21,6 @@ export default function AudioPlayer({ onToggleLyrics }) {
     const newState = !lyricsActive;
     setLyricsActive(newState);
 
-    // Only send the boolean to parent
     if (onToggleLyrics) {
       onToggleLyrics(newState);
     }

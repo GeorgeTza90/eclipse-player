@@ -1,0 +1,66 @@
+.container {
+    z-index: 9999;
+}
+
+.infoRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-left: 0.8rem;
+}
+
+.image {
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.title {
+    margin: 0;
+    font-size: 1rem;
+    width: 8rem;
+}
+
+.artist {
+    margin: 0;
+    color: rgba(240, 248, 255, 0.6);
+    font-size: 0.8rem;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+}
+
+.sliderRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 400px;
+    margin-top: 1.5rem;
+}
+
+.time {
+    color: #fff;
+    font-size: 0.8rem;
+    width: 35px;
+    text-align: center;
+}
+
+.VolButton {
+    background-color: transparent;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+.volIcon {
+    width: 32px;
+    height: 32px;
+    margin-top: -1rem;
+}

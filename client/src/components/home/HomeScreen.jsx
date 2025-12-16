@@ -1,11 +1,14 @@
 import { useAuth } from '../../contexts/AuthContextWeb';
+import MiniPlayerSettings from "./MiniPlayerSettings"
 import AuthButton from '../buttons/AuthButton';
 import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
 import styles from "./homeScreen.module.css";
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 export default function HomeScreen() {
     const { user, token, logout } = useAuth();
+    const isMobile = useIsMobile();
 
     return (
         <div className={styles.container}>
@@ -17,6 +20,9 @@ export default function HomeScreen() {
                     <AuthButton title="Logout" loading={false} onClick={logout} />
                     <h3 className={styles.text2}>Your Playlists</h3>
                     <UserPlaylists token={token} />
+                    <h3 className={styles.text3}>Mini Player Settings</h3>
+                    {!isMobile ? <MiniPlayerSettings /> : <p className={styles.notAvailable}>Mini Player is not available in Mobile View</p>}
+
                 </div>
             )}
         </div>

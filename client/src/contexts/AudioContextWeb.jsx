@@ -111,6 +111,8 @@ export const AudioProvider = ({ children }) => {
     setPositionRealtime(pos);
   };
 
+  console.log(playlistName)
+
   return (
     <AudioContext.Provider
       value={{

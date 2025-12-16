@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { fetchSongs } from "../services/GetService"; // φαντάζομαι υπάρχει
+import { fetchSongs } from "../services/GetService";
 
 const LibraryContext = createContext();
 
@@ -13,7 +13,7 @@ export const LibraryProvider = ({ children }) => {
       if (saved) {
         setSongs(JSON.parse(saved));
       } else {
-        const data = await fetchSongs(); // fetch από API
+        const data = await fetchSongs();
         setSongs(data);
         localStorage.setItem("library/songs", JSON.stringify(data));
       }
