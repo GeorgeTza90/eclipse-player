@@ -10,7 +10,7 @@
     border: none;
     cursor: pointer;
     transition: opacity 0.2s ease;
-    width: 100%;
+    width: 25%;
 }
 
 .authButton:hover {

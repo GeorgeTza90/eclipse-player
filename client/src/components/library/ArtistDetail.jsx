@@ -34,8 +34,6 @@ export default function ArtistDetail() {
     const singlesEps = Categorizer(artistSongs, "single", "ep");
     const albums = Categorizer(artistSongs, "album");
 
-    console.log(artist.media.mail);
-
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -88,6 +86,13 @@ export default function ArtistDetail() {
             ) : (
                 <><p style={{ color: "#fff", padding: "10px" }}>No songs for this artist.</p></>
             )}
+
+            <button
+                onClick={() => { navigate(`/library`) }}
+                className={styles.backButton}
+            >
+                <img src={"/assets/icons/back.png"} alt={"back"} className={styles.icon} />
+            </button>
         </div >
     );
 }

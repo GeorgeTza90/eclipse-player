@@ -34,7 +34,6 @@ const SearchForm = () => {
 
         setSongs(filteredSongs);
         setArtists(filteredArtists);
-
     }, [searchKey, originalSongs, originalArtists, setSongs, setArtists]);
 
     return (

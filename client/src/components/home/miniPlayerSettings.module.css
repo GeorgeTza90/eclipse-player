@@ -41,6 +41,23 @@
 
 }
 
+.resetMPPosition {
+    width: 40px;
+    height: 22px;
+    border-radius: 30px;
+    background-color: #ccc;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #202020;
+    border: 1px solid rgb(126, 126, 126)
+}
+
+.resetMPPosition:hover {
+    background-color: #858585;
+    border: 1px solid rgb(255, 255, 255)
+}
+
 @media (max-width: 768px) {
     .container {
         margin-left: 1rem;

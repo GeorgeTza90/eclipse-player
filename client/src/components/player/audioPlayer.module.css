@@ -103,7 +103,6 @@
     border-color: #33333300;
 }
 
-
 .lyricsDiv {
     width: 30rem;
     margin-left: 50rem;
@@ -128,12 +127,20 @@
 
     .infoRow {
         margin-bottom: 2.5rem;
+        margin-left: 0.5rem;
     }
 
     .image {
         width: 100px;
         height: 100px;
         border-radius: 12px;
+    }
+
+    .title {
+        margin: 0;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        max-width: 15rem;
     }
 
     .sliderRow {

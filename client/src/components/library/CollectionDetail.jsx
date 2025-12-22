@@ -67,6 +67,13 @@ export default function CollectionDetail() {
                         )}
                     </div>
                 ))}
+
+                <button
+                    onClick={() => { navigate(`/library`) }}
+                    className={styles.backButton}
+                >
+                    <img src={"/assets/icons/back.png"} alt={"back"} className={styles.icon} />
+                </button>
             </div>
         </div>
     );

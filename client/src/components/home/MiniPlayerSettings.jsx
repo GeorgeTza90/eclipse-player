@@ -11,9 +11,12 @@ const MiniPlayerSettings = () => {
         showVolumeBar, setShowVolumeBar,
         transparency, setTransparency,
         showGlow, setShowGlow,
+        setPos, pos
     } = useMiniPlayer();
 
-    console.log(showTimeBar)
+    const posReset = () => {
+        setPos({ x: window.innerWidth * 60 / 100, y: window.innerHeight * 74 / 100 });
+    };
 
     return (
         <div className={styles.container}>
@@ -36,6 +39,8 @@ const MiniPlayerSettings = () => {
             <h4 className={styles.text1}>Show Glow</h4>
             <ToggleButton value={showGlow} onChange={setShowGlow} />
 
+            <h4 className={styles.text1}>Reset Position</h4>
+            <button onClick={posReset} className={styles.resetMPPosition} />
         </div>
     );
 };

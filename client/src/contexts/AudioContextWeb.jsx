@@ -95,7 +95,6 @@ export const AudioProvider = ({ children }) => {
     });
   };
 
-
   const previous = () => {
     if (!library.length) return;
     const prevIndex = (currentSongIndex - 1 + library.length) % library.length;
@@ -110,8 +109,6 @@ export const AudioProvider = ({ children }) => {
     audioRef.current.currentTime = pos;
     setPositionRealtime(pos);
   };
-
-  console.log(playlistName)
 
   return (
     <AudioContext.Provider
