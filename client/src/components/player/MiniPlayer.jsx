@@ -84,7 +84,7 @@ const MiniPlayer = () => {
                         width: 100,
                         height: 100,
                         cursor: "grab",
-                        opacity: transparency ? 0.6 : 1,
+                        opacity: transparency ? 0.7 : 1,
                     }}
                 >
                     <Circle size={circleSize} intensity={intensity * 0.4} heightOffset={6} shadowColor={showGlow ? shadowColor : "#000000ff"} left={circleLeft} top={circleTop} />
