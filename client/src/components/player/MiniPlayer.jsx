@@ -77,6 +77,12 @@ const MiniPlayer = () => {
                     onMouseDown={onMouseDown}
                     onMouseMove={onMouseMove}
                     onMouseUp={onMouseUp}
+                    onTouchStart={(e) => onMouseDown(e.touches[0])}
+                    onTouchMove={(e) => {
+                        e.preventDefault();
+                        onMouseMove(e.touches[0]);
+                    }}
+                    onTouchEnd={onMouseUp}
                     style={{
                         position: "fixed",
                         left: pos.x,
