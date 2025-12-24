@@ -11,26 +11,24 @@ export const LibraryProvider = ({ children }) => {
   useEffect(() => {
     const loadLibrary = async () => {
       try {
+        const [songsData, artistsData] = await Promise.all([
+          fetchSongs(),
+          fetchArtists(),
+        ]);
+
+        setSongs(songsData);
+        setArtists(artistsData);
+
+        localStorage.setItem("library/songs", JSON.stringify(songsData));
+        localStorage.setItem("library/artists", JSON.stringify(artistsData));
+      } catch (err) {
+        console.warn("Failed to load library:", err);
+
         const savedSongs = localStorage.getItem("library/songs");
         const savedArtists = localStorage.getItem("library/artists");
 
         if (savedSongs) setSongs(JSON.parse(savedSongs));
         if (savedArtists) setArtists(JSON.parse(savedArtists));
-
-        if (!savedSongs || !savedArtists) {
-          const [songsData, artistsData] = await Promise.all([
-            fetchSongs(),
-            fetchArtists(),
-          ]);
-
-          setSongs(songsData);
-          setArtists(artistsData);
-
-          localStorage.setItem("library/songs", JSON.stringify(songsData));
-          localStorage.setItem("library/artists", JSON.stringify(artistsData));
-        }
-      } catch (err) {
-        console.warn("Failed to load library:", err);
       } finally {
         setLoading(false);
       }
@@ -43,9 +41,9 @@ export const LibraryProvider = ({ children }) => {
     <LibraryContext.Provider
       value={{
         songs,
-        setSongs,        // ✅ RESTORED
+        setSongs,
         artists,
-        setArtists,      // ✅ RESTORED
+        setArtists,
         loading,
       }}
     >
