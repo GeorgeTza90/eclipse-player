@@ -5,6 +5,7 @@ import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
 import styles from "./homeScreen.module.css";
 import { useIsMobile } from '../../hooks/useIsMobile';
+import Teaser from '../teasers/Teaser';
 
 export default function HomeScreen() {
     const { user, token, logout } = useAuth();
@@ -22,6 +23,7 @@ export default function HomeScreen() {
                     <UserPlaylists token={token} />
                     <h3 className={styles.text3}>Mini Player Settings</h3>
                     {!isMobile ? <MiniPlayerSettings /> : <p className={styles.notAvailable}>Mini Player is not available in Mobile View</p>}
+                    <Teaser link={`/library/CollectionDetail?album=${encodeURIComponent("No Gods In Heaven")}`} />
 
                 </div>
             )}
