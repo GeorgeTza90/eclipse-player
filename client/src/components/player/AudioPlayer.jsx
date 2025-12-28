@@ -91,7 +91,7 @@ export default function AudioPlayer({ onToggleLyrics }) {
         {/* Volume */}
         <div className={styles.sliderRow}>
           <button className={styles.VolButton} onClick={() => setVolume(0)}>
-            <img className={styles.volIcon} src="/assets/icons/volMin2.png" />
+            <img className={volume === 0 ? styles.volIconActive : styles.volIcon} src="/assets/icons/volMin2.png" />
           </button>
           <input
             type="range"
@@ -103,7 +103,7 @@ export default function AudioPlayer({ onToggleLyrics }) {
             style={volumeSliderStyle}
           />
           <button className={styles.VolButton} onClick={() => setVolume(1)}>
-            <img className={styles.volIcon} src="/assets/icons/volMax2.png" />
+            <img className={volume === 1 ? styles.volIconActive : styles.volIcon} src="/assets/icons/volMax2.png" />
           </button>
         </div>
 

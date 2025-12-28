@@ -6,8 +6,6 @@ import { formatTime } from "../../hooks/useFormatTime";
 import styles from "./miniPlayer.module.css";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 
-
-
 const MiniPlayer = () => {
     const {
         currentSong, isPlaying, position, duration, volume, togglePlay,
@@ -25,7 +23,6 @@ const MiniPlayer = () => {
     const [circleSize, setCircleSize] = useState(300);
     const [circleLeft, setCircleLeft] = useState(-100);
     const [circleTop, setCircleTop] = useState(-40);
-
 
     useEffect(() => {
         if (!showTimeBar && !showVolumeBar) {
@@ -94,7 +91,6 @@ const MiniPlayer = () => {
                     }}
                 >
                     <Circle size={circleSize} intensity={intensity * 0.4} heightOffset={6} shadowColor={showGlow ? shadowColor : "#000000ff"} left={circleLeft} top={circleTop} />
-
 
                     {/* Info */}
                     <div className={styles.container}>

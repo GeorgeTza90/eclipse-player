@@ -74,6 +74,22 @@
     width: 40px;
     height: 40px;
     align-self: center;
+    opacity: 60%;
+}
+
+.volIcon:hover {
+    opacity: 95%;
+}
+
+.volIconActive {
+    width: 40px;
+    height: 40px;
+    align-self: center;
+    opacity: 75%;
+}
+
+.volIconActive:hover {
+    opacity: 95%;
 }
 
 .time {

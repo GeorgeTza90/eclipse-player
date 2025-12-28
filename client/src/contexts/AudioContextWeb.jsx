@@ -23,6 +23,8 @@ export const AudioProvider = ({ children }) => {
   const [positionRealtime, setPositionRealtime] = useState(0);
   const audioRef = useRef(null);
 
+  const isInitialLoadRef = useRef(true);
+
   useEffect(() => {
     localStorage.setItem("audio_library", JSON.stringify(library));
   }, [library]);
@@ -45,24 +47,34 @@ export const AudioProvider = ({ children }) => {
   }, [volume]);
 
   useEffect(() => {
-    if (currentSong) {
-      if (!audioRef.current) audioRef.current = new Audio(currentSong.url);
-      else audioRef.current.src = currentSong.url;
+    if (!currentSong) return;
 
-      audioRef.current.volume = volume;
-      audioRef.current.play().catch(console.warn);
-
-      const updateTime = () => setPositionRealtime(audioRef.current?.currentTime ?? 0);
-      const handleEnded = () => next();
-
-      audioRef.current.addEventListener("timeupdate", updateTime);
-      audioRef.current.addEventListener("ended", handleEnded);
-
-      return () => {
-        audioRef.current?.removeEventListener("timeupdate", updateTime);
-        audioRef.current?.removeEventListener("ended", handleEnded);
-      };
+    if (!audioRef.current) {
+      audioRef.current = new Audio(currentSong.url);
+    } else {
+      audioRef.current.src = currentSong.url;
     }
+
+    audioRef.current.volume = volume;
+
+    if (!isInitialLoadRef.current) {
+      audioRef.current.play().catch(console.warn);
+    }
+
+    const updateTime = () =>
+      setPositionRealtime(audioRef.current?.currentTime ?? 0);
+
+    const handleEnded = () => next();
+
+    audioRef.current.addEventListener("timeupdate", updateTime);
+    audioRef.current.addEventListener("ended", handleEnded);
+
+    isInitialLoadRef.current = false;
+
+    return () => {
+      audioRef.current?.removeEventListener("timeupdate", updateTime);
+      audioRef.current?.removeEventListener("ended", handleEnded);
+    };
   }, [currentSong]);
 
   const playSong = (song, playlist, name = "") => {

@@ -5,7 +5,10 @@
     text-decoration: none;
     margin-top: 1%;
     opacity: 80%;
+}
 
+.videoLink:hover {
+    opacity: 90%;
 }
 
 .teaserVideo {
@@ -13,21 +16,12 @@
     height: 100%;
     object-fit: cover;
     pointer-events: none;
+    border-radius: 2rem;
 }
 
 @media (max-width: 768px) {
     .videoLink {
-        display: block;
-        width: 100%;
         height: 120px;
-        text-decoration: none;
         margin-top: 1%
-    }
-
-    .teaserVideo {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        pointer-events: none;
     }
 }

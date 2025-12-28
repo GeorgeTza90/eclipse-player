@@ -24,7 +24,6 @@ export default function HomeScreen() {
                     <h3 className={styles.text3}>Mini Player Settings</h3>
                     {!isMobile ? <MiniPlayerSettings /> : <p className={styles.notAvailable}>Mini Player is not available in Mobile View</p>}
                     <Teaser link={`/library/CollectionDetail?album=${encodeURIComponent("No Gods In Heaven")}`} />
-
                 </div>
             )}
         </div>
