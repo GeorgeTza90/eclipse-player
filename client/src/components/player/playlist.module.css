@@ -8,7 +8,7 @@
 
 .heading {
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 1rem;
     text-align: center;
@@ -21,6 +21,7 @@
     max-height: 400px;
     overflow-y: auto;
     padding-right: 5px;
+    padding-bottom: 2.5rem;
 }
 
 .list::-webkit-scrollbar {
