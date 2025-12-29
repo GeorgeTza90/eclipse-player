@@ -28,8 +28,7 @@
 
 @media (max-width: 768px) {
     .container {
-        margin-top: 50px;
-        margin-left: 2rem;
+        margin-top: 10px;
     }
 
     .notAvailable {
