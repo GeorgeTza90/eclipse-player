@@ -25,6 +25,7 @@
     max-height: 400px;
     overflow-y: auto;
     width: 100%;
+    padding-bottom: 4.5rem;
 }
 
 .list::-webkit-scrollbar {
