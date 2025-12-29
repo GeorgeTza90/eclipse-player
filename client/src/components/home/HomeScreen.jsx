@@ -13,6 +13,9 @@ export default function HomeScreen() {
 
     return (
         <div className={styles.container}>
+            <div style={{ display: 'none' }}>
+                Eclipse Player is an online music player that lets you play playlists and stream Neperia and more content easily on any device.
+            </div>
             {!user && <AuthCard />}
 
             {user && token && (
