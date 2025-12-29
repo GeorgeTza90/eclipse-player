@@ -3,7 +3,7 @@
     max-width: 600px;
     margin: 120px auto 0 auto;
     position: absolute;
-    top: 500px;
+    top: 450px;
 }
 
 .heading {
@@ -82,6 +82,7 @@
         width: 100%;
         max-width: 400px;
         margin: -30px auto 0 auto;
+        top: 500px;
     }
 
     .songItem {

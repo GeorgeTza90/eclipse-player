@@ -139,6 +139,13 @@ export default function PlaylistDetail() {
                     </Droppable>
                 </DragDropContext>
             )}
+
+            <button
+                onClick={() => { navigate(`/`) }}
+                className={styles.backButton}
+            >
+                <img src={"/assets/icons/back.png"} alt={"back"} className={styles.icon} />
+            </button>
         </div>
     );
 }

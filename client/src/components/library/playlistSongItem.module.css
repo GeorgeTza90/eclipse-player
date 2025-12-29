@@ -16,6 +16,7 @@
     color: #fff;
     flex-shrink: 0;
     margin-right: 8px;
+    max-width: 20rem;
 }
 
 .songIndex {
@@ -34,6 +35,7 @@
 }
 
 .tickerContainer {
+    margin-left: 0.5rem;
     display: flex;
     width: 100%;
 }
@@ -71,7 +73,8 @@
     .songTitle {
         color: #fff;
         flex-shrink: 0;
-        margin-right: 8px;
+        margin-right: 6px;
+        max-width: 8.5rem;
     }
 
     .tickerContainer {
@@ -87,7 +90,7 @@
         padding-left: 100%;
         animation: scroll 10s linear infinite;
         color: #928989;
-        font-size: 12px;
+        font-size: 11px;
     }
 
     @keyframes scroll {

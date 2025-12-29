@@ -8,7 +8,7 @@ export default function Playlist({ name = "Playlist" }) {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.heading}>{currentName}</h3>
+      <h3 className={styles.heading}>{currentName} - Playlist</h3>
       <div className={styles.list}>
         {library.map((item) => (
           <div
