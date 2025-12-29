@@ -81,7 +81,7 @@
 @media (max-width: 768px) {
     .container {
         width: 100%;
-        max-width: 400px;
+        max-width: 370px;
         margin: -30px auto 0 auto;
         top: 500px;
     }
@@ -119,8 +119,9 @@
 
     .list {
         gap: 0.3rem;
-        max-height: 300px;
+        max-height: 250px;
         padding-right: 5px;
+        margin-bottom: 0.1rem;
     }
 
     .songImage {

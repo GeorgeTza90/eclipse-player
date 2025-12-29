@@ -51,8 +51,8 @@ export default function AudioPlayer({ onToggleLyrics }) {
   return (
     <div className={styles.container}>
       {/* Circles */}
-      <Circle size={isMobile ? 400 : 600} top={isMobile ? 120 : 150} intensity={isMobile ? intensity * 0.6 : intensity} heightOffset={8} shadowColor={shadowColor} />
-      <Circle size={isMobile ? 250 : 300} top={isMobile ? 550 : 800} intensity={intensity * 0.5} heightOffset={6} shadowColor={shadowColor} color2="#0e0e0eff" color1="#1b1a1aff" />
+      <Circle size={isMobile ? 350 : 600} top={isMobile ? 120 : 150} intensity={isMobile ? intensity * 0.6 : intensity} heightOffset={8} shadowColor={shadowColor} />
+      <Circle size={isMobile ? 225 : 300} top={isMobile ? 550 : 800} intensity={intensity * 0.5} heightOffset={6} shadowColor={shadowColor} color2="#0e0e0eff" color1="#1b1a1aff" />
 
       {/* Player UI */}
       <div className={styles.playerContent}>
