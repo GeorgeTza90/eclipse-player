@@ -5,6 +5,7 @@ import PlayButton from "../buttons/PlayButton";
 import { formatTime } from "../../hooks/useFormatTime";
 import styles from "./audioPlayer.module.css";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import VolButton from "../buttons/VolButton";
 
 export default function AudioPlayer({ onToggleLyrics }) {
   const {
@@ -61,6 +62,9 @@ export default function AudioPlayer({ onToggleLyrics }) {
           {currentSong?.image && <img src={currentSong.image} alt={currentSong.title} className={styles.image} />}
           <div>
             <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
+            {currentSong.feature && (
+              <span className={styles.trackFeature}>{`(feat. ${currentSong.feature})`}</span>
+            )}
             <p className={styles.artist}>{currentSong?.artist || "Artist Name"}</p>
           </div>
         </div>
@@ -71,7 +75,7 @@ export default function AudioPlayer({ onToggleLyrics }) {
           <PlayButton type="stop" onClick={stop} />
           <PlayButton type={isPlaying ? "pause" : "play"} onClick={togglePlay} />
           <PlayButton type="next" onClick={next} />
-        </div>
+        </div><br />
 
         {/* Time Slider */}
         <div className={styles.sliderRow}>

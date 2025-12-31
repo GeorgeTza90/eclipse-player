@@ -4,7 +4,8 @@ import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { fetchArtist } from "../../services/GetService";
 import styles from "./artistDetail.module.css";
 import Categorizer from "../../utils/songsCetegorizer";
-import CollectionCard from "./CollectionCard";
+import LibraryGroupItem from "../ui/LibraryGroupItem";
+import BackButton from "../buttons/BackButton";
 
 export default function ArtistDetail() {
     const [artist, setArtist] = useState(null);
@@ -57,42 +58,14 @@ export default function ArtistDetail() {
                 <div className={styles.songsContainer}>
                     <button className={groupsKind === "singlesEps" ? styles.groupsKindButtonClicked : styles.groupsKindButton} onClick={() => setGroupKind("singlesEps")}>Singles & EPs</button>
                     <button className={groupsKind === "albums" ? styles.groupsKindButtonClicked : styles.groupsKindButton} onClick={() => setGroupKind("albums")}>Albums</button>
-
-                    {groupsKind === "singlesEps" &&
-                        <div className={styles.horizontalScroll}>
-                            {singlesEps.map((item) => (
-                                <CollectionCard
-                                    key={item.id}
-                                    item={item}
-                                    type={"song"}
-                                    onClick={() => navigate(`/library/CollectionDetail?album=${encodeURIComponent(item.album)}`)}
-                                />
-                            ))}
-                        </div>
-                    }
-                    {groupsKind === "albums" &&
-                        <div className={styles.horizontalScroll}>
-                            {albums.map((item) => (
-                                <CollectionCard
-                                    key={item.album}
-                                    item={item}
-                                    type={"song"}
-                                    onClick={() => navigate(`/library/CollectionDetail?album=${encodeURIComponent(item.album)}`)}
-                                />
-                            ))}
-                        </div>
-                    }
+                    {groupsKind === "singlesEps" && <LibraryGroupItem type="Singles & EPs" group={singlesEps} />}
+                    {groupsKind === "albums" && <LibraryGroupItem type="Albums" group={albums} />}
                 </div>
             ) : (
                 <><p style={{ color: "#fff", padding: "10px" }}>No songs for this artist.</p></>
             )}
 
-            <button
-                onClick={() => { navigate(`/library`) }}
-                className={styles.backButton}
-            >
-                <img src={"/assets/icons/back.png"} alt={"back"} className={styles.icon} />
-            </button>
+            <BackButton navTo={`/library`} />
         </div >
     );
 }

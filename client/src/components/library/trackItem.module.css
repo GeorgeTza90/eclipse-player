@@ -1,0 +1,57 @@
+.track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* key for left-right layout */
+    padding: 10px 10px;
+    min-height: 2.2rem;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+}
+
+.trackLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* space between number, title, feature */
+}
+
+.trackRight {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* space between duration and button */
+}
+
+.trackNumber {
+    color: #888;
+    width: 25px;
+}
+
+.trackTitle {
+    color: #fff;
+}
+
+.trackFeature {
+    font-size: 0.9rem;
+    color: #ffffff96;
+}
+
+.trackDuration {
+    color: #888;
+    width: 50px;
+    text-align: right;
+}
+
+.track:hover {
+    background: linear-gradient(to right, #252525, #111112f1);
+    border-radius: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .track {
+        padding: 6px 0px;
+        font-size: 14px;
+        max-width: 360px;
+    }
+}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import styles from "./searchForm.module.css";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
+import SearchInput from "../inputs/SearchInput";
 
 const SearchForm = () => {
     const [searchKey, setSearchKey] = useState("");
@@ -36,17 +36,13 @@ const SearchForm = () => {
         setArtists(filteredArtists);
     }, [searchKey, originalSongs, originalArtists, setSongs, setArtists]);
 
-    return (
-        <div className={styles.container}>
-            <input
-                type="text"
-                placeholder="Wanna Search?"
-                value={searchKey}
-                onChange={(e) => setSearchKey(e.target.value)}
-                className={styles.input}
-            />
-        </div>
-    );
+    return (<>
+        <SearchInput
+            placeholder="Wanna Search?"
+            value={searchKey}
+            onChange={(e) => setSearchKey(e.target.value)}
+        />
+    </>);
 };
 
 export default SearchForm;

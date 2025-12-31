@@ -7,12 +7,8 @@ import { useAudio } from "../../contexts/AudioContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { SongRow } from "./PlaylistSongItem";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
-
-import {
-    DragDropContext,
-    Droppable,
-    Draggable
-} from "@hello-pangea/dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import BackButton from "../buttons/BackButton";
 
 export default function PlaylistDetail() {
     const location = useLocation();
@@ -140,12 +136,7 @@ export default function PlaylistDetail() {
                 </DragDropContext>
             )}
 
-            <button
-                onClick={() => { navigate(`/`) }}
-                className={styles.backButton}
-            >
-                <img src={"/assets/icons/back.png"} alt={"back"} className={styles.icon} />
-            </button>
+            <BackButton navTo={`/`} />
         </div>
     );
 }

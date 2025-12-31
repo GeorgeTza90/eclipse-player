@@ -51,40 +51,20 @@ export const MiniPlayerProvider = ({ children }) => {
     const onMouseUp = () => setDragging(false);
 
     /* ---------------- LOCAL STORAGE ---------------- */
-    useEffect(() => {
-        localStorage.setItem("miniPlayer_showImage", showImage);
-    }, [showImage]);
-
-    useEffect(() => {
-        localStorage.setItem("miniPlayer_showMiniPlayer", showMiniPlayer);
-    }, [showMiniPlayer]);
-
-    useEffect(() => {
-        localStorage.setItem("miniPlayer_showTimeBar", showTimeBar);
-    }, [showTimeBar]);
-
-    useEffect(() => {
-        localStorage.setItem("miniPlayer_showVolumeBar", showVolumeBar);
-    }, [showVolumeBar]);
-
-    useEffect(() => {
-        localStorage.setItem("miniPlayer_showGlow", showGlow);
-    }, [showGlow]);
-
-    useEffect(() => {
-        localStorage.setItem("miniPlayer_transparency", transparency);
-    }, [transparency]);
-
-    useEffect(() => {
-        localStorage.setItem("miniPlayer_position", JSON.stringify(pos));
-    }, [pos]);
+    useEffect(() => setJSON("miniPlayer_showImage", showImage), [showImage]);
+    useEffect(() => setJSON("miniPlayer_showMiniPlayer", showMiniPlayer), [showMiniPlayer]);
+    useEffect(() => setJSON("miniPlayer_showTimeBar", showTimeBar), [showTimeBar]);
+    useEffect(() => setJSON("miniPlayer_showVolumeBar", showVolumeBar), [showVolumeBar]);
+    useEffect(() => setJSON("miniPlayer_showGlow", showGlow), [showGlow]);
+    useEffect(() => setJSON("miniPlayer_transparency", transparency), [transparency]);
+    useEffect(() => setJSON("miniPlayer_position", pos), [pos]);
 
     return (
         <MiniPlayerContext.Provider
             value={{
                 pos, setPos, dragging, setDragging, rel, setRel, onMouseDown, onMouseMove, onMouseUp,
-                showImage, setShowImage, showMiniPlayer, setShowMiniPlayer, showTimeBar, setShowTimeBar, showVolumeBar,
-                setShowVolumeBar, showGlow, setShowGlow, transparency, setTransparency,
+                showImage, setShowImage, showMiniPlayer, setShowMiniPlayer, showTimeBar, setShowTimeBar,
+                showVolumeBar, setShowVolumeBar, showGlow, setShowGlow, transparency, setTransparency,
             }}
         >
             {children}

@@ -1,15 +1,25 @@
 .songRow {
     display: flex;
     align-items: center;
-    padding: 8px 0;
+    padding: 12px 0;
     border-bottom: 1px solid #333;
     cursor: pointer;
     border-radius: 1rem;
 }
 
+.titleRow {
+    min-width: 15rem;
+    max-width: 20rem;
+}
+
 .text {
     color: #888;
     margin: 0 4px;
+}
+
+.trackfeature {
+    font-size: 0.9rem;
+    color: #ffffff96;
 }
 
 .songTitle {
@@ -57,13 +67,20 @@
 
 @media (max-width: 768px) {
     .songRow {
+        max-width: 380px;
         display: flex;
         align-items: center;
-        padding: 8px 0;
+        padding: 10px 0px;
         border-bottom: 1px solid #333;
         cursor: pointer;
         font-size: 0.75rem;
     }
+
+    .titleRow {
+        min-width: 8rem;
+        max-width: 12rem;
+    }
+
 
     .text {
         color: #888;

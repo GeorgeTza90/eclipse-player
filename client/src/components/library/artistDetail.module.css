@@ -3,35 +3,6 @@
     margin-top: 10%;
 }
 
-.songsContainer {
-    margin-top: 4rem;
-    padding: 10px;
-    margin-left: 0.5rem;
-}
-
-.categoryTitle {
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 10px;
-    margin-top: 20px;
-}
-
-.horizontalScroll {
-    display: flex;
-    overflow-x: auto;
-    gap: 15px;
-    padding-bottom: 20px;
-}
-
-.loadingContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
 .header {
     display: flex;
     margin-bottom: 20px;
@@ -64,59 +35,27 @@
     font-size: 14px;
 }
 
-.list {
+.categoryTitle {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
     margin-top: 20px;
 }
 
-.track {
+.horizontalScroll {
     display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 20px;
+}
+
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 10px 10px;
-    border-bottom: 1px solid #333;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.trackNumber {
-    color: #888;
-    width: 25px;
-}
-
-.trackTitle {
-    color: #fff;
-    flex: 1;
-}
-
-.trackDuration {
-    color: #888;
-    width: 50px;
-    text-align: right;
-}
-
-.groupsKindButton {
-    cursor: pointer;
-    background-color: #333;
-    border: transparent;
-    color: #d6d6d6;
-    font-size: small;
-    padding: 5px 10px;
-    margin: 20px 2px;
-    border-radius: 2rem;
-}
-
-.groupsKindButtonClicked {
-    background-color: #d3d3d3;
-    border: transparent;
-    color: #292929;
-    font-size: small;
-    font-weight: bolder;
-    padding: 5px 10px;
-    margin: 10px 2px;
-    border-radius: 2rem;
-}
-
-.groupsKindButton:hover {
-    background-color: #646060;
+    height: 100vh;
 }
 
 .contactInfo {
@@ -163,36 +102,38 @@
     background-image: url("/assets/icons/mail.png");
 }
 
-.track:hover {
-    background-color: #333;
-    border-radius: 0.5rem;
+.songsContainer {
+    margin-top: 4rem;
+    padding: 10px;
+    margin-left: 0.5rem;
 }
 
-.backButton {
-    width: 80px;
-    height: 80px;
-    border-radius: 30px;
-    background-color: rgba(212, 212, 212, 0);
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.groupsKindButton {
     cursor: pointer;
+    background-color: #333;
+    border: transparent;
+    color: #d6d6d6;
+    font-size: small;
+    padding: 5px 10px;
+    margin: 20px 2px;
+    border-radius: 2rem;
 }
 
-.icon {
-    width: 35px;
-    height: 35px;
-    object-fit: contain;
-    opacity: 60%;
+.groupsKindButton:hover {
+    background-color: #646060;
 }
 
-.icon:hover {
-    width: 45px;
-    height: 45px;
-    opacity: 80%;
-    object-fit: contain;
+.groupsKindButtonClicked {
+    background-color: #d3d3d3;
+    border: transparent;
+    color: #292929;
+    font-size: small;
+    font-weight: bolder;
+    padding: 5px 10px;
+    margin: 10px 2px;
+    border-radius: 2rem;
 }
+
 
 @media (max-width: 768px) {
     .container {
@@ -202,40 +143,22 @@
         margin-left: -25px;
     }
 
-    .songsContainer {
-        margin-top: 2rem;
-        padding: 2px;
-        margin-left: 0rem;
-    }
-
-    .headerInfo {
-        width: 50%;
-    }
-
-    .horizontalScroll {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-    }
-
     .Image {
         width: 35%;
         height: 35%;
         max-width: 200px;
     }
 
+    .songsContainer {
+        margin-top: 2rem;
+        padding: 2px;
+        margin-left: 0rem;
+    }
+
     .artistName {
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 2px;
-    }
-
-    .track {
-        display: flex;
-        align-items: center;
-        padding: 5px 10px;
-        border-bottom: 1px solid #333;
-        cursor: pointer;
-        font-size: 14px;
     }
 
     .contactIcon {

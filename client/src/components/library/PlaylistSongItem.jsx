@@ -18,9 +18,13 @@ export const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
             )}
 
             {/* Title (clickable) */}
-            <span className={styles.songTitle} onClick={() => onPlay(item)}>
-                {item.title}
-            </span>
+            <div className={styles.titleRow}>
+                <span className={styles.songTitle} onClick={() => onPlay(item)}>{item.title}</span><br />
+                {item.feature && (
+                    <span className={styles.trackfeature}>{`(feat. ${item.feature})`}</span>
+                )}
+            </div>
+
             <span className={styles.text}> - </span>
 
             {/* Artist/Album ticker */}
@@ -38,12 +42,14 @@ export const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
             />
 
             {/* Duration */}
-            {typeof item.duration !== "undefined" && (
-                <span className={styles.trackDuration}>
-                    {Math.floor(item.duration / 60)}:
-                    {("0" + (item.duration % 60)).slice(-2)}
-                </span>
-            )}
-        </div>
+            {
+                typeof item.duration !== "undefined" && (
+                    <span className={styles.trackDuration}>
+                        {Math.floor(item.duration / 60)}:
+                        {("0" + (item.duration % 60)).slice(-2)}
+                    </span>
+                )
+            }
+        </div >
     );
 };

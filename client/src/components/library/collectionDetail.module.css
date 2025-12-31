@@ -38,6 +38,7 @@
 .artistInfo {
     color: #d6d6d6;
     font-size: 14px;
+    margin-left: -0.5rem;
 }
 
 .artirtButton {
@@ -52,62 +53,6 @@
 .artirtButton:hover {
     text-decoration: underline;
     color: #e6e6e6;
-}
-
-.track {
-    display: flex;
-    align-items: center;
-    padding: 10px 10px;
-    min-height: 2.2rem;
-    border-bottom: 1px solid #333;
-    cursor: pointer;
-}
-
-.trackNumber {
-    color: #888;
-    width: 25px;
-}
-
-.trackTitle {
-    color: #fff;
-    flex: 1;
-}
-
-.trackDuration {
-    color: #888;
-    width: 50px;
-    text-align: right;
-}
-
-.track:hover {
-    background: linear-gradient(to right, #252525, #111112f1);
-    border-radius: 0.5rem;
-}
-
-.backButton {
-    width: 80px;
-    height: 80px;
-    border-radius: 30px;
-    background-color: rgba(212, 212, 212, 0);
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.icon {
-    width: 35px;
-    height: 35px;
-    object-fit: contain;
-    opacity: 60%;
-}
-
-.icon:hover {
-    width: 45px;
-    height: 45px;
-    opacity: 80%;
-    object-fit: contain;
 }
 
 @media (max-width: 768px) {
@@ -136,15 +81,5 @@
         font-size: 15px;
         font-weight: bold;
         margin-bottom: 5px;
-    }
-
-    .track {
-        display: flex;
-        align-items: center;
-        padding: 5px 10px;
-        border-bottom: 1px solid #333;
-        cursor: pointer;
-        font-size: 14px;
-        ;
     }
 }

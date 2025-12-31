@@ -4,7 +4,9 @@ import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
 import AddToPlaylistButton from "../buttons/AddToPlaylistButton";
 import { useAuth } from "../../contexts/AuthContextWeb";
+import BackButton from "../buttons/BackButton";
 import styles from "./collectionDetail.module.css";
+import TrackItem from "./TrackItem";
 
 export default function CollectionDetail() {
     const { user } = useAuth();
@@ -48,32 +50,16 @@ export default function CollectionDetail() {
 
             <div>
                 {albumSongs.map((item, index) => (
-                    <div
+                    <TrackItem
                         key={item.id}
-                        onClick={() => handlePressSong(item)}
-                        className={styles.track}
-                    >
-                        <span className={styles.trackNumber}>{index + 1}.</span>
-                        <span className={styles.trackTitle}>{item.title}</span>
-                        {user && (
-                            <div className={{ marginLeft: "10px" }}>
-                                <AddToPlaylistButton song={item} />
-                            </div>
-                        )}
-                        {item.duration && (
-                            <span className={styles.trackDuration}>
-                                {Math.floor(item.duration / 60)}:{("0" + (item.duration % 60)).slice(-2)}
-                            </span>
-                        )}
-                    </div>
+                        track={item}
+                        index={index}
+                        onPress={handlePressSong}
+                        user={user}
+                    />
                 ))}
 
-                <button
-                    onClick={() => { navigate(`/library`) }}
-                    className={styles.backButton}
-                >
-                    <img src={"/assets/icons/back.png"} alt={"back"} className={styles.icon} />
-                </button>
+                <BackButton navTo={`/library`} />
             </div>
         </div>
     );

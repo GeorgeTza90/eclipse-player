@@ -1,51 +1,34 @@
 import { createContext, useState, useContext, useEffect, useRef } from "react";
+import { getJSON, setJSON } from "../utils/localStorageManager";
 
 const AudioContext = createContext(undefined);
 
 export const AudioProvider = ({ children }) => {
-  const [library, setLibrary] = useState(() => {
-    const saved = localStorage.getItem("audio_library");
-    return saved ? JSON.parse(saved) : [];
-  });
-  const [playlistName, setPlaylistName] = useState(() => localStorage.getItem("audio_playlistName") || "");
-  const [currentSongIndex, setCurrentSongIndex] = useState(() => {
-    const saved = localStorage.getItem("audio_currentSongIndex");
-    return saved ? Number(saved) : 0;
-  });
-  const [currentSong, setCurrentSong] = useState(() => {
-    const saved = localStorage.getItem("audio_currentSong");
-    return saved ? JSON.parse(saved) : null;
-  });
-  const [volume, setVolumeState] = useState(() => {
-    const saved = localStorage.getItem("audio_volume");
-    return saved ? Number(saved) : 1;
-  });
+  /* ---------------- PLAYER SETTINGS ---------------- */
+  const [library, setLibrary] = useState(() => getJSON("audio_library", []));
+  const [playlistName, setPlaylistName] = useState(() => getJSON("audio_playlistName", ""));
+  const [currentSongIndex, setCurrentSongIndex] = useState(() => getJSON("audio_currentSongIndex", 0));
+  const [currentSong, setCurrentSong] = useState(() => getJSON("audio_currentSong", null));
+  const [volume, setVolumeState] = useState(() => getJSON("audio_volume", 1));
   const [positionRealtime, setPositionRealtime] = useState(0);
   const audioRef = useRef(null);
-
   const isInitialLoadRef = useRef(true);
 
-  useEffect(() => {
-    localStorage.setItem("audio_library", JSON.stringify(library));
-  }, [library]);
+  /* ---------------- LOCAL STORAGE ---------------- */
+  useEffect(() => setJSON("audio_library", library), [library]);
+  useEffect(() => setJSON("audio_playlistName", playlistName), [playlistName]);
+  useEffect(() => setJSON("audio_currentSongIndex", currentSongIndex), [currentSongIndex]);
 
   useEffect(() => {
-    localStorage.setItem("audio_playlistName", playlistName);
-  }, [playlistName]);
-
-  useEffect(() => {
-    localStorage.setItem("audio_currentSongIndex", currentSongIndex);
-  }, [currentSongIndex]);
-
-  useEffect(() => {
-    if (currentSong) localStorage.setItem("audio_currentSong", JSON.stringify(currentSong));
+    if (currentSong) setJSON("audio_currentSong", currentSong)
   }, [currentSong]);
 
   useEffect(() => {
-    localStorage.setItem("audio_volume", volume);
+    setJSON("audio_volume", volume);
     if (audioRef.current) audioRef.current.volume = volume;
   }, [volume]);
 
+  /* ---------------- PLAYER FUNCTIONALITY ---------------- */
   useEffect(() => {
     if (!currentSong) return;
 

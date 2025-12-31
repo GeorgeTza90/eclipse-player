@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import Circle from "../ui/MiniPlayerCircle";
 import PlayButton from "../buttons/PlayButton";
 import { formatTime } from "../../hooks/useFormatTime";
 import styles from "./miniPlayer.module.css";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+import VolButton from "../buttons/VolButton";
 
 const MiniPlayer = () => {
     const {
@@ -23,6 +25,7 @@ const MiniPlayer = () => {
     const [circleSize, setCircleSize] = useState(300);
     const [circleLeft, setCircleLeft] = useState(-100);
     const [circleTop, setCircleTop] = useState(-40);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!showTimeBar && !showVolumeBar) {
@@ -98,6 +101,14 @@ const MiniPlayer = () => {
                             {currentSong?.image && showImage && <img src={currentSong.image} alt={currentSong.title} className={styles.image} />}
                             <div>
                                 <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
+                                {currentSong.feature && (
+                                    <div className={styles.tickerContainer}>
+                                        <div className={styles.tickerText}>
+                                            {`(feat. ${currentSong.feature})`}
+                                        </div>
+                                    </div>
+
+                                )}
                                 <p className={styles.artist}>{currentSong?.artist || "Artist Name"}</p>
                             </div>
                         </div>
@@ -131,9 +142,7 @@ const MiniPlayer = () => {
                         {/* Volume */}
                         {showVolumeBar &&
                             <div className={styles.sliderRow}>
-                                <button className={styles.VolButton} onClick={() => setVolume(0)}>
-                                    <img className={styles.volIcon} src="/assets/icons/volMin2.png" />
-                                </button>
+                                <VolButton type="Min" onClick={() => setVolume(0)} active={volume === 0 && true} />
                                 <input
                                     type="range"
                                     min={0}
@@ -143,11 +152,10 @@ const MiniPlayer = () => {
                                     onChange={(e) => setVolume(Number(e.target.value))}
                                     style={volumeSliderStyle}
                                 />
-                                <button className={styles.VolButton} onClick={() => setVolume(1)}>
-                                    <img className={styles.volIcon} src="/assets/icons/volMax2.png" />
-                                </button>
+                                <VolButton type="Max" onClick={() => setVolume(1)} active={volume === 1 && true} />
                             </div>
                         }
+                        <Link to="/player" className={styles.playerButton} />
                     </div>
                 </div>
             }
