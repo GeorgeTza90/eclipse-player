@@ -4,6 +4,7 @@
     top: 0;
     width: 100%;
     z-index: 99;
+    opacity: 88%;
 }
 
 .all {
@@ -38,7 +39,7 @@
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
-    transition: background-image 0.30s;
+    transition: 650ms;
     opacity: 50%;
 }
 
@@ -46,6 +47,7 @@
 .homeLogo:hover,
 .playerLogo:hover,
 .libraryLogo:hover {
+    transition: 350ms;
     opacity: 100%;
 }
 

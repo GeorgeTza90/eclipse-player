@@ -8,7 +8,8 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 
 function Player() {
     const isMobile = useIsMobile();
-    const { playlistName, currentSong } = useAudio();
+    const { playlistName, currentSong, volume } = useAudio();
+    const shadowColor = currentSong?.averageColor ?? "#bebebe";
     const [lyricsActive, setLyricsActive] = useState(false);
 
     const handleLyrics = (active) => {
@@ -18,7 +19,7 @@ function Player() {
     return (
         <div id="heading" style={{ display: "flex", justifyContent: "center" }}>
             <img src="/assets/images/logo.png" style={{ position: 'absolute', width: 180, top: isMobile ? 10 : 55 }} />
-            <Circle size={isMobile ? 400 : 1000} top={-isMobile ? -320 : -880} shadowColor="#201f1fff" color2="#0b0b0bff" color1="#1f1e1eff" />
+            <Circle size={isMobile ? 400 : 1000} top={-isMobile ? -320 : -880} shadowColor={shadowColor ? shadowColor : "#201f1fff"} intensity={volume * 15} color2="#0b0b0bff" color1="#1f1e1eff" />
 
             <AudioPlayer onToggleLyrics={handleLyrics} />
 

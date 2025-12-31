@@ -5,7 +5,6 @@ import PlayButton from "../buttons/PlayButton";
 import { formatTime } from "../../hooks/useFormatTime";
 import styles from "./audioPlayer.module.css";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import VolButton from "../buttons/VolButton";
 
 export default function AudioPlayer({ onToggleLyrics }) {
   const {
