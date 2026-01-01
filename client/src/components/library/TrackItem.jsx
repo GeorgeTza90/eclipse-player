@@ -9,10 +9,13 @@ export default function TrackItem({ track, index, onPress, user }) {
         <div key={track.id} onClick={() => onPress(track)} className={styles.track}>
             <div className={styles.trackLeft}>
                 <span className={styles.trackNumber}>{index + 1}.</span>
-                <span className={styles.trackTitle}>{track.title}</span>
-                {track.feature && (
-                    <span className={styles.trackFeature}>{`(feat. ${track.feature})`}</span>
-                )}
+                <div>
+                    <span className={styles.trackTitle}>{track.title}</span><br />
+                    {track.feature && (
+                        <span className={styles.trackFeature}>{`(feat. ${track.feature})`}</span>
+                    )}
+                </div>
+
             </div>
 
             <div className={styles.trackRight}>

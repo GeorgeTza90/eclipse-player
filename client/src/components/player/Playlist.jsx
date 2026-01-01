@@ -21,11 +21,11 @@ export default function Playlist({ name = "Playlist" }) {
                 <img src={item.image} alt={item.title} className={styles.songImage} />
               )}
               <div className={styles.songText}>
-                <p className={styles.title}>{item.title}
+                <span className={styles.title}>{item.title}<br />
                   {item.feature && (
                     <span className={styles.trackFeature}>{` (feat. ${item.feature})`}</span>
                   )}
-                </p>
+                </span>
                 <p className={styles.artist}>{item.artist}</p>
               </div>
             </div>

@@ -2,9 +2,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* key for left-right layout */
     padding: 10px 10px;
-    min-height: 2.2rem;
+    min-height: 2.5rem;
     border-bottom: 1px solid #333;
     cursor: pointer;
 }
@@ -12,20 +11,18 @@
 .trackLeft {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    /* space between number, title, feature */
+    gap: 0.2rem;
 }
 
 .trackRight {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    /* space between duration and button */
+    gap: 0rem;
 }
 
 .trackNumber {
     color: #888;
-    width: 25px;
+    width: 2rem;
 }
 
 .trackTitle {
@@ -33,7 +30,7 @@
 }
 
 .trackFeature {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     color: #ffffff96;
 }
 
@@ -52,6 +49,6 @@
     .track {
         padding: 6px 0px;
         font-size: 14px;
-        max-width: 360px;
+        max-width: 400px;
     }
 }
