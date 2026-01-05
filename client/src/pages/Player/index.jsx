@@ -12,7 +12,7 @@ function Player() {
     const shadowColor = currentSong?.averageColor ?? "#bebebe";
     const [lyricsActive, setLyricsActive] = useState(false);
 
-    console.log();
+    console.log
 
     const handleLyrics = (active) => {
         setLyricsActive(active);
