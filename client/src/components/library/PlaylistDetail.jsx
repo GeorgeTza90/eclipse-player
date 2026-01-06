@@ -66,7 +66,7 @@ export default function PlaylistDetail() {
             );
         } catch (err) {
             console.error("Failed to move song", err);
-            setSongs(songs); // revert
+            setSongs(songs);
             alert(err.message || "Failed to move song. Order reverted.");
         }
     };

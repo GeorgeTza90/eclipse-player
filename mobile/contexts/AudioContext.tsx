@@ -1,70 +1,126 @@
-import { useRouter } from 'expo-router';
-import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
-import { Song } from '@/types/songs';
-import { AudioContextType } from '@/types/audio';
+import React, { createContext, useState, useContext, ReactNode, useEffect, useRef } from "react";
+import { useRouter } from "expo-router";
+import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
+import { Song } from "@/types/songs";
+import { getJSON, setJSON } from "@/utils/localStorageManager";
+
+type AudioContextType = {
+  currentSong: Song | null;
+  isPlaying: boolean;
+  library: Song[];
+  playlistName: string;
+  duration: number;
+  position: number;
+  volume: number;
+  playSong: (song: Song, playlist?: Song[], name?: string) => void;
+  togglePlay: () => void;
+  stop: () => void;
+  next: () => void;
+  previous: () => void;
+  setVolume: (vol: number) => void;
+  seekTo: (posMs: number) => void;
+  setLibrary: (songs: Song[]) => void;
+};
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export const AudioProvider = ({ children }: { children: ReactNode }) => {
-  const [library, setLibrary] = useState<Song[]>([]);  
-  const [playlistName, setPlaylistName] = useState<string>("");
-  const [currentSongIndex, setCurrentSongIndex] = useState<number>(0);
+  /* ---------- STATE (persisted) ---------- */
+  const [library, setLibrary] = useState<Song[]>([]);
+  const [playlistName, setPlaylistName] = useState("");
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
-  const [volume, setVolumeState] = useState<number>(1);
+  const [volume, setVolumeState] = useState(1);
+
+  /* ---------- RUNTIME ---------- */
   const [positionRealtime, setPositionRealtime] = useState(0);
+  const isInitialLoadRef = useRef(true);
 
   const router = useRouter();
-  const player = useAudioPlayer(currentSong ? currentSong.url : null);
+  const player = useAudioPlayer(currentSong?.url ?? null);
   const status = useAudioPlayerStatus(player);
 
   const isPlaying = status?.playing ?? false;
   const duration = (player?.duration ?? 0) * 1000;
-  
+
+  /* ---------- RESTORE FROM STORAGE ---------- */
   useEffect(() => {
-    if (currentSong && player) {
-      try { player.play(); } 
-      catch (err) { console.warn('Audio play error:', err); }
+    (async () => {
+      setLibrary(await getJSON("audio_library", []));
+      setPlaylistName(await getJSON("audio_playlistName", ""));
+      setCurrentSongIndex(await getJSON("audio_currentSongIndex", 0));
+      setCurrentSong(await getJSON("audio_currentSong", null));
+      setVolumeState(await getJSON("audio_volume", 1));
+    })();
+  }, []);
+
+  /* ---------- PERSIST ---------- */
+  useEffect(() => { setJSON("audio_library", library); }, [library]);
+  useEffect(() => { setJSON("audio_playlistName", playlistName); }, [playlistName]);
+  useEffect(() => { setJSON("audio_currentSongIndex", currentSongIndex); }, [currentSongIndex]);
+  useEffect(() => { if (currentSong) setJSON("audio_currentSong", currentSong); }, [currentSong]);
+  useEffect(() => {
+    setJSON("audio_volume", volume);
+    if (player) player.volume = volume;
+  }, [volume, player]);
+
+  /* ---------- PLAYER INIT ---------- */
+  useEffect(() => {
+    if (!player || !currentSong) return;
+
+    if (!isInitialLoadRef.current) {
+      try {
+        player.play();
+      } catch (err) {
+        console.warn("Audio play error:", err);
+      }
     }
+
+    isInitialLoadRef.current = false;
   }, [currentSong, player]);
 
+  /* ---------- POSITION ---------- */
   useEffect(() => {
     if (!player) return;
 
-    const interval = setInterval(() => {
-      if (!player) return;
+    const id = setInterval(() => {
       setPositionRealtime((player.currentTime ?? 0) * 1000);
-    }, 250); 
+    }, 250);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(id);
   }, [player]);
 
-  const playSong = (song: Song, playlist?: Song[], name?: string) => {
+  /* ---------- AUTONEXT ---------- */
+  useEffect(() => {
+    if (
+      status &&
+      !status.playing &&
+      status.currentTime &&
+      status.duration &&
+      status.currentTime >= status.duration
+    ) {
+      next();
+    }
+  }, [status?.playing, status?.currentTime]);
+
+  /* ---------- ACTIONS ---------- */
+  const playSong = (song: Song, playlist?: Song[], name = "") => {
     if (!song) return;
 
     if (playlist) {
       setLibrary(playlist);
-      const index = playlist.findIndex((s) => s.id === song.id);
+      const index = playlist.findIndex(s => s.id === song.id);
       setCurrentSongIndex(index >= 0 ? index : 0);
-      if (name) setPlaylistName(name);
+      setPlaylistName(name);
     }
 
     setCurrentSong(song);
-
-    setTimeout(() => {
-      if (currentSong) router.push('/player');
-    }, 100);
-
-    setTimeout(() => {
-      try { player?.play() } 
-      catch (err) { console.warn('Audio play error:', err) }
-    }, 120);
+    router.push("/player");
   };
 
   const togglePlay = () => {
     if (!player) return;
-    if (isPlaying) player.pause();
-    else player.play();
+    isPlaying ? player.pause() : player.play();
   };
 
   const stop = () => {
@@ -87,23 +143,13 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     setCurrentSong(library[prevIndex]);
   };
 
-  const setVolume = (vol: number) => {
-    setVolumeState(vol);
-    if (player) player.volume = vol;
-  };
+  const setVolume = (vol: number) => setVolumeState(vol);
 
-  const seekTo = (positionMillis: number) => {
-    if (!player || duration <= 0) return;
-    player.seekTo(positionMillis / 1000);
-    setPositionRealtime(positionMillis);
+  const seekTo = (posMs: number) => {
+    if (!player) return;
+    player.seekTo(posMs / 1000);
+    setPositionRealtime(posMs);
   };
-  
-  useEffect(() => {
-    if (!status) return;
-    if (!status.playing && status.currentTime && status.duration && status.currentTime >= status.duration) {
-      next();
-    }
-  }, [status?.playing, status?.currentTime]);
 
   return (
     <AudioContext.Provider
@@ -112,16 +158,17 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
         isPlaying,
         library,
         playlistName,
+        duration,
+        volume,
+        position: positionRealtime,
         playSong,
         togglePlay,
         stop,
         next,
         previous,
         setVolume,
-        seekTo,        
-        position: positionRealtime, 
-        duration,
-        volume,
+        seekTo,
+        setLibrary,
       }}
     >
       {children}
@@ -130,7 +177,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useAudio = () => {
-  const context = useContext(AudioContext);
-  if (!context) throw new Error('useAudio must be used within AudioProvider');
-  return context;
+  const ctx = useContext(AudioContext);
+  if (!ctx) throw new Error("useAudio must be used within AudioProvider");
+  return ctx;
 };

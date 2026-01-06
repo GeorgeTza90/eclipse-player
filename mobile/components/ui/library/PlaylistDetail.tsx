@@ -72,10 +72,9 @@ export default function PlaylistDetail() {
     loadSongs();
   }, [id, token]);
   
-
   return (
     <View style={styles.container}>
-      <Text style={styles.playlistTitle}>{title}</Text>      
+      <Text style={styles.playlistTitle}>{title}</Text>
       {loading ? (
         <View style={styles.centered}>
           <ActivityIndicator size="large" color="#fff" />

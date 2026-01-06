@@ -77,10 +77,9 @@
     }
 
     .titleRow {
-        min-width: 8rem;
-        max-width: 12rem;
+        min-width: 4rem;
+        max-width: 8rem;
     }
-
 
     .text {
         color: #888;
@@ -92,6 +91,10 @@
         flex-shrink: 0;
         margin-right: 6px;
         max-width: 8.5rem;
+    }
+
+    .trackfeature {
+        animation: scroll 14s linear infinite;
     }
 
     .tickerContainer {

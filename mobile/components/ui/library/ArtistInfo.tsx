@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity, Linking, StyleSheet, ActivityIndicator, FlatList } from "react-native";
+import { View, Text, Image, ScrollView, TouchableOpacity, Linking, StyleSheet, ActivityIndicator } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useLibrary } from "../../../contexts/LibraryContext";
 import { fetchArtist } from "../../../services/api";
-import Categorizer from "../../../utils/songsCategorizer";
-import CollectionCard from "../library/CollectionCard";
+import { byYear } from "../../../utils/songsCetegorizer";
+import LibraryGroupItem from "./LibraryGroupItem";
 
 export default function ArtistDetail() {
   const [artist, setArtist] = useState<any>(null);
-  const [groupsKind, setGroupKind] = useState<"singlesEps" | "albums">("singlesEps");
-
+  const [groupsKind, setGroupKind] = useState<"Singles & EPs" | "Albums" | "Artists">("Singles & EPs");
   const { artist: artistName } = useLocalSearchParams();
   const { songs } = useLibrary();
   const router = useRouter();
@@ -37,16 +36,15 @@ export default function ArtistDetail() {
     );
 
   const artistSongs = songs.filter((s: any) => s.artist === artist.name);
-  const singlesEps = Categorizer(artistSongs, "single", "ep");
-  const albums = Categorizer(artistSongs, "album");
+  const singlesEps = byYear(songs, "single", "ep");
+  const albums = byYear(songs, "album");
 
   const openLink = (url?: string) => {
     if (url) Linking.openURL(url).catch((err) => console.error("Failed to open link", err));
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 10 }}>
-      <View style={styles.header}>
+    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 10 }}>      
         <View style={styles.headerInfo}>
             {artist.image_url && (
             <Image source={{ uri: encodeURI(artist.image_url) }} style={styles.artistImage} />
@@ -71,69 +69,28 @@ export default function ArtistDetail() {
             <TouchableOpacity onPress={() => openLink(artist.media?.mail)}>
                 <Image style={styles.contactIcon} source={require("@/assets/icons/mail.png")}/>
             </TouchableOpacity>
-          </View>
-        </View>
+          </View>        
       </View>
 
       {artistSongs.length > 0 ? (
-        <View style={styles.songsContainer}>
-            {/* Toggle buttons */}
+        <View style={styles.songsContainer}>            
             <View style={styles.toggleRow}>
                 <TouchableOpacity
-                    style={[ styles.toggleButton, groupsKind === "singlesEps" && styles.toggleButtonActive ]}
-                    onPress={() => setGroupKind("singlesEps")}
+                    style={[ styles.toggleButton, groupsKind === "Singles & EPs" && styles.toggleButtonActive ]}
+                    onPress={() => setGroupKind("Singles & EPs")}
                 >
                 <Text style={styles.toggleText}>Singles & EPs</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={[ styles.toggleButton, groupsKind === "albums" && styles.toggleButtonActive ]}
-                    onPress={() => setGroupKind("albums")}
+                    style={[ styles.toggleButton, groupsKind === "Albums" && styles.toggleButtonActive ]}
+                    onPress={() => setGroupKind("Albums")}
                 >
                 <Text style={styles.toggleText}>Albums</Text>
                 </TouchableOpacity>
             </View>
 
-            {groupsKind === "singlesEps" && (
-                <FlatList
-                    style={styles.songRow}
-                    data={singlesEps}
-                    keyExtractor={(item) => item.id}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                    <CollectionCard          
-                        songItem={item}
-                        onPress={() => router.push(`/library/CollectionDetail?album=${item.album}`)}
-                    />
-                    )}
-                    initialNumToRender={5}
-                    maxToRenderPerBatch={10}
-                    windowSize={5}
-                    removeClippedSubviews={false}
-                />
-            )}        
-            
-            {groupsKind === "albums" && (
-                <FlatList
-                    style={styles.songRow}
-                    data={albums}
-                    keyExtractor={(item) => item.album}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                    <CollectionCard
-                        songItem={item}
-                        onPress={() => router.push(`/library/CollectionDetail?album=${item.album}`)}
-                    />
-                    )}
-                    initialNumToRender={5}
-                    maxToRenderPerBatch={10}
-                    windowSize={5}
-                    removeClippedSubviews={false}
-                />
-            )}
-                
+              <LibraryGroupItem type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} title={false}/>
         </View>
       ) : (
         <Text style={styles.noSongs}>No songs for this artist.</Text>
@@ -144,8 +101,7 @@ export default function ArtistDetail() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: "#000", marginTop: 50 },
-    loadingText: { marginTop: 32, padding: 2, marginLeft: 0 },
-    header: {},
+    loadingText: { marginTop: 32, padding: 2, marginLeft: 0 },    
     artistImage: { width: 120, height: 120, borderRadius: 12 },
     headerInfo: { flex: 1, marginLeft: 15, justifyContent: 'center' },
     artistName: { color: '#fff', fontSize: 20, fontWeight: 'bold', marginBottom: 5 },
@@ -156,14 +112,7 @@ const styles = StyleSheet.create({
     toggleRow: { flexDirection: "row", justifyContent: "center", marginBottom: 16, gap: 8 },
     toggleButton: { paddingVertical: 8, paddingHorizontal: 16, borderRadius: 20, backgroundColor: "#222" },
     toggleButtonActive: { backgroundColor: "#444" },
-    toggleText: { color: "#fff" },
-    songRow: {height: "38%"},
-    categoryTitle: { fontSize: 20, fontWeight: "bold", color: "#fff", marginBottom: 10, marginTop: 10 },  
-    albumImage: { alignSelf: "center", width: "90%", height: undefined, aspectRatio: 1, borderRadius: 10, margin: 5 },
-    trackInfo: { paddingHorizontal: 5, marginTop: 5 },
-    trackTitle: { color: "#fff", fontWeight: "bold", fontSize: 16 },
-    trackArtist: { color: "#d6d6d6", fontSize: 14 },
-    trackAlbum: { color: "#a0a0a0", fontSize: 12 },
+    toggleText: { color: "#fff" }, 
     loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
     noSongs: { color: "#fff", textAlign: "center", marginVertical: 20 },
 });

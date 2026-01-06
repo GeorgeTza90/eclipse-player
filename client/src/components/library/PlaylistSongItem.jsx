@@ -20,9 +20,11 @@ export const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
             {/* Title (clickable) */}
             <div className={styles.titleRow}>
                 <span className={styles.songTitle} onClick={() => onPlay(item)}>{item.title}</span><br />
-                {item.feature && (
-                    <span className={styles.trackfeature}>{`(feat. ${item.feature})`}</span>
-                )}
+                <div className={styles.tickerContainer}>
+                    {item.feature && (
+                        <span className={styles.trackfeature}>{`(feat. ${item.feature})`}</span>
+                    )}
+                </div>
             </div>
 
             <span className={styles.text}> - </span>

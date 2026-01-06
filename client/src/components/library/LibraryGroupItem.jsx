@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import CollectionCard from "../library/CollectionCard";
+import CollectionCard from "./CollectionCard";
 import styles from "./libraryGroupItem.module.css";
 
 export default function LibraryGroupItem({ type, group }) {

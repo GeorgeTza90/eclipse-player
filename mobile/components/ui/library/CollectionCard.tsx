@@ -45,8 +45,7 @@ export default function CollectionCard({ songItem, artistItem, onPress }: Cards)
   </>);
 }
 
-const styles = StyleSheet.create({
-  
+const styles = StyleSheet.create({  
   trackContainer: { width: width * 0.25, height: 170, marginRight: 8, marginBottom: -40, borderRadius: 12, overflow: "hidden", backgroundColor: "#25252550", justifyContent: "flex-start", alignItems: "center", padding: 1},
   artistContainer: { width: width * 0.2, height: 120, marginRight: 12, borderRadius: 12, overflow: "hidden", backgroundColor: "transparent", justifyContent: "flex-start", alignItems: "center", padding: 10 },
   albumImage: { alignSelf: "center", width: "84%", height: undefined, aspectRatio: 1, borderRadius: 8, margin: 2 },

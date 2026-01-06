@@ -1,5 +1,5 @@
 // components/ui/player/Playlist.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { Image } from 'expo-image'
 import { useAudio } from '@/contexts/AudioContext';
@@ -7,7 +7,8 @@ import { useAudio } from '@/contexts/AudioContext';
 const { width, height } = Dimensions.get('window');
 
 export default function Playlist({ name = "Playlist" }) {
-  const { library, currentSong, playSong } = useAudio();  
+  const { library, currentSong, playSong } = useAudio();
+  const [playlistName, setPlaylistName] = useState(name);
 
   const renderItem = ({ item }: any) => (
     <TouchableOpacity
@@ -21,6 +22,9 @@ export default function Playlist({ name = "Playlist" }) {
           {item.image && <Image source={item.image} style={styles.songImage} />}
           <View style={styles.songText}>
               <Text style={styles.title}>{item.title}</Text>
+              {item.feature && (
+                <Text style={styles.trackFeature}>(feat. {item.feature})</Text>
+              )}
               <Text style={styles.artist}>{item.artist}</Text>
           </View>
         </View>
@@ -29,7 +33,7 @@ export default function Playlist({ name = "Playlist" }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>{name}</Text>
+      <Text style={styles.heading}>{playlistName} - Playlist</Text>
       <FlatList
         data={library}
         renderItem={renderItem}
@@ -43,13 +47,14 @@ export default function Playlist({ name = "Playlist" }) {
 }
 
 const styles = StyleSheet.create({
-  container: { width: width, height: height * 0.35, marginTop: 120, top: -40 },
+  container: { width: width, height: height * 0.365 },
   heading: { color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
   list: { flexGrow: 0 },
   listContent: { paddingBottom: 40 },
   songItem: { paddingVertical: 10, paddingHorizontal: 20, borderRadius: 15, backgroundColor: '#1e1e1e8d', marginVertical: 5, marginHorizontal: 20 },
   activeSongItem: { backgroundColor: '#414141c9' },
   title: { color: '#fff', fontWeight: 'bold' },
+  trackFeature: { fontSize: 12, color: "#ccc",  },
   artist: { color: '#aaa' },
   songRow: {  flexDirection: 'row', alignItems: 'center' },
   songText: { flex: 1, justifyContent: 'center' },

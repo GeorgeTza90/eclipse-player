@@ -21,7 +21,19 @@ export const SongRow: React.FC<SongRowProps> = ({ item, isActive, playlistId, ge
 
       {/* Image */}
       {item.image && <Image source={item.image} style={styles.songImage} />}
-      <Text style={styles.songTitle} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
+      <View style={styles.titleRow}>
+        <Text style={styles.songTitle} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
+        {item.feature && (
+          <TextTicker 
+            style={styles.tickerText}
+            duration={8000}
+            loop
+            bounce
+            repeatSpacer={50}
+            scrollSpeed={50}
+          >(feat. {item.feature})</TextTicker>
+        )}      
+      </View>      
       <Text style={styles.text}>  -  </Text>
 
       {/* Scrolling title/artist/album */}
@@ -56,12 +68,14 @@ export const SongRow: React.FC<SongRowProps> = ({ item, isActive, playlistId, ge
 };
 
 const styles = StyleSheet.create({
-  songRow: { flexDirection: "row", alignItems: "center", paddingVertical: 8, borderBottomColor: "#333", borderBottomWidth: 1 },
+  songRow: { flexDirection: "row", alignItems: "center", paddingVertical: 8, borderBottomColor: "#333", borderBottomWidth: 1, height: 60, width: "100%" },
   text: { color: "#888" },
+  titleRow: { width: 150},
   songTitle: { color: "#fff", flex: 0 },
+  trackFeature: { fontSize: 12, color: "#ccc", top: -5  },
   songIndex: { color: "#888", width: 18 },
   songImage: { width: 35, height: 35, borderRadius: 8, marginRight: 15 },
-  tickerContainer: { flex: 1, overflow: "hidden", justifyContent: "center" },
+  tickerContainer: { width: 100, overflow: "hidden", justifyContent: "center" },
   tickerText: { color: "#928989ff", fontSize: 12 },
   trackDuration: { color: "#888", width: 30, textAlign: "right" },
 });

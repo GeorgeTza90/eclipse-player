@@ -1,26 +1,14 @@
 import { useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import SearchForm from "./SearchForm";
 import styles from "./libraryScreen.module.css";
-import Categorizer from "../../utils/songsCetegorizer";
-import LibraryGroupItem from "../ui/LibraryGroupItem";
+import { byYear } from "../../utils/songsCetegorizer";
+import LibraryGroupItem from "./LibraryGroupItem";
 
 export default function LibraryScreen() {
-  const navigate = useNavigate();
   const { songs, artists, loading } = useLibrary();
-
-  const singlesEps = useMemo(() => {
-    return [...Categorizer(songs, "single", "ep")].sort(
-      (a, b) => Number(b.year ?? 0) - Number(a.year ?? 0)
-    );
-  }, [songs]);
-
-  const albums = useMemo(() => {
-    return [...Categorizer(songs, "album")].sort(
-      (a, b) => Number(b.year ?? 0) - Number(a.year ?? 0)
-    );
-  }, [songs]);
+  const singlesEps = useMemo(() => byYear(songs, "single", "ep"), [songs]);
+  const albums = useMemo(() => byYear(songs, "album"), [songs]);
 
   if (loading) {
     return (
@@ -39,4 +27,4 @@ export default function LibraryScreen() {
       <LibraryGroupItem type="Artists" group={artists} />
     </div>
   );
-}
+};

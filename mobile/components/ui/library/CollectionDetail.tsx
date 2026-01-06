@@ -29,7 +29,10 @@ export default function CollectionDetail() {
   const handlePressSong = (song: Song) => {    
     playSong(song, albumSongs, albumInfo.album);
     router.push("/player");
-  };  
+  };
+  const handlePressArtist = (artist: string) => {
+    router.push(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`)
+  }
 
   return (
     <View style={styles.container}>
@@ -40,9 +43,16 @@ export default function CollectionDetail() {
         <View style={styles.headerInfo}>
           <Text style={styles.type}>{albumInfo.type.toUpperCase()}</Text>
           <Text style={styles.albumName}>{albumInfo.album}</Text>
-          <Text style={styles.artistInfo}>
-            {albumInfo.artist} • {albumSongs.length} songs • {durationString}
-          </Text>
+          <View style={styles.infoRow}>
+          <TouchableOpacity onPress={() => handlePressArtist(albumInfo.artist)}>
+            <Text style={styles.artistInfo}>
+              {albumInfo.artist}
+            </Text>  
+            </TouchableOpacity>          
+            <Text style={styles.albumInfo}>
+              {" "} • {albumSongs.length} songs • {durationString}
+            </Text>
+          </View>          
         </View>
       </View>
 
@@ -50,18 +60,21 @@ export default function CollectionDetail() {
         data={albumSongs}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => (
-          <View style={styles.track}>
-            {/* Αυτό πατάει μόνο για play */}
+          <View style={styles.track}>            
             <TouchableOpacity style={styles.trackInfo} onPress={() => handlePressSong(item)}>
               <Text style={styles.trackNumber}>{index + 1}.</Text>
-              <Text style={styles.trackTitle}>{item.title}</Text>
+              <View>
+                <Text style={styles.trackTitle}>{item.title}</Text>
+                {item.feature && (
+                  <Text style={styles.trackFeature}>(feat. {item.feature})</Text>
+                )}                
+              </View>              
             </TouchableOpacity>
-
-            {/* Κουμπί AddToPlaylistButton */}
+            
             {user && (
-              <View style={styles.addButtonWrapper}>
+              <TouchableOpacity style={styles.addButtonWrapper}>
                 <AddToPlaylistButton song={item} />
-              </View>
+              </TouchableOpacity>
             )}
 
             {/* Duration */}
@@ -84,9 +97,12 @@ const styles = StyleSheet.create({
   headerInfo: { flex: 1, marginLeft: 15, justifyContent: "center" },
   type: { color: "#888", fontSize: 12, marginBottom: 5 },
   albumName: { color: "#fff", fontSize: 20, fontWeight: "bold", marginBottom: 5 },
-  artistInfo: { color: "#d6d6d6", fontSize: 14 },
-  track: { flexDirection: "row", alignItems: "center", paddingVertical: 5, borderBottomColor: "#333", borderBottomWidth: 1 },
-  trackInfo: { flex: 1, flexDirection: "row", alignItems: "center" },
+  infoRow: {flexDirection: "row"},
+  artistInfo: { color: "#d6d6d6", fontSize: 16, marginBottom: 10 },
+  albumInfo: { color: "#d6d6d6", fontSize: 14, marginTop: 3 },
+  track: { flexDirection: "row", alignItems: "center", paddingVertical: 5, borderBottomColor: "#333", borderBottomWidth: 1, minHeight: 50 },
+  trackFeature: { fontSize: 12, color: "#ccc", top: -5  },
+  trackInfo: { flex: 1, flexDirection: "row" },
   trackNumber: { color: "#888", width: 25 },
   trackTitle: { color: "#fff", flex: 1 },
   addButtonWrapper: { marginHorizontal: 10 },
