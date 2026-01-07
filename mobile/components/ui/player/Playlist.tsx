@@ -8,13 +8,15 @@ const { width, height } = Dimensions.get('window');
 export default function Playlist() {
   const { library, currentSong, playSong, playlistName } = useAudio();  
 
+  console.log(playlistName);
+
   const renderItem = ({ item }: any) => (
     <TouchableOpacity
       style={[
         styles.songItem,
         currentSong?.id === item.id && styles.activeSongItem
       ]}
-      onPress={() => playSong(item, library)}
+      onPress={() => playSong(item, library, playlistName)}
     >
         <View style={styles.songRow}>
           {item.image && <Image source={item.image} style={styles.songImage} />}

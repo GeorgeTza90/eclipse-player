@@ -127,7 +127,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       setLibrary(playlist);
       const index = playlist.findIndex(s => s.id === song.id);
       setCurrentSongIndex(index >= 0 ? index : 0);
-      setPlaylistName(name);
+      if (name) setPlaylistName(name);
     }
 
     setCurrentSong(song);
