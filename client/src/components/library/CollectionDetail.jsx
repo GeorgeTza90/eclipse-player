@@ -42,7 +42,9 @@ export default function CollectionDetail() {
                         <button
                             onClick={() => { navigate(`/library/ArtistInfo?artist=${encodeURIComponent(albumInfo.artist)}`) }}
                             className={styles.artirtButton}
-                        >{albumInfo.artist}</button>
+                        >
+                            {albumInfo.artist}
+                        </button>
                         • {albumSongs.length} songs • {durationString}
                     </p>
                 </div>

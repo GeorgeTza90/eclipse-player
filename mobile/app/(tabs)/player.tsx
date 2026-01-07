@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
+import { useAudio } from '@/contexts/AudioContext';
 import TabLayoutWrapper from '@/components/ui/TabLayoutWrapper';
 import AudioPlayer from '@/components/ui/player/AudioPlayer';
 import Playlist from '@/components/ui/player/Playlist';
 import Lyrics from '@/components/ui/player/Lyrics';
 import Circle from '@/components/ui/player/Circle';
-import { useAudio } from '@/contexts/AudioContext';
 
 const width = 250;
 
 export default function PlayerScreen() {
-  const { playlistName, currentSong, volume } = useAudio();  
+  const { currentSong } = useAudio();  
   const shadowColor = currentSong?.averageColor ?? '#bebebe';
   const [lyricsActive, setLyricsActive] = useState(false);
 
@@ -22,7 +22,7 @@ export default function PlayerScreen() {
   return (
     <TabLayoutWrapper title="">
       <View style={{ position: 'absolute', top: -440, left: -10, right: 0, bottom: 0, zIndex: 0 }}>
-        <Circle size={450} shadowColor="#3d3d3dff" color2 = "#0a0a0aff" color1 = "#1f1e1eff"/>
+        <Circle size={450} shadowColor={shadowColor} color2 = "#0a0a0aff" color1 = "#1f1e1eff"/>
       </View>
       
       <Image
@@ -34,9 +34,9 @@ export default function PlayerScreen() {
       <AudioPlayer onToggleLyrics={handleLyricsToggle} />
       
       {lyricsActive ? (
-        <Lyrics currentSong={currentSong} />
+        <Lyrics />
       ) : (
-        <Playlist name={playlistName || ''} />
+        <Playlist />
       )}
     </TabLayoutWrapper>
   );

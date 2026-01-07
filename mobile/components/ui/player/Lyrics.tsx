@@ -1,18 +1,12 @@
+import { useAudio } from '@/contexts/AudioContext';
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
 
-type Song = {
-  title: string;
-  lyrics?: string;
-};
-
-type LyricsProps = {
-  currentSong: Song | null;
-};
-
 const { width, height } = Dimensions.get('window');
 
-export default function Lyrics({ currentSong }: LyricsProps) {
+export default function Lyrics() {
+  const { currentSong } = useAudio();
+  
   if (!currentSong) {
     return (
       <View style={styles.noSongContainer}>

@@ -30,6 +30,7 @@ export default function CollectionDetail() {
     playSong(song, albumSongs, albumInfo.album);
     router.push("/player");
   };
+  
   const handlePressArtist = (artist: string) => {
     router.push(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`)
   }
@@ -44,10 +45,10 @@ export default function CollectionDetail() {
           <Text style={styles.type}>{albumInfo.type.toUpperCase()}</Text>
           <Text style={styles.albumName}>{albumInfo.album}</Text>
           <View style={styles.infoRow}>
-          <TouchableOpacity onPress={() => handlePressArtist(albumInfo.artist)}>
-            <Text style={styles.artistInfo}>
-              {albumInfo.artist}
-            </Text>  
+            <TouchableOpacity onPress={() => handlePressArtist(albumInfo.artist)}>
+              <Text style={styles.artistInfo}>
+                {albumInfo.artist}
+              </Text>  
             </TouchableOpacity>          
             <Text style={styles.albumInfo}>
               {" "} • {albumSongs.length} songs • {durationString}

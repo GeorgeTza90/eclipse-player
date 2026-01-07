@@ -5,6 +5,7 @@ import PlayButton from "../buttons/PlayButton";
 import { formatTime } from "../../hooks/useFormatTime";
 import styles from "./audioPlayer.module.css";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import { useNavigate } from "react-router-dom";
 
 export default function AudioPlayer({ onToggleLyrics }) {
   const {
@@ -16,6 +17,7 @@ export default function AudioPlayer({ onToggleLyrics }) {
   const [intensity, setIntensity] = useState(30);
   const [lyricsActive, setLyricsActive] = useState(false);
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   const handleLyrics = () => {
     const newState = !lyricsActive;
@@ -64,7 +66,14 @@ export default function AudioPlayer({ onToggleLyrics }) {
             {currentSong.feature && (
               <span className={styles.trackFeature}>{`(feat. ${currentSong.feature})`}</span>
             )}
-            <p className={styles.artist}>{currentSong?.artist || "Artist Name"}</p>
+            <p className={styles.artist}>
+              <button
+                className={styles.artirtButton}
+                onClick={() => currentSong && navigate(`/library/ArtistInfo?artist=${encodeURIComponent(currentSong.artist)}`)}
+              >
+                {currentSong?.artist || "Artist Name"}
+              </button>
+            </p>
           </div>
         </div>
 

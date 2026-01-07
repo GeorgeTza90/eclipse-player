@@ -83,25 +83,41 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!player) return;
 
-    const id = setInterval(() => {
-      setPositionRealtime((player.currentTime ?? 0) * 1000);
-    }, 250);
+    let isMounted = true;
 
-    return () => clearInterval(id);
-  }, [player]);
+    const updatePosition = () => {
+      if (!isMounted) return;
+      try {
+        if (player.currentTime != null) {
+          setPositionRealtime(player.currentTime * 1000);
+        }
+      } catch {
+        // 
+      }
+    };
+
+    const id = setInterval(updatePosition, 250);
+
+    return () => {
+      isMounted = false;
+      clearInterval(id);
+    };
+  }, [player, currentSong]);
 
   /* ---------- AUTONEXT ---------- */
   useEffect(() => {
-    if (
-      status &&
-      !status.playing &&
-      status.currentTime &&
-      status.duration &&
-      status.currentTime >= status.duration
-    ) {
-      next();
+    if (!status || !player) return;
+
+    if (!status.playing && status.currentTime != null && status.duration != null) {
+      if (status.currentTime >= status.duration) {
+        try {
+          next();
+        } catch {
+          //
+        }
+      }
     }
-  }, [status?.playing, status?.currentTime]);
+  }, [status?.playing, status?.currentTime, status?.duration]);
 
   /* ---------- ACTIONS ---------- */
   const playSong = (song: Song, playlist?: Song[], name = "") => {

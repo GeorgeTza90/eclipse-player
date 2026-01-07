@@ -1,14 +1,12 @@
-// components/ui/player/Playlist.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { Image } from 'expo-image'
 import { useAudio } from '@/contexts/AudioContext';
 
 const { width, height } = Dimensions.get('window');
 
-export default function Playlist({ name = "Playlist" }) {
-  const { library, currentSong, playSong } = useAudio();
-  const [playlistName, setPlaylistName] = useState(name);
+export default function Playlist() {
+  const { library, currentSong, playSong, playlistName } = useAudio();  
 
   const renderItem = ({ item }: any) => (
     <TouchableOpacity

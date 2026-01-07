@@ -11,6 +11,7 @@ export type Song = {
     averageColor?: string;
     playlistId?: string;
     feature?: string
+    lyrics?: string
 };
 
 export interface PlaylistSong extends Song {

@@ -6,6 +6,7 @@ import { useAudio } from "@/contexts/AudioContext";
 import PlayButton from "../buttons/PlayButtons";
 import Circle from "./Circle";
 import { formatTime } from "@/hooks/useFormatTime";
+import { useRouter } from "expo-router";
 
 type AudioPlayerProps = {
   onToggleLyrics?: (active: boolean) => void;
@@ -22,6 +23,7 @@ export default function AudioPlayer({ onToggleLyrics }: AudioPlayerProps) {
   const [lyricsActive, setLyricsActive] = useState(false);
   const shadowColor = currentSong?.averageColor ?? "#bebebe";
   const volMin = 0.000001;
+  const router = useRouter();
 
   useEffect(() => {
     setIntensity(volume * 30);
@@ -32,6 +34,10 @@ export default function AudioPlayer({ onToggleLyrics }: AudioPlayerProps) {
     setLyricsActive(newState);
     if (onToggleLyrics) onToggleLyrics(newState);
   };
+
+  const handlePressArtist = (artist: string) => {
+    router.push(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`)
+  }
 
   return (
     <View style={styles.container}>
@@ -58,7 +64,9 @@ export default function AudioPlayer({ onToggleLyrics }: AudioPlayerProps) {
               {currentSong?.feature && (
                 <Text style={styles.trackFeature}>(feat. {currentSong.feature})</Text>
               )}
-              <Text style={styles.artist}>{currentSong?.artist || "Artist Name"}</Text>
+              <TouchableOpacity onPress={() => currentSong && handlePressArtist(currentSong.artist)}>
+                <Text style={styles.artist}>{currentSong?.artist || "Artist Name"}</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
