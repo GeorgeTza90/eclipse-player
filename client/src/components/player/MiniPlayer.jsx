@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import Circle from "../ui/MiniPlayerCircle";
 import PlayButton from "../buttons/PlayButton";
@@ -15,7 +15,8 @@ const MiniPlayer = () => {
     } = useAudio();
 
     const {
-        pos, onMouseDown, onMouseMove, onMouseUp, showImage, showMiniPlayer, showTimeBar, showVolumeBar, transparency, showGlow,
+        pos, onMouseDown, onMouseMove, onMouseUp, showImage, showMiniPlayer,
+        showTimeBar, showVolumeBar, transparency, showGlow,
     } = useMiniPlayer();
 
     if (!currentSong) return null;
@@ -25,7 +26,8 @@ const MiniPlayer = () => {
     const [circleSize, setCircleSize] = useState(300);
     const [circleLeft, setCircleLeft] = useState(-100);
     const [circleTop, setCircleTop] = useState(-40);
-    const navigate = useNavigate();
+    const [sliderPosition, setSliderPosition] = useState(null);
+    const progress = duration ? (sliderPosition / duration) * 100 : 0;
 
     useEffect(() => {
         if (!showTimeBar && !showVolumeBar) {
@@ -47,6 +49,12 @@ const MiniPlayer = () => {
     }, [showVolumeBar, showTimeBar, showImage]);
 
     useEffect(() => {
+        if (position != null) {
+            setSliderPosition(position);
+        }
+    }, [position]);
+
+    useEffect(() => {
         setIntensity(volume * 30);
     }, [volume]);
 
@@ -55,7 +63,7 @@ const MiniPlayer = () => {
         WebkitAppearance: "none",
         height: "6px",
         borderRadius: "3px",
-        background: `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${position / (duration || 1) * 100}%, #555 ${position / (duration || 1) * 100}%)`,
+        background: `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
         outline: "none",
     };
 
@@ -107,7 +115,6 @@ const MiniPlayer = () => {
                                             {`(feat. ${currentSong.feature})`}
                                         </div>
                                     </div>
-
                                 )}
                                 <p className={styles.artist}>{currentSong?.artist || "Artist Name"}</p>
                             </div>
@@ -131,7 +138,7 @@ const MiniPlayer = () => {
                                     min={0}
                                     max={duration || 0}
                                     step="0.1"
-                                    value={position}
+                                    value={sliderPosition ?? 0}
                                     onChange={(e) => seekTo(Number(e.target.value))}
                                     style={sliderStyle}
                                 />
@@ -155,7 +162,7 @@ const MiniPlayer = () => {
                                 <VolButton type="Max" onClick={() => setVolume(1)} active={volume === 1 && true} />
                             </div>
                         }
-                        <Link to="/player" className={styles.playerButton} />
+                        <Link to="/player" className={!showVolumeBar || !showTimeBar || !showImage ? styles.smallPlayerButton : styles.playerButton} />
                     </div>
                 </div>
             }

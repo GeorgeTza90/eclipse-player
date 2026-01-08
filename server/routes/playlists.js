@@ -4,16 +4,21 @@ const {
     getPlaylists, createPlaylist, updatePlaylist, deletePlaylist,
     getPlaylistSongs, addSongToPlaylist, moveSongInPlaylist, deleteSongFromPlaylist
 } = require("../controllers/playlistController");
+const { createRateLimiter } = require('../middleware/rateLimiter');
 
 const router = express.Router();
 
 router.use(verifyToken);
 
+// Rate limiters (soft limit)
+const createPlaylistLimiter = createRateLimiter(1, 30);         // 30 / min
+const deletePlaylistLimiter = createRateLimiter(1, 30);         // 30 / min
+
 // Playlist CRUD
 router.get("/", getPlaylists);
-router.post("/", createPlaylist);
+router.post("/", createPlaylistLimiter, createPlaylist);
 router.put("/:id", updatePlaylist);
-router.delete("/:id", deletePlaylist);
+router.delete("/:id", deletePlaylistLimiter, deletePlaylist);
 
 // Playlist Songs
 router.get("/:playlistId/songs", getPlaylistSongs);

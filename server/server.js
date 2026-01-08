@@ -10,17 +10,16 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.set('trust proxy', 1);
 app.use(cors({
   origin: [
-    "http://localhost:5173",
-    "https://console.cloudinary.com",
+    "http://localhost:5173",    
     "https://eclipseplayer.netlify.app",
     "https://eclipseplayer.com"
   ],
   credentials: true
 }));
-
-app.use(express.json());
+app.use(express.json({ limit: '100kb' }));
 
 // Routes
 app.use('/api/auth', authRoutes);

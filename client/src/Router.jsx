@@ -7,6 +7,8 @@ import CollectionDetail from "./components/library/CollectionDetail";
 import PlaylistDetail from "./components/library/PlaylistDetail";
 import ResetPassword from "./components/home/ResetPassword";
 import ArtistDetail from "./components/library/ArtistDetail";
+import NotFound from "./pages/NotFound/index";
+
 
 
 function AppRouter() {
@@ -24,6 +26,8 @@ function AppRouter() {
                 <Route path="/library/CollectionDetail" element={<CollectionDetail />} />
                 <Route path="/library/PlaylistDetail" element={<PlaylistDetail />} />
                 <Route path="/library/ArtistInfo" element={<ArtistDetail />} />
+
+                <Route path="*" element={<NotFound />} />
 
             </Route>
         </Routes>

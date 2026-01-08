@@ -10,7 +10,7 @@ export const AudioProvider = ({ children }) => {
   const [currentSongIndex, setCurrentSongIndex] = useState(() => getJSON("audio_currentSongIndex", 0));
   const [currentSong, setCurrentSong] = useState(() => getJSON("audio_currentSong", null));
   const [volume, setVolumeState] = useState(() => getJSON("audio_volume", 1));
-  const [positionRealtime, setPositionRealtime] = useState(0);
+  const [positionRealtime, setPositionRealtime] = useState(() => getJSON("positionRealtime", 0));
   const audioRef = useRef(null);
   const isInitialLoadRef = useRef(true);
 
@@ -32,6 +32,8 @@ export const AudioProvider = ({ children }) => {
   useEffect(() => {
     if (!currentSong) return;
 
+    const savedPosition = parseFloat(getJSON("positionRealtime", 0)) || 0;
+
     if (!audioRef.current) {
       audioRef.current = new Audio(currentSong.url);
     } else {
@@ -39,13 +41,17 @@ export const AudioProvider = ({ children }) => {
     }
 
     audioRef.current.volume = volume;
+    audioRef.current.currentTime = savedPosition;
 
     if (!isInitialLoadRef.current) {
       audioRef.current.play().catch(console.warn);
     }
 
-    const updateTime = () =>
-      setPositionRealtime(audioRef.current?.currentTime ?? 0);
+    const updateTime = () => {
+      const pos = audioRef.current?.currentTime ?? 0;
+      setPositionRealtime(pos);
+      setJSON("positionRealtime", pos);
+    };
 
     const handleEnded = () => next();
 
@@ -68,6 +74,8 @@ export const AudioProvider = ({ children }) => {
       setPlaylistName(name);
     }
     setCurrentSong(song);
+    setPositionRealtime(0);
+    setJSON("positionRealtime", 0);
   };
 
   const togglePlay = () => {
@@ -86,6 +94,8 @@ export const AudioProvider = ({ children }) => {
     setCurrentSongIndex((index) => {
       const nextIndex = (index + 1) % library.length;
       setCurrentSong(library[nextIndex]);
+      setPositionRealtime(0);
+      setJSON("positionRealtime", 0);
       return nextIndex;
     });
   };
@@ -95,6 +105,8 @@ export const AudioProvider = ({ children }) => {
     const prevIndex = (currentSongIndex - 1 + library.length) % library.length;
     setCurrentSongIndex(prevIndex);
     setCurrentSong(library[prevIndex]);
+    setPositionRealtime(0);
+    setJSON("positionRealtime", 0);
   };
 
   const setVolume = (vol) => setVolumeState(vol);

@@ -50,6 +50,7 @@ export function encode(str) {
 }
 
 export function decode(str) {
+  if (str === null) return null;
   let out = "";
   for (const c of str) out += decodeMap.get(c) ?? c;
   return out;

@@ -74,7 +74,8 @@
     font-size: 0.75rem;
 }
 
-.playerButton {
+.playerButton,
+.smallPlayerButton {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -87,6 +88,10 @@
     cursor: pointer;
     opacity: 0.5;
     transition: 500ms;
+}
+
+.smallPlayerButton {
+    margin-top: 2rem;
 }
 
 .playerButton:hover {

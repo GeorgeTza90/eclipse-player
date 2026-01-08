@@ -15,7 +15,7 @@ function Home() {
 
     return (<>
         <div id="heading" style={{ display: "flex", justifyContent: "center", width: '100%' }}>
-            <img src="/assets/images/HomeLogo.png" style={{ position: 'absolute', width: 90, top: isMobile ? 10 : 60 }} />
+            <img src="/assets/images/logo.png" style={{ position: 'absolute', width: 180, top: isMobile ? 10 : 55 }} />
             <Circle size={isMobile ? 400 : 1000} top={-isMobile ? -320 : -880} shadowColor={"#201f1fff"} intensity={volume * 30} color2="#0b0b0bff" color1="#1f1e1eff" />
             <HomeScreen />
             {!isMobile && user && token && (<MiniPlayer />)}

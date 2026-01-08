@@ -4,37 +4,16 @@ import { getBool, getJSON, setBool, setJSON } from "../utils/localStorageManager
 const MiniPlayerContext = createContext(undefined);
 
 export const MiniPlayerProvider = ({ children }) => {
-
     /* ---------------- VISIBILITY SETTINGS ---------------- */
-    const [showImage, setShowImage] = useState(() =>
-        getBool("miniPlayer_showImage", true)
-    );
-
-    const [showMiniPlayer, setShowMiniPlayer] = useState(() =>
-        getBool("miniPlayer_showMiniPlayer", true)
-    );
-
-    const [showTimeBar, setShowTimeBar] = useState(() =>
-        getBool("miniPlayer_showTimeBar", true)
-    );
-
-    const [showVolumeBar, setShowVolumeBar] = useState(() =>
-        getBool("miniPlayer_showVolumeBar", true)
-    );
-
-    const [showGlow, setShowGlow] = useState(() =>
-        getBool("miniPlayer_showGlow", true)
-    );
-
-    const [transparency, setTransparency] = useState(() =>
-        getBool("miniPlayer_transparency", true)
-    );
+    const [showImage, setShowImage] = useState(() => getBool("miniPlayer_showImage", true));
+    const [showMiniPlayer, setShowMiniPlayer] = useState(() => getBool("miniPlayer_showMiniPlayer", true));
+    const [showTimeBar, setShowTimeBar] = useState(() => getBool("miniPlayer_showTimeBar", true));
+    const [showVolumeBar, setShowVolumeBar] = useState(() => getBool("miniPlayer_showVolumeBar", true));
+    const [showGlow, setShowGlow] = useState(() => getBool("miniPlayer_showGlow", true));
+    const [transparency, setTransparency] = useState(() => getBool("miniPlayer_transparency", true));
 
     /* ---------------- POSITION (DRAG) ---------------- */
-    const [pos, setPos] = useState(() =>
-        getJSON("miniPlayer_position", { x: 500, y: 850 })
-    );
-
+    const [pos, setPos] = useState(() => getJSON("miniPlayer_position", { x: 500, y: 850 }));
     const [dragging, setDragging] = useState(false);
     const [rel, setRel] = useState({ x: 0, y: 0 });
 
@@ -51,12 +30,12 @@ export const MiniPlayerProvider = ({ children }) => {
     const onMouseUp = () => setDragging(false);
 
     /* ---------------- LOCAL STORAGE ---------------- */
-    useEffect(() => setJSON("miniPlayer_showImage", showImage), [showImage]);
-    useEffect(() => setJSON("miniPlayer_showMiniPlayer", showMiniPlayer), [showMiniPlayer]);
-    useEffect(() => setJSON("miniPlayer_showTimeBar", showTimeBar), [showTimeBar]);
-    useEffect(() => setJSON("miniPlayer_showVolumeBar", showVolumeBar), [showVolumeBar]);
-    useEffect(() => setJSON("miniPlayer_showGlow", showGlow), [showGlow]);
-    useEffect(() => setJSON("miniPlayer_transparency", transparency), [transparency]);
+    useEffect(() => setBool("miniPlayer_showImage", showImage), [showImage]);
+    useEffect(() => setBool("miniPlayer_showMiniPlayer", showMiniPlayer), [showMiniPlayer]);
+    useEffect(() => setBool("miniPlayer_showTimeBar", showTimeBar), [showTimeBar]);
+    useEffect(() => setBool("miniPlayer_showVolumeBar", showVolumeBar), [showVolumeBar]);
+    useEffect(() => setBool("miniPlayer_showGlow", showGlow), [showGlow]);
+    useEffect(() => setBool("miniPlayer_transparency", transparency), [transparency]);
     useEffect(() => setJSON("miniPlayer_position", pos), [pos]);
 
     return (

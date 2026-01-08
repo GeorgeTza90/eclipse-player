@@ -16,6 +16,8 @@ export default function AudioPlayer({ onToggleLyrics }) {
   const shadowColor = currentSong?.averageColor ?? "#bebebe";
   const [intensity, setIntensity] = useState(30);
   const [lyricsActive, setLyricsActive] = useState(false);
+  const [sliderPosition, setSliderPosition] = useState(null);
+  const progress = duration ? (sliderPosition / duration) * 100 : 0;
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
@@ -29,6 +31,12 @@ export default function AudioPlayer({ onToggleLyrics }) {
   };
 
   useEffect(() => {
+    if (position != null) {
+      setSliderPosition(position);
+    }
+  }, [position]);
+
+  useEffect(() => {
     setIntensity(volume * 30);
   }, [volume]);
 
@@ -37,7 +45,7 @@ export default function AudioPlayer({ onToggleLyrics }) {
     WebkitAppearance: "none",
     height: "6px",
     borderRadius: "3px",
-    background: `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${position / (duration || 1) * 100}%, #555 ${position / (duration || 1) * 100}%)`,
+    background: `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
     outline: "none",
   };
 
@@ -93,7 +101,7 @@ export default function AudioPlayer({ onToggleLyrics }) {
             min={0}
             max={duration || 0}
             step="0.1"
-            value={position}
+            value={sliderPosition ?? 0}
             onChange={(e) => seekTo(Number(e.target.value))}
             style={sliderStyle}
           />
