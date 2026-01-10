@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect, useRef } from "react";
 import { useRouter } from "expo-router";
 import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
+import { Audio } from "expo-av";
 import { Song } from "@/types/songs";
 import { getJSON, setJSON } from "@/utils/localStorageManager";
 
@@ -42,6 +43,16 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 
   const isPlaying = status?.playing ?? false;
   const duration = (player?.duration ?? 0) * 1000;
+
+  /* ---------- BACKGROUND AUDIO ---------- */
+  useEffect(() => {
+    Audio.setAudioModeAsync({
+      staysActiveInBackground: true,
+      playsInSilentModeIOS: true,
+      shouldDuckAndroid: false,
+      playThroughEarpieceAndroid: false,
+    });
+  }, []);
 
   /* ---------- RESTORE FROM STORAGE ---------- */
   useEffect(() => {
