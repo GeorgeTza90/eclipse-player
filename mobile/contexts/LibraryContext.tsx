@@ -1,16 +1,9 @@
 import React, { createContext, useState, useEffect, useContext, ReactNode } from "react";
 import { Song } from "@/types/songs";
 import { Artist } from "@/types/artists";
+import { LibraryContextType } from "@/types/library";
 import { fetchSongs, fetchArtists } from "@/services/api";
 import { getJSON, setJSON } from "@/utils/localStorageManager";
-
-type LibraryContextType = {
-  songs: Song[];
-  artists: Artist[];
-  loading: boolean;
-  setSongs: (songs: Song[]) => void;
-  setArtists: (artists: Artist[]) => void;
-};
 
 const LibraryContext = createContext<LibraryContextType | undefined>(undefined);
 

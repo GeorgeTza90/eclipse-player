@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Pressable, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { Alert, Pressable, Text, StyleSheet, ActivityIndicator, View } from "react-native";
 import { useAuth } from "@/contexts/AuthContext";
 import { deletePlaylist as apiDeletePlaylist } from "@/services/api";
 import { DeletePlaylistButtonProps } from "@/types/buttons";
@@ -41,13 +41,17 @@ export default function DeletePlaylistButton({ playlistId, onDeleted }: DeletePl
   };
 
   return (
-    <Pressable onPress={confirmDelete} style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}>
-      {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.buttonText}>X</Text>}
-    </Pressable>
+    <View style={styles.container}>
+      <Pressable onPress={confirmDelete} style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}>
+        {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.buttonText}>X</Text>}
+      </Pressable>
+    </View>
+    
   );
 }
 
 const styles = StyleSheet.create({
-  button: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, marginLeft: 10 },
+  container: { marginLeft: "auto" },
+  button: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, alignItems: "center" },
   buttonText: { color: "#8b4646ff", fontWeight: "bold", fontSize: 14 },
 });

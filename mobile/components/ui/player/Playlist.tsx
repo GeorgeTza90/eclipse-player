@@ -6,9 +6,7 @@ import { useAudio } from '@/contexts/AudioContext';
 const { width, height } = Dimensions.get('window');
 
 export default function Playlist() {
-  const { library, currentSong, playSong, playlistName } = useAudio();  
-
-  console.log(playlistName);
+  const { library, currentSong, playSong, playlistName } = useAudio();    
 
   const renderItem = ({ item }: any) => (
     <TouchableOpacity

@@ -44,7 +44,7 @@ export default function AudioPlayer({ onToggleLyrics }: AudioPlayerProps) {
       {/* Big Circle */}
       <View style={{ position: "absolute", top: -190, left: -28, right: 0, zIndex: 0 }}>
         <Circle size={390} shadowColor={shadowColor} intensity={intensity} />
-      </View>
+      </View>      
 
       {/* Player Content */}
       <View style={styles.playerContent}>

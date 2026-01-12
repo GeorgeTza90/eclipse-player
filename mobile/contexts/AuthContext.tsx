@@ -1,13 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
-import { User } from "@/types/auth";
+import { User, AuthContextType } from "@/types/auth";
 import { getJSON, setJSON, removeItem } from "@/utils/localStorageManager";
-
-type AuthContextType = {
-  user: User | null;
-  token: string | null;
-  login: (userData: User, tokenData: string) => void;
-  logout: () => void;
-};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

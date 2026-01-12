@@ -1,31 +1,13 @@
-import React, { createContext, useState, useContext, ReactNode, useEffect, useRef } from "react";
-import { useRouter } from "expo-router";
-import { Audio } from "expo-av";
-import { Song } from "@/types/songs";
+import React, { createContext, useState, useContext, useEffect, useRef, ReactNode } from "react";
+import { Audio } from "expo-av"; // αν θέλεις SDK 54+, αντικατάστησε με expo-audio
 import { getJSON, setJSON } from "@/utils/localStorageManager";
-
-type AudioContextType = {
-  currentSong: Song | null;
-  isPlaying: boolean;
-  library: Song[];
-  playlistName: string;
-  duration: number;
-  position: number;
-  volume: number;
-  playSong: (song: Song, playlist?: Song[], name?: string) => void;
-  togglePlay: () => void;
-  stop: () => void;
-  next: () => void;
-  previous: () => void;
-  setVolume: (vol: number) => void;
-  seekTo: (posMs: number) => void;
-  setLibrary: (songs: Song[]) => void;
-};
+import { Song } from "@/types/songs";
+import { AudioContextType } from "@/types/audio";
+import { useRouter } from "expo-router";
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export const AudioProvider = ({ children }: { children: ReactNode }) => {
-  /* ---------- STATE ---------- */
   const [library, setLibrary] = useState<Song[]>([]);
   const [playlistName, setPlaylistName] = useState("");
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
@@ -36,10 +18,30 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const soundRef = useRef<Audio.Sound | null>(null);
-  const positionTimer = useRef<number | null>(null); // React Native: number, όχι NodeJS.Timeout
+  const isInitialLoadRef = useRef(true);
   const router = useRouter();
 
-  /* ---------- AUDIO MODE (background) ---------- */
+  /* ---------- RESTORE STATE ---------- */
+  useEffect(() => {
+    (async () => {
+      setLibrary(await getJSON<Song[]>("audio_library", []));
+      setPlaylistName(await getJSON<string>("audio_playlistName", ""));
+      setCurrentSongIndex(await getJSON<number>("audio_currentSongIndex", 0));
+      setCurrentSong(await getJSON<Song | null>("audio_currentSong", null));
+      setVolumeState(await getJSON<number>("audio_volume", 1));
+      setPosition(await getJSON<number>("positionRealtime", 0));
+    })();
+  }, []);
+
+  /* ---------- PERSIST STATE (inline async) ---------- */
+  useEffect(() => {(async()=>setJSON("audio_library", library))();}, [library]);
+  useEffect(() => {(async()=>setJSON("audio_playlistName", playlistName))();}, [playlistName]);
+  useEffect(() => {(async()=>setJSON("audio_currentSongIndex", currentSongIndex))();}, [currentSongIndex]);
+  useEffect(() => { if(currentSong) (async()=>setJSON("audio_currentSong", currentSong))(); }, [currentSong]);
+  useEffect(() => {(async()=>setJSON("audio_volume", volume))();}, [volume]);
+  useEffect(() => {(async()=>setJSON("positionRealtime", position))();}, [position]);
+
+  /* ---------- AUDIO MODE ---------- */
   useEffect(() => {
     Audio.setAudioModeAsync({
       staysActiveInBackground: true,
@@ -49,74 +51,52 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
-  /* ---------- RESTORE STATE ---------- */
-  useEffect(() => {
-    (async () => {
-      setLibrary(await getJSON("audio_library", []));
-      setPlaylistName(await getJSON("audio_playlistName", ""));
-      setCurrentSongIndex(await getJSON("audio_currentSongIndex", 0));
-      setCurrentSong(await getJSON("audio_currentSong", null));
-      setVolumeState(await getJSON("audio_volume", 1));
-    })();
-  }, []);
-
-  /* ---------- PERSIST STATE ---------- */
-  useEffect(() => { setJSON("audio_library", library); }, [library]);
-  useEffect(() => { setJSON("audio_playlistName", playlistName); }, [playlistName]);
-  useEffect(() => { setJSON("audio_currentSongIndex", currentSongIndex); }, [currentSongIndex]);
-  useEffect(() => { if (currentSong) setJSON("audio_currentSong", currentSong); }, [currentSong]);
-  useEffect(() => { setJSON("audio_volume", volume); }, [volume]);
-
-  /* ---------- LOAD & PLAY ---------- */
+  /* ---------- LOAD & PLAY CURRENT SONG ---------- */
   useEffect(() => {
     if (!currentSong) return;
 
+    let isCancelled = false;
+
     (async () => {
-      // unload previous sound
       if (soundRef.current) {
-        await soundRef.current.unloadAsync();
+        try { await soundRef.current.unloadAsync(); } catch {}
+        soundRef.current.setOnPlaybackStatusUpdate(null);
         soundRef.current = null;
       }
 
       const { sound } = await Audio.Sound.createAsync(
         { uri: currentSong.url },
-        { shouldPlay: true, volume }
+        { shouldPlay: false, volume }
       );
 
+      if (isCancelled) return;
+
       soundRef.current = sound;
-      setIsPlaying(true);
+
+      soundRef.current.setOnPlaybackStatusUpdate((status) => {
+        if (!status.isLoaded) return;
+        setPosition(status.positionMillis);
+        setIsPlaying(status.isPlaying);
+
+        if (status.didJustFinish) next(true);
+      });
 
       const status = await sound.getStatusAsync();
       if (status.isLoaded) setDuration(status.durationMillis ?? 0);
 
-      startPositionTimer();
+      if (isInitialLoadRef.current === false) {
+        await soundRef.current.playAsync();
+        setIsPlaying(true);
+      }
+
+      isInitialLoadRef.current = false;
     })();
+
+    return () => { isCancelled = true; };
   }, [currentSong]);
 
-  /* ---------- POSITION TIMER ---------- */
-  const startPositionTimer = () => {
-    stopPositionTimer();
 
-    positionTimer.current = setInterval(async () => {
-      if (!soundRef.current) return;
-      const status = await soundRef.current.getStatusAsync();
-      if (!status.isLoaded) return;
-
-      setPosition(status.positionMillis);
-      setIsPlaying(status.isPlaying);
-
-      if (status.didJustFinish) next();
-    }, 500) as unknown as number; // cast για React Native
-  };
-
-  const stopPositionTimer = () => {
-    if (positionTimer.current !== null) {
-      clearInterval(positionTimer.current);
-      positionTimer.current = null;
-    }
-  };
-
-  /* ---------- ACTIONS ---------- */
+  /* ---------- PLAYER ACTIONS ---------- */
   const playSong = (song: Song, playlist?: Song[], name = "") => {
     if (playlist) {
       setLibrary(playlist);
@@ -124,7 +104,8 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       setCurrentSongIndex(index >= 0 ? index : 0);
       if (name) setPlaylistName(name);
     }
-    setCurrentSong(song);
+    setCurrentSong({ ...song }); // νέο object για να τρέξει useEffect
+    setPosition(0);
     router.push("/player");
   };
 
@@ -133,13 +114,8 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     const status = await soundRef.current.getStatusAsync();
     if (!status.isLoaded) return;
 
-    if (status.isPlaying) {
-      await soundRef.current.pauseAsync();
-      setIsPlaying(false);
-    } else {
-      await soundRef.current.playAsync();
-      setIsPlaying(true);
-    }
+    if (status.isPlaying) await soundRef.current.pauseAsync(), setIsPlaying(false);
+    else await soundRef.current.playAsync(), setIsPlaying(true);
   };
 
   const stop = async () => {
@@ -149,18 +125,22 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     setIsPlaying(false);
   };
 
-  const next = () => {
+  const next = async (autoPlay = false) => {
     if (!library.length) return;
     const nextIndex = (currentSongIndex + 1) % library.length;
     setCurrentSongIndex(nextIndex);
     setCurrentSong(library[nextIndex]);
+    setPosition(0);
+    if (autoPlay && soundRef.current) await soundRef.current.playAsync(), setIsPlaying(true);
   };
 
-  const previous = () => {
+  const previous = async () => {
     if (!library.length) return;
     const prevIndex = (currentSongIndex - 1 + library.length) % library.length;
     setCurrentSongIndex(prevIndex);
     setCurrentSong(library[prevIndex]);
+    setPosition(0);
+    if (soundRef.current) await soundRef.current.playAsync(), setIsPlaying(true);
   };
 
   const setVolume = async (vol: number) => {
@@ -168,10 +148,10 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     if (soundRef.current) await soundRef.current.setVolumeAsync(vol);
   };
 
-  const seekTo = async (posMs: number) => {
+  const seekTo = async (pos: number) => {
     if (!soundRef.current) return;
-    await soundRef.current.setPositionAsync(posMs);
-    setPosition(posMs);
+    await soundRef.current.setPositionAsync(pos);
+    setPosition(pos);
   };
 
   return (
