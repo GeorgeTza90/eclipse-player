@@ -2,7 +2,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
-import AddToPlaylistButton from "../buttons/AddToPlaylistButton";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import BackButton from "../buttons/BackButton";
 import styles from "./collectionDetail.module.css";

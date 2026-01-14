@@ -13,7 +13,7 @@ export const LibraryProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadLibrary = async () => {
+    (async () => {
       try {
         const [songsData, artistsData] = await Promise.all([
           fetchSongs(),
@@ -33,10 +33,8 @@ export const LibraryProvider = ({ children }: { children: ReactNode }) => {
       } finally {
         setLoading(false);
       }
-    };
-
-    loadLibrary();
-  }, []);
+    })()
+  },[]);
 
   return (
     <LibraryContext.Provider

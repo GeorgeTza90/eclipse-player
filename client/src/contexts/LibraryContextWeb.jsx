@@ -4,13 +4,14 @@ import { setJSON } from "../utils/localStorageManager";
 
 const LibraryContext = createContext();
 
-export const LibraryProvider = ({ children }) => {
+export const LibraryProvider = ({ children }) => {  
   const [songs, setSongs] = useState([]);
   const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  /* ---------------- FETCH SONGS ---------------- */
   useEffect(() => {
-    const loadLibrary = async () => {
+    (async () => {
       try {
         const [songsData, artistsData] = await Promise.all([
           fetchSongs(),
@@ -29,9 +30,8 @@ export const LibraryProvider = ({ children }) => {
       } finally {
         setLoading(false);
       }
-    };
-    loadLibrary();
-  }, []);
+    })()
+  },[]);
 
   return (
     <LibraryContext.Provider

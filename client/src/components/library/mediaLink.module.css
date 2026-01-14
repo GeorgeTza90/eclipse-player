@@ -1,0 +1,51 @@
+.contactIcon {
+    display: block;
+    width: 35px;
+    height: 35px;
+    margin: 0px 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    transition: background-image 0.30s;
+    opacity: 50%;
+}
+
+.contactIcon:hover {
+    opacity: 90%;
+}
+
+.instagram {
+    background-image: url("/assets/icons/instagram.png");
+}
+
+.facebook {
+    background-image: url("/assets/icons/facebook.png");
+}
+
+.youtube {
+    background-image: url("/assets/icons/youtube.png");
+}
+
+.twitter {
+    background-image: url("/assets/icons/twitter.png");
+}
+
+.mail {
+    background-image: url("/assets/icons/mail.png");
+}
+
+@media (max-width: 768px) {
+    .contactIcon {
+        display: block;
+        width: 35px;
+        height: 35px;
+        margin: 0px 2px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+        transition: background-image 0.30s;
+        opacity: 50%;
+    }
+}

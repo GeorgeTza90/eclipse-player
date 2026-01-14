@@ -127,14 +127,7 @@ export const AudioProvider = ({ children }) => {
         duration: audioRef.current?.duration || 0,
         volume,
         position: positionRealtime,
-        playSong,
-        togglePlay,
-        stop,
-        next,
-        previous,
-        setVolume,
-        seekTo,
-        setLibrary,
+        playSong, togglePlay, stop, next, previous, setVolume, seekTo, setLibrary,
       }}
     >
       {children}

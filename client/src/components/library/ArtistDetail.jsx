@@ -1,11 +1,12 @@
-import { useState, useEffect, useMemo } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { fetchArtist } from "../../services/GetService";
 import styles from "./artistDetail.module.css";
 import { byYear } from "../../utils/songsCetegorizer";
 import LibraryGroupItem from "../library/LibraryGroupItem";
 import BackButton from "../buttons/BackButton";
+import MediaLink from "./MediaLink";
 
 export default function ArtistDetail() {
     const [artist, setArtist] = useState(null);
@@ -16,17 +17,23 @@ export default function ArtistDetail() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const loadArtist = async () => {
-            if (!artistName) return;
+        if (!artistName) return;
+
+        let cancelled = false;
+
+        (async () => {            
             try {
                 const data = await fetchArtist(artistName);
-                setArtist(data);
+                if (!cancelled) setArtist(data);
             } catch (err) {
-                console.error(err);
-                navigate("/library");
+                if (cancelled) {
+                    console.error(err);
+                    navigate("/library");
+                }                
             }
-        };
-        loadArtist();
+        })();
+
+        return () => cancelled = true
     }, [artistName, navigate]);
 
     if (!artist) return <p style={{ color: "#fff", padding: "10px" }}>Loading artist...</p>;
@@ -45,11 +52,9 @@ export default function ArtistDetail() {
                     <p className={styles.artistName}>{artist.name}</p>
                     <p className={styles.artistInfo}>{artist.description}</p>
                     <div className={styles.contactInfo}>
-                        <Link to={`${artist.media.instagram}`} className={`${styles.contactIcon} ${styles.instagram}`} />
-                        <Link to={`${artist.media.facebook}`} className={`${styles.contactIcon} ${styles.facebook}`} />
-                        <Link to={`${artist.media.youtube}`} className={`${styles.contactIcon} ${styles.youtube}`} />
-                        <Link to={`${artist.media.twitter}`} className={`${styles.contactIcon} ${styles.twitter}`} />
-                        <Link to={`${artist.media.mail}`} className={`${styles.contactIcon} ${styles.mail}`} />
+                        {Object.entries(artist.media).map(([platform, link]) => (
+                            <MediaLink key={platform} platform={platform} link={link} />
+                        ))}
                     </div>
                 </div>
             </div>

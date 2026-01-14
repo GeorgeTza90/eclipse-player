@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, useRef, ReactNode } from "react";
-import { Audio } from "expo-av"; // αν θέλεις SDK 54+, αντικατάστησε με expo-audio
+import { Audio } from "expo-av";
 import { getJSON, setJSON } from "@/utils/localStorageManager";
 import { Song } from "@/types/songs";
 import { AudioContextType } from "@/types/audio";
@@ -19,7 +19,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 
   const soundRef = useRef<Audio.Sound | null>(null);
   const isInitialLoadRef = useRef(true);
-  const router = useRouter();
+  const router = useRouter();  
 
   /* ---------- RESTORE STATE ---------- */
   useEffect(() => {
@@ -104,7 +104,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       setCurrentSongIndex(index >= 0 ? index : 0);
       if (name) setPlaylistName(name);
     }
-    setCurrentSong({ ...song }); // νέο object για να τρέξει useEffect
+    setCurrentSong({ ...song });
     setPosition(0);
     router.push("/player");
   };
@@ -157,21 +157,8 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AudioContext.Provider
       value={{
-        currentSong,
-        isPlaying,
-        library,
-        playlistName,
-        duration,
-        position,
-        volume,
-        playSong,
-        togglePlay,
-        stop,
-        next,
-        previous,
-        setVolume,
-        seekTo,
-        setLibrary,
+        currentSong, isPlaying, library, playlistName, duration, position, volume,
+        playSong, togglePlay, stop, next, previous, setVolume, seekTo, setLibrary,
       }}
     >
       {children}
