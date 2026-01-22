@@ -1,4 +1,3 @@
-import { useState } from "react";
 import HomeScreen from "../../components/home/HomeScreen";
 import MiniPlayer from "../../components/player/MiniPlayer";
 import Circle from "../../components/ui/Circle";
@@ -8,7 +7,7 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 
 function Home() {
     const { currentSong, volume } = useAudio();
-    const shadowColor = currentSong?.averageColor ?? "#bebebe";
+    // const shadowColor = currentSong?.averageColor ?? "#bebebe";
     const isMobile = useIsMobile();
     const { user, token } = useAuth();
 

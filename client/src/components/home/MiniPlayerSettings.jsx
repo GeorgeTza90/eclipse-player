@@ -15,7 +15,7 @@ const MiniPlayerSettings = () => {
     } = useMiniPlayer();
 
     const posReset = () => {
-        setPos({ x: window.innerWidth * 70 / 100, y: window.innerHeight * 45 / 100 });
+        setPos({ x: window.innerWidth * 64 / 100, y: window.innerHeight * 48 / 100 });
     };
 
     return (
