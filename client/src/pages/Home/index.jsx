@@ -6,10 +6,10 @@ import { useAuth } from "../../contexts/AuthContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
 function Home() {
-    const { currentSong, volume } = useAudio();
-    // const shadowColor = currentSong?.averageColor ?? "#bebebe";
+    const { currentSong, volume } = useAudio();    
     const isMobile = useIsMobile();
     const { user, token } = useAuth();
+    // const shadowColor = currentSong?.averageColor ?? "#bebebe";
 
 
     return (<>

@@ -5,10 +5,10 @@ import Footer from "./Footer/Footer"
 const MainLayout = () => {
     return (
         <>
-            <Nav hid={false} /><br /><br /><br /><br />
-            <main className="body">
+            <Nav hid={false} />
+            <main className="body" style={{marginTop: "5rem" }}>
                 <Outlet />
-            </main><br /><br /><br /><br />
+            </main>
             <Footer />
         </>
     );

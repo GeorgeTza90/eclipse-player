@@ -4,13 +4,12 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 import MiniPlayer from "../../components/player/MiniPlayer";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useAudio } from "../../contexts/AudioContextWeb";
-import { useState } from "react";
 
 function Library() {
     const isMobile = useIsMobile();
     const { user, token } = useAuth();
     const { currentSong, volume } = useAudio();
-    const shadowColor = currentSong?.averageColor ?? "#bebebe";
+    // const shadowColor = currentSong?.averageColor ?? "#bebebe";
 
     return (<>
         <div id="heading" style={{ display: "flex", justifyContent: "center" }}>
