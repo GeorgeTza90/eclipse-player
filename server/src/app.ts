@@ -37,12 +37,11 @@ app.get("/", (_req, res) => {
   res.json({ message: "Server is running!" });
 });
 
-/* -------------------- 404 handler -------------------- */
+/* -------------------- Error handler -------------------- */
 app.use((_req, res) => {
   res.status(404).json({ error: "Route not found" });
 });
 
-/* -------------------- Error handler -------------------- */
 app.use(
   (err: AppError, _req: Request, res: Response, _next: NextFunction) => {
     console.error(err);
