@@ -52,7 +52,7 @@ export default function AddToPlaylistButton({ song }: AddToPlaylistButtonProps) 
       <Modal visible={modalVisible} transparent animationType="slide">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Add "{song.title}" to playlist</Text>
+            <Text style={styles.modalTitle}>Add  `{song.title}`  to playlist</Text>
             {loading ? (
               <Text style={{ color: "#fff", marginTop: 10 }}>Loading playlists...</Text>
             ) : (

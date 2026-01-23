@@ -7,96 +7,96 @@ import { byYear } from "../../../utils/songsCetegorizer";
 import LibraryGroupItem from "./LibraryGroupItem";
 
 export default function ArtistDetail() {
-  const [artist, setArtist] = useState<any>(null);
-  const [groupsKind, setGroupKind] = useState<"Singles & EPs" | "Albums" | "Artists">("Singles & EPs");
-  const { artist: artistName } = useLocalSearchParams();
-  const { songs } = useLibrary();
-  const router = useRouter();
+    const [artist, setArtist] = useState<any>(null);
+    const [groupsKind, setGroupKind] = useState<"Singles & EPs" | "Albums" | "Artists">("Singles & EPs");
+    const { artist: artistName } = useLocalSearchParams();
+    const { songs } = useLibrary();
+    const router = useRouter();
 
-  useEffect(() => {
-    const loadArtist = async () => {
-      if (!artistName) return;
-      try {
-        const data = await fetchArtist(artistName as string);
-        setArtist(data);
-      } catch (err) {
-        console.error(err);
-        router.push("/library");
-      }
+    useEffect(() => {
+        const loadArtist = async () => {
+            if (!artistName) return;
+            try {
+                const data = await fetchArtist(artistName as string);
+              setArtist(data);
+            } catch (err) {
+                console.error(err);
+                router.push("/library");
+            }
+        };
+        loadArtist();
+    }, [artistName]);
+
+    if (!artist)
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#fff" />
+                <Text style={styles.loadingText}>Loading artist...</Text>
+            </View>
+        );
+
+    const artistSongs = songs.filter((s: any) => s.artist === artist.name);
+    const singlesEps = byYear(songs, "single", "ep");
+    const albums = byYear(songs, "album");
+
+    const openLink = (url?: string) => {
+        if (url) Linking.openURL(url).catch((err) => console.error("Failed to open link", err));
     };
-    loadArtist();
-  }, [artistName]);
 
-  if (!artist)
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#fff" />
-        <Text style={styles.loadingText}>Loading artist...</Text>
-      </View>
-    );
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 10 }}>      
+            <View style={styles.headerInfo}>
+                {artist.image_url && (
+                    <Image source={{ uri: encodeURI(artist.image_url) }} style={styles.artistImage} />
+                )}
+              
+                <Text style={styles.artistName}>{artist.name}</Text>
+                <Text style={styles.artistInfo}>{artist.description}</Text>
 
-  const artistSongs = songs.filter((s: any) => s.artist === artist.name);
-  const singlesEps = byYear(songs, "single", "ep");
-  const albums = byYear(songs, "album");
-
-  const openLink = (url?: string) => {
-    if (url) Linking.openURL(url).catch((err) => console.error("Failed to open link", err));
-  };
-
-  return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 10 }}>      
-        <View style={styles.headerInfo}>
-            {artist.image_url && (
-            <Image source={{ uri: encodeURI(artist.image_url) }} style={styles.artistImage} />
-            )}
-        
-          <Text style={styles.artistName}>{artist.name}</Text>
-          <Text style={styles.artistInfo}>{artist.description}</Text>
-
-          <View style={styles.contactRow}>
-            <TouchableOpacity onPress={() => openLink(artist.media?.instagram)}>
-                <Image style={styles.contactIcon} source={require("@/assets/icons/instagram.png")}/>                
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => openLink(artist.media?.facebook)}>
-                <Image style={styles.contactIcon} source={require("@/assets/icons/facebook.png")}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => openLink(artist.media?.youtube)}>
-                <Image style={styles.contactIcon} source={require("@/assets/icons/youtube.png")}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => openLink(artist.media?.twitter)}>
-                <Image style={styles.contactIcon} source={require("@/assets/icons/twitter.png")}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => openLink(artist.media?.mail)}>
-                <Image style={styles.contactIcon} source={require("@/assets/icons/mail.png")}/>
-            </TouchableOpacity>
-          </View>        
-      </View>
-
-      {artistSongs.length > 0 ? (
-        <View style={styles.songsContainer}>            
-            <View style={styles.toggleRow}>
-                <TouchableOpacity
-                    style={[ styles.toggleButton, groupsKind === "Singles & EPs" && styles.toggleButtonActive ]}
-                    onPress={() => setGroupKind("Singles & EPs")}
-                >
-                <Text style={styles.toggleText}>Singles & EPs</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={[ styles.toggleButton, groupsKind === "Albums" && styles.toggleButtonActive ]}
-                    onPress={() => setGroupKind("Albums")}
-                >
-                <Text style={styles.toggleText}>Albums</Text>
-                </TouchableOpacity>
+                <View style={styles.contactRow}>
+                    <TouchableOpacity onPress={() => openLink(artist.media?.instagram)}>
+                        <Image style={styles.contactIcon} source={require("@/assets/icons/instagram.png")}/>                
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => openLink(artist.media?.facebook)}>
+                        <Image style={styles.contactIcon} source={require("@/assets/icons/facebook.png")}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => openLink(artist.media?.youtube)}>
+                        <Image style={styles.contactIcon} source={require("@/assets/icons/youtube.png")}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => openLink(artist.media?.twitter)}>
+                        <Image style={styles.contactIcon} source={require("@/assets/icons/twitter.png")}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => openLink(artist.media?.mail)}>
+                        <Image style={styles.contactIcon} source={require("@/assets/icons/mail.png")}/>
+                    </TouchableOpacity>
+                </View>        
             </View>
 
-              <LibraryGroupItem type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} title={false}/>
-        </View>
-      ) : (
-        <Text style={styles.noSongs}>No songs for this artist.</Text>
-      )}
-    </ScrollView>
-  );
+            {artistSongs.length > 0 ? (
+                <View style={styles.songsContainer}>            
+                    <View style={styles.toggleRow}>
+                        <TouchableOpacity
+                            style={[ styles.toggleButton, groupsKind === "Singles & EPs" && styles.toggleButtonActive ]}
+                            onPress={() => setGroupKind("Singles & EPs")}
+                        >
+                        <Text style={styles.toggleText}>Singles & EPs</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={[ styles.toggleButton, groupsKind === "Albums" && styles.toggleButtonActive ]}
+                            onPress={() => setGroupKind("Albums")}
+                        >
+                        <Text style={styles.toggleText}>Albums</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <LibraryGroupItem type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} title={false}/>
+                </View>
+            ) : (
+                <Text style={styles.noSongs}>No songs for this artist.</Text>
+            )}
+        </ScrollView>
+    );
 }
 
 const styles = StyleSheet.create({

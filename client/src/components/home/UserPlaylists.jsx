@@ -4,6 +4,7 @@ import styles from "./userPlaylists.module.css";
 import PlaylistItem from "./PlaylistItem";
 import AddPlaylistModal from "./AddPlaylistModal";
 import { fetchUserPlaylists } from "../../services/GetService";
+import AddPlaylistButton from "../buttons/AddPlaylistButton";
 
 export default function UserPlaylists({ token }) {
     const navigate = useNavigate();
@@ -49,14 +50,8 @@ export default function UserPlaylists({ token }) {
                             onPress={() => handlePlaylistPress(pl)}
                         />
                     ))}
-                <button
-                    className={styles.addButton}
-                    onClick={() => setModalVisible(true)}
-                >
-                + Add Playlist
-                </button>
+                <AddPlaylistButton onClick={() => setModalVisible(true)} />                
             </div>
-
 
             <AddPlaylistModal
                 visible={modalVisible}

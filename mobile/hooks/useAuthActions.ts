@@ -2,7 +2,7 @@ import { useState } from "react";
 import { loginUser, registerUser } from "@/services/api";
 import { useAuth } from "@/contexts/AuthContext";
 
-export const useAuthActions = () => {
+export default function useAuthActions() {
     const { login } = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);

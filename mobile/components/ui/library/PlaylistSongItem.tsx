@@ -5,77 +5,77 @@ import { SongRowProps } from "@/types/songs";
 import DeleteSongButton from "../buttons/DeleteSongButton";
 import { Image } from "expo-image";
 
-export const SongRow: React.FC<SongRowProps> = ({ item, isActive, playlistId, getIndex, drag, onPlay,onDelete }) => {
+export default function SongRow({ item, isActive, playlistId, getIndex, drag, onPlay,onDelete }: SongRowProps) {
   const index = getIndex?.() ?? 0;
 
   return (
     <TouchableOpacity
-      onLongPress={drag}
-      onPress={() => onPlay(item)}
-      style={[styles.songRow, isActive && { backgroundColor: "#111" }]}
-      activeOpacity={0.8}
-      delayLongPress={100}
+        onLongPress={drag}
+        onPress={() => onPlay(item)}
+        style={[styles.songRow, isActive && { backgroundColor: "#111" }]}
+        activeOpacity={0.8}
+        delayLongPress={100}
     >
-      {/* Index */}
-      <Text style={styles.songIndex}>{index + 1}.</Text>
+        {/* Index */}
+        <Text style={styles.songIndex}>{index + 1}.</Text>
 
-      {/* Image */}
-      {item.image && <Image source={item.image} style={styles.songImage} />}
-      <View style={styles.titleRow}>
-        <Text style={styles.songTitle} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-        {item.feature && (
-          <TextTicker 
-            style={styles.tickerText}
-            duration={8000}
-            loop
-            bounce
-            repeatSpacer={50}
-            scrollSpeed={50}
-          >(feat. {item.feature})</TextTicker>
-        )}      
-      </View>      
-      <Text style={styles.text}>  -  </Text>
+        {/* Image */}
+        {item.image && <Image source={item.image} style={styles.songImage} />}
+        <View style={styles.titleRow}>
+                <Text style={styles.songTitle} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
+                {item.feature && (
+                    <TextTicker 
+                        style={styles.tickerText}
+                        duration={8000}
+                        loop
+                        bounce
+                        repeatSpacer={50}
+                        scrollSpeed={50}
+                    >(feat. {item.feature})</TextTicker>
+                )}      
+        </View>      
+        <Text style={styles.text}>  -  </Text>
 
-      {/* Scrolling title/artist/album */}
-      <View style={styles.tickerContainer}>
-        <TextTicker
-          style={styles.tickerText}
-          duration={8000}
-          loop
-          bounce
-          repeatSpacer={50}
-          scrollSpeed={50}
-        >
-          {`${item.artist} - ${item.album}`}
-        </TextTicker>
-      </View>
+        {/* Scrolling title/artist/album */}
+        <View style={styles.tickerContainer}>
+            <TextTicker
+                style={styles.tickerText}
+                duration={8000}
+                loop
+                bounce
+                repeatSpacer={50}
+                scrollSpeed={50}
+            >
+                {`${item.artist} - ${item.album}`}
+            </TextTicker>
+        </View>
 
-      {/* Delete button */}
-      <DeleteSongButton
-        playlistId={playlistId}
-        songId={Number(item.id)}
-        onDeleted={() => onDelete(item.id)}
-      />
+        {/* Delete button */}
+        <DeleteSongButton
+            playlistId={playlistId}
+            songId={Number(item.id)}
+            onDeleted={() => onDelete(item.id)}
+        />
 
-      {/* Duration */}
-      {typeof item.duration !== "undefined" && (
-        <Text style={styles.trackDuration}>
-          {Math.floor(item.duration / 60)}:{("0" + (item.duration % 60)).slice(-2)}
-        </Text>
-      )}
+        {/* Duration */}
+        {typeof item.duration !== "undefined" && (
+            <Text style={styles.trackDuration}>
+                {Math.floor(item.duration / 60)}:{("0" + (item.duration % 60)).slice(-2)}
+            </Text>
+        )}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  songRow: { flexDirection: "row", alignItems: "center", paddingVertical: 8, borderBottomColor: "#333", borderBottomWidth: 1, height: 60, width: "100%" },
-  text: { color: "#888" },
-  titleRow: { width: 150},
-  songTitle: { color: "#fff", flex: 0 },
-  trackFeature: { fontSize: 12, color: "#ccc", top: -5  },
-  songIndex: { color: "#888", width: 18 },
-  songImage: { width: 35, height: 35, borderRadius: 8, marginRight: 15 },
-  tickerContainer: { width: 100, overflow: "hidden", justifyContent: "center" },
-  tickerText: { color: "#928989ff", fontSize: 12 },
-  trackDuration: { color: "#888", width: 30, textAlign: "right" },
+    songRow: { flexDirection: "row", alignItems: "center", paddingVertical: 8, borderBottomColor: "#333", borderBottomWidth: 1, height: 60, width: "100%" },
+    text: { color: "#888" },
+    titleRow: { width: 150},
+    songTitle: { color: "#fff", flex: 0 },
+    trackFeature: { fontSize: 12, color: "#ccc", top: -5  },
+    songIndex: { color: "#888", width: 18 },
+    songImage: { width: 35, height: 35, borderRadius: 8, marginRight: 15 },
+    tickerContainer: { width: 100, overflow: "hidden", justifyContent: "center" },
+    tickerText: { color: "#928989ff", fontSize: 12 },
+    trackDuration: { color: "#888", width: 30, textAlign: "right" },
 });

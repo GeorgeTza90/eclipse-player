@@ -1,27 +1,31 @@
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 import { PlaylistItemProps } from "@/types/playlists";
 import DeletePlaylistButton from "../buttons/DeletePlaylistButton";
 
-const PlaylistItem: React.FC<PlaylistItemProps> = ({ playlist, token, onDelete, onPress }) => {
+export default function PlaylistItem({ playlist, token, onDelete, onPress }: PlaylistItemProps) {
 
   return (
-    <TouchableOpacity style={styles.playlistItem} onPress={() => onPress(playlist)} >
-      <Text style={styles.title} numberOfLines={1}>{playlist.title} </Text>
-      <Text style={styles.text}> - </Text>
-      <Text style={styles.count} numberOfLines={1}> {playlist.songCount ?? 0} songs </Text>      
-      <DeletePlaylistButton playlistId={playlist.id} onDeleted={onDelete}/>
-    </TouchableOpacity>
+      <TouchableOpacity
+          style={styles.playlistItem}
+          onPress={() => onPress(playlist)}
+      >
+        <View style={styles.textContainer}>
+            <Text style={styles.title} numberOfLines={1}>{playlist.title}</Text>
+            <Text style={styles.count}>{playlist.songCount ?? 0} songs</Text>
+        </View>
+
+          <DeletePlaylistButton playlistId={playlist.id} onDeleted={onDelete}/>
+      </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  playlistItem: { marginBottom: 10, padding: 10, backgroundColor: "#222", borderRadius: 6, flexDirection: "row", alignItems: "center", paddingVertical: 8, borderBottomColor: "#333", borderBottomWidth: 1 },
-  title: { color: "#fff", fontSize: 16, fontWeight: "bold" },
-  count: { color: "#ccc", fontSize: 14 },
-  text: { color: "#888"},
-  deleteButton: { marginTop: 2, marginLeft: 20, padding: 2,  borderRadius: 6, alignItems: "center" },
-  deleteButtonText: { color: "#8b4646ff", fontWeight: "bold", fontSize: 14 }
+        playlistItem: { 
+            width: "48%", marginBottom: 16, padding: 12, backgroundColor: "#222", borderRadius: 6, 
+            flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderBottomColor: "#333", borderBottomWidth: 1
+        },
+        textContainer: { flex: 1, marginRight: 8 },
+        title: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+        count: { color: "#aaa", fontSize: 14, marginTop: 4 },
 });
-
-export default PlaylistItem;

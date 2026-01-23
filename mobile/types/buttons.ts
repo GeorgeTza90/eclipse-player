@@ -26,5 +26,8 @@ export type DeletePlaylistButtonProps = {
 
 export interface AddToPlaylistButtonProps {
     song: Song;
-}
+};
 
+export interface AddPlaylistButtonProps {
+    onPress: () => void;
+};

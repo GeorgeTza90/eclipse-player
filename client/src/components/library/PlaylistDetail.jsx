@@ -79,9 +79,7 @@ export default function PlaylistDetail() {
         <div className={styles.container}>
             <div className={styles.headerInfo}>
                 <h2 className={styles.playlistTitle}>{title}</h2>
-                <p className={styles.artistInfo}>
-                    {songs.length} songs • {durationString}
-                </p>
+                <p className={styles.artistInfo}>{songs.length} songs • {durationString}</p>
             </div>
 
             {loading ? (

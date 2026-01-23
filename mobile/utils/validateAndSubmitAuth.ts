@@ -1,4 +1,4 @@
-export const validateAndSubmitAuth = ({
+export default function validateAndSubmitAuth({
     isLogin, username, email, password, confirmPassword,
     setLocalError, handleLogin, handleRegister,
 }: {
@@ -10,7 +10,7 @@ export const validateAndSubmitAuth = ({
     setLocalError: (msg: string | null) => void;
     handleLogin: (email: string, password: string) => void;
     handleRegister: (username: string, email: string, password: string) => void;
-}) => {
+}) {
     setLocalError(null);
 
     // --- Basic field presence checks ---

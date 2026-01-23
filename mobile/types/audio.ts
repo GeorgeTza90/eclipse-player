@@ -17,3 +17,7 @@ export type AudioContextType = {
   seekTo: (posMs: number) => void;
   setLibrary: (songs: Song[]) => void;
 };
+
+export type AudioPlayerProps = {
+  onToggleLyrics?: (active: boolean) => void;
+}

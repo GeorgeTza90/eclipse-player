@@ -4,7 +4,8 @@ import { Playlist } from "@/types/playlists";
 
 const API_URL = Constants.expoConfig?.extra?.API_URL;
 
-function getFullUrl(path: string) {
+//Not Used Yet
+export function getFullUrl(path: string) {
     if (!path) return "";
     if (path.startsWith("http")) return path;
     return `${API_URL}/data${path}`;

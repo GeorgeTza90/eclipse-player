@@ -2,7 +2,7 @@ import { useLibrary } from "@/contexts/LibraryContext";
 import { fetchSongById } from "@/services/api";
 import { Song } from "@/types/songs";
 
-export const useLoadPlaylistSongs = () => {
+export default function useLoadPlaylistSongs() {
     const { setSongs } = useLibrary();
 
     const loadPlaylistSongs = async (songIds: number[]): Promise<Song[]> => {

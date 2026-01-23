@@ -1,0 +1,27 @@
+.addButton {
+    padding: 10px 5px;
+    margin: 0.5rem;
+    background-color: #55555581;
+    border-radius: 6px;
+    color: #ffffff8c;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+}
+
+.addButton:hover {
+    background-color: #555555c5;
+    color: #ffffffd3;
+    transition: 0.5s;
+}
+
+@media (max-width: 768px) {
+    .addButton {
+        margin-top: 1rem;
+        padding: 6px 1px;
+        width: 10.4rem;
+    }
+}

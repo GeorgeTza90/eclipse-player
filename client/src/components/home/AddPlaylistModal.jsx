@@ -12,10 +12,9 @@ export default function AddPlaylistModal({ visible, onClose, token, onCreated })
     if (!visible) return null;
 
     const handleCreate = async () => {
-        if (!title.trim()) {
-            showToast("Playlist title is required", "error");
-            return;
-        }
+        if (!title.trim()) return showToast("Playlist title is required", "error");
+        if (title.length < 2 ) return showToast("Playlist title minimum length is 2 characters", "error")
+        if (title.length > 20 ) return showToast("Playlist title maximum length is 20 characters", "error")
 
         try {
             setLoading(true);

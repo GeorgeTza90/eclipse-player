@@ -4,43 +4,45 @@ import { createPlaylist } from "@/services/api";
 import { AddPlaylistModalProps } from "@/types/playlists";
 import { useToast } from "@/contexts/ToastContext";
 
-const AddPlaylistModal: React.FC<AddPlaylistModalProps> = ({ visible, onClose, token, onCreated }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const { showToast } = useToast();
+export default function AddPlaylistModal({ visible, onClose, token, onCreated }: AddPlaylistModalProps) {
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const { showToast } = useToast();
 
-  const handleCreate = async () => {
-    if (!title.trim()) return showToast("Playlist title is required", "error");      
-    
-    try {
-      await createPlaylist(token, title, description);
-      showToast(`Playlist "${title}" created successfully`, "success");
-      setTitle("");
-      setDescription("");
-      onCreated();
-      onClose();
-    } catch (err: any) {
-      console.error("Failed to create playlist:", err);
-      showToast(err?.message || "Could not create playlist", "error");
-    }
-  };
+    const handleCreate = async () => {
+        if (!title.trim()) return showToast("Playlist title is required", "error");      
+        if (title.length < 2 ) return showToast("Playlist title minimum length is 2 characters", "error")
+        if (title.length > 20 ) return showToast("Playlist title maximum length is 20 characters", "error")
+        
+        try {
+            await createPlaylist(token, title, description);
+            showToast(`Playlist "${title}" created successfully`, "success");
+            setTitle("");
+            setDescription("");
+            onCreated();
+            onClose();
+        } catch (err: any) {
+            console.error("Failed to create playlist:", err);
+            showToast(err?.message || "Could not create playlist", "error");
+        }
+    };
 
-  return (
-    <Modal visible={visible} transparent animationType="slide">
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
-          <TextInput placeholder="Playlist Title" value={title} onChangeText={setTitle} style={styles.input} placeholderTextColor="#aaaaaa50" />
-          <TextInput placeholder="Description (optional)" value={description} onChangeText={setDescription} style={styles.input} placeholderTextColor="#aaaaaa50"/>
-          <TouchableOpacity style={styles.modalButton} onPress={handleCreate}>
-            <Text style={styles.modalButtonText}>Create</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.modalButton, styles.modalCancel]} onPress={onClose}>
-            <Text style={styles.modalButtonText}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Modal>
-  );
+    return (
+        <Modal visible={visible} transparent animationType="slide">
+            <View style={styles.modalOverlay}>
+                <View style={styles.modalContent}>
+                    <TextInput placeholder="Playlist Title" value={title} onChangeText={setTitle} style={styles.input} placeholderTextColor="#aaaaaa50" />
+                    <TextInput placeholder="Description (optional)" value={description} onChangeText={setDescription} style={styles.input} placeholderTextColor="#aaaaaa50"/>
+                    <TouchableOpacity style={styles.modalButton} onPress={handleCreate}>
+                        <Text style={styles.modalButtonText}>Create</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.modalButton, styles.modalCancel]} onPress={onClose}>
+                        <Text style={styles.modalButtonText}>Cancel</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+      </Modal>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -51,5 +53,3 @@ const styles = StyleSheet.create({
   modalButtonText: { color: "#fff", fontWeight: "bold" },
   modalCancel: { backgroundColor: "#999" }
 });
-
-export default AddPlaylistModal;
