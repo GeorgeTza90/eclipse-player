@@ -49,13 +49,14 @@ export default function UserPlaylists({ token }) {
                             onPress={() => handlePlaylistPress(pl)}
                         />
                     ))}
-            </div>
-            <button
-                className={styles.addButton}
-                onClick={() => setModalVisible(true)}
-            >
+                <button
+                    className={styles.addButton}
+                    onClick={() => setModalVisible(true)}
+                >
                 + Add Playlist
-            </button>
+                </button>
+            </div>
+
 
             <AddPlaylistModal
                 visible={modalVisible}

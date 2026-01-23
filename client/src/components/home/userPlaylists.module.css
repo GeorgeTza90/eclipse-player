@@ -1,8 +1,5 @@
 .container {
-    width: 100%;
-    padding: 20px;
-    margin-top: 20px;
-    margin: -20px;
+    margin-top: -1rem;
 }
 
 .infoText {
@@ -12,11 +9,11 @@
 }
 
 .addButton {
-    margin-top: 20px;
-    padding: 12px;
-    background-color: #555;
+    padding: 10px 5px;
+    margin: 0.5rem;
+    background-color: #55555581;
     border-radius: 6px;
-    color: #fff;
+    color: #ffffff8c;
     font-weight: bold;
     font-size: 16px;
     border: none;
@@ -26,7 +23,9 @@
 }
 
 .addButton:hover {
-    opacity: 0.8;
+    background-color: #555555c5;
+    color: #ffffffd3;
+    transition: 0.5s;
 }
 
 .playlistsContainer {
@@ -39,6 +38,11 @@
     .playlistsContainer {
         display: grid;
         grid-template-columns: repeat(2, 12rem);
+    }
 
+    .addButton {
+        margin-top: 1rem;
+        padding: 6px 1px;
+        width: 10.4rem;
     }
 }

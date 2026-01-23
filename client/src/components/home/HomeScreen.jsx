@@ -19,7 +19,7 @@ export default function HomeScreen() {
             {!user && <AuthCard />}
 
             {user && token && (
-                <div className={{ marginTop: -100 }}>
+                <div>
                     <h2 className={styles.text}>Welcome, {user.username}!</h2>
                     <AuthButton title="Logout" loading={false} onClick={logout} />
                     <h3 className={styles.text2}>Your Playlists</h3>

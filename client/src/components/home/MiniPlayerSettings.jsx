@@ -20,7 +20,6 @@ const MiniPlayerSettings = () => {
 
     return (
         <div className={styles.container}>
-
             <h4 className={styles.text1}>Show MiniPlayer</h4>
             <ToggleButton value={showMiniPlayer} onChange={setShowMiniPlayer} />
 

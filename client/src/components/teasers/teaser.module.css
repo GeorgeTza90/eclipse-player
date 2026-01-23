@@ -5,10 +5,12 @@
     text-decoration: none;
     margin-top: 1%;
     opacity: 80%;
+    transition: 0.5s;
 }
 
 .videoLink:hover {
-    opacity: 90%;
+    opacity: 95%;
+    transition: 0.5s;
 }
 
 .teaserVideo {
@@ -21,7 +23,8 @@
 
 @media (max-width: 768px) {
     .videoLink {
-        height: 120px;
-        margin-top: 1%
+        height: 12vh;
+        margin-top: 1%;
+        margin-bottom: 15%;
     }
 }

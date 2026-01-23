@@ -1,5 +1,5 @@
 .playlistItem {
-    padding: 10px 5px;
+    padding: 0.5rem 0.2rem;
     margin: 0.5rem;
     background-color: #222;
     border-radius: 6px;
@@ -7,6 +7,13 @@
     cursor: pointer;
     display: grid;
     grid-template-columns: 9rem 1rem;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
+}
+
+.playlistItem:hover {
+    background-color: #383838;
+    transition: 0.5s;
 }
 
 .titleRow {
@@ -20,7 +27,7 @@
 
 .title {
     color: #fff;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     flex-shrink: 1;
     white-space: nowrap;
@@ -39,7 +46,7 @@
 @media (max-width: 768px) {
     .playlistItem {
         margin-top: 1rem;
-        padding: 10px 5px;
+        padding: 0.5rem 0.2rem;
         width: 10rem;
         background-color: #222;
         border-radius: 6px;
@@ -47,5 +54,10 @@
         cursor: pointer;
         display: grid;
         grid-template-columns: 6rem 1rem;
+    }
+
+    .titleRow {
+        margin-bottom: 0.1rem;
+        margin-left: 0.1rem;
     }
 }
