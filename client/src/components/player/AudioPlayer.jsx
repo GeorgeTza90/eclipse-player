@@ -71,7 +71,7 @@ export default function AudioPlayer({ onToggleLyrics }) {
           {currentSong?.image && <img src={currentSong.image} alt={currentSong.title} className={styles.image} />}
           <div>
             <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
-            {currentSong.feature && (
+            {currentSong?.feature && (
               <span className={styles.trackFeature}>{`(feat. ${currentSong.feature})`}</span>
             )}
             <p className={styles.artist}>
@@ -137,6 +137,13 @@ export default function AudioPlayer({ onToggleLyrics }) {
           </button>
         </div>
       </div>
+
+      {!currentSong && (
+        <div className={styles.emptyRow}>
+          <p className={styles.emptyPlayer}>Player Is Empty</p>
+          <p className={styles.songsAdd} onClick={() => navigate(`/library`)}>Add Songs Here</p>
+        </div>   
+      )}   
     </div>
   );
 }

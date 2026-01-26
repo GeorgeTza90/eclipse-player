@@ -152,6 +152,24 @@
     line-height: 0.5rem;
 }
 
+.emptyRow {
+    display: flex;
+    flex-direction: column;    
+    align-items: center;
+    margin-top: 50rem;    
+}
+
+.emptyPlayer, .songsAdd {
+    font-size: larger;
+    color: #ffffff76;    
+}
+
+.songsAdd:hover {
+    color: #ffffff;
+    cursor: pointer;
+}
+
+
 @media (max-width: 768px) {
     .playerContent {
         position: absolute;
@@ -203,6 +221,16 @@
 
     .lyricsButton {
         margin-top: 0.5rem;
+    }
+
+    .emptyRow {
+
+        margin-top: 34rem;    
+    }
+
+    .emptyPlayer, .songsAdd {
+        font-size: medium;
+        color: #ffffff76;    
     }
 
 }

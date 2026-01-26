@@ -7,7 +7,7 @@ const LibraryContext = createContext();
 export const LibraryProvider = ({ children }) => {  
   const [songs, setSongs] = useState([]);
   const [artists, setArtists] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);  
 
   /* ---------------- FETCH SONGS ---------------- */
   useEffect(() => {

@@ -8,13 +8,13 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 
 function Player() {
     const isMobile = useIsMobile();
-    const { playlistName, currentSong, volume } = useAudio();
+    const { playlistName, currentSong, volume } = useAudio("No Gods In Heaven");
     const shadowColor = currentSong?.averageColor ?? "#bebebe";
     const [lyricsActive, setLyricsActive] = useState(false);
 
     const handleLyrics = (active) => {
         setLyricsActive(active);
-    };
+    };   
 
     return (
         <div id="heading" style={{ display: "flex", justifyContent: "center" }}>
