@@ -80,22 +80,21 @@
   margin-top: 4rem;
 }
 
-.resetButton{
+.resetButton, .inActiveButton {
   padding: 0.2rem 0.5rem;
   text-decoration: double;
   font-size: medium;
   border-radius: 0.5rem;
+}
+
+.resetButton{  
   background-color: #333;
   border-color: #3333334a;
   color: #fff;
   cursor: pointer;
 }
 
-.inActiveButton {
-  padding: 0.2rem 0.5rem;
-  text-decoration: double;
-  font-size: medium;
-  border-radius: 0.5rem;
+.inActiveButton {  
   background-color: #33333339;  
   color: #ffffff53;
   cursor:none;
@@ -128,21 +127,20 @@
   margin-left: 12rem;
 }
 
-.infoText {    
-  
+.infoText {      
   font-size: 0.8rem;
   color: #ffffff57;
 }
 
 /* --- MOBILE STYLES --- */
 @media (max-width: 768px) {
-  .divContainer{
-    height: 20rem;
+  .divContainer{    
     top: 400px;    
   }
 
   .EQcontainer {
-    overflow-x: scroll;
+    height: 10rem;
+    margin-top: 0.8rem;
   }
 
   .heading {
@@ -152,5 +150,16 @@
   .linesDiv {    
     height: 100%;
     opacity: 0.12;
+  }
+
+  .buttons {  
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .info {    
+    margin-top: 1rem;
+    max-width: 18rem;
+    margin-left: 6rem;
   }
 }
