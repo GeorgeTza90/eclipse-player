@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import songsRoutes from "./routes/songs";
 import authRoutes from "./routes/auth";
 import playlistRoutes from "./routes/playlists";
@@ -14,16 +15,13 @@ app.use(express.json({ limit: "100kb" }));
 
 /* -------------------- CORS -------------------- */
 const allowedOrigins = process.env.CLIENT_ORIGINS?.split(",") ?? [
-  "http://localhost:5173",
+  "http://localhost:5173",  
   "https://eclipseplayer.netlify.app",
   "https://eclipseplayer.com",
 ];
-
+app.use(cookieParser());
 app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
+  cors({ origin: allowedOrigins, credentials: true })
 );
 
 /* -------------------- Routes -------------------- */

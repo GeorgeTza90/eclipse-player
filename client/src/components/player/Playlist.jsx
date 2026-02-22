@@ -23,7 +23,7 @@ export default function Playlist({ name = "Playlist" }) {
               <div className={styles.songText}>
                 <span className={styles.title}>{item.title}<br />
                   {item.feature && (
-                    <span className={styles.trackFeature}>{` (feat. ${item.feature})`}</span>
+                    <span className={styles.trackFeature}>{` feat. ${item.feature}`}</span>
                   )}
                 </span>
                 <p className={styles.artist}>{item.artist}</p>

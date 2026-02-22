@@ -13,6 +13,15 @@ import { User, AuthenticatedRequest } from "../types/controllersTypes";
 const JWT_SECRET = process.env.JWT_SECRET!;
 const RESET_SECRET = process.env.RESET_PASSWORD_SECRET!;
 const FRONTEND_URL = process.env.FRONTEND_URL!;
+const isProd = process.env.NODE_ENV === "production";
+
+// -----------------------------
+// ME
+// -----------------------------
+export const me = (req: any, res: Response) => {
+    if (!req.user) return res.status(401).json({ error: "Not authenticated" });
+    res.json(req.user);
+};
 
 // -----------------------------
 // REGISTER
@@ -66,7 +75,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       { expiresIn: "7d" }
     );
 
-    res.json({ user, token });
+    res.cookie("token", token, { httpOnly: true, secure: isProd, sameSite: "none", maxAge: 7*24*60*60*1000 });
+    res.json({ user });
+
   } catch (error) {
     console.error("Server Error - on Register:", error);
     res.status(500).json({ error: "Ooops something went wrong. Please try again later." });
@@ -105,7 +116,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       { expiresIn: "7d" }
     );
 
-    res.json({ user: { id: user.id, username: user.username, email: user.email, premium: user.premium }, token });
+    res.cookie("token", token, { httpOnly: true, secure: isProd, sameSite: "none", maxAge: 7*24*60*60*1000 });
+    res.json({ user });
   } catch (error) {
     console.error("Server Error - on Login:", error);
     res.status(500).json({ error: "Ooops something went wrong. Please try again later." });
@@ -154,12 +166,23 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
       { expiresIn: "7d" }
     );
 
-    res.json({ user, token });
+    res.cookie("token", token, { httpOnly: true, secure: isProd, sameSite: "none", maxAge: 7*24*60*60*1000 });
+    res.json({ user });
   } catch (error: any) {
     console.error("Google login error:", error.response?.data || error);
     res.status(400).json({ error: "Google login failed" });
   }
 };
+
+// -----------------------------
+// LogOut
+// -----------------------------
+
+export const logout = (_req: Request, res: Response) => {
+  res.clearCookie("token", { httpOnly: true, secure: isProd, sameSite: "none" });
+  res.json({ message: "Logged out successfully" });
+};
+
 
 // -----------------------------
 // Forgot Password
@@ -299,7 +322,8 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
       { expiresIn: "7d" }
     );
 
-    res.json({ message: "Password reset successful", user, token: newToken });
+    res.cookie("token", newToken, { httpOnly: true, secure: isProd, sameSite: "none", maxAge: 7*24*60*60*1000 });    
+    res.json({ message: "Password reset successful", user });
   } catch (error) {
     console.error("Error resetting password:", error);
     res.status(400).json({ error: "Invalid or expired token" });

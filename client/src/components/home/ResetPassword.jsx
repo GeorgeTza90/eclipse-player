@@ -17,7 +17,7 @@ export default function ResetPasswordCard() {
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
-    const token = searchParams.get("token");
+    // const token = searchParams.get("token");
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -49,11 +49,11 @@ export default function ResetPasswordCard() {
 
         try {
             setLoading(true);
-            const res = await resetPassword(token, password);
+            const res = await resetPassword(password);
 
-            if (res.user && res.token) {
-                login(res.user, res.token);   // auto-login
-                navigate("/");                // redirect to home
+            if (res.user) {
+                login(res.user); // auto-login
+                navigate("/");   // redirect to home
             }
         } catch (err) {
             setError(err.message || "Failed to reset password. Try again later.");

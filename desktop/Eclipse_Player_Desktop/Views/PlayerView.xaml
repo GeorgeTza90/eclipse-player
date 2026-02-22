@@ -1,0 +1,19 @@
+<UserControl
+    x:Class="Eclipse_Player_Desktop.Views.PlayerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Eclipse_Player_Desktop.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:components="using:Eclipse_Player_Desktop.Components"    
+    mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid">
+        <components:GlowCircle Size="605" Top="200" BaseColor="#dcdcdc" MaxOpacity="0.05" LayerCount="10" Canvas.ZIndex="0"/>
+        <components:Circle Size="600" Top="170" Color1="#1f1e1e" Color2="#0b0b0b" Canvas.ZIndex="0" Opacity="1"/>
+
+        <components:GlowCircle Size="285" Top="848" BaseColor="#dcdcdc" MaxOpacity="0.05" LayerCount="8" Canvas.ZIndex="0"/>
+        <components:Circle Size="280" Top="820" Color1="#1f1e1e" Color2="#0b0b0b" Canvas.ZIndex="0" Opacity="1"/>
+
+    </Grid>
+</UserControl>

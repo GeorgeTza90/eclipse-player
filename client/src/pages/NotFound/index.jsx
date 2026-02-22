@@ -6,7 +6,7 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 
 function NotFound() {
     const isMobile = useIsMobile();
-    const { user, token } = useAuth();
+    const { user } = useAuth();
     const intensity = 15;
 
     return (<>
@@ -20,7 +20,7 @@ function NotFound() {
                 <Link to="/" style={{ color: "#fff", textDecoration: "underline" }}>Go back home</Link>
             </p>
 
-            {!isMobile && user && token && (<MiniPlayer />)}
+            {!isMobile && user && (<MiniPlayer />)}
         </div>
     </>);
 }

@@ -11,8 +11,8 @@ export const useAuthActions = () => {
     setLoading(true);
     setError(null);
     try {
-      const { user, token } = await loginUser(email, password);
-      login(user, token);
+      const { user } = await loginUser(email, password);
+      login(user);
     } catch (err) {
       setError(err.message || "Login Failed");
     } finally {
@@ -24,8 +24,8 @@ export const useAuthActions = () => {
     setLoading(true);
     setError(null);
     try {
-      const { user, token } = await registerUser(username, email, password);
-      login(user, token);
+      const { user } = await registerUser(username, email, password);
+      login(user);
     } catch (err) {
       setError(err.message || "Register Failed");
     } finally {

@@ -5,8 +5,7 @@ import { useToast } from "../../contexts/ToastContextWeb";
 import ConfirmModal from "../ui/ConfirmModal";
 import styles from "./deletePlaylistButton.module.css";
 
-export default function DeletePlaylistButton({ playlistId, onDeleted }) {
-  const { token } = useAuth();
+export default function DeletePlaylistButton({ playlistId, onDeleted }) {  
   const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [confirmVisible, setConfirmVisible] = useState(false);
@@ -22,14 +21,9 @@ export default function DeletePlaylistButton({ playlistId, onDeleted }) {
   };
 
   const handleDelete = async () => {
-    if (!token) {
-      showToast("Error: User not authenticated", "error");
-      return;
-    }
-
     try {
       setLoading(true);
-      await deletePlaylist(playlistId, token);
+      await deletePlaylist(playlistId);
       showToast("Playlist deleted successfully", "success");
       onDeleted?.();
     } catch (err) {

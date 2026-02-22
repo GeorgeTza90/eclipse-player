@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh;    
 }
 
 .container {
@@ -11,6 +11,7 @@
     height: 100%;
     margin-top: 4rem;
     padding: 10px;
+    margin-bottom: 7rem;
 }
 
 @media (max-width: 768px) {

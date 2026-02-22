@@ -12,7 +12,7 @@ export default function TrackItem({ track, index, onPress, user }) {
                 <div>
                     <span className={styles.trackTitle}>{track.title}</span><br />
                     {track.feature && (
-                        <span className={styles.trackFeature}>{`(feat. ${track.feature})`}</span>
+                        <span className={styles.trackFeature}>{`feat. ${track.feature}`}</span>
                     )}
                 </div>
 

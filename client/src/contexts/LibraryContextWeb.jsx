@@ -4,7 +4,9 @@ import { setJSON } from "../utils/localStorageManager";
 
 const LibraryContext = createContext();
 
-export const LibraryProvider = ({ children }) => {  
+export const LibraryProvider = ({ children }) => {
+  const [originalSongs, setOriginalSongs] = useState([]);
+  const [originalArtists, setOriginalArtists] = useState([]);
   const [songs, setSongs] = useState([]);
   const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);  
@@ -19,23 +21,29 @@ export const LibraryProvider = ({ children }) => {
         ]);
         setSongs(songsData);
         setArtists(artistsData);
+        setOriginalSongs(songsData);
+        setOriginalArtists(artistsData);
         setJSON("library/songs", songsData);
         setJSON("library/artists", artistsData);
-
       } catch (err) {
-        console.warn("Failed to load library:", err);
-        setSongs(getJSON("library/songs", []));
-        setArtists(getJSON("library/artists", []));
-
+        const songsData = getJSON("library/songs", []);
+        const artistsData = getJSON("library/artists", []);
+        setSongs(songsData);
+        setArtists(artistsData);
+        setOriginalSongs(songsData);
+        setOriginalArtists(artistsData);
       } finally {
         setLoading(false);
       }
-    })()
-  },[]);
+    })();
+  }, []);
 
   return (
     <LibraryContext.Provider
-      value={{ songs, setSongs, artists, setArtists, loading }}
+      value={{ 
+        songs, artists, loading, originalSongs, originalArtists,
+         setSongs, setArtists, setOriginalSongs, setOriginalArtists 
+        }}
     >
       {children}
     </LibraryContext.Provider>

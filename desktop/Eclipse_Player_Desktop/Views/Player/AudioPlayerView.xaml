@@ -1,0 +1,54 @@
+<UserControl
+    x:Class="Eclipse_Player_Desktop.Views.Player.AudioPlayerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:Eclipse_Player_Desktop.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid" Margin="40,-300,0,0">        
+        <!-- Song Info -->
+        <StackPanel x:Name="InfoPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0">
+            <Image x:Name="SongImage" Width="100" Height="100" Margin="0,0,10,0"/>
+            <StackPanel>
+                <TextBlock x:Name="SongTitle" Text="Song Title" FontSize="20" Foreground="White"/>
+                <TextBlock x:Name="SongArtist" Text="Artist Name" FontSize="16" Foreground="Gray"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Controls -->
+        <StackPanel x:Name="ControlsPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,150,25,0" Spacing="20">
+            <Button x:Name="PrevButton" Width="50" Height="50" CornerRadius="50">
+                <Image Source="/Assets/icons/prevButton.png"/>
+            </Button>
+            <Button x:Name="StopButton" Width="50" Height="50" CornerRadius="50">
+                <Image Source="/Assets/icons/stopButton.png"/>
+            </Button>
+            <Button x:Name="PlayPauseButton" Width="50" Height="50" CornerRadius="50">
+                <Image Source="/Assets/icons/playButton.png"/>
+            </Button>
+            <Button x:Name="NextButton" Width="50" Height="50" CornerRadius="50">
+                <Image Source="/Assets/icons/nextButton.png"/>
+            </Button>            
+        </StackPanel>
+
+        <!-- Slider for progress -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,230,0,0" Width="400">
+            <TextBlock x:Name="CurrentTime" Text="0:00" Foreground="White" Margin="0,0,15,0"/>
+            <Slider x:Name="ProgressSlider" Minimum="0" Maximum="100" Value="0" Width="300"/>
+            <TextBlock x:Name="DurationTime" Text="0:00" Foreground="White" Margin="15,0,0,0"/>
+        </StackPanel>
+
+        <!-- Volume -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,270,35,0">
+            <Button x:Name="VolMinButton" Width="50" Height="50" Margin="0,0,20,0" Background="#00FFFFFF" CornerRadius="50">
+                <Image Source="/Assets/icons/volMin2.png"/>
+            </Button>
+            <Slider x:Name="VolumeSlider" Minimum="0" Maximum="1" Value="1" Width="200"/>
+            <Button x:Name="VolMaxButton" Width="50" Height="50" Margin="20,0,0,0" Background="#00FFFFFF" CornerRadius="50">
+                <Image Source="/Assets/icons/volMax2.png"/>
+            </Button>            
+        </StackPanel>
+    </Grid>
+</UserControl>

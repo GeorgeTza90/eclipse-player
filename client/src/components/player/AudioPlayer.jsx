@@ -7,27 +7,23 @@ import styles from "./audioPlayer.module.css";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { useNavigate } from "react-router-dom";
 
-export default function AudioPlayer({ onToggleLyrics }) {
+export default function AudioPlayer({ onToggleExtention }) {
   const {
     currentSong, isPlaying, position, duration, volume, togglePlay,
     stop, next, previous, setVolume, seekTo
   } = useAudio();
 
   const shadowColor = currentSong?.averageColor ?? "#bebebe";
-  const [intensity, setIntensity] = useState(30);
-  const [lyricsActive, setLyricsActive] = useState(false);
+  const [extention, setExtention] = useState("Playlist")
+  const [intensity, setIntensity] = useState(30);  
   const [sliderPosition, setSliderPosition] = useState(null);
   const progress = duration ? (sliderPosition / duration) * 100 : 0;
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
-  const handleLyrics = () => {
-    const newState = !lyricsActive;
-    setLyricsActive(newState);
-
-    if (onToggleLyrics) {
-      onToggleLyrics(newState);
-    }
+  const handleExtention = (key) => {
+    setExtention(key);
+    onToggleExtention(key);    
   };
 
   useEffect(() => {
@@ -58,6 +54,28 @@ export default function AudioPlayer({ onToggleLyrics }) {
     outline: "none",
   };
 
+  const extentionButtonsStyle = {
+    width: "5rem",
+    backgroundColor: "#49444400",
+    cursor: "pointer",
+    borderRadius: "1rem",    
+    boxShadow: "#000000 1fr 1fr",    
+    color: "#fff",
+    borderColor: "#33333300",
+  }
+
+  const etentionHoverStyle = {
+    position: "absolute",
+    top: 0,
+    left: `${extention === "Playlist" ? 0 : extention === "Lyrics" ? 33.5 : 66}%`,    
+    width: "33%",
+    height: "100%",
+    backgroundColor: "#96969697",
+    borderRadius: "1rem",
+    zIndex: -5,
+    transition: "left 0.3s ease",
+  }
+
   return (
     <div className={styles.container}>
       {/* Circles */}
@@ -72,7 +90,7 @@ export default function AudioPlayer({ onToggleLyrics }) {
           <div>
             <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
             {currentSong?.feature && (
-              <span className={styles.trackFeature}>{`(feat. ${currentSong.feature})`}</span>
+              <span className={styles.trackFeature}>{`feat. ${currentSong.feature}`}</span>
             )}
             <p className={styles.artist}>
               <button
@@ -127,13 +145,27 @@ export default function AudioPlayer({ onToggleLyrics }) {
           </button>
         </div>
 
-        {/* Lyrics Toggle Button */}
-        <div>
+        {/* Extention Buttons */}
+        <div className={styles.extentionButton} style={{ position: "relative" }}>        
+          <div style={etentionHoverStyle}/>          
+          {/* Buttons */}
           <button
-            className={styles.lyricsButton}
-            onClick={handleLyrics}
+            style={{ ...extentionButtonsStyle, zIndex: 2 }}
+            onClick={() => handleExtention("Playlist")}
           >
-            {lyricsActive ? "Playlist" : "Lyrics"}
+            Playlist
+          </button>
+          <button
+            style={{ ...extentionButtonsStyle, zIndex: 2 }}
+            onClick={() => handleExtention("Lyrics")}
+          >
+            Lyrics
+          </button>
+          <button
+            style={{ ...extentionButtonsStyle, zIndex: 2 }}
+            onClick={() => handleExtention("Equalizer")}
+          >
+            Equalizer
           </button>
         </div>
       </div>

@@ -1,9 +1,9 @@
 .trackContainer {
-    width: 180px;
-    height: 255px;
+    width: 8.6rem;
+    height: 12.8rem;
     padding: 2px 0px;
     margin-right: 15px;
-    border-radius: 12px;
+    border-radius: 1rem;
     overflow: hidden;
     background-color: rgba(37, 37, 37, 0.31);
     cursor: pointer;
@@ -14,10 +14,10 @@
 }
 
 .artistContainer {
-    width: 225px;
-    height: 225px;
+    width: 9rem;
+    height: 8.8rem;
     margin-right: 15px;
-    border-radius: 12px;
+    border-radius: 1rem;
     overflow: hidden;
     cursor: pointer;
     display: flex;
@@ -25,19 +25,15 @@
     align-items: center;
 }
 
-.albumImage {
-    width: 75%;
-    aspect-ratio: 1 / 1;
-    border-radius: 10px;
-    margin: 5px 0;
+.albumImage {    
+    aspect-ratio: 1 / 1;    
+    margin: 2px 0;
     object-fit: cover;
     transition: 0.3s;
 }
 
-.artistImage {
-    width: 70%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
+.artistImage {    
+    aspect-ratio: 1 / 1;    
     margin: 5px 0;
     object-fit: cover;
     transition: 0.3s;
@@ -51,27 +47,26 @@
 
 .artistInfo {
     padding: 0 5px;
+    margin-top: 4px;
     margin-top: 5px;
     text-align: center;
 }
 
 .trackTitle {
     color: #fff;
-    font-weight: bold;
-    font-size: 16px;
+    font-weight: bold;    
     margin: 2px 0;
+    transition: 0.5s;
 }
 
 .trackArtist {
     color: #d6d6d6;
-    font-size: 14px;
+    font-size: 0.8rem;
     margin: 2px 0;
 }
 
-.trackAlbum {
-    color: #a0a0a0;
-    font-size: 12px;
-    margin: 2px 0;
+.trackYear {
+    transition: 0.5s;
 }
 
 .artistContainer:hover {
@@ -82,19 +77,9 @@
     background-color: rgba(153, 153, 153, 0.274);
 }
 
-.albumImage:hover {
-    width: 90%;
-}
-
-.artistImage:hover {
-    width: 80%;
-}
-
 .artistInfo:hover {
     display: hidden
 }
-
-.trackInfo:hover {}
 
 @media (max-width: 768px) {
     .trackContainer {

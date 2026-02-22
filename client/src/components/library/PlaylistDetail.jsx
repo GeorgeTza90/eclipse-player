@@ -12,8 +12,7 @@ import BackButton from "../buttons/BackButton";
 
 export default function PlaylistDetail() {
     const location = useLocation();
-    const navigate = useNavigate();
-    const { token } = useAuth();
+    const navigate = useNavigate();    
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -25,9 +24,9 @@ export default function PlaylistDetail() {
     const durationString = useAlbumDuration(songs);
 
     const loadSongs = async () => {
-        if (!token || !id) return;
+        if (!id) return;
         try {
-            const data = await fetchPlaylistSongs(token, Number(id));
+            const data = await fetchPlaylistSongs(Number(id));
             setSongs(data);
         } catch (err) {
             console.error("Failed to load playlist songs", err);
@@ -56,13 +55,12 @@ export default function PlaylistDetail() {
 
         setSongs(reorderedSongs);
 
-        if (!token || !id) return;
+        if (!id) return;
         try {
             await moveSongInPlaylist(
                 Number(id),
                 Number(movedSong.playlistSongId),
-                destination.index,
-                token
+                destination.index
             );
         } catch (err) {
             console.error("Failed to move song", err);
@@ -73,7 +71,7 @@ export default function PlaylistDetail() {
 
     useEffect(() => {
         loadSongs();
-    }, [id, token]);
+    }, [id]);
 
     return (
         <div className={styles.container}>

@@ -1,0 +1,9 @@
+App.xbf
+Components\Circle.xbf
+Components\GlowCircle.xbf
+Components\Nav.xbf
+MainWindow.xbf
+Views\HomeView.xbf
+Views\LibraryView.xbf
+Views\Player\AudioPlayerView.xbf
+Views\PlayerView.xbf

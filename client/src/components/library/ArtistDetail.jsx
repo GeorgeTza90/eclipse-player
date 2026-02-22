@@ -39,8 +39,8 @@ export default function ArtistDetail() {
     if (!artist) return <p style={{ color: "#fff", padding: "10px" }}>Loading artist...</p>;
 
     const artistSongs = songs.filter(s => s.artist === artist.name);
-    const singlesEps = byYear(songs, "single", "ep");
-    const albums = byYear(songs, "album");
+    const singlesEps = byYear(artistSongs, "single", "ep");
+    const albums = byYear(artistSongs, "album");
 
     return (
         <div className={styles.container}>

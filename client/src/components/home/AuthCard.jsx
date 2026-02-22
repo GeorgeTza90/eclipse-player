@@ -89,20 +89,24 @@ export default function AuthCard() {
             <div className={styles.formWrapper}>
                 {!isLogin && (
                     <input
+                        id="username"
                         type="text"
                         placeholder="Username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         className={styles.input}
+                        autoComplete= "username"
                     />
                 )}
 
                 <input
+                    id="email"
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={styles.input}
+                    autoComplete="email"
                 />
 
                 <PasswordInput

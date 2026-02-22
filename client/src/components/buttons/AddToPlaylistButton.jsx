@@ -5,19 +5,18 @@ import { addSongToPlaylist } from "../../services/PostService";
 import { useToast } from "../../contexts/ToastContextWeb";
 import styles from "./addToPlaylistButton.module.css";
 
-export default function AddToPlaylistButton({ song }) {
-    const { token } = useAuth();
+export default function AddToPlaylistButton({ song }) {    
     const { showToast } = useToast();
     const [modalVisible, setModalVisible] = useState(false);
     const [playlists, setPlaylists] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (modalVisible && token) {
+        if (modalVisible) {
             const loadPlaylists = async () => {
                 setLoading(true);
                 try {
-                    const data = await fetchUserPlaylists(token);
+                    const data = await fetchUserPlaylists();
                     setPlaylists(data);
                 } catch (err) {
                     console.error("Failed to fetch playlists", err);
@@ -28,12 +27,11 @@ export default function AddToPlaylistButton({ song }) {
             };
             loadPlaylists();
         }
-    }, [modalVisible, token, showToast]);
+    }, [modalVisible, showToast]);
 
-    const handleAddToPlaylist = async (playlistId) => {
-        if (!token) return;
+    const handleAddToPlaylist = async (playlistId) => {        
         try {
-            await addSongToPlaylist(playlistId, song.id, token);
+            await addSongToPlaylist(playlistId, song.id);
             showToast(`Added "${song.title}" to playlist`, "success");
             setModalVisible(false);
         } catch (err) {

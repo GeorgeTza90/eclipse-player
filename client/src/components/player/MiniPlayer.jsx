@@ -31,14 +31,14 @@ const MiniPlayer = () => {
 
     useEffect(() => {
         if (!showTimeBar && !showVolumeBar) {
-            setCircleSize(250);
+            setCircleSize(260);
             setCircleLeft(-80);
             setCircleTop(-50);
 
             if (!showImage) {
-                setCircleSize(220);
-                setCircleLeft(-60);
-                setCircleTop(-60);
+                setCircleSize(235);
+                setCircleLeft(-70);
+                setCircleTop(-50);
             };
 
         } else {

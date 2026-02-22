@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Eclipse_Player_Desktop (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Eclipse_Player_Desktop (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

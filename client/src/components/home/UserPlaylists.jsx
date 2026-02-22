@@ -6,7 +6,7 @@ import AddPlaylistModal from "./AddPlaylistModal";
 import { fetchUserPlaylists } from "../../services/GetService";
 import AddPlaylistButton from "../buttons/AddPlaylistButton";
 
-export default function UserPlaylists({ token }) {
+export default function UserPlaylists() {
     const navigate = useNavigate();
     const [playlists, setPlaylists] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -19,7 +19,7 @@ export default function UserPlaylists({ token }) {
     const loadPlaylists = async () => {
         setLoading(true);
         try {
-            const data = await fetchUserPlaylists(token);
+            const data = await fetchUserPlaylists();
             setPlaylists(data);
         } catch (err) {
             console.error("Failed to load playlists:", err);
@@ -45,17 +45,15 @@ export default function UserPlaylists({ token }) {
                         <PlaylistItem
                             key={pl.id}
                             playlist={pl}
-                            token={token}
                             onDelete={loadPlaylists}
                             onPress={() => handlePlaylistPress(pl)}
                         />
                     ))}
-                <AddPlaylistButton onClick={() => setModalVisible(true)} />                
+                <AddPlaylistButton onClick={() => setModalVisible(true)} />
             </div>
 
             <AddPlaylistModal
                 visible={modalVisible}
-                token={token}
                 onCreated={loadPlaylists}
                 onClose={() => setModalVisible(false)}
             />

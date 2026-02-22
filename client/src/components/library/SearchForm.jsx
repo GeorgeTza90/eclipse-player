@@ -1,17 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import SearchInput from "../inputs/SearchInput";
 
 const SearchForm = () => {
     const [searchKey, setSearchKey] = useState("");
-    const { songs, artists, setSongs, setArtists } = useLibrary();
-    const [originalSongs, setOriginalSongs] = useState([]);
-    const [originalArtists, setOriginalArtists] = useState([]);
-
-    useEffect(() => {
-        if (songs.length && originalSongs.length === 0) setOriginalSongs(songs);
-        if (artists.length && originalArtists.length === 0) setOriginalArtists(artists);
-    }, [songs, artists, originalSongs.length, originalArtists.length]);
+    const { setSongs, setArtists, originalSongs, originalArtists } = useLibrary();
 
     useEffect(() => {
         const lowerKey = searchKey.toLowerCase().trim();
@@ -34,15 +27,15 @@ const SearchForm = () => {
 
         setSongs(filteredSongs);
         setArtists(filteredArtists);
-    }, [searchKey, originalSongs, originalArtists, setSongs, setArtists]);
+    }, [searchKey, setSongs, setArtists, originalSongs, originalArtists]);
 
-    return (<>
+    return (
         <SearchInput
             placeholder="Wanna Search?"
             value={searchKey}
             onChange={(e) => setSearchKey(e.target.value)}
         />
-    </>);
+    );
 };
 
 export default SearchForm;

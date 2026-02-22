@@ -3,7 +3,7 @@ import styles from "./addPlaylistModal.module.css";
 import { createPlaylist } from "../../services/PostService";
 import { useToast } from "../../contexts/ToastContextWeb";
 
-export default function AddPlaylistModal({ visible, onClose, token, onCreated }) {
+export default function AddPlaylistModal({ visible, onClose, onCreated }) {
     const { showToast } = useToast();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -18,7 +18,7 @@ export default function AddPlaylistModal({ visible, onClose, token, onCreated })
 
         try {
             setLoading(true);
-            await createPlaylist(token, title, description);
+            await createPlaylist(title, description);
             setTitle("");
             setDescription("");
             showToast("Playlist created successfully", "success");
