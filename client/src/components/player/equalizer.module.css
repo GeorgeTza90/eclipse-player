@@ -44,6 +44,7 @@
   cursor: pointer;
   background: #555;
   border-radius: 5px;
+  touch-action: none;
 }
 
 .verticalSlider::-webkit-slider-thumb {
