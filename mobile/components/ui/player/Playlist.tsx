@@ -45,7 +45,7 @@ export default function Playlist() {
 }
 
 const styles = StyleSheet.create({
-    container: { width: width, height: height * 0.365 },
+    container: { position: "absolute", marginTop: 500,width: width, height: height * 0.365 },
     heading: { color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
     list: { flexGrow: 0 },
     listContent: { paddingBottom: 40 },

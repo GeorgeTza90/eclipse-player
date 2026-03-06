@@ -3,21 +3,20 @@ import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 import { PlaylistItemProps } from "@/types/playlists";
 import DeletePlaylistButton from "../buttons/DeletePlaylistButton";
 
-export default function PlaylistItem({ playlist, token, onDelete, onPress }: PlaylistItemProps) {
+export default function PlaylistItem({ playlist, onDelete, onPress }: PlaylistItemProps) {    
+    return (
+        <TouchableOpacity
+            style={styles.playlistItem}
+            onPress={() => onPress(playlist)}
+        >
+            <View style={styles.textContainer}>
+                <Text style={styles.title} numberOfLines={1}>{playlist.title}</Text>
+                <Text style={styles.count}>{playlist.songCount ?? 0} songs</Text>
+            </View>
 
-  return (
-      <TouchableOpacity
-          style={styles.playlistItem}
-          onPress={() => onPress(playlist)}
-      >
-        <View style={styles.textContainer}>
-            <Text style={styles.title} numberOfLines={1}>{playlist.title}</Text>
-            <Text style={styles.count}>{playlist.songCount ?? 0} songs</Text>
-        </View>
-
-          <DeletePlaylistButton playlistId={playlist.id} onDeleted={onDelete}/>
-      </TouchableOpacity>
-  );
+            <DeletePlaylistButton playlistId={playlist.id} onDeleted={onDelete}/>
+        </TouchableOpacity>
+    );
 };
 
 const styles = StyleSheet.create({

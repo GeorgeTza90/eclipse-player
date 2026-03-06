@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Alert, Pressable, Text, StyleSheet, ActivityIndicator, View } from "react-native";
-import { useAuth } from "@/contexts/AuthContext";
 import { deletePlaylist as apiDeletePlaylist } from "@/services/api";
 import { DeletePlaylistButtonProps } from "@/types/buttons";
 import { useToast } from "@/contexts/ToastContext";
 
-export default function DeletePlaylistButton({ playlistId, onDeleted }: DeletePlaylistButtonProps) {
-    const { token } = useAuth();
+export default function DeletePlaylistButton({ playlistId, onDeleted }: DeletePlaylistButtonProps) {    
     const [loading, setLoading] = useState(false);
     const { showToast } = useToast();
 
@@ -22,14 +20,9 @@ export default function DeletePlaylistButton({ playlistId, onDeleted }: DeletePl
     };
 
     const handleDelete = async () => {
-        if (!token) {
-            showToast("User not authenticated", "error");
-            return;
-        }
-
         try {
             setLoading(true);
-            await apiDeletePlaylist(playlistId, token);
+            await apiDeletePlaylist(playlistId);
             showToast("Playlist deleted successfully", "success");
             onDeleted?.();
         } catch (err: any) {

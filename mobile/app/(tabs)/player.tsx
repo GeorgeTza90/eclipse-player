@@ -6,21 +6,21 @@ import TabLayoutWrapper from '@/components/ui/TabLayoutWrapper';
 import AudioPlayer from '@/components/ui/player/AudioPlayer';
 import Playlist from '@/components/ui/player/Playlist';
 import Lyrics from '@/components/ui/player/Lyrics';
+import Equalizer from '@/components/ui/player/Equalizer';
 import Circle from '@/components/ui/player/Circle';
 
 const width = 250;
 
 export default function PlayerScreen() {
   const { currentSong } = useAudio();  
-  const shadowColor = currentSong?.averageColor ?? '#bebebe';
-  const [lyricsActive, setLyricsActive] = useState(false);
+  const shadowColor = currentSong?.averageColor ?? '#bebebe';  
+  const [extention, setExtention] = useState("Playlist");
 
-  const handleLyricsToggle = (active: boolean) => {
-    setLyricsActive(active);
-  };
+  const handleExtention = (key: string) => setExtention(key);  
 
   return (
     <TabLayoutWrapper title="">
+      
       <View style={{ position: 'absolute', top: -440, left: -10, right: 0, bottom: 0, zIndex: 0 }}>
         <Circle size={450} shadowColor={shadowColor} color2 = "#0a0a0aff" color1 = "#1f1e1eff"/>
       </View>
@@ -31,22 +31,16 @@ export default function PlayerScreen() {
         contentFit="contain"        
       />
       
-      <AudioPlayer onToggleLyrics={handleLyricsToggle} />
-      
-      {lyricsActive ? (
-        <Lyrics />
-      ) : (
-        <Playlist />
-      )}
+      <AudioPlayer onToggleExtention={handleExtention} />      
+
+      {extention === "Playlist" && <Playlist/>}
+      {extention === "Lyrics" && <Lyrics/>}
+      {extention === "Equalizer" && <Equalizer color={shadowColor}/>} 
+
     </TabLayoutWrapper>
   );
 }
 
 const styles = StyleSheet.create({
-  logo: {
-    width: width,
-    height: width / 4.5,
-    alignSelf: 'center',
-    marginTop: -70,
-  },
+  logo: { width: width, height: width / 4.5, alignSelf: 'center', marginTop: -70 },
 });

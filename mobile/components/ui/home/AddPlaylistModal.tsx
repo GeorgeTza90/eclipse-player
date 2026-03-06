@@ -4,18 +4,18 @@ import { createPlaylist } from "@/services/api";
 import { AddPlaylistModalProps } from "@/types/playlists";
 import { useToast } from "@/contexts/ToastContext";
 
-export default function AddPlaylistModal({ visible, onClose, token, onCreated }: AddPlaylistModalProps) {
+export default function AddPlaylistModal({ visible, onClose, onCreated }: AddPlaylistModalProps) {    
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const { showToast } = useToast();
 
-    const handleCreate = async () => {
+    const handleCreate = async () => {        
         if (!title.trim()) return showToast("Playlist title is required", "error");      
         if (title.length < 2 ) return showToast("Playlist title minimum length is 2 characters", "error")
         if (title.length > 20 ) return showToast("Playlist title maximum length is 20 characters", "error")
         
         try {
-            await createPlaylist(token, title, description);
+            await createPlaylist(title, description);
             showToast(`Playlist "${title}" created successfully`, "success");
             setTitle("");
             setDescription("");

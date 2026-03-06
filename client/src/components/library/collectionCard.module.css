@@ -29,14 +29,14 @@
     aspect-ratio: 1 / 1;    
     margin: 2px 0;
     object-fit: cover;
-    transition: 0.3s;
+    transition: 0.5s;
 }
 
 .artistImage {    
     aspect-ratio: 1 / 1;    
     margin: 5px 0;
     object-fit: cover;
-    transition: 0.3s;
+    transition: 0.5s;
 }
 
 .trackInfo {
@@ -62,7 +62,7 @@
 .trackArtist {
     color: #d6d6d6;
     font-size: 0.8rem;
-    margin: 2px 0;
+    margin: 2px 0;   
 }
 
 .trackYear {
@@ -116,7 +116,4 @@
         font-size: 12px;
         margin: 2px 0;
     }
-
-
-
 }

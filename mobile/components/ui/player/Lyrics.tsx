@@ -18,7 +18,7 @@ export default function Lyrics() {
     const lyricsLines = currentSong.lyrics?.split('\n') || [];
 
     return (
-        <View style={styles.wrapper}>
+        <View style={styles.container}>
             <Text style={styles.heading}>{currentSong.title} - Lyrics</Text>
             <ScrollView
                 style={styles.scrollContainer}
@@ -40,7 +40,7 @@ export default function Lyrics() {
 }
 
 const styles = StyleSheet.create({
-    wrapper: { flex: 1, width: '100%', maxWidth: width * 0.9, paddingHorizontal: 10, alignItems: 'center' },
+    container: { position: "absolute", marginTop: 500,width: width, height: height * 0.365 },
     heading: { color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
     scrollContainer: { width: '100%', maxHeight: height * 0.5 },
     scrollContent: { alignItems: 'center', paddingVertical: 10 },

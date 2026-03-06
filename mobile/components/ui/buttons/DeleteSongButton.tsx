@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { Alert, Pressable, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { useAuth } from "@/contexts/AuthContext";
 import { deleteSongFromPlaylist as apiDeleteSong } from "@/services/api";
 import { DeleteSongButtonProps } from "@/types/buttons";
 import { useToast } from "@/contexts/ToastContext";
 
-export default function DeleteSongButton({ playlistId, songId, onDeleted }: DeleteSongButtonProps) {
-  const { token } = useAuth();
+export default function DeleteSongButton({ playlistId, songId, onDeleted }: DeleteSongButtonProps) {  
   const [loading, setLoading] = useState(false);
   const {showToast} = useToast();
 
-  const handleDelete = () => {
-    if (!token) return showToast("User not authenticated", "error");
-
+  const handleDelete = () => {   
     Alert.alert(
       "Delete Song",
       "Are you sure you want to remove this song from the playlist?",
@@ -24,7 +20,7 @@ export default function DeleteSongButton({ playlistId, songId, onDeleted }: Dele
           onPress: async () => {
             try {
               setLoading(true);
-              await apiDeleteSong(playlistId, songId, token);
+              await apiDeleteSong(playlistId, songId);
               onDeleted?.();
             } catch (err: any) {
               console.error(err);

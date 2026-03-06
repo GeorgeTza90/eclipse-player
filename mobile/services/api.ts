@@ -1,224 +1,134 @@
-import Constants from 'expo-constants';
-import { Song } from "@/types/songs";
+import Constants from "expo-constants";
+import { Song, PlaylistSong } from "@/types/songs";
 import { Playlist } from "@/types/playlists";
 
 const API_URL = Constants.expoConfig?.extra?.API_URL;
 
-//Not Used Yet
-export function getFullUrl(path: string) {
-    if (!path) return "";
-    if (path.startsWith("http")) return path;
-    return `${API_URL}/data${path}`;
+// -------------------- API WRAPPER --------------------
+async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  const res = await fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    credentials: "include", // <-- το κλειδί για cookies / session
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+  });
+
+  let data;
+  try { data = await res.json(); } catch { data = null; }
+
+  if (!res.ok) {
+    throw new Error(data?.error || data?.message || "Request failed");
+  }
+  return data;
 }
 
-// Songs
-export async function fetchSongs(): Promise<Song[]> {
-    const response = await fetch(`${API_URL}/api/songs`);
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    const data: Song[] = await response.json();
-    return data.map(song => ({
-        ...song,
-        url: song.url,
-        image: song.image,
-    }));
-}
+// -------------------- Songs --------------------
+export const fetchSongs = () => apiFetch<Song[]>("/api/songs");
 
-export async function fetchSongById(songId: number): Promise<Song> {
-    const res = await fetch(`${API_URL}/api/songs/${songId}`);
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.message || "Failed to fetch song");
-    }
-    const song: Song = await res.json();
-    return song;
-}
+export const fetchSongById = (songId: number) => apiFetch<Song>(`/api/songs/${songId}`);
 
-// Artists
-export async function fetchArtists() {
-    const res = await fetch(`${API_URL}/api/artists`);
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.message || "Failed to fetch artists");
-    }
-    return res.json();
-}
+// -------------------- Artists --------------------
+export const fetchArtists = () => apiFetch<any[]>("/api/artists");
 
-export async function fetchArtist(artistName: string) {
-    if (!artistName) throw new Error("Artist name is required");
-    const res = await fetch(`${API_URL}/api/artists/${encodeURIComponent(artistName)}`);
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.message || "Failed to fetch artist");
-    }
-    return res.json();
-}
+export const fetchArtist = (artistName: string) => {
+  if (!artistName) throw new Error("Artist name is required");
+  return apiFetch<any>(`/api/artists/${encodeURIComponent(artistName)}`);
+};
 
-// Auth
-export async function loginUser(email: string, password: string) {
-    const res = await fetch(`${API_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Login Failed');
-    return data;
-}
+// -------------------- Auth --------------------
+export const loginUser = (email: string, password: string) =>
+  apiFetch<any>("/api/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  });
 
-export async function googleLogin(idToken: string, platform: 'web' | 'mobile') {
-    const res = await fetch(`${API_URL}/api/auth/google-login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idToken, platform }),
-    });
+export const registerUser = (username: string, email: string, password: string) =>
+  apiFetch<any>("/api/auth/register", {
+    method: "POST",
+    body: JSON.stringify({ username, email, password }),
+  });
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Google login failed');
-    return data;
-}
+export const googleLogin = (accessToken: string, platform: "web" | "mobile") =>
+  apiFetch<any>("/api/auth/google-login", {
+    method: "POST",
+    body: JSON.stringify({ accessToken, platform }),
+  });
 
-export async function registerUser(username: string, email: string, password: string) {
-    const res = await fetch(`${API_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Register Failed');
-    return data;
-}
+export const fetchCurrentUser = () => apiFetch<any>("/api/auth/me");
 
-export async function forgotPassword(email: string) {
-    console.log("Reached");
-    const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-    });
-    console.log("Sending forgot password request to:", API_URL);
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Failed to send reset link');
-    return data;
-}
+export const logoutUser = async () => {
+  const res = await fetch(`${API_URL}/api/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
 
-// Playlists
-export async function fetchUserPlaylists(token: string): Promise<Playlist[]> {
-    const res = await fetch(`${API_URL}/api/playlists`, {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!res.ok) throw new Error('Failed to fetch playlists');
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "Logout failed");
+    throw new Error(errText || "Logout failed");
+  }
 
-    const playlists: Playlist[] = await res.json();
+  try { return await res.json(); } catch { return null; }
+};
 
-    const playlistsWithCounts = await Promise.all(
-        playlists.map(async (pl) => {
-            const songsRes = await fetch(`${API_URL}/api/playlists/${pl.id}/songs`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            const songs = songsRes.ok ? await songsRes.json() : [];
-            return { ...pl, songCount: songs.length };
-        })
-    );
+export const forgotPassword = (email: string) =>
+  apiFetch<any>("/api/auth/forgot-password", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
 
-    return playlistsWithCounts;
-}
+export const resetPassword = (token: string, newPassword: string) =>
+  apiFetch<any>("/api/auth/reset-password", {
+    method: "POST",
+    body: JSON.stringify({ token, newPassword }),
+  });
 
-export async function createPlaylist(token: string, title: string, description?: string): Promise<Playlist> {
-    const res = await fetch(`${API_URL}/api/playlists`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ title, description })
-    });
+// -------------------- Playlists --------------------
+export const fetchUserPlaylists = async (): Promise<Playlist[]> => {
+  const playlists = await apiFetch<Playlist[]>("/api/playlists");
 
-    const data = await res.json();
+  const playlistsWithCounts = await Promise.all(
+    playlists.map(async (pl) => {
+      const songs = await apiFetch<Song[]>(`/api/playlists/${pl.id}/songs`).catch(() => []);
+      return { ...pl, songCount: songs.length };
+    })
+  );
 
-    if (!res.ok) {
-        throw new Error(data.error || "Failed to create playlist");
-    }
+  return playlistsWithCounts;
+};
 
-    return data;
-}
+export const fetchPlaylistSongs = (playlistId: number): Promise<PlaylistSong[]> => {
+  if (!playlistId) throw new Error("Playlist ID is required");
+  return apiFetch<PlaylistSong[]>(`/api/playlists/${playlistId}/songs`);
+};
 
-export async function updatePlaylist(id: number, title: string, description: string, token: string) {
-    const res = await fetch(`${API_URL}/api/playlists/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ title, description })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to update playlist");
-    return data;
-}
+export const createPlaylist = (title: string, description?: string) =>
+  apiFetch<Playlist>("/api/playlists", {
+    method: "POST",
+    body: JSON.stringify({ title, description }),
+  });
 
-export async function deletePlaylist(id: number, token: string) {
-    const res = await fetch(`${API_URL}/api/playlists/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to delete playlist");
-    return data;
-}
+export const updatePlaylist = (id: number, title: string, description: string) =>
+  apiFetch<any>(`/api/playlists/${id}`, {
+    method: "PUT",
+    body: JSON.stringify({ title, description }),
+  });
 
-// Playlist Songs
-export async function fetchPlaylistSongs(token: string, playlistId: number) {
-    const res = await fetch(`${API_URL}/api/playlists/${playlistId}/songs`, {
-        headers: { Authorization: `Bearer ${token}` }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to fetch playlist songs");
-    return data.map((song: any) => ({
-        ...song,
-        url: song.url,
-        image: song.image,
-    }));
-}
+export const deletePlaylist = (id: number) =>
+  apiFetch<any>(`/api/playlists/${id}`, { method: "DELETE" });
 
-export async function addSongToPlaylist(playlistId: number, songId: number, token: string) {
-    const res = await fetch(`${API_URL}/api/playlists/${playlistId}/songs`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ songId })
-    });
-    const data = await res.json();
-    if (!res.ok) {
-        if (data.error === "Song already in playlist") {
-            return { status: "duplicate", message: data.error };
-        }
-        throw new Error(data.error || "Failed to add song");
-    }
-    return data;
-}
+export const addSongToPlaylist = (playlistId: number, songId: number) =>
+  apiFetch<any>(`/api/playlists/${playlistId}/songs`, {
+    method: "POST",
+    body: JSON.stringify({ songId }),
+  });
 
-export async function moveSongInPlaylist(playlistId: number, songId: number, newOrder: number, token: string) {
-    const res = await fetch(`${API_URL}/api/playlists/${playlistId}/songs/${songId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ newOrder })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to move song");
-    return data;
-}
+export const moveSongInPlaylist = (playlistId: number, songId: number, newOrder: number) =>
+  apiFetch<any>(`/api/playlists/${playlistId}/songs/${songId}`, {
+    method: "PUT",
+    body: JSON.stringify({ newOrder }),
+  });
 
-export async function deleteSongFromPlaylist(playlistId: number, songId: number, token: string) {
-    const res = await fetch(`${API_URL}/api/playlists/${playlistId}/songs/${songId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to delete song");
-    return data;
-}
+export const deleteSongFromPlaylist = (playlistId: number, songId: number) =>
+  apiFetch<any>(`/api/playlists/${playlistId}/songs/${songId}`, { method: "DELETE" });

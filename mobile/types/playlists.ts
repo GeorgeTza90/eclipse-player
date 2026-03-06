@@ -11,15 +11,13 @@ export interface PlaylistListProps {
 }
 
 export interface PlaylistItemProps {
-    playlist: Playlist;
-    token: string;
+    playlist: Playlist;    
     onDelete: () => void;
     onPress: (playlist: Playlist) => void;
 }
 
 export interface AddPlaylistModalProps {
     visible: boolean;
-    onClose: () => void;
-    token: string;
+    onClose: () => void;    
     onCreated: () => void;
 }

@@ -23,7 +23,7 @@ export default function CollectionDetail() {
     const albumInfo = albumSongs[0];
     const durationString = useAlbumDuration(albumSongs);
 
-    const handlePressSong = (song) => {
+    const handlePressSong = (song) => {        
         playSong(song, albumSongs, album);
         navigate("/player");
     };

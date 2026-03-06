@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import { TouchableOpacity, Text, Modal, View, FlatList, StyleSheet } from "react-native";
-import { useAuth } from "@/contexts/AuthContext";
 import { fetchUserPlaylists, addSongToPlaylist } from "@/services/api";
 import { Playlist } from "@/types/playlists";
 import { AddToPlaylistButtonProps } from "@/types/buttons";
 import { useToast } from "@/contexts/ToastContext";
 
-export default function AddToPlaylistButton({ song }: AddToPlaylistButtonProps) {
-  const { token } = useAuth();
+export default function AddToPlaylistButton({ song }: AddToPlaylistButtonProps) {  
   const [modalVisible, setModalVisible] = useState(false);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [loading, setLoading] = useState(false);
   const { showToast } = useToast();
 
-  const loadPlaylists = async () => {
-    if (!token) return;
+  const loadPlaylists = async () => {    
     setLoading(true);
     try {
-      const data = await fetchUserPlaylists(token); 
+      const data = await fetchUserPlaylists(); 
       setPlaylists(data);
     } catch (err) {
       console.error("Failed to fetch playlists", err);
@@ -27,10 +24,9 @@ export default function AddToPlaylistButton({ song }: AddToPlaylistButtonProps) 
     }
   };
 
-  const handleAddToPlaylist = async (playlistId: number) => {
-    if (!token) return;
+  const handleAddToPlaylist = async (playlistId: number) => {    
     try {        
-      const result = await addSongToPlaylist(playlistId, Number(song.id), token);
+      const result = await addSongToPlaylist(playlistId, Number(song.id));
       if (result.status === "duplicate") {
         showToast(`"${song.title}" is already in this playlist`, "info");
       } else {

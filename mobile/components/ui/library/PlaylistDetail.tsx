@@ -4,7 +4,6 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { fetchPlaylistSongs, moveSongInPlaylist } from "@/services/api";
 import { useAudio } from "@/contexts/AudioContext";
-import { useAuth } from "@/contexts/AuthContext";
 import { Song, PlaylistSong } from "@/types/songs";
 import { useToast } from "@/contexts/ToastContext";
 import { useAlbumDuration } from "@/hooks/useFormatTime";
@@ -12,10 +11,9 @@ import SongRow from "./PlaylistSongItem";
 
 export default function PlaylistDetail() {
     const { id, title } = useLocalSearchParams<{ id: string; title: string }>();
-    const { token } = useAuth();
     const [songs, setSongs] = useState<PlaylistSong[]>([]);
     const [loading, setLoading] = useState(true);
-    const [trash, setTrash] =useState(false);
+    const [trash, setTrash] = useState(false);
     const router = useRouter();
     const { playSong } = useAudio();
     const { showToast } = useToast();
@@ -23,9 +21,8 @@ export default function PlaylistDetail() {
     const durationString = useAlbumDuration(songs);
 
     const loadSongs = async () => {
-        if (!token) return;
         try {
-            const data = await fetchPlaylistSongs(token, Number(id));
+            const data = await fetchPlaylistSongs(Number(id));
             setSongs(data);
         } catch (err) {
             console.error("Failed to load playlist songs", err);
@@ -33,7 +30,7 @@ export default function PlaylistDetail() {
         } finally {
             setLoading(false);
         }
-    };    
+    };
 
     const handlePlay = (song: Song) => {
         try {
@@ -42,16 +39,15 @@ export default function PlaylistDetail() {
         } catch (err: any) {
             showToast("Could not play song", err);
         }
-    }; 
-    
+    };
+
     const handleDragEnd = async ({ data, from, to }: { data: PlaylistSong[]; from: number; to: number }) => {        
         const previous = songs.slice();
         setSongs(data);
-        if (!token) return;
 
         try {      
             const movedSong = data[to];      
-            await moveSongInPlaylist(Number(id), Number(movedSong.playlistSongId), to, token);      
+            await moveSongInPlaylist(Number(id), Number(movedSong.playlistSongId), to);      
         } catch (err: any) {
             console.error("Failed to move song", err);      
             setSongs(previous);
@@ -69,12 +65,12 @@ export default function PlaylistDetail() {
             onDelete={(songId) => setSongs(prev => prev.filter(s => s.id !== songId))}
             playlistId={Number(id)}
         />
-    );  
+    );
 
     useEffect(() => {
         loadSongs();
-    }, [id, token]);
-    
+    }, [id]);
+
     return (
         <View style={styles.container}>
             <Text style={styles.playlistTitle}>{title}</Text>

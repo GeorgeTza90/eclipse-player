@@ -1,68 +1,69 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, Text, StyleSheet, View, Dimensions } from "react-native";
 import { fetchUserPlaylists } from "@/services/api";
-import { Playlist, PlaylistListProps } from "@/types/playlists";
+import { Playlist } from "@/types/playlists";
 import PlaylistItem from "./PlaylistItem";
 import AddPlaylistModal from "./AddPlaylistModal";
 import { useRouter } from "expo-router";
 import AddPlaylistButton from "../buttons/AddPlaylistButton";
+import { useAuth } from "@/contexts/AuthContext";
 
-export default function UserPlaylists({ token }: PlaylistListProps) {
+export default function UserPlaylists() {
     const router = useRouter();
-    const [playlists, setPlaylists] = useState<Playlist[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [modalVisible, setModalVisible] = useState(false);
+    const { user, loading: authLoading } = useAuth();
+    const [ playlists, setPlaylists ] = useState<Playlist[]>([]);
+    const [ loading, setLoading ] = useState(true);
+    const [ modalVisible, setModalVisible ] = useState(false);
 
     useEffect(() => {
+        if (authLoading || !user) return;
         loadPlaylists();
-    }, []);
+    }, [authLoading, user]);
 
     const loadPlaylists = async () => {
         setLoading(true);
         try {
-            const data = await fetchUserPlaylists(token);
+            const data = await fetchUserPlaylists();
             setPlaylists(data);
         } catch (err: any) {
             console.log("Failed to load playlists:", err);
         } finally {
             setLoading(false);
         }
-  };  
+    };
 
     const scrollHeight = Dimensions.get('window').height * 0.5;
-  
-  return (
-    <View style={{ height: scrollHeight }}>
-        <ScrollView contentContainerStyle={styles.container}>
-            {loading && <Text style={styles.infoText}>Loading playlists...</Text>}
-            {!loading && playlists.length === 0 && <Text style={styles.infoText}>No playlists found.</Text>}
 
-            <View style={styles.gridContainer}>
-                {!loading && playlists.map(pl => (
-                    <PlaylistItem
-                        key={pl.id}
-                        playlist={pl}
-                        token={token}
-                        onDelete={loadPlaylists}
-                        onPress={(playlist) =>
-                          router.push(`/library/PlaylistDetail?id=${playlist.id}&title=${encodeURIComponent(playlist.title)}`)
-                        }
-                    />
-                ))}
+    return (
+        <View style={{ height: scrollHeight }}>
+            <ScrollView contentContainerStyle={styles.container}>
+                {loading && <Text style={styles.infoText}>Loading playlists...</Text>}
+                {!loading && playlists.length === 0 && <Text style={styles.infoText}>No playlists found.</Text>}
 
-                <AddPlaylistButton onPress={() => setModalVisible(true)} />      
-            </View>
+                <View style={styles.gridContainer}>
+                    {!loading && playlists.map(pl => (
+                        <PlaylistItem
+                            key={pl.id}
+                            playlist={pl}
+                            onDelete={loadPlaylists}
+                            onPress={(playlist) =>
+                              router.push(`/library/PlaylistDetail?id=${playlist.id}&title=${encodeURIComponent(playlist.title)}`)
+                            }
+                        />
+                    ))}
 
-            <AddPlaylistModal 
-                visible={modalVisible} 
-                token={token} 
-                onCreated={loadPlaylists} 
-                onClose={() => setModalVisible(false)} 
-            />
-        </ScrollView>
-    </View>
-  );
-};
+                    <AddPlaylistButton onPress={() => setModalVisible(true)} />
+                </View>
+
+                <AddPlaylistModal 
+                    visible={modalVisible}
+                    onCreated={loadPlaylists}
+                    onClose={() => setModalVisible(false)}
+                />
+            </ScrollView>
+        </View>
+    );
+}
 
 const styles = StyleSheet.create({
     container: { padding: 10 },
