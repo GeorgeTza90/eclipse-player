@@ -24,7 +24,8 @@ export default function AuthCard() {
     const [message, setMessage] = useState<string>('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);  
-    const { handleLogin, handleRegister, loading, error } = useAuthActions();
+
+    const { handleLogin, handleRegister, handleGoogleLogin, loading, error } = useAuthActions();
     
     const [request, response, promptAsync] = Google.useAuthRequest({
         clientId: GOOGLE_CLIENT_IDS.expoClientId,
@@ -37,16 +38,15 @@ export default function AuthCard() {
     useEffect(() => {
         if (response?.type === "success") {
             const idToken = response.params.id_token || response.params.idToken;
-            if (idToken) handleGoogleLogin(idToken);
+            if (idToken) handleGoogle(idToken);
         }
     }, [response]);
 
-    const handleGoogleLogin = async (idToken: string) => {
-        try {      
-            const data = await googleLogin(idToken, "mobile");
-            handleLogin(data.user, data.token);
+    const handleGoogle = async (idToken: string) => {
+        try {
+            const { user } = await googleLogin(idToken, "mobile");
+            await handleGoogleLogin(idToken);
         } catch (err: any) {
-            console.error("Google login failed:", err);
             setLocalError(err.message || "Google login failed");
         }
     };
@@ -54,11 +54,9 @@ export default function AuthCard() {
     const handleForgotPassword = async () => {
         if (!email) return setLocalError("Please enter your email first.");     
         try {
-            const data = await forgotPassword(email);
-            console.log("Forgot password response:", data);
+            await forgotPassword(email);
             setMessage(`An email to reset Password has been sent to: ${email}`);
         } catch (err: any) {
-            console.error("Forgot password failed:", err);
             setLocalError("Failed to send reset email. Try again later.");
         }
     };
@@ -75,11 +73,12 @@ export default function AuthCard() {
         return () => clearTimeout(timer);
     }, [message]);
 
-    const onSubmit = () =>
-        validateAndSubmitAuth({
+    const onSubmit = async () => {
+        await validateAndSubmitAuth({
             isLogin, username, email, password, confirmPassword,
             setLocalError, handleLogin, handleRegister,
         });
+    };
 
     return (
         <View style={styles.container}>
@@ -97,7 +96,6 @@ export default function AuthCard() {
                     <PasswordInput value={confirmPassword} onChangeText={setConfirmPassword} show={showConfirmPassword} setShow={setShowConfirmPassword} placeholder="Confirm Password" />
                 )}        
 
-                {/* Google Login Button */}
                 <TouchableOpacity
                     disabled={!request}
                     onPress={() => promptAsync()}
@@ -105,22 +103,22 @@ export default function AuthCard() {
                 >
                     <Text style={styles.googleButtonText}>Login with Google</Text>
                 </TouchableOpacity>
+
                 <AuthButton loading={loading} isLogin={isLogin} onPress={onSubmit} />
                 {(error || localError) && <Text style={{ color: 'red', marginTop: 12, maxWidth: 260 }}>{error || localError}</Text>}
                 {message && <Text style={{ color: 'green', marginTop: 12, maxWidth: 260 }}>{message}</Text>}
 
                 <View style={{ maxWidth: 260, alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => setIsLogin(!isLogin)} style={{ marginTop: 10 }}>
-                    <Text style={{ color: '#888', marginTop: 8 }}>
-                        {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
-                    </Text>
+                        <Text style={{ color: '#888', marginTop: 8 }}>
+                            {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
+                        </Text>
                     </TouchableOpacity>          
                 </View>
 
-                {/* Forgot Password */}
                 {isLogin && (
                     <TouchableOpacity onPress={handleForgotPassword} style={{ marginTop: 12, marginLeft: 70 }}>
-                    <Text style={{ color: '#888' }}>Forgot Password?</Text>
+                        <Text style={{ color: '#888' }}>Forgot Password?</Text>
                     </TouchableOpacity>
                 )}
             </View>
@@ -131,8 +129,6 @@ export default function AuthCard() {
 const styles = StyleSheet.create({
     container: { flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 250, marginLeft: 209, marginBottom: -250 },
     input: { height: 45, color: "#131313ff", borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#fff', paddingRight: 40, marginBottom: 12 },
-    googleButton: { backgroundColor: "#4285F4", paddingVertical: 12, paddingHorizontal: 15, borderRadius: 8, alignItems: "center",marginBottom: 10 },
+    googleButton: { backgroundColor: "#4285F4", paddingVertical: 12, paddingHorizontal: 15, borderRadius: 8, alignItems: "center", marginBottom: 10 },
     googleButtonText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
-    switchText: { color: "#888", marginTop: 8, textAlign: "center" },
-    errorText: { color: "red", marginTop: 12, textAlign: "center" },
 });

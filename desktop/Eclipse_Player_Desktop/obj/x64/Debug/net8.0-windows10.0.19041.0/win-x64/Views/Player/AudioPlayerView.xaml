@@ -7,51 +7,49 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Canvas x:ConnectionId='2' x:Name="RootCanvas" Width="800" Height="600">
+    <Grid x:ConnectionId='2' x:Name="RootGrid" Margin="40,-300,0,0">        
         <!-- Song Info -->
-        <StackPanel Margin="25,-250,0,0">        
-            <StackPanel x:ConnectionId='3' x:Name="InfoPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0">
-                <Image x:ConnectionId='15' x:Name="SongImage" Width="100" Height="100" Margin="0,0,0,0"/>
-                <StackPanel>
-                    <TextBlock x:ConnectionId='16' x:Name="SongTitle" Text="Song Title" FontSize="20" Foreground="White"/>
-                    <TextBlock x:ConnectionId='17' x:Name="SongArtist" Text="Artist Name" FontSize="16" Foreground="Gray"/>
-                </StackPanel>
-            </StackPanel>
-
-            <!-- Controls -->
-            <StackPanel x:ConnectionId='4' x:Name="ControlsPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" Spacing="20">
-                <Button x:ConnectionId='11' x:Name="PrevButton" Width="50" Height="50" CornerRadius="50">
-                    <Image Source="/Assets/icons/prevButton.png"/>
-                </Button>
-                <Button x:ConnectionId='12' x:Name="StopButton" Width="50" Height="50" CornerRadius="50">
-                    <Image Source="/Assets/icons/stopButton.png"/>
-                </Button>
-                <Button x:ConnectionId='13' x:Name="PlayPauseButton" Width="50" Height="50" CornerRadius="50">
-                    <Image Source="/Assets/icons/playButton.png"/>
-                </Button>
-                <Button x:ConnectionId='14' x:Name="NextButton" Width="50" Height="50" CornerRadius="50">
-                    <Image Source="/Assets/icons/nextButton.png"/>
-                </Button>            
-            </StackPanel>
-
-            <!-- Slider for progress -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,0,0,0" Width="450">
-                <TextBlock x:ConnectionId='8' x:Name="CurrentTime" Text="0:00" Foreground="White" Margin="0,0,25,0"/>
-                <Slider x:ConnectionId='9' x:Name="ProgressSlider" Minimum="0" Maximum="100" Value="0" Width="300"/>
-                <TextBlock x:ConnectionId='10' x:Name="DurationTime" Text="0:00" Foreground="White" Margin="25,0,0,0"/>
-            </StackPanel>
-
-            <!-- Volume -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0">
-                <Button x:ConnectionId='5' x:Name="VolMinButton" Width="50" Height="50" Margin="0,0,20,0" Background="#00FFFFFF" CornerRadius="50">
-                    <Image Source="/Assets/icons/volMin2.png"/>
-                </Button>
-                <Slider x:ConnectionId='6' x:Name="VolumeSlider" Minimum="0" Maximum="1" Value="1" Width="200"/>
-                <Button x:ConnectionId='7' x:Name="VolMaxButton" Width="50" Height="50" Margin="20,0,0,0" Background="#00FFFFFF" CornerRadius="50">
-                    <Image Source="/Assets/icons/volMax2.png"/>
-                </Button>
+        <StackPanel x:ConnectionId='3' x:Name="InfoPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0">
+            <Image x:ConnectionId='15' x:Name="SongImage" Width="100" Height="100" Margin="0,0,10,0"/>
+            <StackPanel>
+                <TextBlock x:ConnectionId='16' x:Name="SongTitle" Text="Song Title" FontSize="20" Foreground="White"/>
+                <TextBlock x:ConnectionId='17' x:Name="SongArtist" Text="Artist Name" FontSize="16" Foreground="Gray"/>
             </StackPanel>
         </StackPanel>
-    </Canvas>
+
+        <!-- Controls -->
+        <StackPanel x:ConnectionId='4' x:Name="ControlsPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,150,25,0" Spacing="20">
+            <Button x:ConnectionId='11' x:Name="PrevButton" Width="50" Height="50" CornerRadius="50">
+                <Image Source="/Assets/icons/prevButton.png"/>
+            </Button>
+            <Button x:ConnectionId='12' x:Name="StopButton" Width="50" Height="50" CornerRadius="50">
+                <Image Source="/Assets/icons/stopButton.png"/>
+            </Button>
+            <Button x:ConnectionId='13' x:Name="PlayPauseButton" Width="50" Height="50" CornerRadius="50">
+                <Image Source="/Assets/icons/playButton.png"/>
+            </Button>
+            <Button x:ConnectionId='14' x:Name="NextButton" Width="50" Height="50" CornerRadius="50">
+                <Image Source="/Assets/icons/nextButton.png"/>
+            </Button>            
+        </StackPanel>
+
+        <!-- Slider for progress -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,230,0,0" Width="400">
+            <TextBlock x:ConnectionId='8' x:Name="CurrentTime" Text="0:00" Foreground="White" Margin="0,0,15,0"/>
+            <Slider x:ConnectionId='9' x:Name="ProgressSlider" Minimum="0" Maximum="100" Value="0" Width="300"/>
+            <TextBlock x:ConnectionId='10' x:Name="DurationTime" Text="0:00" Foreground="White" Margin="15,0,0,0"/>
+        </StackPanel>
+
+        <!-- Volume -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,270,35,0">
+            <Button x:ConnectionId='5' x:Name="VolMinButton" Width="50" Height="50" Margin="0,0,20,0" Background="#00FFFFFF" CornerRadius="50">
+                <Image Source="/Assets/icons/volMin2.png"/>
+            </Button>
+            <Slider x:ConnectionId='6' x:Name="VolumeSlider" Minimum="0" Maximum="1" Value="1" Width="200"/>
+            <Button x:ConnectionId='7' x:Name="VolMaxButton" Width="50" Height="50" Margin="20,0,0,0" Background="#00FFFFFF" CornerRadius="50">
+                <Image Source="/Assets/icons/volMax2.png"/>
+            </Button>            
+        </StackPanel>
+    </Grid>
 </UserControl>
 

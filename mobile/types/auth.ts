@@ -8,6 +8,7 @@ export type User = {
 export type AuthContextType = {
   user: User | null;  
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  loginWithEmail: (email: string, password: string) => Promise<void>;
+  loginWithUser: (user: User) => Promise<void>;
   logout: () => Promise<void>;
 };

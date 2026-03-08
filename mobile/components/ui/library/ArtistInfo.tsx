@@ -33,11 +33,11 @@ export default function ArtistDetail() {
                 <ActivityIndicator size="large" color="#fff" />
                 <Text style={styles.loadingText}>Loading artist...</Text>
             </View>
-        );
+        );    
 
     const artistSongs = songs.filter((s: any) => s.artist === artist.name);
-    const singlesEps = byYear(songs, "single", "ep");
-    const albums = byYear(songs, "album");
+    const singlesEps = byYear(artistSongs, "single", "ep");
+    const albums = byYear(artistSongs, "album");
 
     const openLink = (url?: string) => {
         if (url) Linking.openURL(url).catch((err) => console.error("Failed to open link", err));

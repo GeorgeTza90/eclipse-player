@@ -1,4 +1,4 @@
-export default function validateAndSubmitAuth({
+export default async function validateAndSubmitAuth({
     isLogin, username, email, password, confirmPassword,
     setLocalError, handleLogin, handleRegister,
 }: {
@@ -8,8 +8,8 @@ export default function validateAndSubmitAuth({
     password: string;
     confirmPassword: string;
     setLocalError: (msg: string | null) => void;
-    handleLogin: (email: string, password: string) => void;
-    handleRegister: (username: string, email: string, password: string) => void;
+    handleLogin: (email: string, password: string) => Promise<void>;
+    handleRegister: (username: string, email: string, password: string) => Promise<void>;
 }) {
     setLocalError(null);
 
@@ -37,6 +37,10 @@ export default function validateAndSubmitAuth({
     }
 
     // --- Submit ---
-    if (isLogin) handleLogin(email, password);
-    else handleRegister(username, email, password);
-};
+    try {
+        if (isLogin) await handleLogin(email, password);
+        else await handleRegister(username, email, password);
+    } catch (err: any) {
+        setLocalError(err.message || "Something went wrong");
+    }
+}
