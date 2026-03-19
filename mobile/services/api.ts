@@ -1,33 +1,39 @@
 import Constants from "expo-constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Song, PlaylistSong } from "@/types/songs";
 import { Playlist } from "@/types/playlists";
 import { User } from "@/types/auth";
 
 const API_URL = Constants.expoConfig?.extra?.API_URL;
 
-// -------------------- HELPER --------------------
-async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+// -------------------- Helper --------------------
+async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {  
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(options.headers && typeof options.headers === "object" && !Array.isArray(options.headers)
+      ? Object.fromEntries(Object.entries(options.headers))
+      : {}),
+  };
+
+  const token = await AsyncStorage.getItem("token");
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
+    headers,
     credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
   });
 
-  let data;
-  try {
-    data = await res.json();
-  } catch {
-    data = null;
-  }
-
   if (!res.ok) {
-    throw new Error(data?.error || data?.message || "Request failed");
+    const errText = await res.text().catch(() => res.statusText);
+    throw new Error(errText || `HTTP ${res.status}`);
   }
 
-  return data;
+  try {
+    return await res.json();
+  } catch {
+    return {} as T;
+  }
 }
 
 // -------------------- Songs --------------------
@@ -44,25 +50,37 @@ export const fetchArtist = (artistName: string) => {
 // -------------------- Auth --------------------
 export const fetchCurrentUser = () => apiFetch<User | null>("/api/auth/me");
 
-export const loginUser = (email: string, password: string) => {
+export const loginUser = async (email: string, password: string) => {
   if (!email || !password) throw new Error("Email and password are required");
-  return apiFetch<User>("/api/auth/login", {
+
+  const { user, token } = await apiFetch<{ user: User; token: string }>("/api/auth/login", {
     method: "POST",
     body: JSON.stringify({ email, password }),
   });
+
+  await AsyncStorage.setItem("token", token);
+  return user;
 };
 
-export const registerUser = (username: string, email: string, password: string) =>
-  apiFetch<User>("/api/auth/register", {
+export const registerUser = async (username: string, email: string, password: string) => {
+  const { user, token } = await apiFetch<{ user: User; token: string }>("/api/auth/register", {
     method: "POST",
     body: JSON.stringify({ username, email, password }),
   });
 
-export const googleLogin = (accessToken: string, platform: "web" | "mobile") =>
-  apiFetch<{ user: User; token: string }>("/api/auth/google-login", {
+  await AsyncStorage.setItem("token", token);
+  return user;
+};
+
+export const googleLogin = async (accessToken: string, platform: "web" | "mobile") => {
+  const { user, token } = await apiFetch<{ user: User; token: string }>("/api/auth/google-login", {
     method: "POST",
     body: JSON.stringify({ accessToken, platform }),
   });
+
+  await AsyncStorage.setItem("token", token);
+  return user;
+};
 
 export const forgotPassword = (email: string) =>
   apiFetch<any>("/api/auth/forgot-password", {
@@ -70,28 +88,19 @@ export const forgotPassword = (email: string) =>
     body: JSON.stringify({ email }),
   });
 
-export const resetPassword = (token: string, newPassword: string) =>
-  apiFetch<any>("/api/auth/reset-password", {
+export const resetPassword = async (token: string, newPassword: string) => {
+  const { user, token: newToken } = await apiFetch<{ user: User; token: string }>("/api/auth/reset-password", {
     method: "POST",
     body: JSON.stringify({ token, newPassword }),
   });
 
+  await AsyncStorage.setItem("token", newToken);
+  return user;
+};
+
 export const logoutUser = async () => {
-  const res = await fetch(`${API_URL}/api/auth/logout`, {
-    method: "POST",
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    const errText = await res.text().catch(() => "Logout failed");
-    throw new Error(errText || "Logout failed");
-  }
-
-  try {
-    return await res.json();
-  } catch {
-    return null;
-  }
+  await apiFetch("/api/auth/logout", { method: "POST" });
+  await AsyncStorage.removeItem("token");
 };
 
 // -------------------- Playlists --------------------

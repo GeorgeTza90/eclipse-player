@@ -13,12 +13,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const initAuth = async () => {
       try {
         const storedUser = await getJSON<User | null>("user", null);
-        const currentUser = await fetchCurrentUser() as User | null;
+        const currentUser = (await fetchCurrentUser()) as User | null;
+
         if (currentUser) {
           setUser(currentUser);
           await setJSON("user", currentUser);
-        } else {
+        } else if (storedUser) {
           setUser(storedUser);
+        } else {
+          setUser(null);
         }
       } catch {
         setUser(null);
@@ -26,17 +29,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setLoading(false);
       }
     };
+
     initAuth();
   }, []);
 
   const loginWithEmail = async (email: string, password: string) => {
     if (!email || !password) throw new Error("Email and password are required");
     const userData: User = await loginUser(email, password);
+
+    if (!userData) throw new Error("Login failed: No user data returned");
+
     setUser(userData);
     await setJSON("user", userData);
   };
 
   const loginWithUser = async (user: User) => {
+    if (!user) return;
     setUser(user);
     await setJSON("user", user);
   };

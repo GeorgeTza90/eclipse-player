@@ -22,9 +22,11 @@ export default function LibraryScreen() {
   return (
     <div className={styles.container}>
       <SearchForm />
-      <LibraryGroupItem type="Singles & EPs" group={singlesEps} />
-      <LibraryGroupItem type="Albums" group={albums} />
-      <LibraryGroupItem type="Artists" group={artists} />
+      <div className={styles.groupItemDiv}>
+        <LibraryGroupItem type="Singles & EPs" group={singlesEps} />
+        <LibraryGroupItem type="Albums" group={albums} />
+        <LibraryGroupItem type="Artists" group={artists} />
+      </div>      
     </div>
   );
 };

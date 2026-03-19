@@ -5,7 +5,7 @@ import Slider from "@react-native-community/slider";
 import { useAudio } from "@/contexts/AudioContext";
 import PlayButton from "../buttons/PlayButtons";
 import Circle from "./Circle";
-import { formatTime } from "@/hooks/useFormatTime";
+import { formatTimeSeconds } from "@/hooks/useFormatTime";
 import { useRouter } from "expo-router";
 import { AudioPlayerProps } from "@/types/audio";
 
@@ -19,20 +19,20 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
 
     const [intensity, setIntensity] = useState(30);
     const [sliderPosition, setSliderPosition] = useState<number>(0);
-    const [activeExtention, setActiveExtention] = useState<"Playlist" | "Lyrics" | "Equalizer">("Playlist");
+    const [activeExtention, setActiveExtention] = useState<"Playlist" | "Lyrics">("Playlist");
     const shadowColor = currentSong?.averageColor ?? "#bebebe";
     const volMin = 0.000001;
     const router = useRouter();
     
     const highlightAnim = useRef(new Animated.Value(0)).current;
 
-    const extentionKeys: ("Playlist" | "Lyrics" | "Equalizer")[] = ["Playlist","Lyrics","Equalizer"];
-    const buttonWidth = (width * 0.8) / extentionKeys.length;
+    const extentionKeys: ("Playlist" | "Lyrics")[] = ["Playlist","Lyrics"];
+    const buttonWidth = (width * 0.5) / extentionKeys.length;
 
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
     useEffect(() => { setIntensity(volume * 30); }, [volume]);
 
-    const handleToggleExtention = (key: "Playlist" | "Lyrics" | "Equalizer") => {
+    const handleToggleExtention = (key: "Playlist" | "Lyrics") => {
         setActiveExtention(key);
         onToggleExtention?.(key);
         
@@ -43,7 +43,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
         }).start();
     };
 
-    const handlePressArtist = (artist: string) => router.push(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`);
+    const handlePressArtist = (artist: string) => router.push(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`);    
 
     return (
         <View style={styles.container}>
@@ -92,7 +92,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
 
                         {/* Time Slider */}
                         <View style={styles.timeSliderContainer}>
-                            <Text style={styles.time}>{formatTime(sliderPosition)}</Text>
+                            <Text style={styles.time}>{formatTimeSeconds(sliderPosition)}</Text>
                             <Slider
                                 style={{ flex: 1 }}
                                 minimumValue={0}
@@ -103,7 +103,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
                                 thumbTintColor={shadowColor}
                                 onSlidingComplete={seekTo}
                             />
-                            <Text style={styles.time}>{formatTime(duration)}</Text>
+                            <Text style={styles.time}>{formatTimeSeconds(duration)}</Text>
                         </View>
 
                         {/* Volume Slider */}
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     volumeSliderContainer: { flexDirection: "row", alignItems: "center", width: width * 0.8, marginBottom: 20 },
     time: { width: 40, textAlign: "center", color: "#fff" },
     volIcon: { width: 40, height: 40 },
-    extentionButtons: { flexDirection: "row", width: width * 0.8, height: 40, borderRadius: 16, backgroundColor: 'rgba(37, 36, 36, 0.82)', overflow: "hidden", marginTop: 10 },
+    extentionButtons: { flexDirection: "row", width: width * 0.5, height: 40, borderRadius: 16, backgroundColor: 'rgba(37, 36, 36, 0.82)', overflow: "hidden", marginTop: 10 },
     highlight: { position:"absolute", top: 0, left: 0, height: "100%", backgroundColor: "rgba(150,150,150,0.3)", borderRadius: 16 },
     extentionButton: { flex: 1, justifyContent: "center", alignItems: "center", zIndex: 20 },
     extentionText: { color: "#fff", fontWeight: "bold" },

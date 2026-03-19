@@ -75,8 +75,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       { expiresIn: "7d" }
     );
 
-    res.cookie("token", token, { httpOnly: true, secure: isProd, sameSite: "none", maxAge: 7*24*60*60*1000 });
-    res.json({ user });
+    res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "none", maxAge: 7*24*60*60*1000 });
+    res.json({ user, token });
 
   } catch (error) {
     console.error("Server Error - on Register:", error);
@@ -116,8 +116,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       { expiresIn: "7d" }
     );
 
-    res.cookie("token", token, { httpOnly: true, secure: isProd, sameSite: "none", maxAge: 7*24*60*60*1000 });
-    res.json({ user });
+    res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "none", maxAge: 7*24*60*60*1000 });
+    res.json({ user, token });
   } catch (error) {
     console.error("Server Error - on Login:", error);
     res.status(500).json({ error: "Ooops something went wrong. Please try again later." });
@@ -166,8 +166,8 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
       { expiresIn: "7d" }
     );
 
-    res.cookie("token", token, { httpOnly: true, secure: isProd, sameSite: "none", maxAge: 7*24*60*60*1000 });
-    res.json({ user });
+    res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "none", maxAge: 7*24*60*60*1000 });
+    res.json({ user, token });
   } catch (error: any) {
     console.error("Google login error:", error.response?.data || error);
     res.status(400).json({ error: "Google login failed" });
@@ -179,7 +179,7 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
 // -----------------------------
 
 export const logout = (_req: Request, res: Response) => {
-  res.clearCookie("token", { httpOnly: true, secure: isProd, sameSite: "none" });
+  res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "none" });
   res.json({ message: "Logged out successfully" });
 };
 
@@ -322,8 +322,8 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
       { expiresIn: "7d" }
     );
 
-    res.cookie("token", newToken, { httpOnly: true, secure: isProd, sameSite: "none", maxAge: 7*24*60*60*1000 });    
-    res.json({ message: "Password reset successful", user });
+    res.cookie("token", newToken, { httpOnly: true, secure: true, sameSite: "none", maxAge: 7*24*60*60*1000 });    
+    res.json({ message: "Password reset successful", user, token: newToken });
   } catch (error) {
     console.error("Error resetting password:", error);
     res.status(400).json({ error: "Invalid or expired token" });

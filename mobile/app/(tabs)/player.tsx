@@ -35,7 +35,7 @@ export default function PlayerScreen() {
 
       {extention === "Playlist" && <Playlist/>}
       {extention === "Lyrics" && <Lyrics/>}
-      {extention === "Equalizer" && <Equalizer color={shadowColor}/>} 
+      {/* {extention === "Equalizer" && <Equalizer color={shadowColor}/>}  */}
 
     </TabLayoutWrapper>
   );
