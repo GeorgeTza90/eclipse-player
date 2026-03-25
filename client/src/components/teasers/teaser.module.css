@@ -1,9 +1,10 @@
 .videoLink {
-    display: block;
-    width: 98%;
-    height: full;
+    display: flex;
+    justify-content: center;
+    width: 96%;
+    height: 30%;
     text-decoration: none;
-    margin-top: 2rem;
+    margin-top: 4rem;
     opacity: 80%;
     transition: 0.5s;
 }

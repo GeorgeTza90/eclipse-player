@@ -1,7 +1,6 @@
 import styles from "./lyrics.module.css";
 
-export default function Lyrics({ currentSong }) {
-    // if (!currentSong) return <p>No Song Selected</p>;
+export default function Lyrics({ currentSong }) {   
 
     return (
         <div className={styles.container}>

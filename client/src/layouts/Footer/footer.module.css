@@ -15,19 +15,35 @@
     text-decoration: double;
     color: aliceblue;
     z-index: 1;
+    font-size: 0.85rem;
 }
 
 .labeled {
     font-family: 'Times New Roman', Times;
     color: rgba(240, 248, 255, 0.285);
     text-decoration: double;
+}
 
+.player {
+    background: #141414;    
+    justify-items: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 4rem;
+    margin-top: 500px;
 }
 
 @media (max-width: 768px) {
     .footer {
         display: none;
     }
+
+    .player {
+        display: none;
+    }
+
 
     .nav {
         display: block;

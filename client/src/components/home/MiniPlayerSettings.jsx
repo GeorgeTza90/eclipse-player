@@ -5,17 +5,13 @@ import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 const MiniPlayerSettings = () => {
 
     const {
-        showImage, setShowImage,
-        showMiniPlayer, setShowMiniPlayer,
-        showTimeBar, setShowTimeBar,
-        showVolumeBar, setShowVolumeBar,
-        transparency, setTransparency,
-        showGlow, setShowGlow,
-        setPos, pos
+        showImage, setShowImage,  showMiniPlayer, setShowMiniPlayer, showTimeBar, setShowTimeBar,
+        showVolumeBar, setShowVolumeBar, transparency, setTransparency, showGlow, setShowGlow,
+        barMode, setBarMode, coloredGlow, setColoredGlow, pos, setPos,
     } = useMiniPlayer();
 
     const posReset = () => {
-        setPos({ x: window.innerWidth * 64 / 100, y: window.innerHeight * 30 / 100 });
+        setPos({ x: window.innerWidth * 45 / 100, y: window.innerHeight * 74 / 100 });
     };
 
     return (
@@ -29,17 +25,23 @@ const MiniPlayerSettings = () => {
             <h4 className={styles.text1}>Time Bar</h4>
             <ToggleButton value={showTimeBar} onChange={setShowTimeBar} />
 
-            <h4 className={styles.text1}>Volume Bar</h4>
-            <ToggleButton value={showVolumeBar} onChange={setShowVolumeBar} />
-
             <h4 className={styles.text1}>Transparent</h4>
             <ToggleButton value={transparency} onChange={setTransparency} />
 
             <h4 className={styles.text1}>Show Glow</h4>
             <ToggleButton value={showGlow} onChange={setShowGlow} />
+            
+            <h4 className={styles.text1}>Volume Bar</h4>
+            <ToggleButton value={showVolumeBar} onChange={setShowVolumeBar} />
+
+            <h4 className={styles.text1}>Bar Mode</h4>
+            <ToggleButton value={barMode} onChange={setBarMode} />
+
+            <h4 className={styles.text1}>Colored Glow</h4>
+            <ToggleButton value={coloredGlow} onChange={setColoredGlow} />
 
             <h4 className={styles.text1}>Reset Position</h4>
-            <button onClick={posReset} className={styles.resetMPPosition} />
+            <button onClick={posReset} className={styles.resetMPPosition} />            
         </div>
     );
 };

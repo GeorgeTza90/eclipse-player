@@ -1,9 +1,10 @@
 .container {
     margin-left: 1rem;
     display: grid;
-    grid-template-columns: repeat(4, 10rem);
+    grid-template-columns: repeat(6, 10rem);
     align-items: center;
-    line-height: 0.5rem;
+    line-height: 0.2rem;
+    margin-left: 1rem;
 }
 
 .text1 {
@@ -13,7 +14,7 @@
 
 .infoText {
     color: #aaa;
-    font-size: 16px;
+    font-size: 0.8rem;
     margin-bottom: 10px;
 }
 

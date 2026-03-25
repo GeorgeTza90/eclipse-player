@@ -1,0 +1,15 @@
+.artirtButton {    
+    color: rgba(240, 248, 255, 0.6);
+    background-color: #e4e4e400;
+    border: #e4e4e400;
+    white-space: nowrap;
+    margin-left: -0.4rem;
+    
+}
+
+.artirtButton:hover {
+    /* text-decoration: underline; */
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.5s;
+}

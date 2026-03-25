@@ -23,6 +23,7 @@
     height: 120px;
     border-radius: 15px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .title {
@@ -31,27 +32,13 @@
     font-size: 1.2rem;
 }
 
+.artist {
+    margin-top: 0.4rem;
+}
+
 .trackFeature {
     font-size: 1rem;
     color: #ffffffc4;
-}
-
-.artist {
-    color: rgba(240, 248, 255, 0.314);
-}
-
-.artirtButton {
-    color: #d6d6d6;
-    background-color: transparent;
-    cursor: pointer;
-    border: transparent;
-    font-size: 17px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.artirtButton:hover {
-    text-decoration: underline;
-    color: #e6e6e6;
 }
 
 .controls {
@@ -77,6 +64,16 @@
     align-items: center;
     gap: 0.5rem;
     width: 200%;
+    max-width: 400px;
+    margin-bottom: 1rem;
+    z-index: 2;
+}
+
+.sliderRowVol {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 120%;
     max-width: 400px;
     margin-bottom: 1rem;
     z-index: 2;
@@ -160,8 +157,6 @@
 }
 
 
-
-
 @media (max-width: 768px) {
     .playerContent {
         position: absolute;
@@ -179,7 +174,7 @@
         width: 100px;
         height: 100px;
         border-radius: 12px;
-        margin-left: 0.5rem;
+        margin-left: 0.5rem;        
     }
 
     .title {

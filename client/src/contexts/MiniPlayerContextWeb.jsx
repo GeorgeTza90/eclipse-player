@@ -11,6 +11,9 @@ export const MiniPlayerProvider = ({ children }) => {
     const [showVolumeBar, setShowVolumeBar] = useState(() => getBool("miniPlayer_showVolumeBar", true));
     const [showGlow, setShowGlow] = useState(() => getBool("miniPlayer_showGlow", true));
     const [transparency, setTransparency] = useState(() => getBool("miniPlayer_transparency", true));
+    const [barMode, setBarMode] = useState(() => getBool("miniPlayer_barMode", false));
+    const [playerPage, setPlayerPage] = useState(() => getBool("miniPlayer_playerPage", false));
+    const [coloredGlow , setColoredGlow ] = useState(() => getBool("miniPlayer_coloredGlow", false));
 
     /* ---------------- POSITION (DRAG) ---------------- */
     const [pos, setPos] = useState(() => getJSON("miniPlayer_position", { x: 500, y: 850 }));
@@ -18,6 +21,8 @@ export const MiniPlayerProvider = ({ children }) => {
     const [rel, setRel] = useState({ x: 0, y: 0 });
 
     const onMouseDown = (e) => {
+        const tag = e.target.tagName;
+        if (tag === "INPUT" || tag === "BUTTON") return;
         setDragging(true);
         setRel({ x: e.clientX - pos.x, y: e.clientY - pos.y });
     };
@@ -27,7 +32,7 @@ export const MiniPlayerProvider = ({ children }) => {
         setPos({ x: e.clientX - rel.x, y: e.clientY - rel.y });
     };
 
-    const onMouseUp = () => setDragging(false);
+    const onMouseUp = () => setDragging(false);    
 
     /* ---------------- LOCAL STORAGE ---------------- */
     useEffect(() => setBool("miniPlayer_showImage", showImage), [showImage]);
@@ -37,13 +42,17 @@ export const MiniPlayerProvider = ({ children }) => {
     useEffect(() => setBool("miniPlayer_showGlow", showGlow), [showGlow]);
     useEffect(() => setBool("miniPlayer_transparency", transparency), [transparency]);
     useEffect(() => setJSON("miniPlayer_position", pos), [pos]);
+    useEffect(() => setBool("miniPlayer_barMode", barMode),[barMode]);
+    useEffect(() => setBool("miniPlayer_playerPage", playerPage),[playerPage]);
+    useEffect(() => setBool("miniPlayer_coloredGlow", coloredGlow), [coloredGlow]);
 
     return (
         <MiniPlayerContext.Provider
             value={{
-                pos, setPos, dragging, setDragging, rel, setRel, onMouseDown, onMouseMove, onMouseUp,
-                showImage, setShowImage, showMiniPlayer, setShowMiniPlayer, showTimeBar, setShowTimeBar,
-                showVolumeBar, setShowVolumeBar, showGlow, setShowGlow, transparency, setTransparency,
+                pos, dragging, rel, showImage, showMiniPlayer, showTimeBar, showVolumeBar, 
+                showGlow, transparency, barMode, playerPage, coloredGlow,
+                setPos, setDragging, setRel, onMouseDown, onMouseMove, onMouseUp, setShowImage, setShowMiniPlayer,
+                setShowTimeBar, setShowVolumeBar, setShowGlow, setTransparency, setBarMode, setPlayerPage, setColoredGlow
             }}
         >
             {children}
@@ -58,3 +67,4 @@ export const useMiniPlayer = () => {
     }
     return context;
 };
+;

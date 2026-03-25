@@ -1,21 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AudioPlayer from "../../components/player/AudioPlayer";
 import Lyrics from "../../components/player/Lyrics";
 import Playlist from "../../components/player/Playlist";
 import Circle from "../../components/ui/Circle";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import Equalizer from "../../components/player/Equalizer";
 
 function Player() {
     const isMobile = useIsMobile();
     const { playlistName, currentSong, volume } = useAudio("No Gods In Heaven");
-    const shadowColor = currentSong?.averageColor ?? "#bebebe";
+    const { setPlayerPage, coloredGlow } = useMiniPlayer();    
     const [extention, setExtention] = useState("Playlist");
+    const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
 
-    const handleExtention = (key) => {
-        setExtention(key);
-    };   
+    const handleExtention = (key) => setExtention(key);
+
+    useEffect(() => setPlayerPage(true), []);    
+    useEffect(() => {  if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow]);
 
     return (
         <div id="heading" style={{ display: "flex", justifyContent: "center" }}>

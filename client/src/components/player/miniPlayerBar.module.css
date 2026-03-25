@@ -1,0 +1,113 @@
+.container {
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.2rem;    
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    flex-wrap: nowrap;    
+}
+
+/* INFO (image + text) */
+.infoRow {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 0;
+    margin-left: -2.2rem;
+    width: 14rem;
+}
+
+.image {
+    width: 50px;
+    height: auto;
+    border-radius: 2px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.title {
+    margin: 0;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+/* FEATURE SCROLL */
+.tickerContainer {
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 9.5rem;
+}
+
+.tickerText {
+    display: inline-block;
+    animation: scroll 10s linear infinite;
+    font-size: 0.68rem;
+    color: #e4e4e4;
+}
+
+/* CONTROLS */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0rem 1rem;
+    
+}
+
+/* SLIDERS */
+.sliderRow {
+    display: flex;    
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.sliderRowVol{
+    display: flex;    
+    align-items: center;
+    gap: 0rem;
+    margin-top: 1rem;
+}
+
+.time {
+    font-size: 0.72rem;
+    width: 35px;
+    text-align: center;
+    color: #ffffffc7;
+}
+
+/* PLAYER BUTTON */
+.playerButton,
+.smallPlayerButton {
+    width: 40px;
+    height: 30px;
+    background-image: url("/assets/icons/player.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
+.playerButton:hover {
+    opacity: 1;
+}
+
+
+.line { 
+    height: 2rem;
+    margin: 0rem 0.2rem;
+    opacity: 0.1;
+}
+
+/* ANIMATION */
+@keyframes scroll {
+    0% {
+        transform: translateX(20%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}

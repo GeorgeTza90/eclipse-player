@@ -1,23 +1,26 @@
+import { useEffect } from "react";
 import HomeScreen from "../../components/home/HomeScreen";
 import MiniPlayer from "../../components/player/MiniPlayer";
 import Circle from "../../components/ui/Circle";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
 function Home() {
-    const { currentSong, volume } = useAudio();    
+    const { volume } = useAudio();    
     const isMobile = useIsMobile();
-    const { user } = useAuth();
-    // const shadowColor = currentSong?.averageColor ?? "#bebebe";
+    const { barMode, setPlayerPage } = useMiniPlayer();
+    const { user } = useAuth();    
 
+    useEffect(() => setPlayerPage(false), []);
 
     return (<>
         <div id="heading" style={{ display: "flex", justifyContent: "center", width: '100%' }}>
-            <img src="/assets/images/logo.png" style={{ position: 'absolute', width: 180, top: isMobile ? 10 : 55 }} />
+            <img src="/assets/images/HomeLogo.png" style={{ position: 'absolute', width: 85, top: isMobile ? 10 : 55 }} />
             <Circle size={isMobile ? 400 : 1000} top={-isMobile ? -320 : -880} shadowColor={"#201f1fff"} intensity={volume * 30} color2="#0b0b0bff" color1="#1f1e1eff" />
             <HomeScreen />
-            {!isMobile && user && (<MiniPlayer />)}
+            {!isMobile && user && !barMode && (<MiniPlayer />)}
         </div>
     </>);
 }

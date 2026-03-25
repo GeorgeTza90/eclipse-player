@@ -1,40 +1,34 @@
 import { useEffect, useState } from "react";
 import { useAudio } from "../../contexts/AudioContextWeb";
-import Circle from "../ui/Circle";
-import PlayButton from "../buttons/PlayButton";
 import { formatTime } from "../../hooks/useFormatTime";
-import styles from "./audioPlayer.module.css";
+import { useImageToast } from "../../hooks/useImageToast";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { useNavigate } from "react-router-dom";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+import styles from "./audioPlayer.module.css";
+import Circle from "../ui/Circle";
+import PlayButton from "../buttons/PlayButton";
+import ArtistButton from "../buttons/ArtistButton";
 
 export default function AudioPlayer({ onToggleExtention }) {
-  const {
-    currentSong, isPlaying, position, duration, volume, togglePlay,
-    stop, next, previous, setVolume, seekTo
-  } = useAudio();
-
-  const shadowColor = currentSong?.averageColor ?? "#bebebe";
-  const [extention, setExtention] = useState("Playlist")
+  const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();  
+  const { coloredGlow } = useMiniPlayer();
+  const { showImageToast, ImageToastUI } = useImageToast();
+  
+  const [extention, setExtention] = useState("Playlist");
   const [intensity, setIntensity] = useState(30);  
   const [sliderPosition, setSliderPosition] = useState(null);
+  const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
+
   const progress = duration ? (sliderPosition / duration) * 100 : 0;
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
-  const handleExtention = (key) => {
-    setExtention(key);
-    onToggleExtention(key);    
-  };
+  const handleExtention = (key) => { setExtention(key); onToggleExtention(key); };
 
-  useEffect(() => {
-    if (position != null) {
-      setSliderPosition(position);
-    }
-  }, [position]);
-
-  useEffect(() => {
-    setIntensity(volume * 30);
-  }, [volume]);
+  useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
+  useEffect(() => setIntensity(volume * 30), [volume]);  
+  useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);
 
   const sliderStyle = {
     flex: 1,
@@ -47,8 +41,8 @@ export default function AudioPlayer({ onToggleExtention }) {
 
   const volumeSliderStyle = {
     flex: 1,
-    WebkitAppearance: "none",
-    height: "6px",
+    WebkitAppearance: "none",    
+    height: "5px",
     borderRadius: "3px",
     background: `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,
     outline: "none",
@@ -86,19 +80,21 @@ export default function AudioPlayer({ onToggleExtention }) {
       <div className={styles.playerContent}>
         {/* Info */}
         <div className={styles.infoRow}>
-          {currentSong?.image && <img src={currentSong.image} alt={currentSong.title} className={styles.image} />}
+          {currentSong?.image &&
+            <img 
+              src={currentSong.image}
+              alt={currentSong.title}
+              className={styles.image}
+              onClick={() => showImageToast(currentSong.image)}
+            />}
+            {ImageToastUI}
           <div>
             <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
             {currentSong?.feature && (
               <span className={styles.trackFeature}>{`feat. ${currentSong.feature}`}</span>
             )}
             <p className={styles.artist}>
-              <button
-                className={styles.artirtButton}
-                onClick={() => currentSong && navigate(`/library/ArtistInfo?artist=${encodeURIComponent(currentSong.artist)}`)}
-              >
-                {currentSong?.artist || "Artist Name"}
-              </button>
+              <ArtistButton artist={currentSong?.artist || "Artist Name"} size="1.1rem"/>
             </p>
           </div>
         </div>
@@ -127,7 +123,7 @@ export default function AudioPlayer({ onToggleExtention }) {
         </div>
 
         {/* Volume */}
-        <div className={styles.sliderRow}>
+        <div className={styles.sliderRowVol}>
           <button className={styles.VolButton} onClick={() => setVolume(0)}>
             <img className={volume === 0 ? styles.volIconActive : styles.volIcon} src="/assets/icons/volMin2.png" />
           </button>
@@ -149,24 +145,9 @@ export default function AudioPlayer({ onToggleExtention }) {
         <div className={styles.extentionButton} style={{ position: "relative" }}>        
           <div style={etentionHoverStyle}/>          
           {/* Buttons */}
-          <button
-            style={{ ...extentionButtonsStyle, zIndex: 2 }}
-            onClick={() => handleExtention("Playlist")}
-          >
-            Playlist
-          </button>
-          <button
-            style={{ ...extentionButtonsStyle, zIndex: 2 }}
-            onClick={() => handleExtention("Lyrics")}
-          >
-            Lyrics
-          </button>
-          <button
-            style={{ ...extentionButtonsStyle, zIndex: 2 }}
-            onClick={() => handleExtention("Equalizer")}
-          >
-            Equalizer
-          </button>
+          <button  style={{ ...extentionButtonsStyle, zIndex: 2 }} onClick={() => handleExtention("Playlist")}>Playlist</button>
+          <button style={{ ...extentionButtonsStyle, zIndex: 2 }} onClick={() => handleExtention("Lyrics")}>Lyrics</button>
+          <button style={{ ...extentionButtonsStyle, zIndex: 2 }} onClick={() => handleExtention("Equalizer")}>Equalizer</button>
         </div>
       </div>
 

@@ -12,6 +12,7 @@
     width: 35%;
     max-width: 200px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .headerInfo {
@@ -37,8 +38,7 @@
 
 .artistInfo {
     color: #d6d6d6;
-    font-size: 14px;
-    margin-left: -0.5rem;
+    font-size: 14px;    
 }
 
 .artirtButton {
