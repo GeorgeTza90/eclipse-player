@@ -35,7 +35,7 @@ export default function CollectionCard({ item, onClick, type }) {
                             <div style={playButtonStyle} className={styles.playButton} >
                                 {!isMobile && (
                                     <PlayButton
-                                        type = {currentSong.album===item.album && isPlaying ? "pause" : "play"}
+                                        type = {currentSong?.album===item.album && isPlaying ? "pause" : "play"}
                                         onClick = {(e) => { e.stopPropagation(); handlePlayClick(item); }}
                                     />    
                                 )}                                

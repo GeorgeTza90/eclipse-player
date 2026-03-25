@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { formatTime } from "../../hooks/useFormatTime";
 import { useImageToast } from "../../hooks/useImageToast";
-import { useNavigate } from "react-router-dom";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import PlayButton from "../buttons/PlayButton";
 import styles from "./miniPlayerBar.module.css";
@@ -13,10 +12,9 @@ import ArtistButton from "../buttons/ArtistButton";
 const MiniPlayerBar = () => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { showImage, showMiniPlayer, showTimeBar, showVolumeBar, coloredGlow } = useMiniPlayer();    
-    const { showImageToast, ImageToastUI } = useImageToast();
-    const navigate = useNavigate();
+    const { showImageToast, ImageToastUI } = useImageToast();    
 
-    if (!currentSong) return null;
+    
    
     const [sliderPosition, setSliderPosition] = useState(null);
     const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
@@ -25,6 +23,8 @@ const MiniPlayerBar = () => {
    
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
     useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);
+
+    if (!currentSong) return null;
 
     const sliderStyle = {
         flex: 1,
