@@ -45,15 +45,7 @@ export default function AddToPlaylistButton({ song }) {
 
     return (
         <>
-            <button className={styles.button}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    setModalVisible(true);
-                }}
-            >
-                +
-            </button>
-
+            <button className={styles.button} onClick={(e) => { e.stopPropagation(); setModalVisible(true); }}>+</button>
             {modalVisible && (
                 <div className={styles.modalOverlay} onClick={() => setModalVisible(false)}>
                     <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
@@ -62,9 +54,7 @@ export default function AddToPlaylistButton({ song }) {
                         </div>
 
                         {loading ? (
-                            <div style={{ color: "#fff", marginTop: 10 }}>
-                                Loading playlists...
-                            </div>
+                            <div style={{ color: "#fff", marginTop: 10 }}>Loading playlists...</div>
                         ) : (
                             <div style={{ maxHeight: "300px", overflowY: "auto" }}>
                                 {playlists.length ? (

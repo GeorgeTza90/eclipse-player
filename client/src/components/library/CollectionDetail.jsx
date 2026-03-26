@@ -8,6 +8,7 @@ import ArtistButton from "../buttons/ArtistButton";
 import BackButton from "../buttons/BackButton";
 import styles from "./collectionDetail.module.css";
 import TrackItem from "./TrackItem";
+import hexToRgba from "../../utils/hexToRgba";
 
 export default function CollectionDetail() {
     const { user } = useAuth();
@@ -26,18 +27,28 @@ export default function CollectionDetail() {
 
     const handlePressSong = (song) => { playSong(song, albumSongs, album); navigate("/player"); };
 
+    console.log(albumSongs[0].averageColor)
+
+    const headerStyle = {
+        background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.1)}, #55555500 )`,
+    }
+
+    const containerStyle = {
+        background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.05)}, #55555500 )`,
+    }
+
     return (
-        <div className={styles.container}>
-            <div className={styles.header}>
+        <div className={styles.container} style={containerStyle}>
+            <div className={styles.header} style={headerStyle}>
                 {albumInfo.image && (
-                    <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => showImageToast(albumInfo.image)} />                        
+                    <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => showImageToast(albumInfo.image)} />
                 )}
                 {ImageToastUI}
                 <div className={styles.headerInfo}>
                     <p className={styles.type}>{albumInfo.type.toUpperCase()}</p>
                     <p className={styles.albumName}>{albumInfo.album}</p>
                     <p className={styles.artistInfo}>
-                        <ArtistButton artist={currentSong?.artist || "Artist Name"} size="1.1rem"/>                        
+                        <ArtistButton artist={currentSong?.artist || "Artist Name"} size="0.9rem"/>                        
                         • {albumSongs.length} songs • {durationString}
                     </p>
                 </div>

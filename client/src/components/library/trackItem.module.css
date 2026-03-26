@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 10px;
-    min-height: 2.5rem;
+    min-height: 2.1rem;
     border-bottom: 1px solid #333;
     cursor: pointer;
 }
@@ -23,25 +23,29 @@
 .trackNumber {
     color: #888;
     width: 2rem;
+    font-size: 1rem;
 }
 
 .trackTitle {
     color: #fff;
+    font-size: 1rem;
 }
 
 .trackFeature {
-    font-size: 0.75rem;
+    font-size: 0.82rem;
+    margin-top: 0.2rem;
     color: #ffffff96;
 }
 
 .trackDuration {
+    font-size: 1rem;
     color: #888;
     width: 50px;
     text-align: right;
 }
 
 .track:hover {
-    background: linear-gradient(to right, #252525, #111112f1);
+    background: linear-gradient(to right, #252525c4, #11111200);
     border-radius: 0.5rem;
 }
 

@@ -1,11 +1,13 @@
 .container {
-    padding: 10px;
+    border-radius: 1rem;
     margin-top: 5%;
 }
 
 .header {
     display: flex;
     margin-bottom: 20px;
+    padding: 1rem;
+    border-radius: 1rem;
 }
 
 .albumImage {
@@ -13,11 +15,12 @@
     max-width: 200px;
     border-radius: 10px;
     cursor: pointer;
+    box-shadow: 1px 1px 30px #000000;    
 }
 
 .headerInfo {
     flex: 1;
-    margin-left: 15px;
+    margin-left: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,19 +29,20 @@
 .type {
     color: #888;
     font-size: 12px;
-    margin-bottom: 5px;
+    margin-bottom: 0.1rem;
 }
 
 .albumName {
     color: #fff;
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
 .artistInfo {
     color: #d6d6d6;
-    font-size: 14px;    
+    font-size: 0.7rem;
+    align-items: center;
 }
 
 .artirtButton {
