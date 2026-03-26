@@ -3,15 +3,15 @@
     max-width: 600px;
     margin: 120px auto 0 auto;
     position: absolute;
-    top: 450px;
+    top: 27.2rem;
     padding: 0 10px;
 }
 
 .heading {
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-top: 2rem;
     text-align: center;
 }
 
@@ -58,7 +58,7 @@
         max-width: 370px;
         margin: -10px auto 0 auto;
         padding: 0 10px;
-        top: 500px;
+        top: 50px;
     }
 
     .heading {

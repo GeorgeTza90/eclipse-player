@@ -13,8 +13,6 @@ const MiniPlayerBar = () => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { showImage, showMiniPlayer, showTimeBar, showVolumeBar, coloredGlow } = useMiniPlayer();    
     const { showImageToast, ImageToastUI } = useImageToast();    
-
-    
    
     const [sliderPosition, setSliderPosition] = useState(null);
     const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");

@@ -10,7 +10,7 @@ export default function Equalizer({ color }) {
 
   const frequencies = useMemo(() => (
     isMobile
-      ? EQ_BANDS.filter(b => [250, 630, 1000, 2000, 4000, 6000, 10000].includes(b.value))
+      ? EQ_BANDS.filter(b => [100, 250, 630, 1600, 4000, 10000, 16000, 20000].includes(b.value))
       : EQ_BANDS
   ), [isMobile]);
 
@@ -19,7 +19,7 @@ export default function Equalizer({ color }) {
       <h3 className={styles.heading}>Graphic EQ</h3>
       <div className={styles.EQcontainer}>
         <div className={styles.linesDiv}>
-          {Array(13).fill(0).map((_, i) => <hr key={i} className={styles.line}/>)}
+          {Array(isMobile ? 11 : 16).fill(0).map((_, i) => <hr key={i} className={styles.line}/>)}
         </div>
         {frequencies.map(band => (
           <div key={band.label} className={styles.sliderWrapper}>

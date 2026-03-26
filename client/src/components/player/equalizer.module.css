@@ -1,28 +1,24 @@
 .divContainer{
   height: 15rem;
-  width: 100%;
-  max-width: 600px;
-  border-radius: 1rem;
-  margin: 4rem auto 0 auto;
   position: absolute;
-  top: 500px;    
-  display: grid;    
+  top: 34.2rem;    
+  display: grid;  
 }
 
 .EQcontainer {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: flex-start;
   position: relative;
   height: 100%;
-  background-color: #00000025;
+  background-color: #0000001f;
   border-radius: 2rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .heading {
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   margin-top: 2.5rem;
   text-align: center;
@@ -38,9 +34,9 @@
 }
 
 .verticalSlider {  
-  width: 8rem;
+  width: 10rem;
   transform: rotate(-90deg);
-  margin-bottom: 2rem;  
+  margin-bottom: 3rem;  
   cursor: pointer;
   background: #555;
   border-radius: 5px;
@@ -65,11 +61,12 @@
   border-radius: 50%;
   cursor: grab;
   border: 2px solid #333;
+
 }
 
 .label {
-  font-size: 12px;
-  margin-top: 2rem;
+  font-size: 0.7rem;
+  margin-top: 1.8rem;
   color: #ffffff97;  
 }
 
@@ -104,39 +101,38 @@
 
 .linesDiv {
   position: absolute;
-  top: -10;
-  left: 0;
   width: 100%;
-  height: 80%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   z-index: 0;
-  opacity: 0.16;
+  opacity: 0.18;
 }
 
 .linesDiv .line {
   border: none;
-  height: 2px;
-  background-color: #fff;
+  height: 1.8px;
+  background-color: #ffffff77;
   margin: 0;
 }
 
-.info {    
-  margin-top: 1rem;
-  max-width: 15rem;
-  margin-left: 12rem;
+.info {
+  display: grid;  
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;  
 }
 
 .infoText {      
   font-size: 0.8rem;
-  color: #ffffff57;
+  color: #ffffff3a;
 }
 
 /* --- MOBILE STYLES --- */
 @media (max-width: 768px) {
   .divContainer{    
-    top: 400px;    
+    top: 450px;
   }
 
   .EQcontainer {
@@ -145,7 +141,7 @@
   }
 
   .heading {
-    font-size: 1rem;    
+    font-size: 1rem;
   }
   
   .verticalSlider {  
@@ -153,19 +149,20 @@
   }
 
   .linesDiv {    
-    height: 94%;
+    height: 70%;
     opacity: 0.12;
     border-radius: 1rem;
+    margin-top: 1rem;
+  }
+
+  .label {
+    font-size: 12px;
+    margin-top: 0.5rem;
+    color: #ffffff97;  
   }
 
   .buttons {  
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
-
-  .info {    
-    max-width: 20rem;
-    margin-top: 0.5rem;   
-    margin-left: 4rem;    
-  }  
 }
