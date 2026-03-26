@@ -1,5 +1,6 @@
 .nav {
     background: linear-gradient(to bottom, #252525, #111112f1);
+    backdrop-filter: blur(10px);
     position: fixed;
     top: 0;
     width: 100%;    

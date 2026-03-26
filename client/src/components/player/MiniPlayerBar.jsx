@@ -8,6 +8,7 @@ import PlayButton from "../buttons/PlayButton";
 import styles from "./miniPlayerBar.module.css";
 import VolButton from "../buttons/VolButton";
 import ArtistButton from "../buttons/ArtistButton";
+import hexToRgba from "../../utils/hexToRgba";
 
 const MiniPlayerBar = () => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
@@ -104,21 +105,24 @@ const MiniPlayerBar = () => {
                         
                         {/* Volume */}
                         {showVolumeBar &&
-                            <div className={styles.sliderRowVol}>
-                                <VolButton type="Min" onClick={() => setVolume(0)} active={volume === 0 && true} />
-                                <input
-                                    type="range"
-                                    min={0}
-                                    max={1}
-                                    step="0.01"
-                                    value={volume}
-                                    onChange={(e) => setVolume(Number(e.target.value))}
-                                    style={volumeSliderStyle}
-                                />
-                                <VolButton type="Max" onClick={() => setVolume(1)} active={volume === 1 && true} />
-                            </div>
+                            <>
+                                <div className={styles.sliderRowVol}>
+                                    <VolButton type="Min" onClick={() => setVolume(0)} active={volume === 0 && true} />
+                                    <input
+                                        type="range"
+                                        min={0}
+                                        max={1}
+                                        step="0.01"
+                                        value={volume}
+                                        onChange={(e) => setVolume(Number(e.target.value))}
+                                        style={volumeSliderStyle}
+                                    />
+                                    <VolButton type="Max" onClick={() => setVolume(1)} active={volume === 1 && true} />
+                                </div>
+                                <hr className={styles.line}/>
+                            </>
                         }
-                        <hr className={styles.line}/>
+                        
                         
                         <Link to="/player" className={!showVolumeBar || !showTimeBar || !showImage ? styles.smallPlayerButton : styles.playerButton} />
                     </div>

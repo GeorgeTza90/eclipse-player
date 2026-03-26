@@ -1,5 +1,6 @@
 .footer {
     background: linear-gradient(to top, #171717, #141414c1);
+    backdrop-filter: blur(10px);
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     justify-items: center;
