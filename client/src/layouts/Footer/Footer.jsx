@@ -5,24 +5,27 @@ import MiniPlayerBar from '../../components/player/MiniPlayerBar';
 import { useAudio } from '../../contexts/AudioContextWeb';
 import { useEffect, useState } from 'react';
 import hexToRgba from '../../utils/hexToRgba';
+import { useImageToast } from '../../components/ui/ΙmageToast';
 
 function Footer() {
-    const { currentSong } = useAudio();
-    const { coloredGlow } = useMiniPlayer();
+    const { currentSong, volume } = useAudio();
+    const { coloredGlow, showGlow } = useMiniPlayer();
     const { barMode, playerPage, showMiniPlayer } = useMiniPlayer();
     const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
+    const { showImageToast, ImageToastUI } = useImageToast();
 
     useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe00"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);
 
     const MBstyle = {
-        background: `linear-gradient(to top, ${!coloredGlow ? "#171717" : hexToRgba(shadowColor, 0.05)}, ${!coloredGlow ? "#141414c1" : "#171717"} )`,
+        background: `linear-gradient(to top left, ${showGlow ? (!coloredGlow ? "#171717" : hexToRgba(shadowColor, 0.2)) : "#141414"}, ${showGlow ? (!coloredGlow ? "#141414" : "#171717") : "#141414" } ${volume*90}%)`,
         backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)', 
+        WebkitBackdropFilter: 'blur(10px)',
+        zIndez: 99999,        
     }
 
     return (<>
         {/* Desktop */}
-        {(!barMode || !showMiniPlayer) &&
+        {(!barMode || !showMiniPlayer || playerPage) &&
             <div className={styles.footer} >
                 <br />
                 <a href="/player" className={styles.trademark}>&copy;{new Date().getFullYear()} Eclipse Player</a>
@@ -32,9 +35,12 @@ function Footer() {
         }   
 
         {barMode && showMiniPlayer && !playerPage  &&
-            <div className={styles.player} style={MBstyle}>
-                <MiniPlayerBar />
-            </div>
+            <>
+                {ImageToastUI}
+                <div className={styles.player} style={MBstyle}>
+                    <MiniPlayerBar handleImageToast={showImageToast}/>
+                </div>
+            </>            
         }       
 
         {/* Mobile */}

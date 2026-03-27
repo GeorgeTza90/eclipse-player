@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { formatTime } from "../../hooks/useFormatTime";
-import { useImageToast } from "../../hooks/useImageToast";
+import { useImageToast } from "../ui/ΙmageToast";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { useNavigate } from "react-router-dom";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";

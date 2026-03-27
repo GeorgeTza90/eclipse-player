@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Eclipse_Player_Desktop")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dabdce6c68e0fd1498ebc34d704aab55370cd966")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50cc6c0d4c85abc983c6f0aa0910bc6b74d62741")]
 [assembly: System.Reflection.AssemblyProductAttribute("Eclipse_Player_Desktop")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Eclipse_Player_Desktop")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

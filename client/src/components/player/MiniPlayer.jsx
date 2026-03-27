@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
-import { useImageToast } from "../../hooks/useImageToast";
+import { useImageToast } from "../ui/ΙmageToast";
 import { formatTime } from "../../hooks/useFormatTime";
 import { useNavigate } from "react-router-dom";
 import Circle from "../ui/MiniPlayerCircle";

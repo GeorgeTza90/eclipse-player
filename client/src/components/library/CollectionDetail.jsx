@@ -3,7 +3,7 @@ import { useAudio } from "../../contexts/AudioContextWeb";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
 import { useAuth } from "../../contexts/AuthContextWeb";
-import { useImageToast } from "../../hooks/useImageToast";
+import { useImageToast } from "../ui/ΙmageToast";
 import ArtistButton from "../buttons/ArtistButton";
 import BackButton from "../buttons/BackButton";
 import styles from "./collectionDetail.module.css";
@@ -25,17 +25,10 @@ export default function CollectionDetail() {
     const albumInfo = albumSongs[0];
     const durationString = useAlbumDuration(albumSongs);
 
-    const handlePressSong = (song) => { playSong(song, albumSongs, album); navigate("/player"); };
+    const handlePressSong = (song) => { playSong(song, albumSongs, album); navigate("/player"); };    
 
-    console.log(albumSongs[0].averageColor)
-
-    const headerStyle = {
-        background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.1)}, #55555500 )`,
-    }
-
-    const containerStyle = {
-        background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.05)}, #55555500 )`,
-    }
+    const headerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.1)}, #55555500 )` }
+    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.05)}, #55555500 )` }
 
     return (
         <div className={styles.container} style={containerStyle}>

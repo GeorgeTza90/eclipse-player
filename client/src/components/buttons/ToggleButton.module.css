@@ -8,6 +8,15 @@
     transition: background-color 0.3s ease;
 }
 
+.toggleInActive {
+    width: 40px;
+    height: 22px;
+    border-radius: 30px;
+    background-color: #cccccc24;
+    position: relative;    
+    transition: background-color 0.3s ease;
+}
+
 .toggle.on {
     background-color: #858585;
     border: 1px solid rgb(255, 255, 255)
@@ -35,6 +44,11 @@
 }
 
 .toggle.off .knob {
+    transform: translateX(0);
+    background-color: rgb(73, 73, 73);
+}
+
+.toggleInActive .knob {
     transform: translateX(0);
     background-color: rgb(73, 73, 73);
 }

@@ -34,6 +34,7 @@
     width: 100%;
     height: 4rem;
     margin-top: 500px;
+    z-index: 99999;
 }
 
 @media (max-width: 768px) {
@@ -44,7 +45,6 @@
     .player {
         display: none;
     }
-
 
     .nav {
         display: block;
