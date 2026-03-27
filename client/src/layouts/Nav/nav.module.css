@@ -8,6 +8,18 @@
     opacity: 88%;
 }
 
+.allDesktop {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    align-items: center;
+    padding: 5px;
+    padding-bottom: 0.6rem;
+    margin-left: 27%;
+    margin-right: 27%;
+    
+}
+
 .all {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

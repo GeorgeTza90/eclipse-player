@@ -1,7 +1,7 @@
 .divContainer{
   height: 15rem;
   position: absolute;
-  top: 34.2rem;    
+  top: 37rem;    
   display: grid;  
 }
 
@@ -12,8 +12,7 @@
   position: relative;
   height: 100%;
   background-color: #0000001f;
-  border-radius: 2rem;
-  margin-top: 1rem;
+  border-radius: 2rem;  
 }
 
 .heading {
@@ -28,15 +27,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 3rem;
-  height: 6rem;
-  margin-top: 4rem;
+  width: 2.4rem;
+  height: 4rem;
+  margin-top: 3.5rem;
 }
 
 .verticalSlider {  
-  width: 10rem;
+  width: 8rem;
   transform: rotate(-90deg);
-  margin-bottom: 3rem;  
+  margin-bottom: 4rem;  
   cursor: pointer;
   background: #555;
   border-radius: 5px;
@@ -61,12 +60,10 @@
   border-radius: 50%;
   cursor: grab;
   border: 2px solid #333;
-
 }
 
 .label {
-  font-size: 0.7rem;
-  margin-top: 1.8rem;
+  font-size: 0.7rem;  
   color: #ffffff97;  
 }
 
@@ -102,7 +99,7 @@
 .linesDiv {
   position: absolute;
   width: 100%;
-  height: 90%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -112,7 +109,7 @@
 
 .linesDiv .line {
   border: none;
-  height: 1.8px;
+  height: 0.1rem;
   background-color: #ffffff77;
   margin: 0;
 }
@@ -128,11 +125,22 @@
   font-size: 0.8rem;
   color: #ffffff3a;
 }
+@media (max-height: 1191px) {
+    
+}
 
-/* --- MOBILE STYLES --- */
+@media (max-height: 1050px) {
+    
+}
+
+@media (max-height: 990px) {
+    
+}
+
+/* MOBILE */
 @media (max-width: 768px) {
   .divContainer{    
-    top: 450px;
+    top: 440px;
   }
 
   .EQcontainer {
@@ -156,8 +164,7 @@
   }
 
   .label {
-    font-size: 12px;
-    margin-top: 0.5rem;
+    font-size: 0.7rem;    
     color: #ffffff97;  
   }
 

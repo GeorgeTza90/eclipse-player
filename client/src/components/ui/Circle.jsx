@@ -20,7 +20,7 @@ export default function Circle({
   return (
     <div
       style={{
-        position: "absolute",
+        position: "fixed",
         width: size,
         height: size,
         borderRadius: "50%",
@@ -31,7 +31,7 @@ export default function Circle({
         top: top,
         boxShadow: `0px ${heightOffset}px ${intensity}px ${hexToRgba(shadowColor, Math.min(intensity / 30, 1))}`,
         background: `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`,
-        zIndex: -10,
+        zIndex: 0,
         transition: "0.5s",
       }}
     />

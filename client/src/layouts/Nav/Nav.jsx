@@ -7,7 +7,7 @@ function Nav() {
             <div className={styles.nav}>
                 {/* Desktop */}
                 <div className={styles.desktopOnly}>
-                    <div className={styles.all}>
+                    <div className={styles.allDesktop}>
                         <Link to="/" className={styles.homeLogo} />
                         <Link to="/player" className={styles.playerLogo} />
                         <Link to="/library" className={styles.libraryLogo} />

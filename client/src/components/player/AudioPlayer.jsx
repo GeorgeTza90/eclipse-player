@@ -64,9 +64,9 @@ export default function AudioPlayer({ onToggleExtention }) {
     left: `${extention === "Playlist" ? 0 : extention === "Lyrics" ? 33.5 : 66}%`,    
     width: "33%",
     height: "100%",
-    backgroundColor: "#96969697",
+    backgroundColor: "#9696965a",
     borderRadius: "1rem",
-    zIndex: -5,
+    zIndex: 0,
     transition: "left 0.3s ease",
   }
 

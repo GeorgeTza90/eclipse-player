@@ -1,13 +1,14 @@
 .container {
     display: flex;
     justify-content: center;
+    z-index: 0;
 }
 
 .playerContent {
     position: absolute;
-    top: 200px;
+    top: 250px;
     display: block;
-    justify-items: center;
+    justify-items: center;    
 }
 
 .infoRow {

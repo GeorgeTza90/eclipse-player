@@ -81,9 +81,7 @@ export default function AuthCard() {
     return (
         <div className={styles.authContainer}>
             {/* Circle */}
-            <div className={`${styles.circleWrapper} ${styles.circle1}`}>
-                <Circle size={isMobile ? 400 : 600} shadowColor={shadowColor} intensity={intensity * 0.5} />
-            </div>
+            <Circle size={isMobile ? 385 : 600} top={isMobile ? 110 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor} />
 
             {/* Log/Reg Form */}
             <div className={styles.formWrapper}>
@@ -129,7 +127,7 @@ export default function AuthCard() {
 
                 {/* Google login button */}
                 <button type="button" onClick={onGoogleLogin} className={styles.googleButton}>
-                    Login with Google
+                    {!isLogin ? `Register with Google` : `Login with Google`}
                 </button>
 
                 {/* Submit Button & Error */}

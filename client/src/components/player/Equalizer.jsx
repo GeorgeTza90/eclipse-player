@@ -19,7 +19,7 @@ export default function Equalizer({ color }) {
       <h3 className={styles.heading}>Graphic EQ</h3>
       <div className={styles.EQcontainer}>
         <div className={styles.linesDiv}>
-          {Array(isMobile ? 11 : 16).fill(0).map((_, i) => <hr key={i} className={styles.line}/>)}
+          {Array(isMobile ? 12 : 16).fill(0).map((_, i) => <hr key={i} className={styles.line}/>)}
         </div>
         {frequencies.map(band => (
           <div key={band.label} className={styles.sliderWrapper}>
