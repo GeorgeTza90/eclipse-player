@@ -62,3 +62,11 @@ export interface AuthenticatedRequest extends Request {
 export interface AuthenticatedRequestMidl extends Request {
   user?: string | JwtPayload;
 }
+
+export interface Presets extends RowDataPacket {
+  id: number;
+  user_id: number;
+  title: string;
+  preset?: [string];
+  created_at: Date;
+}

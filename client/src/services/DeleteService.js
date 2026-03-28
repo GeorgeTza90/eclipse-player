@@ -19,3 +19,13 @@ export async function deleteSongFromPlaylist(playlistId, songId) {
   if (!res.ok) throw new Error(data.error || "Failed to delete song");
   return data;
 }
+
+export async function deleteUserPreset(id) {
+  const res = await fetch(`${API_URL}/api/presets/${id}`, {
+    method: "DELETE",
+    credentials: "include"
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to delete preset");
+  return data;
+}

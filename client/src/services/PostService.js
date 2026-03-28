@@ -108,3 +108,28 @@ export async function moveSongInPlaylist(playlistId, songId, newOrder) {
   if (!res.ok) throw new Error(data.error || "Failed to move song");
   return data;
 }
+
+// Presets
+export async function createPreset(title, preset) {
+  const res = await fetch(`${API_URL}/api/presets`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, preset }),
+    credentials: "include"
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to create preset");
+  return data;
+}
+
+export async function updatePreset(id, title, presetJsonString) {
+  const res = await fetch(`${API_URL}/api/presets/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, preset: presetJsonString }),
+    credentials: "include"
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to update preset");
+  return data;
+}

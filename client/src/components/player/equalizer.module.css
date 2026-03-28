@@ -75,18 +75,27 @@
   margin-top: 4rem;
 }
 
-.resetButton, .inActiveButton {
+.presetButton, .inActiveButton, .presetButtonActive {
   padding: 0.2rem 0.5rem;
   text-decoration: double;
   font-size: medium;
   border-radius: 0.5rem;
 }
 
-.resetButton{  
+.presetButton{  
   background-color: #333;
   border-color: #3333334a;
   color: #fff;
   cursor: pointer;
+}
+
+.presetButtonActive {
+  background-color: #909090;
+  border-color: #000000b4;
+  color: #000000;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0.2px 0.2px 10px hsl(0, 0%, 0%);
 }
 
 .inActiveButton {  
@@ -125,16 +134,116 @@
   font-size: 0.8rem;
   color: #ffffff3a;
 }
+
+.presetsContainer {
+  background-color: #00000029;
+  border-radius: 1rem;
+  padding: 0.3rem 0;
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;  
+  height: 21rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.presetsContainer::-webkit-scrollbar {
+    width: 12px;
+}
+
+.presetsContainer::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.5);
+    border-radius: 3px;
+}
+
+.presetsContainer::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.presetsDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 0.25rem auto;
+  background-color: #181818b1;
+  height: 2.2rem;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  box-sizing: border-box;    
+}
+
+.presetsDiv:hover {
+  background-color: #3d3d3db1;
+}
+
+.preset {
+  font-size: 0.75rem;
+  color: #b0b0b0c7;
+  width: 26rem;
+  cursor: pointer;
+  padding: 1rem 0rem;
+}
+
+.presetUpdate {
+  margin-top: 0.2rem;
+  margin-left: 1rem;
+  padding: 0.4rem;
+  font-size: 1rem;  
+  background-color: #33333300;
+  border-color: #33333300;
+  cursor: pointer;
+  z-index: 3;
+  color: #c2c2c28d;
+}
+
+.presetUpdate:hover {
+  color: #ffffffe7;
+  background-color: #0f0f0fe5;
+  border-radius: 1rem;
+  font-size: 1.3rem;
+  padding: 0.2rem 0.6rem;
+}
+
+.presetDelete {
+  margin-top: 0.2rem;
+  margin-left: 1rem;
+  padding: 0.4rem;
+  font-size: 0.75rem;  
+  background-color: #33333300;
+  border-color: #33333300;
+  cursor: pointer;
+  z-index: 3;
+  color: #ff000094;
+}
+
+.presetDelete:hover {
+  color: #ff0000e7;
+  background-color: #0f0f0fe5;
+  border-radius: 1rem;
+  font-size: 1.2rem;
+  padding: 0.2rem 0.6rem;
+  margin-left: 0.3rem;
+}
+
 @media (max-height: 1191px) {
-    
+  .presetsContainer {        
+    height: 12.8rem;
+  }
 }
 
 @media (max-height: 1050px) {
-    
+  .presetsContainer {        
+    height: 5rem;
+  }
 }
 
 @media (max-height: 990px) {
-    
+  .presetsContainer {        
+    height: 5rem;
+  }
 }
 
 /* MOBILE */
@@ -171,5 +280,9 @@
   .buttons {  
     gap: 1rem;
     margin-top: 1rem;
+  }
+
+  .presetsContainer {        
+    height: 10.2rem;
   }
 }

@@ -93,3 +93,13 @@ export async function logoutUser() {
     return null;
   }
 }
+
+// -------------------- Presets --------------------
+export async function fetchUserPresets() {
+  const res = await fetch(`${API_URL}/api/presets`, { credentials: "include" });
+  if (!res.ok) throw new Error("Failed to fetch presets");  
+
+  const presets = await res.json();
+  
+  return presets;
+}
