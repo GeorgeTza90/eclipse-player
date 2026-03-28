@@ -7,10 +7,12 @@ import { deleteUserPreset } from "../../services/DeleteService";
 import AddPresetModal from "./AddPresetModal";
 import UpdatePresetModal from "./UpdatePresetModal";
 import styles from "./equalizer.module.css";
+import { useAuth } from "../../contexts/AuthContextWeb";
 
 export default function Equalizer({ color }) {
     const isMobile = useIsMobile();
     const { setEQGain, resetEQ, EQGain } = useAudio();
+    const { user } = useAuth();
 
     const [loading, setLoading] = useState(true);
     const [presets, setPresets] = useState([]);
@@ -88,31 +90,38 @@ export default function Equalizer({ color }) {
                 ))}
             </div>
 
-            <div className={styles.buttons}>
-                <button className={styles.presetButton} onClick={resetEQ}>Reset</button>
-                <button className={styles.presetButton} onClick={() => setModalVisible(true)}>Save</button>
-                <button className={showPresetList ? styles.presetButtonActive : styles.presetButton} onClick={() => setShowPresetList(prev => !prev)}>Load</button>
-            </div>
+            {user ? (
+                <>
+                    <div className={styles.buttons}>
+                        <button className={styles.presetButton} onClick={resetEQ}>Reset</button>
+                        <button className={styles.presetButton} onClick={() => setModalVisible(true)}>Save</button>
+                        <button className={showPresetList ? styles.presetButtonActive : styles.presetButton} onClick={() => setShowPresetList(prev => !prev)}>Load</button>
+                    </div>
 
-            {showPresetList && (
-                <div className={styles.presetsContainer}>
-                    {loading ? (
-                        <div className={styles.preset}>Loading presets...</div>
-                    ) : (
-                        presets.map(item => (
-                            <div key={item.id} className={styles.presetsDiv}>
-                                <div className={styles.preset} onClick={() => { handleUpdateEQ(item.preset)}}>
-                                    {item.title}
-                                </div>
-                                <div>
-                                    <button className={styles.presetUpdate} onClick={() => { setPresetToUpdate(item); setModalUpdateVisible(true); }}>↺</button>
-                                    <button className={styles.presetDelete} onClick={() => handleDeletePreset(item.id)}>X</button>
-                                </div>
-                            </div>
-                        ))
+                    {showPresetList && (
+                        <div className={styles.presetsContainer}>
+                            {loading ? (
+                                <div className={styles.preset}>Loading presets...</div>
+                            ) : (
+                                presets.map(item => (
+                                    <div key={item.id} className={styles.presetsDiv}>
+                                        <div className={styles.preset} onClick={() => { handleUpdateEQ(item.preset)}}>
+                                            {item.title}
+                                        </div>
+                                        <div>
+                                            <button className={styles.presetUpdate} onClick={() => { setPresetToUpdate(item); setModalUpdateVisible(true); }}>↺</button>
+                                            <button className={styles.presetDelete} onClick={() => handleDeletePreset(item.id)}>X</button>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
                     )}
-                </div>
+                </>                
+            ) : (
+                <div className={styles.notLoggedIn}>Sign In to have access to EQ presets</div>
             )}
+            
 
             <AddPresetModal
                 visible={modalVisible}

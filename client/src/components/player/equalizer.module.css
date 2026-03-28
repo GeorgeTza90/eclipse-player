@@ -78,7 +78,7 @@
 .presetButton, .inActiveButton, .presetButtonActive {
   padding: 0.2rem 0.5rem;
   text-decoration: double;
-  font-size: medium;
+  font-size: 0.9rem;
   border-radius: 0.5rem;
 }
 
@@ -226,6 +226,13 @@
   font-size: 1.2rem;
   padding: 0.2rem 0.6rem;
   margin-left: 0.3rem;
+}
+
+.notLoggedIn {  
+  font-size: 0.8rem;
+  margin-top: 4rem;
+  margin-left: 11.2rem;
+  color: #a1a1a1a6;
 }
 
 @media (max-height: 1191px) {
