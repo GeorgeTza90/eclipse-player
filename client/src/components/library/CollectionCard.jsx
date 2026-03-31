@@ -16,7 +16,7 @@ export default function CollectionCard({ item, onClick, type }) {
         if (currentSong?.album === item.album) { togglePlay(); return; }
         if (isPlaying) stop();
         playSong(albumSongs[0], albumSongs, item.album);
-    };  
+    };    
 
     const trackYearStyle = { display: hover ? "hidden" : "block", color: hover ?  "#a0a0a000" : "#a0a0a0e0", fontSize: "0.72rem", margin: "2px 0" };
     const artistNameStyle = { fontSize: hover ? "0.75rem" : "0.85rem", color: hover ?  "#a0a0a000" : "#a0a0a0e0" }
@@ -27,7 +27,7 @@ export default function CollectionCard({ item, onClick, type }) {
 
     return (
         <>
-            {type === "song" && (
+            {(type === "song" || type === "private") && (
                 <div className={styles.trackContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                     {item.image && (
                         <>

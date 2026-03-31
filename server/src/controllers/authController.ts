@@ -111,7 +111,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, username: user.username, premium: user.premium },
+      { id: user.id, email: user.email, username: user.username, premium: user.premium, private: user.private },
       JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -145,7 +145,7 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
     });
 
     const { email, name, sub: googleId } = data;
-    const [rows] = await db.query<User[]>("SELECT id, username, email, premium FROM users WHERE email = ?", [email]);
+    const [rows] = await db.query<User[]>("SELECT id, username, email, premium, private FROM users WHERE email = ?", [email]);
     let user: User;
 
     if (rows.length > 0) {
@@ -156,12 +156,12 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
         [name, email, googleId, null]
       );
       const userId = result.insertId;
-      const [userRows] = await db.query<User[]>("SELECT id, username, email, premium FROM users WHERE id = ?", [userId]);
+      const [userRows] = await db.query<User[]>("SELECT id, username, email, premium, private FROM users WHERE id = ?", [userId]);
       user = userRows[0];
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, username: user.username, premium: user.premium },
+      { id: user.id, email: user.email, username: user.username, premium: user.premium, private: user.private },
       JWT_SECRET,
       { expiresIn: "7d" }
     );

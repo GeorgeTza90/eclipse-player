@@ -8,6 +8,7 @@ import { getGridConfig } from "../../utils/sizeSwitch";
 export default function LibraryGroupItem({ type, group }) {
     const navigate = useNavigate();
     const isArtist = type === "Artists";
+    const isPrivate = type === "Private";
     const width = useWidth();
     const isMobile = useIsMobile();
     const {columns, rows} = getGridConfig(width);    
@@ -17,7 +18,7 @@ export default function LibraryGroupItem({ type, group }) {
         gridTemplateColumns: isMobile ? `repeat(3, 6.5rem)` : `repeat(${columns}, 8rem)`,        
         gap: isMobile ? "2rem" : "2.4rem",
         marginLeft: width < 800 ? "" : "",        
-    };
+    };    
 
     return (
         <div className={styles.container}>
@@ -31,12 +32,14 @@ export default function LibraryGroupItem({ type, group }) {
                     <CollectionCard
                         key={isArtist ? item.name : item.id}
                         item={item}
-                        type={isArtist ? "artist" : "song"}
+                        type={isPrivate ? "private" : (isArtist ? "artist" : "song")}
                         onClick={() =>
                             navigate(
-                                isArtist
-                                    ? `/library/ArtistInfo?artist=${encodeURIComponent(item.name)}`
-                                    : `/library/CollectionDetail?album=${encodeURIComponent(item.album)}`
+                                isPrivate ? `/library/PrivateCollectionDetail?album=${encodeURIComponent(item.album)}` : ( 
+                                    isArtist
+                                        ? `/library/ArtistInfo?artist=${encodeURIComponent(item.name)}`
+                                        : `/library/CollectionDetail?album=${encodeURIComponent(item.album)}` 
+                                )
                             )
                         }
                     />

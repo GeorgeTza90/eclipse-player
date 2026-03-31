@@ -1,20 +1,20 @@
 import { Link } from 'react-router-dom';
-import styles from "./footer.module.css"
 import { useMiniPlayer } from '../../contexts/MiniPlayerContextWeb';
-import MiniPlayerBar from '../../components/player/MiniPlayerBar';
 import { useAudio } from '../../contexts/AudioContextWeb';
 import { useEffect, useState } from 'react';
-import hexToRgba from '../../utils/hexToRgba';
 import { useImageToast } from '../../components/ui/ΙmageToast';
+import MiniPlayerBar from '../../components/player/MiniPlayerBar';
+import hexToRgba from '../../utils/hexToRgba';
+import styles from "./footer.module.css"
 
 function Footer() {
     const { currentSong, volume } = useAudio();
     const { coloredGlow, showGlow } = useMiniPlayer();
-    const { barMode, playerPage, showMiniPlayer } = useMiniPlayer();
+    const { barMode, playerPage, showMiniPlayer } = useMiniPlayer();    
+    const { ImageToastUI, showImageToast } = useImageToast();
     const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
-    const { showImageToast, ImageToastUI } = useImageToast();
 
-    useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe00"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);
+    useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe00"); else setShadowColor(currentSong?.averageColor ?? "#bebebe"); }, [coloredGlow, currentSong]);
 
     const MBstyle = {
         background: `linear-gradient(to top left, ${showGlow ? (!coloredGlow ? "#171717" : hexToRgba(shadowColor, 0.2)) : "#141414"}, ${showGlow ? (!coloredGlow ? "#141414" : "#171717") : "#141414" } ${volume*90}%)`,

@@ -4,7 +4,7 @@ import { API_URL } from "../config";
 export async function fetchSongs() {
   const res = await fetch(`${API_URL}/api/songs`, { credentials: "include" });
   if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-  return res.json(); // Cloudinary URLs are already correct in the database
+  return res.json(); 
 }
 
 export async function fetchSongById(songId) {
@@ -13,6 +13,12 @@ export async function fetchSongById(songId) {
     const error = await res.json().catch(() => ({}));
     throw new Error(error?.message || "Failed to fetch song");
   }
+  return res.json();
+}
+
+export async function fetchPrivateSongs() {  
+  const res = await fetch(`${API_URL}/api/songs/private`, { credentials: "include" });  
+  if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
   return res.json();
 }
 

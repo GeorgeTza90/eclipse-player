@@ -6,22 +6,17 @@ const AuthContext = createContext(undefined);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [priv_u, setPriv_u] = useState(false);  
 
   useEffect(() => {
     const initAuth = async () => {
-      try {
-        const currentUser = await fetchCurrentUser();
-        setUser(currentUser);
-      } catch (err) {
-        console.error("Error fetching current user:", err);
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
+      try { const currentUser = await fetchCurrentUser(); setUser(currentUser);}
+      catch (err) { console.error("Error fetching current user:", err); setUser(null); }
+      finally { setLoading(false); }
     };
     initAuth();
   }, []);
-
+  
   const login = (userData) => setUser(userData);
 
   const logout = async () => {
@@ -33,9 +28,12 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
     }
   };
+ 
+  useEffect(() => { if (user?.private) {setPriv_u(true)} else {setPriv_u(false)} }, [user]);
+
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, priv_u, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
