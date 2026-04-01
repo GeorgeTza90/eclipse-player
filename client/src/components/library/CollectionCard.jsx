@@ -8,11 +8,11 @@ import styles from "./collectionCard.module.css"
 export default function CollectionCard({ item, onClick, type }) {
     const { playSong, currentSong, isPlaying, togglePlay, stop } = useAudio();    
     const [ hover, setHover ] = useState(false);
-    const { songs } = useLibrary();
+    const { songs, privateSongs } = useLibrary();
     const isMobile = useIsMobile();
 
-    const handlePlayClick = (item) => {
-        const albumSongs = songs.filter(s => s.album === item.album);
+    const handlePlayClick = (item) => {        
+        const albumSongs = type === "private" ? privateSongs.filter(s => s.album === item.album) : songs.filter(s => s.album === item.album);
         if (currentSong?.album === item.album) { togglePlay(); return; }
         if (isPlaying) stop();
         playSong(albumSongs[0], albumSongs, item.album);

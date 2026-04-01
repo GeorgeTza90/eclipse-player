@@ -1,7 +1,9 @@
+import { useAuth } from "../../contexts/AuthContextWeb";
 import AddToPlaylistButton from "../buttons/AddToPlaylistButton";
 import styles from "./trackItem.module.css";
 
 export default function TrackItem({ track, index, onPress, user }) {
+    const { priv_u } = useAuth();
     const minutes = Math.floor(track.duration / 60);
     const seconds = ("0" + (track.duration % 60)).slice(-2);
 
@@ -19,7 +21,7 @@ export default function TrackItem({ track, index, onPress, user }) {
             </div>
 
             <div className={styles.trackRight}>
-                {user && <AddToPlaylistButton song={track} />}
+                {(user && !priv_u) && <AddToPlaylistButton song={track} />}
                 {track.duration && (
                     <span className={styles.trackDuration}>
                         {minutes}:{seconds}

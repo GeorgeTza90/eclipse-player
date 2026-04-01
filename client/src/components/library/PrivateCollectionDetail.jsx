@@ -49,7 +49,7 @@ export default function CollectionDetail() {
 
             <div>
                 {albumSongs.map((item, index) => (
-                    <TrackItem key={item.id} track={item} index={index} onPress={handlePressSong} user={user} />
+                    <TrackItem key={item.id} track={item} index={index} type="private" onPress={handlePressSong} user={user} />
                 ))}
 
                 <BackButton navTo={`/library`} />
