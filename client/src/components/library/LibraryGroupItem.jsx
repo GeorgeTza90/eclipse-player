@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import CollectionCard from "./CollectionCard";
-import { useWidth } from "../../hooks/useScreen";
-import styles from "./libraryGroupItem.module.css";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { getGridConfig } from "../../utils/sizeSwitch";
+import { useWidth } from "../../hooks/useScreen";
+import CollectionCard from "./CollectionCard";
+import styles from "./libraryGroupItem.module.css";
 
 export default function LibraryGroupItem({ type, group }) {
     const navigate = useNavigate();

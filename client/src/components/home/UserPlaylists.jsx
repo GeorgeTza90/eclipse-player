@@ -1,32 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./userPlaylists.module.css";
+import { useFetchManager } from "../../hooks/useFetchManager";
 import PlaylistItem from "./PlaylistItem";
 import AddPlaylistModal from "./AddPlaylistModal";
-import { fetchUserPlaylists } from "../../services/GetService";
 import AddPlaylistButton from "../buttons/AddPlaylistButton";
+import styles from "./userPlaylists.module.css";
 
 export default function UserPlaylists() {
+    const { state, loading, error, call } = useFetchManager();
     const navigate = useNavigate();
-    const [playlists, setPlaylists] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
+    const playlists = state.playlists || [];
 
     useEffect(() => {
-        loadPlaylists();
-    }, []);
+        async function fetchPlaylists() { await call("playlists"); }
+        fetchPlaylists();
+    }, [call]);    
+    
+    const reloadPlaylists = useCallback(() => call("playlists"), [call]);
 
-    const loadPlaylists = async () => {
-        setLoading(true);
-        try {
-            const data = await fetchUserPlaylists();
-            setPlaylists(data);
-        } catch (err) {
-            console.error("Failed to load playlists:", err);
-        } finally {
-            setLoading(false);
-        }
-    };
+    if (loading.playlists) return <p className={styles.infoText}>Loading playlists...</p>;
+    if (error.playlists) return <p className={styles.infoText}>Error loading playlists</p>;
+    if (playlists.length === 0) return <p className={styles.infoText}>No playlists found.</p>;
 
     const handlePlaylistPress = (playlist) => {
         navigate(`/library/PlaylistDetail?id=${playlist.id}&title=${encodeURIComponent(playlist.title)}`);
@@ -34,29 +29,23 @@ export default function UserPlaylists() {
 
     return (
         <div className={styles.container}>
-            {loading && <p className={styles.infoText}>Loading playlists...</p>}
-            {!loading && playlists.length === 0 && (
-                <p className={styles.infoText}>No playlists found.</p>
-            )}
-
-            <div className={styles.playlistsContainer}>
-                {!loading &&
-                    playlists.map((pl) => (
-                        <PlaylistItem
-                            key={pl.id}
-                            playlist={pl}
-                            onDelete={loadPlaylists}
-                            onPress={() => handlePlaylistPress(pl)}
-                        />
-                    ))}
-                <AddPlaylistButton onClick={() => setModalVisible(true)} />
-            </div>
-
-            <AddPlaylistModal
-                visible={modalVisible}
-                onCreated={loadPlaylists}
-                onClose={() => setModalVisible(false)}
+        <div className={styles.playlistsContainer}>
+            {playlists.map((pl) => (
+            <PlaylistItem
+                key={pl.id}
+                playlist={pl}
+                onDelete={reloadPlaylists}
+                onPress={() => handlePlaylistPress(pl)}
             />
+            ))}
+            <AddPlaylistButton onClick={() => setModalVisible(true)} />
+        </div>
+
+        <AddPlaylistModal
+            visible={modalVisible}
+            onCreated={reloadPlaylists}
+            onClose={() => setModalVisible(false)}
+        />
         </div>
     );
 }

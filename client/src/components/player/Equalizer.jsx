@@ -2,63 +2,60 @@ import { useEffect, useMemo, useState } from "react";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { EQ_BANDS } from "../../utils/defaultEQ";
-import { fetchUserPresets } from "../../services/GetService";
-import { deleteUserPreset } from "../../services/DeleteService";
+import { useAuth } from "../../contexts/AuthContextWeb";
+import { useFetchManager } from "../../hooks/useFetchManager";
+import { useDeleteManager } from "../../hooks/useDeleteManager";
 import AddPresetModal from "./AddPresetModal";
 import UpdatePresetModal from "./UpdatePresetModal";
 import styles from "./equalizer.module.css";
-import { useAuth } from "../../contexts/AuthContextWeb";
 
 export default function Equalizer({ color }) {
     const isMobile = useIsMobile();
     const { setEQGain, resetEQ, EQGain } = useAudio();
     const { user } = useAuth();
+    
+    const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
+    const { state: deleteState, loading: deleteLoading, call: deleteCall } = useDeleteManager();
 
-    const [loading, setLoading] = useState(true);
     const [presets, setPresets] = useState([]);
     const [presetToUpdate, setPresetToUpdate] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
     const [showPresetList, setShowPresetList] = useState(false);
-
+    
     const frequencies = useMemo(() => (
         isMobile
             ? EQ_BANDS.filter(b => [100, 250, 630, 1600, 4000, 10000, 16000, 20000].includes(b.value))
             : EQ_BANDS
     ), [isMobile]);
 
+    const loadPresets = async () => await fetchCall("userPresets");
+
     useEffect(() => {
-        loadPresets();
+        const fetchPresets = async () => {
+            await loadPresets();
+        };
+        fetchPresets();
     }, []);
-
-    const loadPresets = async () => {
-        setLoading(true);
-        try {
-            const data = await fetchUserPresets();
-            const parsed = data.map(p => ({ ...p, preset: typeof p.preset === "string" ? JSON.parse(p.preset) : p.preset }));
-            setPresets(parsed);
-        } catch (err) {
-            console.error("Failed to load presets:", err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
+    
+    useEffect(() => {
+        if (fetchState.userPresets) {
+            const parsed = fetchState.userPresets.map(p => ({ ...p, preset: typeof p.preset === "string" ? JSON.parse(p.preset) : p.preset }));
+            setPresets(parsed);        }
+    }, [fetchState.userPresets]);
+    
     const handleUpdateEQ = (preset) => {
         Object.entries(preset).forEach(([label, value]) => {
-            setEQGain(label, value);
+            if (EQGain.hasOwnProperty(label)) setEQGain(label, value);
         });
     };
-
+    
     const handleDeletePreset = async (id) => {
-        setLoading(true);
         try {
-            await deleteUserPreset(id);
+            await deleteCall("deleteUserPreset", id);
             setPresets(prev => prev.filter(p => p.id !== id));
         } catch (err) {
             console.error("Failed to delete preset:", err);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -100,28 +97,32 @@ export default function Equalizer({ color }) {
 
                     {showPresetList && (
                         <div className={styles.presetsContainer}>
-                            {loading ? (
+                            {fetchLoading["userPresets"] ? (
                                 <div className={styles.preset}>Loading presets...</div>
                             ) : (
                                 presets.map(item => (
                                     <div key={item.id} className={styles.presetsDiv}>
-                                        <div className={styles.preset} onClick={() => { handleUpdateEQ(item.preset)}}>
+                                        <div className={styles.preset} onClick={() => handleUpdateEQ(item.preset)}>
                                             {item.title}
                                         </div>
                                         <div>
                                             <button className={styles.presetUpdate} onClick={() => { setPresetToUpdate(item); setModalUpdateVisible(true); }}>↺</button>
-                                            <button className={styles.presetDelete} onClick={() => handleDeletePreset(item.id)}>X</button>
+                                            <button className={styles.presetDelete} 
+                                                onClick={() => handleDeletePreset(item.id)}
+                                                disabled={deleteLoading["deleteUserPreset"]}
+                                            >
+                                                X
+                                            </button>
                                         </div>
                                     </div>
                                 ))
                             )}
                         </div>
                     )}
-                </>                
+                </>
             ) : (
                 <div className={styles.notLoggedIn}>Sign In to have access to EQ presets</div>
             )}
-            
 
             <AddPresetModal
                 visible={modalVisible}

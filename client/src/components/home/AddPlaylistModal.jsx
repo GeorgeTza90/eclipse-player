@@ -1,71 +1,67 @@
 import { useState } from "react";
-import styles from "./addPlaylistModal.module.css";
-import { createPlaylist } from "../../services/PostService";
+import { usePostManager } from "../../hooks/usePostManager";
 import { useToast } from "../../contexts/ToastContextWeb";
+import styles from "./addPlaylistModal.module.css";
 
 export default function AddPlaylistModal({ visible, onClose, onCreated }) {
     const { showToast } = useToast();
+    const { state, loading, error, call } = usePostManager();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [loading, setLoading] = useState(false);
 
     if (!visible) return null;
 
     const handleCreate = async () => {
         if (!title.trim()) return showToast("Playlist title is required", "error");
-        if (title.length < 2 ) return showToast("Playlist title minimum length is 2 characters", "error")
-        if (title.length > 20 ) return showToast("Playlist title maximum length is 20 characters", "error")
+        if (title.length < 2) return showToast("Title min 2 chars", "error");
+        if (title.length > 20) return showToast("Title max 20 chars", "error");
 
         try {
-            setLoading(true);
-            await createPlaylist(title, description);
+            await call("createPlaylist", title, description);
             setTitle("");
             setDescription("");
             showToast("Playlist created successfully", "success");
             onCreated?.();
             onClose?.();
-        } catch (err) {
-            console.error("Failed to create playlist:", err);
+        } catch {
             showToast("Could not create playlist", "error");
-        } finally {
-            setLoading(false);
         }
-    };
+  };
 
-    return (
-        <div className={styles.modalOverlay}>
-            <div className={styles.modalContent}>
-                <input
-                    type="text"
-                    placeholder="Playlist Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className={styles.input}
-                    disabled={loading}
-                />
-                <input
-                    type="text"
-                    placeholder="Description (optional)"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    className={styles.input}
-                    disabled={loading}
-                />
-                <button
-                    className={styles.modalButton}
-                    onClick={handleCreate}
-                    disabled={loading}
-                >
-                    {loading ? "Creating..." : "Create"}
-                </button>
-                <button
-                    className={`${styles.modalButton} ${styles.modalCancel}`}
-                    onClick={onClose}
-                    disabled={loading}
-                >
-                    Cancel
-                </button>
-            </div>
+  return (
+    <div className={styles.modalOverlay}>
+        <div className={styles.modalContent}>
+            <input
+                type="text"
+                placeholder="Playlist Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className={styles.input}
+                disabled={loading.createPlaylist}
+            />
+            <input
+                type="text"
+                placeholder="Description (optional)"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className={styles.input}
+                disabled={loading.createPlaylist}
+            />
+            <button
+                className={styles.modalButton}
+                onClick={handleCreate}
+                disabled={loading.createPlaylist}
+            >
+                {loading.createPlaylist ? "Creating..." : "Create"}
+            </button>
+            <button
+                className={`${styles.modalButton} ${styles.modalCancel}`}
+                onClick={onClose}
+                disabled={loading.createPlaylist}
+            >
+                Cancel
+            </button>
         </div>
-    );
+    </div>
+  );
 }

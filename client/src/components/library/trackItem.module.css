@@ -6,6 +6,7 @@
     min-height: 2.1rem;
     border-bottom: 1px solid #333;
     cursor: pointer;
+    transition: 0.5s ease;
 }
 
 .trackLeft {
@@ -45,14 +46,19 @@
 }
 
 .track:hover {
-    background: linear-gradient(to right, #252525c4, #11111200);
+    /* background: linear-gradient(to right, #252525c4, #11111200); */
+    background-image:url(/assets/highlight2.png);
+    background-position: center;
+    background-size: cover;
     border-radius: 0.5rem;
+    transition: 0.5s ease;
 }
 
 @media (max-width: 768px) {
     .track {
         padding: 6px 0px;
         font-size: 14px;
-        max-width: 400px;
+        max-width: 94%;
+        margin-left: 1rem;
     }
 }

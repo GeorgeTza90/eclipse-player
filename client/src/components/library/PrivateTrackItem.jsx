@@ -20,8 +20,7 @@ export default function TrackItem({ track, index, onPress, user }) {
 
             </div>
 
-            <div className={styles.trackRight}>
-                {user && <AddToPlaylistButton song={track} />}
+            <div className={styles.trackRight}>                
                 {track.duration && (
                     <span className={styles.trackDuration}>
                         {minutes}:{seconds}

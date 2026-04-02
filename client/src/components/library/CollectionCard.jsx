@@ -25,40 +25,38 @@ export default function CollectionCard({ item, onClick, type }) {
     const TextStyle = { fontSize: hover ? "0.72rem" : "0.8rem", marginTop: hover ? "0.2rem" : "0.1rem" }
     const playButtonStyle = { position: "absolute", zIndex: 50, marginTop: "6rem", marginLeft: "6rem", opacity: hover ? "100%" : "0%", transition: "0.5s", boxShadow: "box-shadow: 1px 1px 1px #00000061" }
 
-    return (
-        <>
-            {(type === "song" || type === "private") && (
-                <div className={styles.trackContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-                    {item.image && (
-                        <>
-                            <img src={encodeURI(item.image)} alt={item.album} className={styles.albumImage} style={AlbumImageStyle}/>
-                            <div style={playButtonStyle} className={styles.playButton} >
-                                {!isMobile && (
-                                    <PlayButton
-                                        type = {currentSong?.album===item.album && isPlaying ? "pause" : "play"}
-                                        onClick = {(e) => { e.stopPropagation(); handlePlayClick(item); }}
-                                    />    
-                                )}                                
-                            </div>                            
-                        </>
-                    )}
-                    <div className={styles.trackInfo}>
-                        <p className={styles.trackTitle} style={TextStyle}>{item.album}</p>
-                        <p className={styles.trackArtist}>{item.artist}</p>
-                        <p className={styles.trackYear} style={trackYearStyle} > {hover ? "" : item.year}</p>
-                    </div>
+    return (<>
+        {(type === "song" || type === "private") && (
+            <div className={styles.trackContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                {item.image && (
+                    <>
+                        <img src={encodeURI(item.image)} alt={item.album} className={styles.albumImage} style={AlbumImageStyle}/>
+                        <div style={playButtonStyle} className={styles.playButton} >
+                            {!isMobile && (
+                                <PlayButton
+                                    type = {currentSong?.album===item.album && isPlaying ? "pause" : "play"}
+                                    onClick = {(e) => { e.stopPropagation(); handlePlayClick(item); }}
+                                />    
+                            )}                                
+                        </div>                            
+                    </>
+                )}
+                <div className={styles.trackInfo}>
+                    <p className={styles.trackTitle} style={TextStyle}>{item.album}</p>
+                    <p className={styles.trackArtist}>{item.artist}</p>
+                    <p className={styles.trackYear} style={trackYearStyle} > {hover ? "" : item.year}</p>
                 </div>
-            )}
-            {type === "artist" && (
-                <div className={styles.artistContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-                    {item.image_url && (
-                        <img src={encodeURI(item.image_url)} alt={item.album} className={styles.artistImage} style={ArtistImageStyle} />
-                    )}
-                    <div className={styles.artistInfo}>
-                        <p className={styles.trackTitle} style={artistNameStyle}>{item.name}</p>
-                    </div>
+            </div>
+        )}
+        {type === "artist" && (
+            <div className={styles.artistContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                {item.image_url && (
+                    <img src={encodeURI(item.image_url)} alt={item.album} className={styles.artistImage} style={ArtistImageStyle} />
+                )}
+                <div className={styles.artistInfo}>
+                    <p className={styles.trackTitle} style={artistNameStyle}>{item.name}</p>
                 </div>
-            )}
-        </>
-    );
+            </div>
+        )}        
+    </>);
 }

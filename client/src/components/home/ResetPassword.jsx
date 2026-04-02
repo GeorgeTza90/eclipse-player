@@ -1,75 +1,60 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContextWeb";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { usePostManager } from "../../hooks/usePostManager";
+import { useAutoClear } from "../../hooks/useAutoClear";
 import styles from "./resetPassword.module.css";
 import Circle from "../../components/ui/Circle";
 import PasswordInput from "../inputs/PasswordInput";
 import AuthButton from "../buttons/AuthButton";
-import { useIsMobile } from "../../hooks/useIsMobile";
-import { resetPassword } from "../../services/PostService";
 
 export default function ResetPasswordCard() {
-    const shadowColor = "#bebebe";
-    const [intensity] = useState(30);
-    const isMobile = useIsMobile();
-
-    const { login } = useAuth();
-    const navigate = useNavigate();
-
+    const { loading, error, call } = usePostManager();    
+    const { login } = useAuth();    
     const [searchParams] = useSearchParams();
-    // const token = searchParams.get("token");
-
+    const isMobile = useIsMobile();
+    const navigate = useNavigate();
+    const [intensity] = useState(30);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [localError, setLocalError] = useState("");
+    const shadowColor = "#bebebe";   
 
     // --- Password validation ---
     const validatePassword = (pwd) => {
         if (!pwd) return "Password is required";
         if (pwd.length < 8) return "Password must be at least 8 characters long";
         if (!/[!@#$%^&*(),.?":{}|<>]/.test(pwd))
-            return "Password must contain at least one special character";
-        if (!/[A-Z]/.test(pwd))
-            return "Password must contain at least one uppercase letter";
+        return "Password must contain at least one special character";
+        if (!/[A-Z]/.test(pwd)) return "Password must contain at least one uppercase letter";
         return null;
     };
 
+    // --- Handle Reset Password ---
     const handleReset = async () => {
-        if (!password || !confirmPassword)
-            return setError("Please fill out both password fields.");
+        if (!password || !confirmPassword) return setLocalError("Please fill out both password fields.");
 
         const validationError = validatePassword(password);
-        if (validationError) return setError(validationError);
+        if (validationError) return setLocalError(validationError);
 
-        if (password !== confirmPassword)
-            return setError("Passwords do not match.");
+        if (password !== confirmPassword) return setLocalError("Passwords do not match.");
 
-        try {
-            setLoading(true);
-            const res = await resetPassword(password);
-
-            if (res.user) {
-                login(res.user); // auto-login
-                navigate("/");   // redirect to home
-            }
+        try {      
+            const res = await call("resetPassword", password, searchParams.get("token"));
+            if (res.user && res.token) { login(res.user, res.token); navigate("/"); }
         } catch (err) {
-            setError(err.message || "Failed to reset password. Try again later.");
-        } finally {
-            setLoading(false);
+            setLocalError(err.message || "Failed to reset password. Try again later.");
         }
     };
-
-    useEffect(() => {
-        if (!error) return;
-        const timer = setTimeout(() => setError(""), 4000);
-        return () => clearTimeout(timer);
-    }, [error]);
+    
+    useAutoClear(localError, setLocalError, 4000);
 
     return (
         <div className={styles.authContainer}>
+            {/* Decorative Circle */}
             <div className={`${styles.circleWrapper} ${styles.circle1}`}>
                 <Circle
                     size={isMobile ? 400 : 600}
@@ -78,6 +63,7 @@ export default function ResetPasswordCard() {
                 />
             </div>
 
+            {/* Form */}
             <div className={styles.formWrapper}>
                 <h2 className={styles.title}>Reset Password</h2>
 
@@ -98,13 +84,15 @@ export default function ResetPasswordCard() {
                 />
 
                 <AuthButton
-                    loading={loading}
+                    loading={loading.resetPassword}
                     isLogin={false}
                     onClick={handleReset}
                     title="Reset Password"
                 />
 
-                {error && <p className={styles.errorText}>{error}</p>}
+                {(localError || error.resetPassword) && (
+                    <p className={styles.errorText}>{localError || error.resetPassword?.message}</p>
+                )}
             </div>
         </div>
     );

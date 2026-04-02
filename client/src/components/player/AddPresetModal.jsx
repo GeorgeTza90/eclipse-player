@@ -1,13 +1,13 @@
 import { useState } from "react";
-import styles from "./addPresetModal.module.css";
-import { createPreset } from "../../services/PostService";
+import { usePostManager } from "../../hooks/usePostManager";
 import { useToast } from "../../contexts/ToastContextWeb";
+import styles from "./addPresetModal.module.css";
 
 export default function AddPresetModal({ visible, onClose, onCreated, eqGains }) {
+    const { loading, call } = usePostManager();
     const { showToast } = useToast();
     const [title, setTitle] = useState("");
-    const [preset, setPreset] = useState(eqGains);
-    const [loading, setLoading] = useState(false);   
+    const isLoading = loading.createPreset;
 
     if (!visible) return null;
 
@@ -16,18 +16,14 @@ export default function AddPresetModal({ visible, onClose, onCreated, eqGains })
         if (title.length < 2 ) return showToast("Playlist title minimum length is 2 characters", "error")
         if (title.length > 20 ) return showToast("Playlist title maximum length is 20 characters", "error")
 
-        try {            
-            setLoading(true);
-            await createPreset(title, eqGains);
+        try {                                    
+            await call("createPreset", title, eqGains)
             setTitle("");            
             showToast("Preset created successfully", "success");
             onCreated?.();
             onClose?.();
-        } catch (err) {
-            console.error("Failed to create preset:", err);
+        } catch (err) {            
             showToast("Could not create preset", "error");
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -40,19 +36,19 @@ export default function AddPresetModal({ visible, onClose, onCreated, eqGains })
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className={styles.input}
-                    disabled={loading}
+                    disabled={isLoading}
                 />                
                 <button
                     className={styles.modalButton}
-                    onClick={handleCreate}
-                    disabled={loading}
+                    onClick={() => handleCreate()}
+                    disabled={isLoading}
                 >
-                    {loading ? "Creating..." : "Create"}
+                    {isLoading ? "Creating..." : "Create"}
                 </button>
                 <button
                     className={`${styles.modalButton} ${styles.modalCancel}`}
                     onClick={onClose}
-                    disabled={loading}
+                    disabled={isLoading}
                 >
                     Cancel
                 </button>

@@ -7,7 +7,7 @@ import { useImageToast } from "../ui/ΙmageToast";
 import ArtistButton from "../buttons/ArtistButton";
 import BackButton from "../buttons/BackButton";
 import styles from "./collectionDetail.module.css";
-import TrackItem from "./TrackItem";
+import PrivateTrackItem from "./PrivateTrackItem";
 import hexToRgba from "../../utils/hexToRgba";
 
 export default function CollectionDetail() {
@@ -28,7 +28,7 @@ export default function CollectionDetail() {
     const handlePressSong = (song) => { playSong(song, albumSongs, album); navigate("/player"); };    
 
     const headerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.1)}, #55555500 )` }
-    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.05)}, #55555500 )` }
+    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }
 
     return (
         <div className={styles.container} style={containerStyle}>
@@ -49,7 +49,7 @@ export default function CollectionDetail() {
 
             <div>
                 {albumSongs.map((item, index) => (
-                    <TrackItem key={item.id} track={item} index={index} type="private" onPress={handlePressSong} user={user} />
+                    <PrivateTrackItem key={item.id} track={item} index={index} type="private" onPress={handlePressSong} user={user} />
                 ))}
 
                 <BackButton navTo={`/library`} />

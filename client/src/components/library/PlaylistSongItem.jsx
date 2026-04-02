@@ -4,10 +4,7 @@ import DeleteSongButton from "../buttons/DeleteSongButton";
 export const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
     return (
         <div className={styles.songRow}>
-            {/* Index */}
             <span className={styles.songIndex}>{index + 1}.</span>
-
-            {/* Image (clickable) */}
             {item.image && (
                 <img
                     src={item.image}
@@ -16,8 +13,7 @@ export const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
                     onClick={() => onPlay(item)}
                 />
             )}
-
-            {/* Title (clickable) */}
+            
             <div className={styles.titleRow}>
                 <span className={styles.songTitle} onClick={() => onPlay(item)}>{item.title}</span><br />
                 <div className={styles.tickerContainer}>
@@ -28,22 +24,19 @@ export const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
             </div>
 
             <span className={styles.text}> - </span>
-
-            {/* Artist/Album ticker */}
+            
             <div className={styles.tickerContainer} onClick={() => onPlay(item)}>
                 <div className={styles.tickerText}>
                     {`${item.artist} - ${item.album}`}
                 </div>
             </div>
 
-            {/* Delete button */}
             <DeleteSongButton
                 playlistId={playlistId}
                 songId={Number(item.id)}
                 onDeleted={() => onDelete(item.id)}
             />
 
-            {/* Duration */}
             {
                 typeof item.duration !== "undefined" && (
                     <span className={styles.trackDuration}>

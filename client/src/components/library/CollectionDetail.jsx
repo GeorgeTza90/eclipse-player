@@ -28,7 +28,7 @@ export default function CollectionDetail() {
     const handlePressSong = (song) => { playSong(song, albumSongs, album); navigate("/player"); };    
 
     const headerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.1)}, #55555500 )` }
-    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.05)}, #55555500 )` }
+    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }
 
     return (
         <div className={styles.container} style={containerStyle}>
@@ -51,7 +51,7 @@ export default function CollectionDetail() {
                 {albumSongs.map((item, index) => (
                     <TrackItem key={item.id} track={item} index={index} onPress={handlePressSong} user={user} />
                 ))}
-
+                
                 <BackButton navTo={`/library`} />
             </div>
         </div>

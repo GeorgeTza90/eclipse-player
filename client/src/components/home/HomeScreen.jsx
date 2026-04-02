@@ -1,10 +1,10 @@
 import { useAuth } from '../../contexts/AuthContextWeb';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import MiniPlayerSettings from "./MiniPlayerSettings";
 import AuthButton from '../buttons/AuthButton';
 import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
 import styles from "./homeScreen.module.css";
-import { useIsMobile } from '../../hooks/useIsMobile';
 import Teaser from '../teasers/Teaser';
 
 export default function HomeScreen() {

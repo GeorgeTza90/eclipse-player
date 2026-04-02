@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
-import { fetchArtist } from "../../services/GetService";
+import { useFetchManager } from "../../hooks/useFetchManager"; // your hook
 import { byYear } from "../../utils/songsCetegorizer";
 import styles from "./artistDetail.module.css";
 import LibraryGroupItem from "../library/LibraryGroupItem";
@@ -9,34 +9,22 @@ import BackButton from "../buttons/BackButton";
 import MediaLink from "./MediaLink";
 
 export default function ArtistDetail() {
-    const [artist, setArtist] = useState(null);
+    const { state, loading, error, call } = useFetchManager();
+    const artist = state.artist;
     const [groupsKind, setGroupKind] = useState("Singles & EPs");
     const [searchParams] = useSearchParams();
     const artistName = searchParams.get("artist");
     const { songs } = useLibrary();
-    const navigate = useNavigate();
-
+    const navigate = useNavigate();   
+    
     useEffect(() => {
         if (!artistName) return;
-
-        let cancelled = false;
-
-        (async () => {            
-            try {
-                const data = await fetchArtist(artistName);
-                if (!cancelled) setArtist(data);
-            } catch (err) {
-                if (cancelled) {
-                    console.error(err);
-                    navigate("/library");
-                }                
-            }
-        })();
-
-        return () => cancelled = true
-    }, [artistName, navigate]);
-
-    if (!artist) return <p style={{ color: "#fff", padding: "10px" }}>Loading artist...</p>;
+        call("artist", artistName).catch(() => navigate("/library"));
+    }, [artistName, call, navigate]);
+    
+    if (loading.artist) return <p style={{ color: "#fff", padding: "10px" }}>Loading artist...</p>;
+    if (error.artist) return <p style={{ color: "#fff", padding: "10px" }}>Error loading artist.</p>;
+    if (!artist) return null;
 
     const artistSongs = songs.filter(s => s.artist === artist.name);
     const singlesEps = byYear(artistSongs, "single", "ep");
@@ -53,7 +41,7 @@ export default function ArtistDetail() {
                     <p className={styles.artistInfo}>{artist.description}</p>
                     <div className={styles.contactInfo}>
                         {Object.entries(artist.media).map(([platform, link]) => (
-                            <MediaLink key={platform} platform={platform} link={link} />
+                        <MediaLink key={platform} platform={platform} link={link} />
                         ))}
                     </div>
                 </div>
@@ -61,15 +49,28 @@ export default function ArtistDetail() {
 
             {artistSongs.length > 0 ? (
                 <div className={styles.songsContainer}>
-                    <button className={groupsKind === "Singles & EPs" ? styles.groupsKindButtonClicked : styles.groupsKindButton} onClick={() => setGroupKind("Singles & EPs")}>Singles & EPs</button>
-                    <button className={groupsKind === "Albums" ? styles.groupsKindButtonClicked : styles.groupsKindButton} onClick={() => setGroupKind("Albums")}>Albums</button>
-                    <LibraryGroupItem type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
+                <button
+                    className={groupsKind === "Singles & EPs" ? styles.groupsKindButtonClicked : styles.groupsKindButton}
+                    onClick={() => setGroupKind("Singles & EPs")}
+                >
+                    Singles & EPs
+                </button>
+                <button
+                    className={groupsKind === "Albums" ? styles.groupsKindButtonClicked : styles.groupsKindButton}
+                    onClick={() => setGroupKind("Albums")}
+                >
+                    Albums
+                </button>
+                <LibraryGroupItem
+                    type={groupsKind}
+                    group={groupsKind === "Albums" ? albums : singlesEps}
+                />
                 </div>
             ) : (
-                <><p style={{ color: "#fff", padding: "10px" }}>No songs for this artist.</p></>
+                <p style={{ color: "#fff", padding: "10px" }}>No songs for this artist.</p>
             )}
 
             <BackButton navTo={`/library`} />
-        </div >
+        </div>
     );
 }
