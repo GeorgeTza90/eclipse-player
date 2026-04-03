@@ -23,14 +23,16 @@ export default function Equalizer({ color }) {
     const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
     const [showPresetList, setShowPresetList] = useState(false);
     
+    /* --- SET FREQ --- */
     const frequencies = useMemo(() => (
         isMobile
             ? EQ_BANDS.filter(b => [100, 250, 630, 1600, 4000, 10000, 16000, 20000].includes(b.value))
             : EQ_BANDS
     ), [isMobile]);
 
+    /* --- LOAD USER PRESETS --- */
     const loadPresets = async () => await fetchCall("userPresets");
-
+    
     useEffect(() => {
         const fetchPresets = async () => {
             await loadPresets();
@@ -44,6 +46,7 @@ export default function Equalizer({ color }) {
             setPresets(parsed);        }
     }, [fetchState.userPresets]);
     
+    /* --- UPDATE/DELETE PRESETS  --- */
     const handleUpdateEQ = (preset) => {
         Object.entries(preset).forEach(([label, value]) => {
             if (EQGain.hasOwnProperty(label)) setEQGain(label, value);
@@ -61,8 +64,9 @@ export default function Equalizer({ color }) {
 
     return (
         <div className={styles.divContainer}>
-            <h3 className={styles.heading}>Graphic EQ</h3>
 
+    {/* Equalizer */}
+            <h3 className={styles.heading}>Graphic EQ</h3>
             <div className={styles.EQcontainer}>
                 <div className={styles.linesDiv}>
                     {Array(isMobile ? 12 : 16).fill(0).map((_, i) => (
@@ -87,6 +91,7 @@ export default function Equalizer({ color }) {
                 ))}
             </div>
 
+    {/* Presets */}
             {user ? (
                 <>
                     <div className={styles.buttons}>
@@ -107,12 +112,7 @@ export default function Equalizer({ color }) {
                                         </div>
                                         <div>
                                             <button className={styles.presetUpdate} onClick={() => { setPresetToUpdate(item); setModalUpdateVisible(true); }}>↺</button>
-                                            <button className={styles.presetDelete} 
-                                                onClick={() => handleDeletePreset(item.id)}
-                                                disabled={deleteLoading["deleteUserPreset"]}
-                                            >
-                                                X
-                                            </button>
+                                            <button className={styles.presetDelete} onClick={() => handleDeletePreset(item.id)} disabled={deleteLoading["deleteUserPreset"]}>X</button>
                                         </div>
                                     </div>
                                 ))
@@ -124,6 +124,7 @@ export default function Equalizer({ color }) {
                 <div className={styles.notLoggedIn}>Sign In to have access to EQ presets</div>
             )}
 
+    {/* Modales */}
             <AddPresetModal
                 visible={modalVisible}
                 onClose={() => setModalVisible(false)}

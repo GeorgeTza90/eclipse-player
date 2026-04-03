@@ -1,13 +1,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import styles from "./passwordInput.module.css";
 
-export default function PasswordInput({
-    value,
-    show,
-    placeholder,
-    onChangeText,
-    setShow,
-}) {
+export default function PasswordInput({ value, show, placeholder, onChangeText, setShow }) {
     return (
         <div className={styles.inputWrapper}>
             <input

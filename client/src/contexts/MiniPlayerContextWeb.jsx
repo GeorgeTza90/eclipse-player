@@ -3,8 +3,8 @@ import { getBool, getJSON, setBool, setJSON } from "../utils/localStorageManager
 
 const MiniPlayerContext = createContext(undefined);
 
-export const MiniPlayerProvider = ({ children }) => {
-    /* ---------------- VISIBILITY SETTINGS ---------------- */
+export const MiniPlayerProvider = ({ children }) => {    
+    /* --- VISIBILITY SETTINGS --- */
     const [showImage, setShowImage] = useState(() => getBool("miniPlayer_showImage", true));
     const [showMiniPlayer, setShowMiniPlayer] = useState(() => getBool("miniPlayer_showMiniPlayer", true));
     const [showTimeBar, setShowTimeBar] = useState(() => getBool("miniPlayer_showTimeBar", true));
@@ -14,8 +14,8 @@ export const MiniPlayerProvider = ({ children }) => {
     const [barMode, setBarMode] = useState(() => getBool("miniPlayer_barMode", false));
     const [playerPage, setPlayerPage] = useState(() => getBool("miniPlayer_playerPage", false));
     const [coloredGlow , setColoredGlow ] = useState(() => getBool("miniPlayer_coloredGlow", false));
-
-    /* ---------------- POSITION (DRAG) ---------------- */
+    
+    /* --- POSITION (DRAG) --- */
     const [pos, setPos] = useState(() => getJSON("miniPlayer_position", { x: 500, y: 850 }));
     const [dragging, setDragging] = useState(false);
     const [rel, setRel] = useState({ x: 0, y: 0 });
@@ -33,8 +33,8 @@ export const MiniPlayerProvider = ({ children }) => {
     };
 
     const onMouseUp = () => setDragging(false);    
-
-    /* ---------------- LOCAL STORAGE ---------------- */
+    
+    /* --- LOCAL STORAGE --- */
     useEffect(() => setBool("miniPlayer_showImage", showImage), [showImage]);
     useEffect(() => setBool("miniPlayer_showMiniPlayer", showMiniPlayer), [showMiniPlayer]);
     useEffect(() => setBool("miniPlayer_showTimeBar", showTimeBar), [showTimeBar]);

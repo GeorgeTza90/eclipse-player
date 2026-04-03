@@ -34,6 +34,7 @@ function Footer() {
             </div >
         }   
 
+        {/* Mini Player Bar */}
         {barMode && showMiniPlayer && !playerPage  &&
             <>
                 {ImageToastUI}

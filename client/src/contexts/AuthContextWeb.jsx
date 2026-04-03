@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [priv_u, setPriv_u] = useState(false);  
 
+  /* --- USER UPDATE --- */
   useEffect(() => {
     const initAuth = async () => {
       try { const currentUser = await fetchCurrentUser(); setUser(currentUser);}
@@ -17,6 +18,7 @@ export const AuthProvider = ({ children }) => {
     initAuth();
   }, []);
   
+  /* --- LOG ACTIONS --- */
   const login = (userData) => setUser(userData);
 
   const logout = async () => {
@@ -29,6 +31,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
  
+  /* --- PRIVATE USER CHECK --- */
   useEffect(() => { if (user?.private) {setPriv_u(true)} else {setPriv_u(false)} }, [user]);
 
 

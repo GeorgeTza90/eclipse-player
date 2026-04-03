@@ -23,7 +23,7 @@ export default function ResetPasswordCard() {
     const [localError, setLocalError] = useState("");
     const shadowColor = "#bebebe";   
 
-    // --- Password validation ---
+    //--- Password validation ---//
     const validatePassword = (pwd) => {
         if (!pwd) return "Password is required";
         if (pwd.length < 8) return "Password must be at least 8 characters long";
@@ -33,7 +33,7 @@ export default function ResetPasswordCard() {
         return null;
     };
 
-    // --- Handle Reset Password ---
+    //--- Handle Reset Password ---//
     const handleReset = async () => {
         if (!password || !confirmPassword) return setLocalError("Please fill out both password fields.");
 
@@ -54,16 +54,12 @@ export default function ResetPasswordCard() {
 
     return (
         <div className={styles.authContainer}>
-            {/* Decorative Circle */}
+    {/* Decorative Circle */}
             <div className={`${styles.circleWrapper} ${styles.circle1}`}>
-                <Circle
-                    size={isMobile ? 400 : 600}
-                    shadowColor={shadowColor}
-                    intensity={intensity * 0.5}
-                />
+                <Circle size={isMobile ? 400 : 600} shadowColor={shadowColor} intensity={intensity * 0.5} />
             </div>
 
-            {/* Form */}
+    {/* Form */}
             <div className={styles.formWrapper}>
                 <h2 className={styles.title}>Reset Password</h2>
 
@@ -89,7 +85,7 @@ export default function ResetPasswordCard() {
                     onClick={handleReset}
                     title="Reset Password"
                 />
-
+    {/* Error */}
                 {(localError || error.resetPassword) && (
                     <p className={styles.errorText}>{localError || error.resetPassword?.message}</p>
                 )}

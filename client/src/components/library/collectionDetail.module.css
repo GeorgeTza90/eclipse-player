@@ -1,8 +1,7 @@
 .container {
     border-radius: 1rem;
     margin-top: 5%;
-    margin: 0rem 15rem;
-    
+    margin: 0rem 40rem;    
 }
 
 .header {
@@ -36,7 +35,7 @@
 
 .albumName {
     color: #fff;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -61,13 +60,19 @@
     color: #e6e6e6;
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 2600px) {
     .container {        
-        margin: 0rem 8rem;    
+        margin: 0rem 26rem;    
     }
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 2000px) {
+    .container {        
+        margin: 0rem 10rem;    
+    }
+}
+
+@media (max-width: 1450px) {
     .container {        
         margin: 0rem 5rem;    
     }

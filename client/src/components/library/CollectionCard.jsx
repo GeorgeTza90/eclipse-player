@@ -11,6 +11,7 @@ export default function CollectionCard({ item, onClick, type }) {
     const { songs, privateSongs } = useLibrary();
     const isMobile = useIsMobile();
 
+    /* --- INSTANT PLAY LOGIC --- */
     const handlePlayClick = (item) => {        
         const albumSongs = type === "private" ? privateSongs.filter(s => s.album === item.album) : songs.filter(s => s.album === item.album);
         if (currentSong?.album === item.album) { togglePlay(); return; }
@@ -18,6 +19,7 @@ export default function CollectionCard({ item, onClick, type }) {
         playSong(albumSongs[0], albumSongs, item.album);
     };    
 
+    /* --- STYLES --- */
     const trackYearStyle = { display: hover ? "hidden" : "block", color: hover ?  "#a0a0a000" : "#a0a0a0e0", fontSize: "0.72rem", margin: "2px 0" };
     const artistNameStyle = { fontSize: hover ? "0.75rem" : "0.85rem", color: hover ?  "#a0a0a000" : "#a0a0a0e0" }
     const AlbumImageStyle = { width: isMobile ? "6rem" : (hover ? "8.7rem" : "7rem"), margin: hover ? "-0.15rem" : "0rem", borderRadius: hover ? "0rem" : "0.4rem" }
@@ -26,6 +28,7 @@ export default function CollectionCard({ item, onClick, type }) {
     const playButtonStyle = { position: "absolute", zIndex: 50, marginTop: "6rem", marginLeft: "6rem", opacity: hover ? "100%" : "0%", transition: "0.5s", boxShadow: "box-shadow: 1px 1px 1px #00000061" }
 
     return (<>
+    {/* SONG */}
         {(type === "song" || type === "private") && (
             <div className={styles.trackContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                 {item.image && (
@@ -48,6 +51,8 @@ export default function CollectionCard({ item, onClick, type }) {
                 </div>
             </div>
         )}
+
+    {/* ARTIST */}
         {type === "artist" && (
             <div className={styles.artistContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                 {item.image_url && (

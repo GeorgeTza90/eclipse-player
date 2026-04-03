@@ -17,21 +17,21 @@ export default function ArtistDetail() {
     const { songs } = useLibrary();
     const navigate = useNavigate();   
     
-    useEffect(() => {
-        if (!artistName) return;
-        call("artist", artistName).catch(() => navigate("/library"));
-    }, [artistName, call, navigate]);
-    
+    /* --- LOAD ARTIST --- */
+    useEffect(() => { if (!artistName) return; call("artist", artistName).catch(() => navigate("/library")); }, [artistName, call, navigate]);    
     if (loading.artist) return <p style={{ color: "#fff", padding: "10px" }}>Loading artist...</p>;
     if (error.artist) return <p style={{ color: "#fff", padding: "10px" }}>Error loading artist.</p>;
     if (!artist) return null;
 
+    /* --- SONGS FILTERING --- */
     const artistSongs = songs.filter(s => s.artist === artist.name);
     const singlesEps = byYear(artistSongs, "single", "ep");
     const albums = byYear(artistSongs, "album");
 
     return (
         <div className={styles.container}>
+
+    {/* Info */}
             <div className={styles.header}>
                 {artist.image_url && (
                     <img src={artist.image_url} alt={artist.name} className={styles.Image} />
@@ -47,6 +47,7 @@ export default function ArtistDetail() {
                 </div>
             </div>
 
+    {/* Songs */}
             {artistSongs.length > 0 ? (
                 <div className={styles.songsContainer}>
                 <button
@@ -70,6 +71,7 @@ export default function ArtistDetail() {
                 <p style={{ color: "#fff", padding: "10px" }}>No songs for this artist.</p>
             )}
 
+    {/* Back Button */}
             <BackButton navTo={`/library`} />
         </div>
     );

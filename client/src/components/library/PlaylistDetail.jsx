@@ -16,29 +16,26 @@ export default function PlaylistDetail() {
 
     const params = new URLSearchParams(location.search);
     const id = Number(params.get("id"));
-    const title = params.get("title");
-
-    const durationString = useAlbumDuration([]);
+    const title = params.get("title");    
     
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
     const { call: postCall } = usePostManager();
     const songs = fetchState.playlistSongs || [];
     const loading = fetchLoading.playlistSongs;
     
+    /* --- LOAD PLAYLIST SONGS --- */
     useEffect(() => {
         if (!id) return;
         fetchCall("playlistSongs", id).catch(() => navigate("/"));
     }, [id, fetchCall, navigate]);
 
+    /* --- SONG PLAY --- */
     const handlePlay = (song) => {
-        try {
-            playSong(song, songs, title);
-            navigate("/player");
-        } catch (err) {
-            alert("Could not play song");
-        }
+        try { playSong(song, songs, title).then(navigate("/player")); }
+        catch (err) { alert("Could not play song"); }
     };
     
+    /* --- DRAG/DROP SONG LOGIC --- */
     const handleDragEnd = async (result) => {
         const { source, destination } = result;
         if (!destination) return;

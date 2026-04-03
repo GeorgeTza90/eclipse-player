@@ -12,8 +12,7 @@ import NotFound from "./pages/NotFound/index";
 
 
 
-function AppRouter() {
-
+export default function AppRouter() {
     return (
         <Routes>
             <Route element={<MainLayout />}>
@@ -35,5 +34,3 @@ function AppRouter() {
         </Routes>
     );
 }
-
-export default AppRouter;

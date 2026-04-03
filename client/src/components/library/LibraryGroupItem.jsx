@@ -12,7 +12,8 @@ export default function LibraryGroupItem({ type, group }) {
     const width = useWidth();
     const isMobile = useIsMobile();
     const {columns, rows} = getGridConfig(width);    
-        
+
+    /* --- STYLES --- */
     const horizontalScrollStyle = {
         display: "grid",
         gridTemplateColumns: isMobile ? `repeat(3, 6.5rem)` : `repeat(${columns}, 8rem)`,        
@@ -22,12 +23,8 @@ export default function LibraryGroupItem({ type, group }) {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.categoryTitle}>{type}</h2>
-
-            <div
-                className={styles.horizontalScroll}
-                style={horizontalScrollStyle}
-            >
+            <h2 className={styles.categoryTitle}>{type}</h2>        
+            <div className={styles.horizontalScroll} style={horizontalScrollStyle}>
                 {group.map((item) => (
                     <CollectionCard
                         key={isArtist ? item.name : item.id}

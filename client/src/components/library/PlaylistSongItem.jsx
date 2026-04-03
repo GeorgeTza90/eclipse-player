@@ -6,12 +6,7 @@ export const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
         <div className={styles.songRow}>
             <span className={styles.songIndex}>{index + 1}.</span>
             {item.image && (
-                <img
-                    src={item.image}
-                    alt={item.title}
-                    className={styles.songImage}
-                    onClick={() => onPlay(item)}
-                />
+                <img src={item.image} alt={item.title} className={styles.songImage} onClick={() => onPlay(item)}/>
             )}
             
             <div className={styles.titleRow}>

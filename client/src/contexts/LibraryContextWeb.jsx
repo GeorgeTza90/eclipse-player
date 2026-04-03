@@ -23,11 +23,12 @@ export const LibraryProvider = ({ children }) => {
     setOriginalPrivateSongs(privateSongsData);
   };
 
+  /* --- SONGS CATEGORIZER --- */
   const privateAlbums = useMemo(() => byYear(privateSongs, "album"), [songs]);
   const singlesEps = useMemo(() => byYear(songs, "single", "ep"), [songs]);
   const albums = useMemo(() => byYear(songs, "album"), [songs]); 
-
-  /* ---------------- FETCH SONGS ---------------- */
+  
+  /* --- FETCH SONGS --- */
   useEffect(() => {
     (async () => {
       try {

@@ -7,21 +7,21 @@ import { ToastProvider } from "./contexts/ToastContextWeb";
 import { MiniPlayerProvider } from "./contexts/MiniPlayerContextWeb";
 
 function App() {
-  return (
-    <ToastProvider>
-      <AuthProvider>
-        <LibraryProvider>
-          <AudioProvider>
-            <MiniPlayerProvider>
-              <Router>
-                <AppRouter />
-              </Router>
-            </MiniPlayerProvider>
-          </AudioProvider>
-        </LibraryProvider>
-      </AuthProvider>
-    </ToastProvider>
-  );
+    return (
+        <ToastProvider>
+            <AuthProvider>
+                <LibraryProvider>
+                    <AudioProvider>
+                        <MiniPlayerProvider>
+                            <Router>
+                                <AppRouter />
+                            </Router>
+                        </MiniPlayerProvider>
+                    </AudioProvider>
+                </LibraryProvider>
+            </AuthProvider>
+        </ToastProvider>
+    );
 }
 
 export default App;

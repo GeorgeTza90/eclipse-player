@@ -10,7 +10,7 @@ import styles from "./miniPlayer.module.css";
 import VolButton from "../buttons/VolButton";
 import ArtistButton from "../buttons/ArtistButton";
 
-const MiniPlayer = () => {
+export default function MiniPlayer() {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { pos, onMouseDown, onMouseMove, onMouseUp, showImage, showMiniPlayer, showTimeBar, showVolumeBar, transparency, showGlow, coloredGlow } = useMiniPlayer();        
     const { showImageToast, ImageToastUI } = useImageToast();    
@@ -24,17 +24,19 @@ const MiniPlayer = () => {
     
     const progress = duration ? (sliderPosition / duration) * 100 : 0;
 
+    /* --- UI UPDATE  --- */
     useEffect(() => {
         if (!showTimeBar && !showVolumeBar) {
             setCircleParams({ size: 260, left: -80, top: -50 });
-            if (!showImage)  setCircleParams({ size: 235, left: -70, top: -50 });
+            if (!showImage) setCircleParams({ size: 235, left: -70, top: -50 });
         } else setCircleParams({ size: 290, left: -100, top: -40 });
-    }, [showVolumeBar, showTimeBar, showImage]);
+    }, [showVolumeBar, showTimeBar, showImage]);    
     
     useEffect(() => { setIntensity(volume * 30); }, [volume]);
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
     useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);
 
+    /* --- STYLES  --- */
     const miniPlayerDiv = {
         position: "fixed",
         left: pos.x,
@@ -66,90 +68,88 @@ const MiniPlayer = () => {
         outline: "none",
     };    
 
-    return (
-        <>
-            {ImageToastUI}
-            {showMiniPlayer &&
-                <div
-                    onMouseDown={onMouseDown}
-                    onMouseMove={onMouseMove}
-                    onMouseUp={onMouseUp}
-                    onTouchStart={(e) => onMouseDown(e.touches[0])}
-                    onTouchMove={(e) => { e.preventDefault(); onMouseMove(e.touches[0]); }}
-                    onTouchEnd={onMouseUp}
-                    style={miniPlayerDiv}
-                >
-                    <Circle size={circleParams.size} intensity={intensity * 0.8} heightOffset={6} shadowColor={showGlow ? shadowColor : "#000000ff"} left={circleParams.left} top={circleParams.top} />
+    return (<>
+        {ImageToastUI}
+        {showMiniPlayer &&
+            <div
+                onMouseDown={onMouseDown}
+                onMouseMove={onMouseMove}
+                onMouseUp={onMouseUp}
+                onTouchStart={(e) => onMouseDown(e.touches[0])}
+                onTouchMove={(e) => { e.preventDefault(); onMouseMove(e.touches[0]); }}
+                onTouchEnd={onMouseUp}
+                style={miniPlayerDiv}
+            >
+                <Circle size={circleParams.size} intensity={intensity * 0.8} heightOffset={6} shadowColor={showGlow ? shadowColor : "#000000ff"} left={circleParams.left} top={circleParams.top} />
 
-                    {/* Info */}
-                    <div className={styles.container}>
-                        <div className={styles.infoRow}>
-                            {currentSong?.image && showImage &&
-                                <img
-                                    src={currentSong.image}
-                                    alt={currentSong.title}
-                                    className={styles.image}
-                                    onClick={(e) => { e.stopPropagation(); showImageToast(currentSong.image) }}
-                                />}                            
-                            <div>
-                                <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
-                                {currentSong.feature && (
-                                    <div className={styles.tickerContainer}>
-                                        <div className={styles.tickerText}>{`(feat. ${currentSong.feature})`}</div>
-                                    </div>
-                                )}
-                                <ArtistButton artist={currentSong?.artist || "Artist Name"} size="0.8rem" />
-                            </div>
+    {/* Info */}
+                <div className={styles.container}>
+                    <div className={styles.infoRow}>
+                        {currentSong?.image && showImage &&
+                            <img
+                                src={currentSong.image}
+                                alt={currentSong.title}
+                                className={styles.image}
+                                onClick={(e) => { e.stopPropagation(); showImageToast(currentSong.image) }}
+                            />}                            
+                        <div>
+                            <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
+                            {currentSong.feature && (
+                                <div className={styles.tickerContainer}>
+                                    <div className={styles.tickerText}>{`(feat. ${currentSong.feature})`}</div>
+                                </div>
+                            )}
+                            <ArtistButton artist={currentSong?.artist || "Artist Name"} size="0.8rem" />
                         </div>
-
-                        {/* Controls */}
-                        <div className={styles.controls}>
-                            <PlayButton type="previous" onClick={previous} size="32px"/>
-                            <PlayButton type="stop" onClick={stop} size="32px" />
-                            <PlayButton type={isPlaying ? "pause" : "play"} onClick={togglePlay} size="32px" />
-                            <PlayButton type="next" onClick={next} size="32px" />
-                        </div>
-
-
-                        {/* Time Slider */}
-                        {showTimeBar &&
-                            <div className={styles.sliderRow}>
-                                <span className={styles.time}>{formatTime(position * 1000)}</span>
-                                <input
-                                    type="range"
-                                    min={0}
-                                    max={duration || 0}
-                                    step="0.1"
-                                    value={sliderPosition ?? 0}
-                                    onChange={(e) => { e.stopPropagation(); seekTo(Number(e.target.value)); }}
-                                    style={sliderStyle}
-                                />
-                                <span className={styles.time}>{formatTime(duration * 1000)}</span>
-                            </div>
-                        }
-
-                        {/* Volume */}
-                        {showVolumeBar &&
-                            <div className={styles.sliderRow}>
-                                <VolButton type="Min" onClick={() => setVolume(0)} active={volume === 0 && true} />
-                                <input
-                                    type="range"
-                                    min={0}
-                                    max={1}
-                                    step="0.01"
-                                    value={volume}
-                                    onChange={(e) => { e.stopPropagation(); setVolume(Number(e.target.value)); }}
-                                    style={volumeSliderStyle}
-                                />
-                                <VolButton type="Max" onClick={() => setVolume(1)} active={volume === 1 && true} />
-                            </div>
-                        }
-                        <Link to="/player" className={!showVolumeBar || !showTimeBar ? styles.smallPlayerButton : styles.playerButton} />
                     </div>
-                </div>
-            }
-        </>
-    );
-};
 
-export default MiniPlayer;
+    {/* Controls */}
+                    <div className={styles.controls}>
+                        <PlayButton type="previous" onClick={previous} size="32px"/>
+                        <PlayButton type="stop" onClick={stop} size="32px" />
+                        <PlayButton type={isPlaying ? "pause" : "play"} onClick={togglePlay} size="32px" />
+                        <PlayButton type="next" onClick={next} size="32px" />
+                    </div>
+
+
+    {/* Time Slider */}
+                    {showTimeBar &&
+                        <div className={styles.sliderRow}>
+                            <span className={styles.time}>{formatTime(position * 1000)}</span>
+                            <input
+                                type="range"
+                                min={0}
+                                max={duration || 0}
+                                step="0.1"
+                                value={sliderPosition ?? 0}
+                                onChange={(e) => { e.stopPropagation(); seekTo(Number(e.target.value)); }}
+                                style={sliderStyle}
+                            />
+                            <span className={styles.time}>{formatTime(duration * 1000)}</span>
+                        </div>
+                    }
+
+    {/* Volume */}
+                    {showVolumeBar &&
+                        <div className={styles.sliderRow}>
+                            <VolButton type="Min" onClick={() => setVolume(0)} active={volume === 0 && true} />
+                            <input
+                                type="range"
+                                min={0}
+                                max={1}
+                                step="0.01"
+                                value={volume}
+                                onChange={(e) => { e.stopPropagation(); setVolume(Number(e.target.value)); }}
+                                style={volumeSliderStyle}
+                            />
+                            <VolButton type="Max" onClick={() => setVolume(1)} active={volume === 1 && true} />
+                        </div>
+                    }
+
+    {/* Link Button */}
+                    <Link to="/player" className={!showVolumeBar || !showTimeBar ? styles.smallPlayerButton : styles.playerButton} />
+                </div>
+            </div>
+        }
+    </>);
+};

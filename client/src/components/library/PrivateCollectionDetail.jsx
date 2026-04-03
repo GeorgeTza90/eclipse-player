@@ -24,14 +24,17 @@ export default function CollectionDetail() {
 
     const albumInfo = albumSongs[0];
     const durationString = useAlbumDuration(albumSongs);
-
+    
     const handlePressSong = (song) => { playSong(song, albumSongs, album); navigate("/player"); };    
 
+    /* --- STYLES --- */
     const headerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.1)}, #55555500 )` }
     const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }
 
     return (
         <div className={styles.container} style={containerStyle}>
+
+    {/* Info */}
             <div className={styles.header} style={headerStyle}>
                 {albumInfo.image && (
                     <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => showImageToast(albumInfo.image)} />
@@ -47,6 +50,7 @@ export default function CollectionDetail() {
                 </div>
             </div>
 
+    {/* Tracks */}
             <div>
                 {albumSongs.map((item, index) => (
                     <PrivateTrackItem key={item.id} track={item} index={index} type="private" onPress={handlePressSong} user={user} />

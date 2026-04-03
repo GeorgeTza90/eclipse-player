@@ -11,11 +11,12 @@ export default function UserPlaylists() {
     const navigate = useNavigate();
     const [modalVisible, setModalVisible] = useState(false);
     const playlists = state.playlists || [];
-
+    
+    //--- LOAD PLAYLISTS ---//
     useEffect(() => {
         async function fetchPlaylists() { await call("playlists"); }
         fetchPlaylists();
-    }, [call]);    
+    }, [call]);        
     
     const reloadPlaylists = useCallback(() => call("playlists"), [call]);
 
@@ -29,23 +30,23 @@ export default function UserPlaylists() {
 
     return (
         <div className={styles.container}>
-        <div className={styles.playlistsContainer}>
-            {playlists.map((pl) => (
-            <PlaylistItem
-                key={pl.id}
-                playlist={pl}
-                onDelete={reloadPlaylists}
-                onPress={() => handlePlaylistPress(pl)}
-            />
-            ))}
-            <AddPlaylistButton onClick={() => setModalVisible(true)} />
-        </div>
+            <div className={styles.playlistsContainer}>
+                {playlists.map((pl) => (
+                    <PlaylistItem
+                        key={pl.id}
+                        playlist={pl}
+                        onDelete={reloadPlaylists}
+                        onPress={() => handlePlaylistPress(pl)}
+                    />
+                ))}
+                <AddPlaylistButton onClick={() => setModalVisible(true)} />
+            </div>
 
-        <AddPlaylistModal
-            visible={modalVisible}
-            onCreated={reloadPlaylists}
-            onClose={() => setModalVisible(false)}
-        />
+            <AddPlaylistModal
+                visible={modalVisible}
+                onCreated={reloadPlaylists}
+                onClose={() => setModalVisible(false)}
+            />
         </div>
     );
 }

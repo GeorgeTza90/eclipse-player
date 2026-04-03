@@ -71,14 +71,9 @@ export default function AuthCard() {
 
     return (
         <div className={styles.authContainer}>        
-            <Circle
-                size={isMobile ? 385 : 600}
-                top={isMobile ? 110 : 150}
-                intensity={isMobile ? intensity * 0.6 : intensity * 0.8}
-                heightOffset={8}
-                shadowColor={shadowColor}
-            />
-
+            <Circle size={isMobile ? 385 : 600} top={isMobile ? 110 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor}/>
+    
+    {/* Form */}
             <div className={styles.formWrapper}>
                 {!isLogin && (
                     <input
@@ -134,14 +129,14 @@ export default function AuthCard() {
                 )}
                 {message && <p className={styles.messageText}>{message}</p>}
 
-                {/* Switcher */}
+    {/* Switcher */}
                 <div className={styles.switchWrapper}>
                     <button type="button" className={styles.switchButton} onClick={() => setIsLogin(!isLogin)}>
                         {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
                     </button>
                 </div>
 
-                {/* Forgot Password */}
+    {/* Forgot Password */}
                 {isLogin && (
                     <div className={styles.switchWrapper}>
                         <button
