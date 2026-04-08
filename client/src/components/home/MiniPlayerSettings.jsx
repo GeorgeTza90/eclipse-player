@@ -36,7 +36,7 @@ const MiniPlayerSettings = () => {
             <h4 className={!barMode ? styles.text1 : styles.text2}>Transparent</h4>
             <ToggleButton value={transparency} onChange={setTransparency} inActive={!barMode ? false : true} />
 
-            <h4 className={styles.text1}>Colored Glow</h4>
+            <h4 className={styles.text1}>Colored</h4>
             <ToggleButton value={coloredGlow} onChange={setColoredGlow} />
             
             <h4 className={!barMode ? styles.text1 : styles.text2}>Reset Position</h4>
