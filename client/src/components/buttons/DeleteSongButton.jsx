@@ -1,14 +1,14 @@
 import { useState } from "react";
-import styles from "./deleteSongButton.module.css";
-import { useAuth } from "../../contexts/AuthContextWeb";
-import { deleteSongFromPlaylist } from "../../services/DeleteService";
+import { useDeleteManager } from "../../hooks/useCallManager";
 import { useToast } from "../../contexts/ToastContextWeb";
 import ConfirmModal from "../ui/ConfirmModal";
+import styles from "./deleteSongButton.module.css";
 
 export default function DeleteSongButton({ playlistId, songId, onDeleted }) {    
-    const { showToast } = useToast();
-    const [loading, setLoading] = useState(false);
+    const { showToast } = useToast();    
     const [confirmVisible, setConfirmVisible] = useState(false);
+    const {loading: deleteLoading, call: deleteCall} = useDeleteManager();
+    const loading = deleteLoading?.deleteSongFromPlaylist;
 
     const handleDeleteClick = (e) => {
         e.stopPropagation();
@@ -21,24 +21,18 @@ export default function DeleteSongButton({ playlistId, songId, onDeleted }) {
     };
 
     const handleDelete = async () => {
-        try {
-            setLoading(true);
-            await deleteSongFromPlaylist(playlistId, songId);
+        try {            
+            await deleteCall("deleteSongFromPlaylist", playlistId, songId);
             showToast("Song removed from playlist", "success");
             onDeleted?.();
-        } catch (err) {
-            console.error(err);
+        } catch (err) {            
             showToast(err?.message || "Failed to delete song", "error");
-        } finally {
-            setLoading(false);
         }
     };
 
     return (
         <>
-            <button className={styles.button} onClick={handleDeleteClick} disabled={loading}>
-                {loading ? "..." : "X"}
-            </button>
+            <button className={styles.button} onClick={handleDeleteClick} >{loading ? "..." : "X"}</button>
 
             {confirmVisible && (
                 <ConfirmModal

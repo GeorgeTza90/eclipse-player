@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import HomeScreen from "../../components/home/HomeScreen";
-import MiniPlayer from "../../components/player/MiniPlayer";
-import Circle from "../../components/ui/Circle";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import HomeScreen from "../../components/home/HomeScreen";
+import MiniPlayer from "../../components/player/MiniPlayer";
+import Circle from "../../components/ui/Circle";
 
 function Home() {
     const { volume } = useAudio();    

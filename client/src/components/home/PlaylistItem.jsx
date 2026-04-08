@@ -2,6 +2,7 @@ import styles from "./playlistItem.module.css";
 import DeletePlaylistButton from "../buttons/DeletePlaylistButton";
 
 export default function PlaylistItem({ playlist, onDelete, onPress }) {
+    
     return (
         <div
             className={styles.playlistItem}

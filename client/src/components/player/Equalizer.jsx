@@ -3,8 +3,7 @@ import { useAudio } from "../../contexts/AudioContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { EQ_BANDS } from "../../utils/defaultEQ";
 import { useAuth } from "../../contexts/AuthContextWeb";
-import { useFetchManager } from "../../hooks/useFetchManager";
-import { useDeleteManager } from "../../hooks/useDeleteManager";
+import { useFetchManager, useDeleteManager } from "../../hooks/useCallManager";
 import AddPresetModal from "./AddPresetModal";
 import UpdatePresetModal from "./UpdatePresetModal";
 import styles from "./equalizer.module.css";
@@ -15,7 +14,7 @@ export default function Equalizer({ color }) {
     const { user } = useAuth();
     
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
-    const { state: deleteState, loading: deleteLoading, call: deleteCall } = useDeleteManager();
+    const { loading: deleteLoading, call: deleteCall } = useDeleteManager();
 
     const [presets, setPresets] = useState([]);
     const [presetToUpdate, setPresetToUpdate] = useState(null);

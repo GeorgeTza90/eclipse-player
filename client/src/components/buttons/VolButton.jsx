@@ -1,4 +1,5 @@
 import styles from "./volButton.module.css"
+
 export default function VolButton({ type, onClick, active }) {
 
     return (<>

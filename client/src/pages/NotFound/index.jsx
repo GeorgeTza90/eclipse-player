@@ -1,10 +1,10 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import MiniPlayer from "../../components/player/MiniPlayer";
-import Circle from "../../components/ui/Circle";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
-import { useEffect } from "react";
+import MiniPlayer from "../../components/player/MiniPlayer";
+import Circle from "../../components/ui/Circle";
 
 function NotFound() {
     const isMobile = useIsMobile();

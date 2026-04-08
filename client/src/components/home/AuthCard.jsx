@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { GOOGLE_CLIENT_ID } from "../../config";
-import { usePostManager } from "../../hooks/usePostManager";
+import { usePostManager } from "../../hooks/useCallManager";
 import { useAutoClear } from "../../hooks/useAutoClear";
 import AuthButton from "../buttons/AuthButton";
 import PasswordInput from "../inputs/PasswordInput";
@@ -12,7 +12,8 @@ import styles from "./authCard.module.css";
 export default function AuthCard() {
     const { loading, error, call } = usePostManager();
     const { login } = useAuth();    
-    const isMobile = useIsMobile();    
+    const isMobile = useIsMobile();
+
     const [intensity] = useState(30);    
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,6 +24,7 @@ export default function AuthCard() {
     const [message, setMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);        
+    
     const shadowColor = "#bebebe";
 
     useAutoClear(localError, setLocalError, 4000);

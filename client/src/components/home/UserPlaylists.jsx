@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFetchManager } from "../../hooks/useFetchManager";
+import { useFetchManager } from "../../hooks/useCallManager";
 import PlaylistItem from "./PlaylistItem";
 import AddPlaylistModal from "./AddPlaylistModal";
 import AddPlaylistButton from "../buttons/AddPlaylistButton";
@@ -9,7 +9,9 @@ import styles from "./userPlaylists.module.css";
 export default function UserPlaylists() {
     const { state, loading, error, call } = useFetchManager();
     const navigate = useNavigate();
+
     const [modalVisible, setModalVisible] = useState(false);
+    
     const playlists = state.playlists || [];
     
     //--- LOAD PLAYLISTS ---//

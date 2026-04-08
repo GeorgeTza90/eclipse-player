@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
-import { useFetchManager } from "../../hooks/useFetchManager"; // your hook
+import { useFetchManager } from "../../hooks/useCallManager";
 import { byYear } from "../../utils/songsCetegorizer";
 import styles from "./artistDetail.module.css";
 import LibraryGroupItem from "../library/LibraryGroupItem";

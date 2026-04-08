@@ -1,44 +1,41 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContextWeb";
-import { fetchUserPlaylists } from "../../services/GetService";
-import { addSongToPlaylist } from "../../services/PostService";
+import { useFetchManager, usePostManager } from "../../hooks/useCallManager";
 import { useToast } from "../../contexts/ToastContextWeb";
 import styles from "./addToPlaylistButton.module.css";
 
 export default function AddToPlaylistButton({ song }) {    
     const { showToast } = useToast();
-    const [modalVisible, setModalVisible] = useState(false);
-    const [playlists, setPlaylists] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);    
 
+    const { state: fetchState, loading: fetchLoading, call: fetchCall} = useFetchManager();
+    const { loading: postLoading, call: postCall} = usePostManager();
+    const loading = fetchLoading?.playlists;
+    const playlists = fetchState?.playlists;
+    const isAdding = postLoading?.addSongToPlaylist;
+
+    //--- LOAD PLAYLISTS ---//
     useEffect(() => {
         if (modalVisible) {
-            const loadPlaylists = async () => {
-                setLoading(true);
+            const loadPlaylists = async () => {                
                 try {
-                    const data = await fetchUserPlaylists();
-                    setPlaylists(data);
-                } catch (err) {
-                    console.error("Failed to fetch playlists", err);
+                    await fetchCall("playlists");
+                } catch (err) {                    
                     showToast("Could not load playlists", "error");
-                } finally {
-                    setLoading(false);
                 }
             };
             loadPlaylists();
         }
-    }, [modalVisible, showToast]);
+    }, [modalVisible, showToast, fetchCall]);
 
     const handleAddToPlaylist = async (playlistId) => {        
         try {
-            await addSongToPlaylist(playlistId, song.id);
+            await postCall("addSongToPlaylist", playlistId, song.id);
             showToast(`Added "${song.title}" to playlist`, "success");
             setModalVisible(false);
-        } catch (err) {
+        } catch (err) {            
             const msg = err.message?.includes("already in playlist")
                 ? `"${song.title}" is already in this playlist`
-                : "Could not add song to playlist";
-            console.error(msg, err);
+                : "Could not add song to playlist";            
             showToast(msg, "error");
         }
     };
@@ -57,12 +54,12 @@ export default function AddToPlaylistButton({ song }) {
                             <div style={{ color: "#fff", marginTop: 10 }}>Loading playlists...</div>
                         ) : (
                             <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                                {playlists.length ? (
+                                {playlists?.length ? (
                                     playlists.map((item) => (
                                         <div
                                             key={item.id}
                                             className={styles.playlistItem}
-                                            onClick={() => handleAddToPlaylist(item.id)}
+                                            onClick={() => !isAdding && handleAddToPlaylist(item.id)}
                                         >
                                             {item.title}
                                         </div>

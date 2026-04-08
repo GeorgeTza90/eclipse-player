@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMiniPlayer } from '../../contexts/MiniPlayerContextWeb';
 import { useAudio } from '../../contexts/AudioContextWeb';
-import { useEffect, useState } from 'react';
 import { useImageToast } from '../../components/ui/ΙmageToast';
 import MiniPlayerBar from '../../components/player/MiniPlayerBar';
 import hexToRgba from '../../utils/hexToRgba';
@@ -20,7 +20,7 @@ function Footer() {
         background: `linear-gradient(to top left, ${showGlow ? (!coloredGlow ? "#171717" : hexToRgba(shadowColor, 0.2)) : "#141414"}, ${showGlow ? (!coloredGlow ? "#141414" : "#171717") : "#141414" } ${volume*90}%)`,
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
-        zIndez: 99999,        
+        zIndez: 9,        
     }
 
     return (<>
@@ -42,7 +42,7 @@ function Footer() {
                     <MiniPlayerBar handleImageToast={showImageToast}/>
                 </div>
             </>            
-        }       
+        }
 
         {/* Mobile */}
         <div className={styles.nav}>

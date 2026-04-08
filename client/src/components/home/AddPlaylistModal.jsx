@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { usePostManager } from "../../hooks/usePostManager";
+import { usePostManager } from "../../hooks/useCallManager";
 import { useToast } from "../../contexts/ToastContextWeb";
 import styles from "./addPlaylistModal.module.css";
 
 export default function AddPlaylistModal({ visible, onClose, onCreated }) {
     const { showToast } = useToast();
-    const { state, loading, error, call } = usePostManager();
+    const { loading, call } = usePostManager();
+    
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 

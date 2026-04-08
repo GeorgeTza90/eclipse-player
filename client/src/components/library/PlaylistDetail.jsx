@@ -4,8 +4,7 @@ import { useAudio } from "../../contexts/AudioContextWeb";
 import { SongRow } from "./PlaylistSongItem";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { useFetchManager } from "../../hooks/useFetchManager";
-import { usePostManager } from "../../hooks/usePostManager";
+import { useFetchManager, usePostManager } from "../../hooks/useCallManager";
 import BackButton from "../buttons/BackButton";
 import styles from "./playlistDetail.module.css";
 
@@ -51,7 +50,7 @@ export default function PlaylistDetail() {
             await postCall("moveSongInPlaylist", id, movedSong.playlistSongId, destination.index);
         } catch (err) {
             alert(err.message || "Failed to move song. Order reverted.");
-            fetchCall("playlistSongs", id); // reload from server
+            fetchCall("playlistSongs", id);
         }
     };
 

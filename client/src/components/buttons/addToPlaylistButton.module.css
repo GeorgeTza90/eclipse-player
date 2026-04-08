@@ -48,8 +48,13 @@
     background-color: #222;
     border-radius: 6px;
     margin-bottom: 6px;
-    color: #fff;
+    color: #ffffff84;
     cursor: pointer;
+}
+
+.playlistItem:hover {
+    background-color: #5a5858c2;
+    color: #fff; 
 }
 
 .cancel {

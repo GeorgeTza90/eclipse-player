@@ -1,11 +1,11 @@
-import Circle from "../../components/ui/Circle";
-import LibraryScreen from "../../components/library/LibraryScreen";
-import { useIsMobile } from "../../hooks/useIsMobile";
-import MiniPlayer from "../../components/player/MiniPlayer";
+import { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useAudio } from "../../contexts/AudioContextWeb";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
-import { useEffect } from "react";
+import LibraryScreen from "../../components/library/LibraryScreen";
+import MiniPlayer from "../../components/player/MiniPlayer";
+import Circle from "../../components/ui/Circle";
 
 function Library() {
     const isMobile = useIsMobile();
@@ -18,7 +18,7 @@ function Library() {
     return (<>
         <div id="heading" style={{ display: "flex", justifyContent: "center", width: '100%' }}>
             <img src="/assets/images/LibraryLogo.png" style={{ position: 'fixed', width: 120, top: isMobile ? 10 : 55 , zIndex: "1"}} />
-            <Circle size={isMobile ? 400 : 1000} top={-isMobile ? -320 : -880} shadowColor={"#201f1fff"} intensity={volume * 30} color2="#0b0b0bff" color1="#1f1e1eff" />
+            <Circle size={isMobile ? 400 : 1000} top={isMobile ? -320 : -880} shadowColor={"#201f1fff"} intensity={volume * 30} color2="#0b0b0bff" color1="#1f1e1eff" />
             <LibraryScreen />
             {!isMobile && user && !barMode && (<MiniPlayer />)}
         </div>

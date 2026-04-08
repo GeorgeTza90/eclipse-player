@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import { usePostManager } from "../../hooks/usePostManager";
+import { usePostManager } from "../../hooks/useCallManager";
 import { useAutoClear } from "../../hooks/useAutoClear";
 import styles from "./resetPassword.module.css";
 import Circle from "../../components/ui/Circle";
@@ -15,12 +15,14 @@ export default function ResetPasswordCard() {
     const [searchParams] = useSearchParams();
     const isMobile = useIsMobile();
     const navigate = useNavigate();
+
     const [intensity] = useState(30);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [localError, setLocalError] = useState("");
+    
     const shadowColor = "#bebebe";   
 
     //--- Password validation ---//

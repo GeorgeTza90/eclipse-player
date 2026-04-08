@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
-import { updatePreset } from "../../services/PostService";
 import { useToast } from "../../contexts/ToastContextWeb";
-import { usePostManager } from "../../hooks/usePostManager";
+import { usePostManager } from "../../hooks/useCallManager";
 import styles from "./addPresetModal.module.css";
 
 export default function UpdatePresetModal({ visible, onClose, onCreated, presetNew, newEQ }) {
-    const { state, loading, error, call } = usePostManager();
+    const { loading, call } = usePostManager();
     const { showToast } = useToast();
     const [id, setId] = useState(null);
     const [title, setTitle] = useState("");
-    const [preset, setPreset] = useState({});
-    const isLoading = loading["updatePreset"];
+    const [preset, setPreset] = useState({});    
 
     useEffect(() => {if (presetNew) { setId(presetNew.id); setTitle(presetNew.title); setPreset(newEQ); }}, [presetNew]);
 
@@ -29,9 +27,7 @@ export default function UpdatePresetModal({ visible, onClose, onCreated, presetN
         } catch (err) {            
             showToast("Could not update preset", "error");
         }
-    };
-
-    console.log(loading)
+    };    
 
     return (
         <div className={styles.modalOverlay}>

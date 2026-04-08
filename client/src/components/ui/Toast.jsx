@@ -2,9 +2,7 @@ import { useEffect } from "react";
 
 export default function Toast({ message, type = "info", onClose, duration = 3000 }) {
     useEffect(() => {
-        const timer = setTimeout(() => {
-            onClose();
-        }, duration);
+        const timer = setTimeout(() => onClose(), duration);
         return () => clearTimeout(timer);
     }, [onClose, duration]);
 
@@ -23,19 +21,19 @@ export default function Toast({ message, type = "info", onClose, duration = 3000
         backgroundColor:
             type === "success" ? "#2ecc71" :
                 type === "error" ? "#e74c3c" :
-                    "#3498db", // info default
+                    "#3498db",
     };
 
     return (
         <>
             <div style={toastStyle}>{message}</div>
 
-            <style>{`
-        @keyframes slideIn {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 0.95; }
-        }
-      `}</style>
+            <style>
+                {`@keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 0.95; }
+                }`}
+            </style>
         </>
     );
 }

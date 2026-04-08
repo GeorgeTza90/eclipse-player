@@ -16,12 +16,12 @@ export const ToastProvider = ({ children }) => {
             {children}
             <div style={{
                 position: "fixed",
-                bottom: 20,
+                bottom: 100,
                 right: 20,
                 zIndex: 9999,
                 display: "flex",
                 flexDirection: "column",
-                gap: "10px"
+                gap: "10px",                
             }}>
                 {toasts.map((t) => (
                     <div key={t.id} style={{
