@@ -1,6 +1,5 @@
-import { useAudio } from '@/contexts/AudioContext';
-import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import { useAudio } from '@/contexts/AudioContext';
 
 const { width, height } = Dimensions.get('window');
 

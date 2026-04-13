@@ -1,9 +1,9 @@
-import React from "react";
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
-import TextTicker from "react-native-text-ticker";
-import { SongRowProps } from "@/types/songs";
-import DeleteSongButton from "../buttons/DeleteSongButton";
 import { Image } from "expo-image";
+import { SongRowProps } from "@/types/songs";
+import TextTicker from "react-native-text-ticker";
+import DeleteSongButton from "../buttons/DeleteSongButton";
+
 
 export default function SongRow({ item, isActive, playlistId, getIndex, drag, onPlay,onDelete }: SongRowProps) {
   const index = getIndex?.() ?? 0;

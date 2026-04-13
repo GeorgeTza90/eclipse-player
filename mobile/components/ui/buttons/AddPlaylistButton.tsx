@@ -2,11 +2,11 @@ import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AddPlaylistButtonProps } from "@/types/buttons";
 
 export default function AddPlaylistButton({ onPress }: AddPlaylistButtonProps) {
-  return (
-      <TouchableOpacity style={styles.addButton} onPress={onPress}>
-          <Text style={styles.addButtonText}>＋ Add Playlist</Text>
-      </TouchableOpacity>
-  );
+    return (
+        <TouchableOpacity style={styles.addButton} onPress={onPress}>
+            <Text style={styles.addButtonText}>＋ Add Playlist</Text>
+        </TouchableOpacity>
+    );
 }
 
 const styles = StyleSheet.create({

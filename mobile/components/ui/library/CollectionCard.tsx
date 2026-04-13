@@ -1,4 +1,3 @@
-import React from "react";
 import { TouchableOpacity, View, Text,StyleSheet, Dimensions } from "react-native";
 import { Image } from "expo-image";
 import { Cards } from "@/types/cards";

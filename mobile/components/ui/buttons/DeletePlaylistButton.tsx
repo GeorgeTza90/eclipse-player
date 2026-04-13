@@ -1,12 +1,13 @@
-import React, { useState } from "react";
 import { Alert, Pressable, Text, StyleSheet, ActivityIndicator, View } from "react-native";
-import { deletePlaylist as apiDeletePlaylist } from "@/services/api";
+import { useDeleteManager } from "@/hooks/useCallManager";
 import { DeletePlaylistButtonProps } from "@/types/buttons";
 import { useToast } from "@/contexts/ToastContext";
 
-export default function DeletePlaylistButton({ playlistId, onDeleted }: DeletePlaylistButtonProps) {    
-    const [loading, setLoading] = useState(false);
+export default function DeletePlaylistButton({ playlistId, onDeleted }: DeletePlaylistButtonProps) {        
     const { showToast } = useToast();
+    
+    const { loading: deleteLoading, call: deleteCall } = useDeleteManager();
+    const loading = deleteLoading?.deletePlaylist;
 
     const confirmDelete = () => {
         Alert.alert(
@@ -20,25 +21,22 @@ export default function DeletePlaylistButton({ playlistId, onDeleted }: DeletePl
     };
 
     const handleDelete = async () => {
-        try {
-            setLoading(true);
-            await apiDeletePlaylist(playlistId);
+        try {            
+            await deleteCall("deletePlaylist", playlistId);
             showToast("Playlist deleted successfully", "success");
             onDeleted?.();
         } catch (err: any) {
             console.error(err);
             showToast(err?.message || "Failed to delete playlist", "error");
-        } finally {
-            setLoading(false);
         }
     };
 
     return (
-      <View style={styles.container}>
-        <Pressable onPress={confirmDelete} style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}>
-          {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.buttonText}>X</Text>}
-        </Pressable>
-      </View>      
+        <View style={styles.container}>
+            <Pressable onPress={confirmDelete} style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}>
+            {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.buttonText}>X</Text>}
+            </Pressable>
+        </View>      
     );
 }
 

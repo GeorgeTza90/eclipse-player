@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Image } from "react-native";
 import ImageColors from 'react-native-image-colors';
 
 export function useAverageColor(uri: any, fallback = '#bebebe', dep?: string | number) {

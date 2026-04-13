@@ -1,4 +1,3 @@
-import React from "react";
 import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 import { PlaylistItemProps } from "@/types/playlists";
 import DeletePlaylistButton from "../buttons/DeletePlaylistButton";

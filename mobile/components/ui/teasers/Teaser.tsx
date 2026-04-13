@@ -1,4 +1,3 @@
-import React from "react";
 import { View, StyleSheet, Dimensions, Pressable } from "react-native";
 import { VideoView, useVideoPlayer } from "expo-video";
 import { useRouter } from "expo-router";

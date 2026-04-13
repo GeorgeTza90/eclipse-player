@@ -6,7 +6,6 @@ import TabLayoutWrapper from '@/components/ui/TabLayoutWrapper';
 import AudioPlayer from '@/components/ui/player/AudioPlayer';
 import Playlist from '@/components/ui/player/Playlist';
 import Lyrics from '@/components/ui/player/Lyrics';
-import Equalizer from '@/components/ui/player/Equalizer';
 import Circle from '@/components/ui/player/Circle';
 
 const width = 250;

@@ -1,9 +1,8 @@
-import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
-import CollectionCard from "../library/CollectionCard";
 import { Song } from "@/types/songs";
 import { Artist } from "@/types/artists";
+import CollectionCard from "../library/CollectionCard";
 
 type LibraryGroupItemProps = {
   type: "Singles & EPs" | "Albums" | "Artists";

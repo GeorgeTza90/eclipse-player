@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
 import { ScrollView, Text, StyleSheet, View, Dimensions } from "react-native";
-import { fetchUserPlaylists } from "@/services/api";
-import { Playlist } from "@/types/playlists";
+import { useFetchManager } from "@/hooks/useCallManager";
+import { useAuth } from "@/contexts/AuthContext";
 import PlaylistItem from "./PlaylistItem";
 import AddPlaylistModal from "./AddPlaylistModal";
-import { useRouter } from "expo-router";
 import AddPlaylistButton from "../buttons/AddPlaylistButton";
-import { useAuth } from "@/contexts/AuthContext";
 
 export default function UserPlaylists() {
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
-    const [ playlists, setPlaylists ] = useState<Playlist[]>([]);
-    const [ loading, setLoading ] = useState(true);
+    const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
+    const loading = fetchLoading?.playlists;
+    const playlists = fetchState?.playlists;
+
     const [ modalVisible, setModalVisible ] = useState(false);
 
     useEffect(() => {
@@ -20,15 +21,12 @@ export default function UserPlaylists() {
         loadPlaylists();
     }, [authLoading, user]);
 
-    const loadPlaylists = async () => {
-        setLoading(true);
+    const loadPlaylists = async () => {        
         try {
-            const data = await fetchUserPlaylists();
-            setPlaylists(data);
+            await fetchCall("playlists");
+            
         } catch (err: any) {
             console.log("Failed to load playlists:", err);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -38,10 +36,10 @@ export default function UserPlaylists() {
         <View style={{ height: scrollHeight }}>
             <ScrollView contentContainerStyle={styles.container}>
                 {loading && <Text style={styles.infoText}>Loading playlists...</Text>}
-                {!loading && playlists.length === 0 && <Text style={styles.infoText}>No playlists found.</Text>}
+                {!loading && playlists?.length === 0 && <Text style={styles.infoText}>No playlists found.</Text>}
 
                 <View style={styles.gridContainer}>
-                    {!loading && playlists.map(pl => (
+                    {!loading && playlists?.map(pl => (
                         <PlaylistItem
                             key={pl.id}
                             playlist={pl}

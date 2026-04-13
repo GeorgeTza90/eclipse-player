@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { usePostManager } from '@/hooks/useCallManager';
+import { GOOGLE_CLIENT_IDS } from '../../../config';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import Circle from '@/components/ui/player/Circle';
@@ -7,8 +9,7 @@ import useAuthActions from '@/hooks/useAuthActions';
 import AuthButton from '../buttons/authButtons';
 import validateAndSubmitAuth from '@/utils/validateAndSubmitAuth';
 import PasswordInput from '../inputs/PasswordInput';
-import { googleLogin, forgotPassword } from '@/services/api';
-import { GOOGLE_CLIENT_IDS } from '../../../config';
+
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -26,6 +27,8 @@ export default function AuthCard() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);  
 
     const { handleLogin, handleRegister, handleGoogleLogin, loading, error } = useAuthActions();
+
+    const { call: postCall } = usePostManager();
     
     const [request, response, promptAsync] = Google.useAuthRequest({
         clientId: GOOGLE_CLIENT_IDS.expoClientId,
@@ -44,7 +47,7 @@ export default function AuthCard() {
 
     const handleGoogle = async (idToken: string) => {
         try {
-            const { user } = await googleLogin(idToken, "mobile");
+            await postCall("googleLogin",idToken, "mobile");
             await handleGoogleLogin(idToken);
         } catch (err: any) {
             setLocalError(err.message || "Google login failed");
@@ -54,7 +57,7 @@ export default function AuthCard() {
     const handleForgotPassword = async () => {
         if (!email) return setLocalError("Please enter your email first.");     
         try {
-            await forgotPassword(email);
+            await postCall("forgotPassword", email);
             setMessage(`An email to reset Password has been sent to: ${email}`);
         } catch (err: any) {
             setLocalError("Failed to send reset email. Try again later.");

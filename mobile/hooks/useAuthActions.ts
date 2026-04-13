@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { usePostManager } from "./useCallManager";
 import { registerUser, googleLogin } from "@/services/api"; // ✅ πρόσθεσε googleLogin
 
 export default function useAuthActions() {
     const { loginWithEmail, loginWithUser } = useAuth();
+    const { call: postCall } = usePostManager();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -12,7 +14,7 @@ export default function useAuthActions() {
         setLoading(true); 
         setError(null);
         try {
-            await loginWithEmail(email, password);
+            await postCall("loginUser", email, password);
         } catch (err: any) {
             setError(err.message || "Login Failed");
         } finally {
@@ -21,25 +23,25 @@ export default function useAuthActions() {
     };
 
     // ---------- Login με Google ----------
-    const handleGoogleLogin = async (idToken: string) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await googleLogin(idToken, "mobile");
-            await loginWithUser(data.user);
-        } catch (err: any) {
-            setError(err.message || "Google login failed");
-        } finally {
-            setLoading(false);
-        }
-    };
+    // const handleGoogleLogin = async (idToken: string) => {
+    //     setLoading(true);
+    //     setError(null);
+    //     try {
+    //         const data = await postCall("googleLogin", idToken, "mobile");
+    //         await loginWithUser(data.user);
+    //     } catch (err: any) {
+    //         setError(err.message || "Google login failed");
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     // ---------- Register ----------
     const handleRegister = async (username: string, email: string, password: string) => {
         setLoading(true);
         setError(null);
         try {
-            const newUser = await registerUser(username, email, password);
+            const newUser = await postCall("registerUser", username, email, password);
             await loginWithUser(newUser);
         } catch (err: any) {
             setError(err.message || "Register Failed");
@@ -48,5 +50,5 @@ export default function useAuthActions() {
         }
     };
 
-    return { handleLogin, handleGoogleLogin, handleRegister, loading, error };
+    return { handleLogin, handleRegister, loading, error };
 }

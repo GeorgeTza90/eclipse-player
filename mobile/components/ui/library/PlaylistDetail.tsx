@@ -1,34 +1,36 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
-import { fetchPlaylistSongs, moveSongInPlaylist } from "@/services/api";
+import { useFetchManager, usePostManager } from "@/hooks/useCallManager";
 import { useAudio } from "@/contexts/AudioContext";
-import { Song, PlaylistSong } from "@/types/songs";
 import { useToast } from "@/contexts/ToastContext";
 import { useAlbumDuration } from "@/hooks/useFormatTime";
+import { Song, PlaylistSong } from "@/types/songs";
 import SongRow from "./PlaylistSongItem";
 
 export default function PlaylistDetail() {
-    const { id, title } = useLocalSearchParams<{ id: string; title: string }>();
-    const [songs, setSongs] = useState<PlaylistSong[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [trash, setTrash] = useState(false);
+    const { id, title } = useLocalSearchParams<{ id: string; title: string }>();    
     const router = useRouter();
     const { playSong } = useAudio();
     const { showToast } = useToast();
+
+    const { loading: fetchLoading, call: fetchCall } = useFetchManager();
+    const { call: postCall } = usePostManager();
+    const loading = fetchLoading?.playlistSongs;
+
+    const [songs, setSongs] = useState<PlaylistSong[]>([]);
+    const [trash, setTrash] = useState(false); 
 
     const durationString = useAlbumDuration(songs);
 
     const loadSongs = async () => {
         try {
-            const data = await fetchPlaylistSongs(Number(id));
+            const data = await fetchCall("playlistSongs", Number(id));
             setSongs(data);
         } catch (err) {
             console.error("Failed to load playlist songs", err);
             showToast("Failed to load playlist songs", "error");
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -44,10 +46,9 @@ export default function PlaylistDetail() {
     const handleDragEnd = async ({ data, from, to }: { data: PlaylistSong[]; from: number; to: number }) => {        
         const previous = songs.slice();
         setSongs(data);
-
         try {      
             const movedSong = data[to];      
-            await moveSongInPlaylist(Number(id), Number(movedSong.playlistSongId), to);      
+            await postCall("moveSongInPlaylist", Number(id), Number(movedSong.playlistSongId), to);      
         } catch (err: any) {
             console.error("Failed to move song", err);      
             setSongs(previous);

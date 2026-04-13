@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { Image } from 'expo-image'
 import { useAudio } from '@/contexts/AudioContext';
@@ -14,7 +13,7 @@ export default function Playlist() {
             styles.songItem,
             currentSong?.id === item.id && styles.activeSongItem
         ]}
-      onPress={() => playSong(item, library, playlistName)}
+        onPress={() => playSong(item, library, playlistName)}
     >
         <View style={styles.songRow}>
             {item.image && <Image source={item.image} style={styles.songImage} />}

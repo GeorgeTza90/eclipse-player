@@ -1,13 +1,12 @@
-import React from "react";
 import { View, Text, FlatList, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import { useAuth } from "@/contexts/AuthContext";
 import { useAudio } from "@/contexts/AudioContext";
 import { useLibrary } from "@/contexts/LibraryContext";
 import { useAlbumDuration } from "@/hooks/useFormatTime";
 import { Song } from "@/types/songs";
 import AddToPlaylistButton from "../buttons/AddToPlaylistButton";
-import { useAuth } from "@/contexts/AuthContext";
 
 const { width } = Dimensions.get("window");
 
@@ -20,12 +19,9 @@ export default function CollectionDetail() {
     const router = useRouter();  
     const durationString = useAlbumDuration(albumSongs);
     
-    if (!albumSongs || !albumSongs.length) {
-        return <Text style={{ color: "#fff", padding: 10 }}>No collection data</Text>;
-    }
+    if (!albumSongs || !albumSongs.length) { return <Text style={{ color: "#fff", padding: 10 }}>No collection data</Text>; }
 
-    const albumInfo = albumSongs[0];
-    
+    const albumInfo = albumSongs[0];    
 
     const handlePressSong = (song: Song) => {    
         playSong(song, albumSongs, albumInfo.album);

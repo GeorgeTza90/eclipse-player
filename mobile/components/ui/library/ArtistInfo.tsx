@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity, Linking, StyleSheet, ActivityIndicator } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useLibrary } from "../../../contexts/LibraryContext";
@@ -18,7 +18,7 @@ export default function ArtistDetail() {
             if (!artistName) return;
             try {
                 const data = await fetchArtist(artistName as string);
-              setArtist(data);
+                setArtist(data);
             } catch (err) {
                 console.error(err);
                 router.push("/library");

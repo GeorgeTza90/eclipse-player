@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Animated } from "react-native";
 import { Image } from "expo-image";
-import Slider from "@react-native-community/slider";
 import { useAudio } from "@/contexts/AudioContext";
-import PlayButton from "../buttons/PlayButtons";
-import Circle from "./Circle";
 import { formatTimeSeconds } from "@/hooks/useFormatTime";
 import { useRouter } from "expo-router";
 import { AudioPlayerProps } from "@/types/audio";
+import Slider from "@react-native-community/slider";
+import PlayButton from "../buttons/PlayButtons";
+import Circle from "./Circle";
 
 const { width } = Dimensions.get("window");
 

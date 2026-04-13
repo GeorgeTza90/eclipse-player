@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, Text, Modal, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { createPlaylist } from "@/services/api";
+import { usePostManager } from "@/hooks/useCallManager";
 import { AddPlaylistModalProps } from "@/types/playlists";
 import { useToast } from "@/contexts/ToastContext";
 
@@ -8,6 +8,7 @@ export default function AddPlaylistModal({ visible, onClose, onCreated }: AddPla
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const { showToast } = useToast();
+    const {call: postCall} = usePostManager();
 
     const handleCreate = async () => {        
         if (!title.trim()) return showToast("Playlist title is required", "error");      
@@ -15,7 +16,7 @@ export default function AddPlaylistModal({ visible, onClose, onCreated }: AddPla
         if (title.length > 20 ) return showToast("Playlist title maximum length is 20 characters", "error")
         
         try {
-            await createPlaylist(title, description);
+            await postCall("createPlaylist", title, description);
             showToast(`Playlist "${title}" created successfully`, "success");
             setTitle("");
             setDescription("");
@@ -46,10 +47,10 @@ export default function AddPlaylistModal({ visible, onClose, onCreated }: AddPla
 };
 
 const styles = StyleSheet.create({
-  modalOverlay: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.5)" },
-  modalContent: { width: "80%", backgroundColor: "#333", padding: 20, borderRadius: 8 },
-  input: { backgroundColor: "#222", color: "#fff", padding: 10, marginBottom: 10, borderRadius: 4 },
-  modalButton: { padding: 12, backgroundColor: "#555", borderRadius: 6, alignItems: "center", marginBottom: 10 },
-  modalButtonText: { color: "#fff", fontWeight: "bold" },
-  modalCancel: { backgroundColor: "#999" }
+    modalOverlay: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.5)" },
+    modalContent: { width: "80%", backgroundColor: "#333", padding: 20, borderRadius: 8 },
+    input: { backgroundColor: "#222", color: "#fff", padding: 10, marginBottom: 10, borderRadius: 4 },
+    modalButton: { padding: 12, backgroundColor: "#555", borderRadius: 6, alignItems: "center", marginBottom: 10 },
+    modalButtonText: { color: "#fff", fontWeight: "bold" },
+    modalCancel: { backgroundColor: "#999" }
 });
