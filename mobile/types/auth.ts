@@ -3,7 +3,6 @@ export type User = {
     username: string;
     email: string;
     premium: boolean;    
-    password: string;
 };
 
 export type AuthContextType = {
