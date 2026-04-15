@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const loading: boolean = fetchLoading?.user || false;
     const [user, setUser] = useState<User | null>(null);  
 
+    // check If User Already Logged In
     useEffect(() => {
         const initAuth = async () => {
             try {
@@ -33,16 +34,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         initAuth();
     }, []);
 
-    const loginWithEmail = async (email: string, password: string) => {
-        if (!email || !password) throw new Error("Email and password are required");
-        const userData: User = await postCall("loginUser", email, password);
-
-        if (!userData) throw new Error("Login failed: No user data returned");
-
-        setUser(userData);
-        await setJSON("user", userData);
-    };
-
+    // Set User Login/Logout
     const loginWithUser = async (user: User) => {
         if (!user) return;
         setUser(user);
@@ -56,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, loginWithEmail, loginWithUser, logout }}>
+        <AuthContext.Provider value={{ user, loading, loginWithUser, logout }}>
             {children}
         </AuthContext.Provider>
     );

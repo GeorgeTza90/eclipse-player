@@ -25,20 +25,22 @@ export default function AuthCard() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);        
     
+    const currentError = isLogin ? error.loginUser : error.registerUser;
     const shadowColor = "#bebebe";
 
     useAutoClear(localError, setLocalError, 4000);
     useAutoClear(message, setMessage, 8000);
     
     const onSubmit = async () => {
+        const mode = isLogin;
+        let data;        
         try {
-            if (isLogin) {
-                const data = await call("registerUser", email, password);
-                login(data.user, data.token);
+            if (mode) {
+                data = await call("loginUser", email, password);                
             } else {
-                const data = await call("registerUser", username, email, password, confirmPassword);
-                login(data.user, data.token);
+                data = await call("registerUser", username, email, password, confirmPassword);                
             }
+            login(data.user, data.token);
         } catch (err) {
             setLocalError(err.message || "Something went wrong");
         }
@@ -124,10 +126,17 @@ export default function AuthCard() {
                     {isLogin ? "Login with Google" : "Register with Google"}
                 </button>
 
-                <AuthButton loading={loading.registerUser} isLogin={isLogin} onClick={onSubmit} />
+                <AuthButton
+                    loading={loading.registerUser || loading.loginUser}
+                    isLogin={isLogin}
+                    onClick={onSubmit}                    
+                />
 
-                {(error.registerUser || localError) && (
-                    <p className={styles.errorText}>{error.registerUser?.message || localError}</p>
+    {/* Error Message */}
+                {(currentError || localError) && (
+                    <p className={styles.errorText}>
+                        {error.registerUser?.message || localError}
+                    </p>
                 )}
                 {message && <p className={styles.messageText}>{message}</p>}
 

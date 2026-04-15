@@ -26,8 +26,7 @@ export default function AuthCard() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);  
 
-    const { handleLogin, handleRegister, handleGoogleLogin, loading, error } = useAuthActions();
-
+    const { handleLogin, handleRegister, loading, error } = useAuthActions();
     const { call: postCall } = usePostManager();
     
     const [request, response, promptAsync] = Google.useAuthRequest({
@@ -38,21 +37,21 @@ export default function AuthCard() {
         scopes: ['openid', 'profile', 'email'],
     });
 
-    useEffect(() => {
-        if (response?.type === "success") {
-            const idToken = response.params.id_token || response.params.idToken;
-            if (idToken) handleGoogle(idToken);
-        }
-    }, [response]);
+    // useEffect(() => {
+    //     if (response?.type === "success") {
+    //         const idToken = response.params.id_token || response.params.idToken;
+    //         if (idToken) handleGoogle(idToken);
+    //     }
+    // }, [response]);
 
-    const handleGoogle = async (idToken: string) => {
-        try {
-            await postCall("googleLogin",idToken, "mobile");
-            await handleGoogleLogin(idToken);
-        } catch (err: any) {
-            setLocalError(err.message || "Google login failed");
-        }
-    };
+    // const handleGoogle = async (idToken: string) => {
+    //     try {
+    //         await postCall("googleLogin",idToken, "mobile");
+    //         await handleGoogleLogin(idToken);
+    //     } catch (err: any) {
+    //         setLocalError(err.message || "Google login failed");
+    //     }
+    // };
 
     const handleForgotPassword = async () => {
         if (!email) return setLocalError("Please enter your email first.");     

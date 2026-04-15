@@ -4,7 +4,7 @@ import { usePostManager } from "./useCallManager";
 import { registerUser, googleLogin } from "@/services/api"; // ✅ πρόσθεσε googleLogin
 
 export default function useAuthActions() {
-    const { loginWithEmail, loginWithUser } = useAuth();
+    const { loginWithUser } = useAuth();
     const { call: postCall } = usePostManager();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -14,27 +14,30 @@ export default function useAuthActions() {
         setLoading(true); 
         setError(null);
         try {
-            await postCall("loginUser", email, password);
+            const data = await postCall("loginUser", email, password);            
+            await loginWithUser(data);
+
         } catch (err: any) {
             setError(err.message || "Login Failed");
+            throw err; 
         } finally {
             setLoading(false);
         }
     };
 
-    // ---------- Login με Google ----------
-    // const handleGoogleLogin = async (idToken: string) => {
-    //     setLoading(true);
-    //     setError(null);
-    //     try {
-    //         const data = await postCall("googleLogin", idToken, "mobile");
-    //         await loginWithUser(data.user);
-    //     } catch (err: any) {
-    //         setError(err.message || "Google login failed");
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
+    //---------- Login με Google ----------
+    const handleGoogleLogin = async (idToken: string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await postCall("googleLogin", idToken, "mobile");
+            await loginWithUser(data);
+        } catch (err: any) {
+            setError(err.message || "Google login failed");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // ---------- Register ----------
     const handleRegister = async (username: string, email: string, password: string) => {

@@ -3,12 +3,12 @@ export type User = {
     username: string;
     email: string;
     premium: boolean;    
+    password: string;
 };
 
 export type AuthContextType = {
   user: User | null;  
-  loading: boolean;
-  loginWithEmail: (email: string, password: string) => Promise<void>;
+  loading: boolean;  
   loginWithUser: (user: User) => Promise<void>;
   logout: () => Promise<void>;
 };
