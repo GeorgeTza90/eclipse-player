@@ -40,7 +40,7 @@ export default function AuthCard() {
             } else {
                 data = await call("registerUser", username, email, password, confirmPassword);                
             }
-            login(data.user, data.token);
+            login(data);
         } catch (err) {
             setLocalError(err.message || "Something went wrong");
         }
