@@ -32,32 +32,35 @@ export default function CollectionDetail() {
     const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }
 
     return (
-        <div className={styles.container} style={containerStyle}>
+        <>
+            <div className={styles.container} style={containerStyle}>
 
-    {/* Info */}
-            <div className={styles.header} style={headerStyle}>
-                {albumInfo.image && (
-                    <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => showImageToast(albumInfo.image)} />
-                )}
-                {ImageToastUI}
-                <div className={styles.headerInfo}>
-                    <p className={styles.type}>{albumInfo.type.toUpperCase()}</p>
-                    <p className={styles.albumName}>{albumInfo.album}</p>
-                    <p className={styles.artistInfo}>
-                        <ArtistButton artist={currentSong?.artist || "Artist Name"} size="0.9rem"/>                        
-                        • {albumSongs.length} songs • {durationString}
-                    </p>
+        {/* Info */}
+                <div className={styles.header} style={headerStyle}>
+                    {albumInfo.image && (
+                        <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => showImageToast(albumInfo.image)} />
+                    )}
+                    {ImageToastUI}
+                    <div className={styles.headerInfo}>
+                        <p className={styles.type}>{albumInfo.type.toUpperCase()}</p>
+                        <p className={styles.albumName}>{albumInfo.album}</p>
+                        <p className={styles.artistInfo}>
+                            <ArtistButton artist={currentSong?.artist || "Artist Name"} size="0.9rem"/>                        
+                            • {albumSongs.length} songs • {durationString}
+                        </p>
+                    </div>
+                </div>
+
+        {/* Tracks */}
+                <div>
+                    {albumSongs.map((item, index) => (
+                        <TrackItem key={item.id} track={item} index={index} onPress={handlePressSong} user={user} />
+                    ))}
+                    
+                    <BackButton navTo={`/library`} />
                 </div>
             </div>
-
-    {/* Tracks */}
-            <div>
-                {albumSongs.map((item, index) => (
-                    <TrackItem key={item.id} track={item} index={index} onPress={handlePressSong} user={user} />
-                ))}
-                
-                <BackButton navTo={`/library`} />
-            </div>
-        </div>
+            <br/>
+        </>
     );
 }

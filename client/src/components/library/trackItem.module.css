@@ -61,4 +61,12 @@
         max-width: 94%;
         margin-left: 1rem;
     }
+
+    .trackTitle {
+        font-size: 0.88rem;
+    }
+
+    .trackFeature {
+        font-size: 0.78rem;
+    }
 }

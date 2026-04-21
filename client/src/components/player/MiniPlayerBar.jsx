@@ -27,7 +27,7 @@ export default function MiniPlayerBar({handleImageToast}) {
     const sliderStyle = {
         flex: 1,
         WebkitAppearance: "none",
-        width: "10rem",
+        width: "12rem",
         height: "5px",
         borderRadius: "3px",
         background: `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
@@ -38,8 +38,8 @@ export default function MiniPlayerBar({handleImageToast}) {
         flex: 1,
         WebkitAppearance: "none",
         marginTop: "-0.85rem",
-        width: "6rem",
-        height: "4.5px",
+        width: "5.5rem",
+        height: "4px",
         borderRadius: "3px",
         background: `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,
         outline: "none",
@@ -72,10 +72,10 @@ export default function MiniPlayerBar({handleImageToast}) {
 
     {/* Controls */}
                     <div className={styles.controls}>
-                        <PlayButton type="previous" onClick={previous} size="32px"/>
-                        <PlayButton type="stop" onClick={stop} size="32px"/>
-                        <PlayButton type={isPlaying ? "pause" : "play"} onClick={togglePlay} size="32px"/>
-                        <PlayButton type="next" onClick={next} size="32px"/>
+                        <PlayButton type="previous" onClick={previous} size="28px"/>
+                        <PlayButton type="stop" onClick={stop} size="28px"/>
+                        <PlayButton type={isPlaying ? "pause" : "play"} onClick={togglePlay} size="28px"/>
+                        <PlayButton type="next" onClick={next} size="28px"/>
                     </div>
                     <hr className={styles.line}/>
 

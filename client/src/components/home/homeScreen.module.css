@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     margin-top: 2rem;
+    margin-bottom: 5rem;
 }
 
 .text {
@@ -25,10 +26,20 @@
 }
 
 @media (max-width: 768px) {
+    .container {
+        display: flex;
+        justify-content: center;
+        margin-left: 1rem;
+    }
+    
     .notAvailable {
         font-size: 0.8rem;
         color: #949494;
         margin-left: 1rem;
         margin-bottom: 2rem;
+    }
+
+    .teaserDiv {
+        margin-bottom: 5rem;
     }
 }

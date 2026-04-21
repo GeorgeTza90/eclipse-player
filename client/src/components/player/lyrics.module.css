@@ -83,12 +83,11 @@
     }
 
     .list {
-        max-height: 20px;
-        
+        max-height: 16rem;        
     }
 
     .lyrics {
         font-size: 0.8rem;
-        line-height: 0.8rem;
+        line-height: 0.8rem;        
     } 
 }

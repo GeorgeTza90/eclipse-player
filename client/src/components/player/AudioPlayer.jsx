@@ -35,7 +35,7 @@ export default function AudioPlayer({ onToggleExtention }) {
     const sliderStyle = {
         flex: 1,
         WebkitAppearance: "none",
-        height: "6px",
+        height: "6px",        
         borderRadius: "3px",
         background: `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
         outline: "none",
@@ -44,7 +44,7 @@ export default function AudioPlayer({ onToggleExtention }) {
     const volumeSliderStyle = {
         flex: 1,
         WebkitAppearance: "none",    
-        height: "5px",
+        height: "5px",        
         borderRadius: "3px",
         background: `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,
         outline: "none",

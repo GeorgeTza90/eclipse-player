@@ -42,18 +42,20 @@ export default function HomeScreen() {
                         : <p className={styles.notAvailable}>Mini Player is not available in Mobile View</p>
                     }
     {/* Teasers */}
-                    <Teaser 
-                        link={`/library/CollectionDetail?album=${encodeURIComponent("No Gods In Heaven")}`} 
-                        source={"/assets/vids/Video Teaser 2.mp4"}
-                        video={true}
-                    />
-                    <Teaser 
-                        // link={`https://docs.google.com/uc?export=download&id=1VbJL7jn2caPnMS9xAO4FkLVXtXFC49p5`} 
-                        link={`https://drive.google.com/file/d/1VbJL7jn2caPnMS9xAO4FkLVXtXFC49p5/view?usp=drive_link`}
-                        source={"/assets/images/App_Teaser_1.jpg"}
-                        download
-                        video={false}
-                    />
+                    <div className={styles.teaserDiv}>
+                        <Teaser 
+                            link={`/library/CollectionDetail?album=${encodeURIComponent("No Gods In Heaven")}`} 
+                            source={"/assets/vids/Video Teaser 2.mp4"}
+                            video={true}
+                        />
+                        <Teaser 
+                            // link={`https://docs.google.com/uc?export=download&id=1VbJL7jn2caPnMS9xAO4FkLVXtXFC49p5`} 
+                            link={`https://drive.google.com/file/d/1VbJL7jn2caPnMS9xAO4FkLVXtXFC49p5/view?usp=drive_link`}
+                            source={"/assets/images/App_Teaser_1.jpg"}
+                            download
+                            video={false}
+                        />
+                    </div>
                 </div>
             )}
         </div>

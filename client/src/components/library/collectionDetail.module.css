@@ -85,8 +85,6 @@
 }
 
 
-
-
 @media (max-width: 768px) {
     .button {
         width: 38px;
@@ -94,13 +92,16 @@
     }
 
     .container {
-        margin: 0rem 1rem;
+        margin: 0rem 0rem;
         padding: 0px;
-        /* 
-        width: 30rem;
-        margin-top: -10%;
-            
-        margin-left: -25px; */
+        width: 115%;
+        margin-left: -1.5rem;
+        margin-top: -4rem;
+        margin-bottom: 2rem;
+    }
+
+    .headerInfo {
+        margin-left: 1.1rem;
     }
 
     .albumImage {
@@ -110,8 +111,8 @@
     }
 
     .albumName {
-        font-size: 15px;
+        font-size: 20px;
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: 2px;
     }
 }
