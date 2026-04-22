@@ -56,50 +56,50 @@ export default function PlaylistDetail() {
 
     return (
         <div className={styles.container}>
-        <div className={styles.headerInfo}>
-            <h2 className={styles.playlistTitle}>{title}</h2>
-            <p className={styles.artistInfo}>{songs.length} songs • {useAlbumDuration(songs)}</p>
-        </div>
+            <div className={styles.headerInfo}>
+                <h2 className={styles.playlistTitle}>{title}</h2>
+                <p className={styles.artistInfo}>{songs.length} songs • {useAlbumDuration(songs)}</p>
+            </div>
 
-        {loading ? (
-            <div className={styles.centered}>
-            <div className={styles.spinner}></div>
-            <p className={styles.loadingText}>Loading songs...</p>
-            </div>
-        ) : songs.length === 0 ? (
-            <div className={styles.centered}>
-            <p className={styles.noSongs}>No songs in this playlist yet.</p>
-            </div>
-        ) : (
-            <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="playlist">
-                {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} className={styles.songList}>
-                    {songs.map((song, index) => (
-                        <Draggable key={song.id} draggableId={String(song.id)} index={index}>
-                            {(provided) => (
-                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                    <SongRow
-                                        item={song}
-                                        index={index}
-                                        onPlay={handlePlay}
-                                        onDelete={(songId) =>   
-                                            fetchCall("playlistSongs", id).then(data => data?.filter(s => s.id !== songId)                                            )
-                                        }
-                                        playlistId={id}
-                                    />
-                                </div>
-                            )}
-                        </Draggable>
-                    ))}
-                    {provided.placeholder}
+            {loading ? (
+                <div className={styles.centered}>
+                <div className={styles.spinner}></div>
+                <p className={styles.loadingText}>Loading songs...</p>
                 </div>
-                )}
-            </Droppable>
-            </DragDropContext>
-        )}
+            ) : songs.length === 0 ? (
+                <div className={styles.centered}>
+                <p className={styles.noSongs}>No songs in this playlist yet.</p>
+                </div>
+            ) : (
+                <DragDropContext onDragEnd={handleDragEnd}>
+                <Droppable droppableId="playlist">
+                    {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps} className={styles.songList}>
+                        {songs.map((song, index) => (
+                            <Draggable key={song.id} draggableId={String(song.id)} index={index}>
+                                {(provided) => (
+                                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                        <SongRow
+                                            item={song}
+                                            index={index}
+                                            onPlay={handlePlay}
+                                            onDelete={(songId) =>   
+                                                fetchCall("playlistSongs", id).then(data => data?.filter(s => s.id !== songId)                                            )
+                                            }
+                                            playlistId={id}
+                                        />
+                                    </div>
+                                )}
+                            </Draggable>
+                        ))}
+                        {provided.placeholder}
+                    </div>
+                    )}
+                </Droppable>
+                </DragDropContext>
+            )}
 
-        <BackButton navTo={`/`} />
+            <BackButton navTo={`/`} />
         </div>
     );
 }
