@@ -18,8 +18,7 @@ export default function HomeScreen() {
         <div className={styles.container}>
             <p className={styles.infoText}>Checking login status...</p>
         </div>
-    );
-    
+    );    
 
     return (
         <div className={styles.container}>
