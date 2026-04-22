@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContextWeb';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import MiniPlayerSettings from "./MiniPlayerSettings";
 import AuthButton from '../buttons/AuthButton';
+import SettingsButton from "../buttons/SettingsButton";
 import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
 import styles from "./homeScreen.module.css";
@@ -10,6 +12,7 @@ import Teaser from '../teasers/Teaser';
 export default function HomeScreen() {
     const { user, logout, loading } = useAuth();
     const isMobile = useIsMobile();
+    const navigate = useNavigate();
     
     if (loading) return (
         <div className={styles.container}>
@@ -27,20 +30,22 @@ export default function HomeScreen() {
             {user && (
                 <div>
 
-    {/* Auth */}
+    {/* Auth */}                    
                     <h2 className={styles.text}>Welcome, {user.username}!</h2>
-                    <AuthButton title="Logout" loading={false} onClick={logout} width='98%'/>
+                    <AuthButton title="Logout" loading={false} onClick={logout} width='90%'/>
+                    <SettingsButton title="Settings" loading={false} onClick={() => navigate("/user-settings")} width='5%'/>
 
     {/* Playlists */}
                     <h3 className={styles.text2}>Your Playlists</h3>
                     <UserPlaylists />
 
     {/* Mini Player Settings */}
-                    <h3 className={styles.text3}>Mini Player Settings</h3>
+                    {/* <h3 className={styles.text3}>Mini Player Settings</h3>
                     {!isMobile 
                         ? <MiniPlayerSettings /> 
                         : <p className={styles.notAvailable}>Mini Player is not available in Mobile View</p>
-                    }
+                    } */}
+                    
     {/* Teasers */}
                     <div className={styles.teaserDiv}>
                         <Teaser 

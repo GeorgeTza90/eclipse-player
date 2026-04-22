@@ -242,3 +242,25 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
     res.status(400).json({ error: "Invalid or expired token" });
   }
 };
+
+// -----------------------------
+// Update Username
+// -----------------------------
+export const updateUsername = async (req: Request, res: Response): Promise<void> => {
+  const { newUsername, userID } = req.body as { newUsername?: string, userID: number };
+  if (!newUsername) { res.status(400).json({ error: "A new username are required" }); return; }
+  if (newUsername.length < 3) { res.status(400).json({ error: "Password must be at least 3 characters long" }); return; }
+
+  try {    
+    const [rows] = await db.query<User[]>("SELECT id, username FROM users WHERE id = ?", [userID]);
+    const user = rows[0];
+
+    if (!user) { res.status(404).json({ error: "User not found" }); return; }
+    
+    await db.query<ResultSetHeader>("UPDATE users SET username = ? WHERE id = ?", [newUsername, userID]);
+    res.json({ message: "Username update successful", user });
+  } catch (error) {
+    console.error("Error updating username:", error);
+    res.status(400).json({ error: "Invalid or expired token" });
+  }
+};

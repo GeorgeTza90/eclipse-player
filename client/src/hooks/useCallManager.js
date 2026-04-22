@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { fetchArtist, fetchPlaylistSongs, fetchSongs, fetchSongById, fetchUserPlaylists, fetchPrivateSongs, fetchArtists, fetchCurrentUser, logoutUser, fetchUserPresets } from "../services/GetService";
-import { addSongToPlaylist, createPlaylist, createPreset, forgotPassword, loginUser, googleLogin, moveSongInPlaylist, registerUser, resetPassword, updatePlaylist, updatePreset } from "../services/PostService";
+import { addSongToPlaylist, createPlaylist, createPreset, forgotPassword, loginUser, googleLogin, moveSongInPlaylist, registerUser, resetPassword, updatePlaylist, updatePreset, updateUsername } from "../services/PostService";
 import { deletePlaylist, deleteSongFromPlaylist, deleteUserPreset } from "../services/DeleteService";
 
 const fetchHooks = {
@@ -19,7 +19,7 @@ const fetchHooks = {
 const postHooks = {
     registerUser, loginUser, googleLogin, forgotPassword, resetPassword, logoutUser,
     createPlaylist, updatePlaylist, addSongToPlaylist, moveSongInPlaylist,
-    createPreset, updatePreset,
+    createPreset, updatePreset, updateUsername
 };
 
 const deleteHooks = {

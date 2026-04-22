@@ -9,6 +9,7 @@ import PlaylistDetail from "./components/library/PlaylistDetail";
 import ResetPassword from "./components/home/ResetPassword";
 import ArtistDetail from "./components/library/ArtistDetail";
 import NotFound from "./pages/NotFound/index";
+import { UserSettings } from "./components/home/UserSettings";
 
 
 
@@ -18,6 +19,7 @@ export default function AppRouter() {
             <Route element={<MainLayout />}>
 
                 <Route path="/" element={<Home />} />
+                <Route path="/user-settings" element={<UserSettings />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
 
                 <Route path="/player" element={<Player />} />

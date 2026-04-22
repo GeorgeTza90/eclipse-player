@@ -1,15 +1,20 @@
 .button {
     border-radius: 6px;
     text-align: center;
-    color: #e7ffee;
+    color: #e7ffee96;
     font-weight: bold;
-    font-size: 1.2rem;
-    padding: 5px 10px;
+    font-size: 1.2rem;    
     cursor: pointer;
     background-color: #55555500;
     border: none;
-    margin: 5px;
+    margin-right: 0.15rem;
     z-index: 999;
+}
+
+.button:hover {
+    color: #9cd5ad;
+    margin-right: 0rem;
+    font-size: 1.7rem;    
 }
 
 .modalOverlay {
@@ -61,11 +66,6 @@
     background-color: #99999962;
     color: #a0a0a0;
     margin-top: 10px;
-}
-
-.button:hover {
-    color: #ffffff;    
-    background-color: #868686;
 }
 
 @media (max-width: 768px) {

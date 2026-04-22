@@ -60,6 +60,18 @@ export async function resetPassword(token, newPassword) {
     return data;
 }
 
+export async function updateUsername(newUsername, userID) {    
+    const res = await fetch(`${API_URL}/api/auth/update-username`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ newUsername, userID }),
+        credentials: "include"
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Username update failed");
+    return data;
+}
+
 // -------------------- Playlists --------------------
 export async function createPlaylist(title, description) {
     const res = await fetch(`${API_URL}/api/playlists`, {

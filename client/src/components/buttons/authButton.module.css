@@ -1,21 +1,28 @@
-.authButton {
+.authButton, .settingsButton {
     background-color: #2f2d2dff;
     color: #c5c5c5;
     font-size: 14px;
-    font-weight: bold;
-    padding: 10px 20px;
+    font-weight: bold;    
     border-radius: 8px;
-    margin-bottom: 1rem;
-    height: 2.2rem;
     border: none;
     cursor: pointer;
     transition: opacity 0.2s ease;
     width: 100%;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
-    transition: 0.5s;
+    transition: 0.5s;      
+    align-items: center;
 }
 
-.authButton:hover {
+.authButton {
+    height: 2rem;    
+}
+
+.settingsButton{    
+    height: 2rem;
+    margin-left: 1rem;  
+}
+
+.authButton:hover, .settingsButton:hover {
     background-color: rgb(92, 92, 92);
     color: #ffffff;
     opacity: 0.7;
@@ -27,8 +34,14 @@
     cursor: not-allowed;
 }
 
+.icon {
+    height: 1rem;
+    width: 1rem;
+    opacity: 90%;    
+}
+
 @media (max-width: 768px) {
-    .authButton {
+    .authButton, .settingsButton {
         font-size: 13.5px;
         width: 90%;
     }

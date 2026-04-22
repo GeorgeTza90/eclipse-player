@@ -27,6 +27,7 @@ export default function AddToPlaylistButton({ song }) {
         }
     }, [modalVisible, showToast, fetchCall]);
 
+    //--- ADD TO PLAYLISTS ---//
     const handleAddToPlaylist = async (playlistId) => {        
         try {
             await postCall("addSongToPlaylist", playlistId, song.id);
