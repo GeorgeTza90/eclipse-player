@@ -8,6 +8,7 @@ import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
 import styles from "./homeScreen.module.css";
 import Teaser from '../teasers/Teaser';
+import { API_URL } from "../../config";
 
 export default function HomeScreen() {
     const { user, logout, loading } = useAuth();
@@ -47,7 +48,8 @@ export default function HomeScreen() {
                         />
                         <Teaser 
                             // link={`https://docs.google.com/uc?export=download&id=1VbJL7jn2caPnMS9xAO4FkLVXtXFC49p5`} 
-                            link={`/download/apk`}
+                            // link={`https://drive.google.com/file/d/1VbJL7jn2caPnMS9xAO4FkLVXtXFC49p5/view?usp=drive_link`}
+                            link = {`${API_URL}/api/download/apk`}
                             source={"/assets/images/App_Teaser_1.jpg"}
                             download
                             video={false}

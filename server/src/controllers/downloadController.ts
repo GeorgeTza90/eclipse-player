@@ -14,4 +14,3 @@ export const downloadAPK = async (req: Request, res: Response): Promise<void> =>
     res.status(500).json({ error: "Server Error" });
   }
 };
-

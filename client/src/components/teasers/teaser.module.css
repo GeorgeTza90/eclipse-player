@@ -7,6 +7,7 @@
     opacity: 60%;
     transition: 0.5s;
     margin-top: 2rem;
+    cursor: pointer;
 }
 
 .videoLink:hover {

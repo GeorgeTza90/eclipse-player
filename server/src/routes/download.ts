@@ -5,7 +5,7 @@ import { downloadAPK } from "../controllers/downloadController";
 const router = Router();
 
 // Rate limiters       
-const downloadLimiter = createRateLimiter(15, 3);         
+const downloadLimiter = createRateLimiter(60, 10);
 
 // Public routes
 router.get('/apk', downloadLimiter, downloadAPK);
