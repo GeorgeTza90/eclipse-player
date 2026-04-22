@@ -32,19 +32,12 @@ export default function HomeScreen() {
 
     {/* Auth */}                    
                     <h2 className={styles.text}>Welcome, {user.username}!</h2>
-                    <AuthButton title="Logout" loading={false} onClick={logout} width='90%'/>
-                    <SettingsButton title="Settings" loading={false} onClick={() => navigate("/user-settings")} width='5%'/>
+                    <AuthButton title="Logout" loading={false} onClick={logout} width={isMobile ? '80%' : '90%'}/>
+                    <SettingsButton title="Settings" loading={false} onClick={() => navigate("/user-settings")}width={isMobile ? '10%' : '5%'}/>
 
     {/* Playlists */}
                     <h3 className={styles.text2}>Your Playlists</h3>
                     <UserPlaylists />
-
-    {/* Mini Player Settings */}
-                    {/* <h3 className={styles.text3}>Mini Player Settings</h3>
-                    {!isMobile 
-                        ? <MiniPlayerSettings /> 
-                        : <p className={styles.notAvailable}>Mini Player is not available in Mobile View</p>
-                    } */}
                     
     {/* Teasers */}
                     <div className={styles.teaserDiv}>
