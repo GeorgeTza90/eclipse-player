@@ -16,7 +16,7 @@
     align-items: center;
     gap: 0.8rem;    
     margin-left: -2.2rem;
-    width: 12rem;
+    width: 14rem;
 }
 
 .image {
@@ -28,8 +28,8 @@
 }
 
 .title {
-    margin: 0;
-    font-size: 0.8rem;
+    margin: 0;    
+    font-size: 0.9rem;
     white-space: nowrap;
 }
 
@@ -37,12 +37,19 @@
 .tickerContainer {
     overflow: hidden;
     white-space: nowrap;
-    max-width: 8rem;
+    max-width: 10rem;
+}
+
+.tittleTicker {
+    display: inline-block;
+    animation: scroll 20s linear infinite;
+    font-size: 0.9rem;    
+    margin-bottom: -1rem;
 }
 
 .tickerText {
     display: inline-block;
-    animation: scroll 10s linear infinite;
+    animation: scroll 20s linear infinite;
     font-size: 0.68rem;
     color: #e4e4e4;
 }

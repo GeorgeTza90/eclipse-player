@@ -59,7 +59,9 @@ export default function MiniPlayerBar({handleImageToast}) {
                                 onClick={() => handleImageToast(currentSong?.image)}
                             />}                                
                         <div>
-                            <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
+                            <div className={styles.tickerContainer}>
+                                <h3 className={currentSong.title.length < 20 ? `${styles.title}` : `${styles.tittleTicker}`}>{currentSong?.title || "Song Title"}</h3>
+                            </div>
                             {currentSong.feature && (
                                 <div className={styles.tickerContainer}>
                                     <div className={styles.tickerText}>{`(feat. ${currentSong.feature})`}</div>
