@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import path from "path";
 
-const APKfilePath = path.join(__dirname, "../../files/eclipse_player_v1.2.4.apk");
+const APKfilePath = path.resolve("files/eclipse_player_v1.2.4.apk");
 
 // -----------------------------
 // Download APK
