@@ -8,9 +8,6 @@ const APKfilePath = path.join(__dirname, "../../files/eclipse_player_v1.2.4.apk"
 // -----------------------------
 export const downloadAPK = async (req: Request, res: Response): Promise<void> => {
   try {
-    res.setHeader("Content-Type", "application/vnd.android.package-archive");
-    res.setHeader("Content-Disposition", "attachment; filename=app.apk");
-    
     res.download(APKfilePath);
   } catch (error) {
     console.error("Error downloading APK:", error);
