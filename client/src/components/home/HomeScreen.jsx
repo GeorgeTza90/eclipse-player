@@ -47,7 +47,7 @@ export default function HomeScreen() {
                         />
                         <Teaser 
                             // link={`https://docs.google.com/uc?export=download&id=1VbJL7jn2caPnMS9xAO4FkLVXtXFC49p5`} 
-                            link={`https://drive.google.com/file/d/1VbJL7jn2caPnMS9xAO4FkLVXtXFC49p5/view?usp=drive_link`}
+                            link={`/download/apk`}
                             source={"/assets/images/App_Teaser_1.jpg"}
                             download
                             video={false}

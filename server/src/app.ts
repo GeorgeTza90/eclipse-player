@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth";
 import playlistRoutes from "./routes/playlists";
 import artistsRoutes from "./routes/artists";
 import presetsRoutes from "./routes/presets";
+import downloadRoutes from "./routes/download"
 import { AppError } from "./types/ErrorTypes";
 
 
@@ -32,6 +33,7 @@ app.use("/api/songs", songsRoutes);
 app.use("/api/playlists", playlistRoutes);
 app.use("/api/artists", artistsRoutes);
 app.use("/api/presets", presetsRoutes);
+app.use("/api/download", downloadRoutes);
 
 /* -------------------- Health check -------------------- */
 app.get("/", (_req, res) => {
