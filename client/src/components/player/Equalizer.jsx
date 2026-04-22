@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom"
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { EQ_BANDS } from "../../utils/defaultEQ";
@@ -10,6 +11,7 @@ import styles from "./equalizer.module.css";
 
 export default function Equalizer({ color }) {
     const isMobile = useIsMobile();
+    const navigate = useNavigate();
     const { setEQGain, resetEQ, EQGain } = useAudio();
     const { user } = useAuth();
     
@@ -30,7 +32,7 @@ export default function Equalizer({ color }) {
     ), [isMobile]);
 
     /* --- LOAD USER PRESETS --- */
-    const loadPresets = async () => await fetchCall("userPresets");
+    const loadPresets = async () => {user && await fetchCall("userPresets");}
     
     useEffect(() => {
         const fetchPresets = async () => {
@@ -120,24 +122,15 @@ export default function Equalizer({ color }) {
                     )}
                 </>
             ) : (
-                <div className={styles.notLoggedIn}>Sign In to have access to EQ presets</div>
+                <div className={styles.notLoggedIn}>
+                    <button className={styles.SignInButton} onClick={() => navigate("/")}>Sign In</button><br/>
+                    to access EQ presets
+                </div>
             )}
 
     {/* Modales */}
-            <AddPresetModal
-                visible={modalVisible}
-                onClose={() => setModalVisible(false)}
-                onCreated={loadPresets}
-                eqGains={EQGain}
-            />
-
-            <UpdatePresetModal
-                visible={modalUpdateVisible}
-                onClose={() => setModalUpdateVisible(false)}
-                onCreated={loadPresets}
-                presetNew={presetToUpdate}
-                newEQ={EQGain}
-            />
+            <AddPresetModal visible={modalVisible} onClose={() => setModalVisible(false)} onCreated={loadPresets} eqGains={EQGain} />
+            <UpdatePresetModal visible={modalUpdateVisible} onClose={() => setModalUpdateVisible(false)} onCreated={loadPresets} presetNew={presetToUpdate} newEQ={EQGain} />
         </div>
     );
 }

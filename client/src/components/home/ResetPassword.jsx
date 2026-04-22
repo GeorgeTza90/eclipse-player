@@ -58,7 +58,7 @@ export default function ResetPasswordCard() {
         <div className={styles.authContainer}>
     {/* Decorative Circle */}
             <div className={`${styles.circleWrapper} ${styles.circle1}`}>
-                <Circle size={isMobile ? 400 : 600} shadowColor={shadowColor} intensity={intensity * 0.5} />
+                <Circle size={isMobile ? 385 : 600} top={isMobile ? 110 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor}/>
             </div>
 
     {/* Form */}

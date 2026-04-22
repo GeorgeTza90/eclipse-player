@@ -10,6 +10,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string("google_id").unique().nullable();
     table.string("avatar_url").nullable();
     table.timestamps(true, true);
+    table.boolean("private").defaultTo(false);
   });
 }
 

@@ -1,9 +1,11 @@
+import { useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useImageToast } from "../ui/ΙmageToast";
+import LoadingMessage from "./LoadingMessage";
 import ArtistButton from "../buttons/ArtistButton";
 import BackButton from "../buttons/BackButton";
 import styles from "./collectionDetail.module.css";
@@ -16,15 +18,16 @@ export default function CollectionDetail() {
     const { privateSongs } = useLibrary();    
     const { playSong, currentSong } = useAudio();
     const { showImageToast, ImageToastUI } = useImageToast();
-    const navigate = useNavigate();
-    const album = searchParams.get("album");
-    const albumSongs = privateSongs.filter(s => s.album === album);        
+    const navigate = useNavigate();    
+    const album = searchParams.get("album");  
+    const albumSongs = useMemo(() => privateSongs.filter(s => s.album === album) ,[privateSongs, album]);
 
-    if (!albumSongs || !albumSongs.length)  return <p className={{ color: "#fff", padding: "10px" }}>No collection data</p>;
-
+    /* --- LOADING --- */
+    if (!albumSongs || albumSongs.length === 0) return <LoadingMessage />
     const albumInfo = albumSongs[0];
     const durationString = useAlbumDuration(albumSongs);
-    
+
+    /* --- PRESS SONG --- */
     const handlePressSong = (song) => { playSong(song, albumSongs, album); navigate("/player"); };    
 
     /* --- STYLES --- */

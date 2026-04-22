@@ -1,21 +1,16 @@
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
+import LoadingMessage from "./LoadingMessage";
 import SearchForm from "./SearchForm";
 import styles from "./libraryScreen.module.css";
 import LibraryGroupItem from "./LibraryGroupItem";
 
 export default function LibraryScreen() {
     const { privateAlbums, singlesEps, albums, artists, loading } = useLibrary();
-    const { priv_u } = useAuth(); 
+    const { priv_u } = useAuth();     
     
-    if (loading) {
-        return (
-            <div className={styles.loadingContainer}>
-                <div className="spinner" />
-                <p style={{ color: "#fff", marginTop: 5 }}>Loading library...</p>
-            </div>
-        );
-    }
+    /* --- LOADING --- */
+    if (loading) return <LoadingMessage message="Loading Library ..."/>
 
     return (
         <div className={styles.container}>
