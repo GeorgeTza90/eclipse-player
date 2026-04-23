@@ -7,11 +7,18 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useFetchManager, usePostManager } from "../../hooks/useCallManager";
 import BackButton from "../buttons/BackButton";
 import styles from "./playlistDetail.module.css";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+import { useAuth } from "../../contexts/AuthContextWeb";
+import MiniPlayer from "../player/MiniPlayer";
 
 export default function PlaylistDetail() {
     const location = useLocation();
     const navigate = useNavigate();
     const { playSong } = useAudio();
+    const isMobile = useIsMobile();
+    const { barMode, setPlayerPage } = useMiniPlayer();
+    const { user } = useAuth();    
 
     const params = new URLSearchParams(location.search);
     const id = Number(params.get("id"));
@@ -56,6 +63,8 @@ export default function PlaylistDetail() {
 
     return (
         <div className={styles.container}>
+            {!isMobile && user && !barMode && (<MiniPlayer />)}
+
             <div className={styles.headerInfo}>
                 <h2 className={styles.playlistTitle}>{title}</h2>
                 <p className={styles.artistInfo}>{songs.length} songs • {useAlbumDuration(songs)}</p>

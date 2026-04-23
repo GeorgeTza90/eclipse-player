@@ -7,11 +7,14 @@ import styles from "./userSettings.module.css";
 import LoadingMessage from "../library/LoadingMessage";
 import { useAutoClear } from "../../hooks/useAutoClear";
 import BackButton from "../buttons/BackButton";
+import MiniPlayer from "../player/MiniPlayer";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 
 export function UserSettings() {
     const { loading: postLoading, error: postError, call: postCall } = usePostManager();
     const { user, loading } = useAuth();
     const isMobile = useIsMobile();
+    const { barMode, setPlayerPage } = useMiniPlayer();
     const [username, setUsername] = useState("");
     const [localError, setLocalError] = useState(null);
     const [message, setMessage] = useState("...");
@@ -54,6 +57,7 @@ export function UserSettings() {
 
     return (
         <div className={styles.container}>
+            {!isMobile && user && !barMode && (<MiniPlayer />)}
             <div> 
 
     {/* User Settings */}                

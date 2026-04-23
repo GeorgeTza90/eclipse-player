@@ -3,13 +3,20 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useFetchManager } from "../../hooks/useCallManager";
 import { byYear } from "../../utils/songsCetegorizer";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+import { useAuth } from "../../contexts/AuthContextWeb";
 import styles from "./artistDetail.module.css";
 import LibraryGroupItem from "../library/LibraryGroupItem";
 import BackButton from "../buttons/BackButton";
 import MediaLink from "./MediaLink";
+import MiniPlayer from "../player/MiniPlayer";
 
 export default function ArtistDetail() {
     const { state, loading, error, call } = useFetchManager();
+    const isMobile = useIsMobile();
+    const { barMode, setPlayerPage } = useMiniPlayer();
+    const { user } = useAuth();   
     const artist = state.artist;
     const [groupsKind, setGroupKind] = useState("Singles & EPs");
     const [searchParams] = useSearchParams();
@@ -30,6 +37,7 @@ export default function ArtistDetail() {
 
     return (
         <div className={styles.container}>
+            {!isMobile && user && !barMode && (<MiniPlayer />)}
 
     {/* Info */}
             <div className={styles.header}>

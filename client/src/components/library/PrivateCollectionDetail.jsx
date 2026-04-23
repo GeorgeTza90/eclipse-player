@@ -5,17 +5,22 @@ import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useImageToast } from "../ui/ΙmageToast";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import LoadingMessage from "./LoadingMessage";
 import ArtistButton from "../buttons/ArtistButton";
 import BackButton from "../buttons/BackButton";
 import styles from "./collectionDetail.module.css";
 import PrivateTrackItem from "./PrivateTrackItem";
 import hexToRgba from "../../utils/hexToRgba";
+import MiniPlayer from "../player/MiniPlayer";
 
 export default function CollectionDetail() {
     const { user } = useAuth();
     const [searchParams] = useSearchParams();    
-    const { privateSongs } = useLibrary();    
+    const { privateSongs } = useLibrary();
+    const isMobile = useIsMobile();
+    const { barMode, setPlayerPage } = useMiniPlayer();
     const { playSong, currentSong } = useAudio();
     const { showImageToast, ImageToastUI } = useImageToast();
     const navigate = useNavigate();    
@@ -37,6 +42,7 @@ export default function CollectionDetail() {
     return (
         <div className={styles.container} style={containerStyle}>
 
+            {!isMobile && user && !barMode && (<MiniPlayer />)}
     {/* Info */}
             <div className={styles.header} style={headerStyle}>
                 {albumInfo.image && (

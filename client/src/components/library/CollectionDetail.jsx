@@ -5,12 +5,15 @@ import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useImageToast } from "../ui/ΙmageToast";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import LoadingMessage from "./LoadingMessage";
 import ArtistButton from "../buttons/ArtistButton";
 import BackButton from "../buttons/BackButton";
 import styles from "./collectionDetail.module.css";
 import TrackItem from "./TrackItem";
 import hexToRgba from "../../utils/hexToRgba";
+import MiniPlayer from "../player/MiniPlayer";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 export default function CollectionDetail() {
     const { user } = useAuth();
@@ -18,6 +21,8 @@ export default function CollectionDetail() {
     const { songs, loading } = useLibrary();    
     const { playSong, currentSong } = useAudio();
     const { showImageToast, ImageToastUI } = useImageToast();
+    const { barMode, setPlayerPage } = useMiniPlayer();
+    const isMobile = useIsMobile();
     const navigate = useNavigate();    
     const album = searchParams.get("album");
     const albumSongs = useMemo(() => songs.filter(s => s.album === album) ,[songs, album]);    
@@ -36,6 +41,7 @@ export default function CollectionDetail() {
 
     return (
         <>
+            {!isMobile && user && !barMode && (<MiniPlayer />)}
             <div className={styles.container} style={containerStyle}>
 
         {/* Info */}
