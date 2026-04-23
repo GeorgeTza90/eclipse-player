@@ -115,7 +115,8 @@ export default function MiniPlayerBar({handleImageToast}) {
                     <hr className={styles.line}/>                         
 
     {/* Link Button */}
-                    <Link to="/player" className={!showVolumeBar || !showTimeBar || !showImage ? styles.smallPlayerButton : styles.playerButton} />
+                    <Link to="/player" className={styles.playerButton} />
+                    <Link to="/user-settings" className={styles.settingsButton} />
                 </div>
             </div>
         }

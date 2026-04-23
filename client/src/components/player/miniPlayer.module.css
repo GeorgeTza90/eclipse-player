@@ -73,9 +73,9 @@
 .playerButton,
 .smallPlayerButton {
     position: absolute;
-    left: 50%;
+    left: 25%;
     transform: translateX(-50%);
-    background-image: url("/assets/icons/player.png");
+    background-image: url("/assets/icons/player.png");    
     width: 100px;
     height: 30px;
     background-size: contain;
@@ -95,6 +95,34 @@
     opacity: 1;
     transition: 500ms;
 }
+
+.settingsButton,
+.smallSettingsButton {
+    position: absolute;
+    left: 75%;
+    transform: translateX(-50%);
+    background-image: url("/assets/icons/settings.png");
+    width: 80px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 500ms;
+    margin-top: 0.6rem;    
+}
+
+.smallSettingsButton  {
+    margin-top: 2.35rem;
+} 
+
+.settingsButton:hover {
+    opacity: 1;
+    transition: 500ms;
+}
+
+
 
 @keyframes scroll {
     0% {

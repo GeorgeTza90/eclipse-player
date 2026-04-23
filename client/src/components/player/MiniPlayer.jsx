@@ -79,11 +79,12 @@ export default function MiniPlayer() {
                 onTouchMove={(e) => { e.preventDefault(); onMouseMove(e.touches[0]); }}
                 onTouchEnd={onMouseUp}
                 style={miniPlayerDiv}
+                className={styles.container}
             >
                 <Circle size={circleParams.size} intensity={intensity * 0.8} heightOffset={6} shadowColor={showGlow ? shadowColor : "#000000ff"} left={circleParams.left} top={circleParams.top} />
 
     {/* Info */}
-                <div className={styles.container}>
+                <div>
                     <div className={styles.infoRow}>
                         {currentSong?.image && showImage &&
                             <img
@@ -146,8 +147,9 @@ export default function MiniPlayer() {
                         </div>
                     }
 
-    {/* Link Button */}
-                    <Link to="/player" className={!showVolumeBar || !showTimeBar ? styles.smallPlayerButton : styles.playerButton} />
+    {/* Link Button */}                    
+                        <Link to="/player" className={!showVolumeBar || !showTimeBar ? styles.smallPlayerButton : styles.playerButton} />
+                        <Link to="/user-settings" className={!showVolumeBar || !showTimeBar ? styles.smallSettingsButton : styles.settingsButton} />                   
                 </div>
             </div>
         }

@@ -84,9 +84,8 @@
     color: #ffffffc7;
 }
 
-/* PLAYER BUTTON */
 .playerButton,
-.smallPlayerButton {
+.settingsButton {
     width: 40px;
     height: 30px;
     background-image: url("/assets/icons/player.png");
@@ -95,12 +94,22 @@
     background-position: center;
     cursor: pointer;
     opacity: 0.6;
-    transition: 0.3s;
+    transition: 0.3s;    
+    padding-left: 2.5rem;
 }
 
-.playerButton:hover {
+.playerButton:hover,
+.settingsButton:hover {
     opacity: 1;
 }
+
+.settingsButton {    
+    background-image: url("/assets/icons/settings.png");
+    width: 35px;
+    height: 22px;
+    opacity: 0.5;
+}
+
 
 
 .line { 
