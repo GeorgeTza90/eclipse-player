@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
+import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import songsRoutes from "./routes/songs";
 import authRoutes from "./routes/auth";
@@ -10,6 +11,10 @@ import downloadRoutes from "./routes/download"
 import { AppError } from "./types/ErrorTypes";
 
 export const app = express();
+app.use(helmet({
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: {policy: "cross-origin"}
+}));
 const allowedOrigins =
     process.env.CLIENT_ORIGINS?.split(",").map(o => o.trim()) ?? [
         "http://localhost:5173",
