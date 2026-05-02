@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { RowDataPacket, ResultSetHeader } from "mysql2";
+import { Response } from "express";
+import { ResultSetHeader } from "mysql2";
 import { AuthenticatedRequest, Presets } from "../types/controllersTypes";
 import db from "../db/db";
 

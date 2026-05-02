@@ -14,17 +14,17 @@ const googleLimiter = createRateLimiter(15, 10);
 
 // Public routes
 router.post('/login', loginLimiter, login);
-router.post('/logout', logout)
+router.post('/logout', logout);
 router.post('/register', registerLimiter, register);
 router.post('/google-login', googleLimiter, googleLogin);
 router.post('/forgot-password', forgotLimiter, forgotPassword);
 router.post('/reset-password', resetLimiter, resetPassword);
-router.post('/update-username', resetLimiter, updateUsername);
 
 // Protected routes
 router.use(verifyToken);
 
 router.get('/me', me);
 router.post('/change-password', createRateLimiter(5, 5), changePassword);
+router.post('/update-username', resetLimiter, updateUsername);
 
 export default router;

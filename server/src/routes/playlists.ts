@@ -7,7 +7,6 @@ import {
 import { createRateLimiter }  from '../middleware/rateLimiter';
 
 const router = Router();
-
 router.use(verifyToken);
 
 // Rate limiters (soft limit)

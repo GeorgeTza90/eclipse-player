@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContextWeb';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { API_URL } from "../../config";
 import MiniPlayerSettings from "./MiniPlayerSettings";
 import AuthButton from '../buttons/AuthButton';
 import SettingsButton from "../buttons/SettingsButton";
@@ -8,7 +9,6 @@ import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
 import styles from "./homeScreen.module.css";
 import Teaser from '../teasers/Teaser';
-import { API_URL } from "../../config";
 
 export default function HomeScreen() {
     const { user, logout, loading } = useAuth();

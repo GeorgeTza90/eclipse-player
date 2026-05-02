@@ -27,18 +27,18 @@ export interface Song extends RowDataPacket {
 }
 
 export interface Playlist extends RowDataPacket {
-  id: number;
-  user_id: number;
-  title: string;
-  description?: string;
-  created_at: Date;
+    id: number;
+    user_id: number;
+    title: string;
+    description?: string;
+    created_at: Date;
 }
 
 export interface PlaylistSong extends RowDataPacket {
-  id: number;
-  playlist_id: number;
-  song_id: number;
-  order: number;
+    id: number;
+    playlist_id: number;
+    song_id: number;
+    order: number;
 }
 
 export interface User extends RowDataPacket {
@@ -50,23 +50,24 @@ export interface User extends RowDataPacket {
 }
 
 export interface AuthenticatedRequest extends Request {
-  user?: {
-    id: number;
-    username: string;
-    email: string;
-    premium: boolean;
-    google_id: string;
-  };
+    user?: {
+        id: number;
+        username: string;
+        email: string;
+        premium: boolean;
+        private: boolean;
+        google_id: string;
+    };
 }
 
 export interface AuthenticatedRequestMidl extends Request {
-  user?: string | JwtPayload;
+    user?: string | JwtPayload;
 }
 
 export interface Presets extends RowDataPacket {
-  id: number;
-  user_id: number;
-  title: string;
-  preset?: [string];
-  created_at: Date;
+    id: number;
+    user_id: number;
+    title: string;
+    preset?: [string];
+    created_at: Date;
 }

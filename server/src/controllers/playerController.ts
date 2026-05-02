@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Song } from "../types/controllersTypes";
+import { Song, AuthenticatedRequest } from "../types/controllersTypes";
 import db from "../db/db";
 
 // -----------------------------
@@ -18,8 +18,13 @@ export const getSongs = async (req: Request, res: Response): Promise<void> => {
 // -----------------------------
 // GET PRIVATE SONGS
 // -----------------------------
-export const getPrivateSongs = async (req: Request, res: Response): Promise<void> => {  
+export const getPrivateSongs = async (req: AuthenticatedRequest, res: Response): Promise<void> => {  
   try {
+    const user = req.user;
+    if (!user?.private) {
+      res.status(403).json({ error: "Forbidden" });
+      return;
+    }
     const [rows] = await db.query<Song[]>("SELECT * FROM private_songs");
     res.json(rows);
   } catch (error) {
