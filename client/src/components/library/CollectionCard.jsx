@@ -5,7 +5,7 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 import PlayButton from "../buttons/PlayButton";
 import styles from "./collectionCard.module.css"
 
-export default function CollectionCard({ item, onClick, type }) {
+const CollectionCard = ({ item, onClick, type }) => {
     const { playSong, currentSong, isPlaying, togglePlay, stop } = useAudio();    
     const [ hover, setHover ] = useState(false);
     const { songs, privateSongs } = useLibrary();
@@ -65,3 +65,5 @@ export default function CollectionCard({ item, onClick, type }) {
         )}        
     </>);
 }
+
+export default CollectionCard;

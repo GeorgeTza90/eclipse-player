@@ -1,6 +1,6 @@
 import styles from "./authButton.module.css";
 
-export default function SettingsButton({ loading, isLogin, title, onClick, width = "100%" }) {
+const SettingsButton = ({ loading, isLogin, title, onClick, width = "100%" }) => {
     const buttonText = title || (loading ? "Loading..." : isLogin ? "Login" : "Register");
 
     return (
@@ -10,3 +10,5 @@ export default function SettingsButton({ loading, isLogin, title, onClick, width
         </button>
     );
 }
+
+export default SettingsButton;

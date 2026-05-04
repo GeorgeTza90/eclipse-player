@@ -7,7 +7,7 @@ import HomeScreen from "../../components/home/HomeScreen";
 import MiniPlayer from "../../components/player/MiniPlayer";
 import Circle from "../../components/ui/Circle";
 
-function Home() {
+const Home = () => {
     const { volume } = useAudio();    
     const isMobile = useIsMobile();
     const { barMode, setPlayerPage } = useMiniPlayer();

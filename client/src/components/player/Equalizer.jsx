@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { useAudio } from "../../contexts/AudioContextWeb";
-import { useIsMobile } from "../../hooks/useIsMobile";
-import { EQ_BANDS } from "../../utils/defaultEQ";
 import { useAuth } from "../../contexts/AuthContextWeb";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import { useFetchManager, useDeleteManager } from "../../hooks/useCallManager";
+import { EQ_BANDS } from "../../utils/defaultEQ";
 import AddPresetModal from "./AddPresetModal";
 import UpdatePresetModal from "./UpdatePresetModal";
 import styles from "./equalizer.module.css";
 
-export default function Equalizer({ color }) {
+const Equalizer = ({ color }) => {
     const isMobile = useIsMobile();
     const navigate = useNavigate();
     const { setEQGain, resetEQ, EQGain } = useAudio();
@@ -134,3 +134,5 @@ export default function Equalizer({ color }) {
         </div>
     );
 }
+
+export default Equalizer;

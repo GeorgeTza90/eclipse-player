@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { usePostManager } from "../../hooks/useCallManager";
 import { useToast } from "../../contexts/ToastContextWeb";
+import { usePostManager } from "../../hooks/useCallManager";
 import styles from "./addPresetModal.module.css";
 
-export default function AddPresetModal({ visible, onClose, onCreated, eqGains }) {
+const AddPresetModal = ({ visible, onClose, onCreated, eqGains }) => {
     const { loading, call } = usePostManager();
     const { showToast } = useToast();
     const [title, setTitle] = useState("");
@@ -56,3 +56,5 @@ export default function AddPresetModal({ visible, onClose, onCreated, eqGains })
         </div>
     );
 }
+
+export default AddPresetModal;

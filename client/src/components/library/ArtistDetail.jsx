@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useLibrary } from "../../contexts/LibraryContextWeb";
-import { useFetchManager } from "../../hooks/useCallManager";
-import { byYear } from "../../utils/songsCetegorizer";
-import { useIsMobile } from "../../hooks/useIsMobile";
-import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
-import styles from "./artistDetail.module.css";
+import { useLibrary } from "../../contexts/LibraryContextWeb";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+import { useFetchManager } from "../../hooks/useCallManager";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { byYear } from "../../utils/songsCetegorizer";
 import LibraryGroupItem from "../library/LibraryGroupItem";
 import BackButton from "../buttons/BackButton";
 import MediaLink from "./MediaLink";
 import MiniPlayer from "../player/MiniPlayer";
+import styles from "./artistDetail.module.css";
 
-export default function ArtistDetail() {
+const ArtistDetail = () => {
     const { state, loading, error, call } = useFetchManager();
     const isMobile = useIsMobile();
     const { barMode, setPlayerPage } = useMiniPlayer();
@@ -84,3 +84,5 @@ export default function ArtistDetail() {
         </div>
     );
 }
+
+export default ArtistDetail;

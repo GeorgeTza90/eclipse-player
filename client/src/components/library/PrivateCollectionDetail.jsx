@@ -2,20 +2,20 @@ import { useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
-import { useAlbumDuration } from "../../hooks/useFormatTime";
 import { useAuth } from "../../contexts/AuthContextWeb";
-import { useImageToast } from "../ui/ΙmageToast";
-import { useIsMobile } from "../../hooks/useIsMobile";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
-import LoadingMessage from "./LoadingMessage";
+import { useAlbumDuration } from "../../hooks/useFormatTime";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useImageToast } from "../ui/ΙmageToast";
+import hexToRgba from "../../utils/hexToRgba";
 import ArtistButton from "../buttons/ArtistButton";
 import BackButton from "../buttons/BackButton";
-import styles from "./collectionDetail.module.css";
+import LoadingMessage from "./LoadingMessage";
 import PrivateTrackItem from "./PrivateTrackItem";
-import hexToRgba from "../../utils/hexToRgba";
 import MiniPlayer from "../player/MiniPlayer";
+import styles from "./collectionDetail.module.css";
 
-export default function CollectionDetail() {
+const CollectionDetail = () => {
     const { user } = useAuth();
     const [searchParams] = useSearchParams();    
     const { privateSongs } = useLibrary();
@@ -70,3 +70,5 @@ export default function CollectionDetail() {
         </div>
     );
 }
+
+export default CollectionDetail;

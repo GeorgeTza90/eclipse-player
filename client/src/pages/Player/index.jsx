@@ -8,8 +8,7 @@ import Lyrics from "../../components/player/Lyrics";
 import Playlist from "../../components/player/Playlist";
 import Circle from "../../components/ui/Circle";
 
-
-function Player() {
+const Player = () => {
     const isMobile = useIsMobile();
     const { playlistName, currentSong, volume } = useAudio("No Gods In Heaven");
     const { setPlayerPage, coloredGlow } = useMiniPlayer();    

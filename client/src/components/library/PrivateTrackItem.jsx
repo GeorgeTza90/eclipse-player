@@ -1,6 +1,6 @@
 import styles from "./trackItem.module.css";
 
-export default function TrackItem({ track, index, onPress, user }) {    
+const TrackItem = ({ track, index, onPress, user }) => {    
     const minutes = Math.floor(track.duration / 60);
     const seconds = ("0" + (track.duration % 60)).slice(-2);
 
@@ -25,3 +25,5 @@ export default function TrackItem({ track, index, onPress, user }) {
         </div>
     );
 }
+
+export default TrackItem;

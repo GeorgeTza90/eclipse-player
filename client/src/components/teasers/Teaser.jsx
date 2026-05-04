@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./teaser.module.css";
 
-export default function Teaser({ link, source, download, video }) {    
+const Teaser = ({ link, source, download, video }) => {
     return (
         <a
             href={link}
@@ -26,3 +26,4 @@ export default function Teaser({ link, source, download, video }) {
     );
 }
 
+export default Teaser;

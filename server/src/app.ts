@@ -15,6 +15,8 @@ app.use(helmet({
     contentSecurityPolicy: false,
     crossOriginResourcePolicy: {policy: "cross-origin"}
 }));
+
+/* -------------------- ENV Vars -------------------- */
 const allowedOrigins =
     process.env.CLIENT_ORIGINS?.split(",").map(o => o.trim()) ?? [
         "http://localhost:5173",

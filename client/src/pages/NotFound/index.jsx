@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContextWeb";
-import { useIsMobile } from "../../hooks/useIsMobile";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import MiniPlayer from "../../components/player/MiniPlayer";
 import Circle from "../../components/ui/Circle";
 
-function NotFound() {
+const NotFound = () => {
     const isMobile = useIsMobile();
     const { barMode, setPlayerPage } = useMiniPlayer();
     const { user } = useAuth();

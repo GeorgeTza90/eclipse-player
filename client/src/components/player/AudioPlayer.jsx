@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useAudio } from "../../contexts/AudioContextWeb";
-import { formatTime } from "../../hooks/useFormatTime";
-import { useImageToast } from "../ui/ΙmageToast";
-import { useIsMobile } from "../../hooks/useIsMobile";
 import { useNavigate } from "react-router-dom";
+import { useAudio } from "../../contexts/AudioContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
-import styles from "./audioPlayer.module.css";
-import Circle from "../ui/Circle";
+import { formatTime } from "../../hooks/useFormatTime";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useImageToast } from "../ui/ΙmageToast";
 import PlayButton from "../buttons/PlayButton";
 import ArtistButton from "../buttons/ArtistButton";
+import Circle from "../ui/Circle";
+import styles from "./audioPlayer.module.css";
 
-export default function AudioPlayer({ onToggleExtention }) {
+const AudioPlayer = ({ onToggleExtention }) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();  
     const { coloredGlow } = useMiniPlayer();
     const { showImageToast, ImageToastUI } = useImageToast();
@@ -163,3 +163,5 @@ export default function AudioPlayer({ onToggleExtention }) {
         </div>
     );
 }
+
+export default AudioPlayer;

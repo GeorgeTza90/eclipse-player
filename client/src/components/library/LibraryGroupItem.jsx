@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import { getGridConfig } from "../../utils/sizeSwitch";
 import { useWidth } from "../../hooks/useScreen";
+import { getGridConfig } from "../../utils/sizeSwitch";
 import CollectionCard from "./CollectionCard";
 import styles from "./libraryGroupItem.module.css";
 
-export default function LibraryGroupItem({ type, group }) {
+const LibraryGroupItem = ({ type, group }) => {
     const navigate = useNavigate();
     const isArtist = type === "Artists";
     const isPrivate = type === "Private";
@@ -45,3 +45,5 @@ export default function LibraryGroupItem({ type, group }) {
         </div>
     );
 }
+
+export default LibraryGroupItem

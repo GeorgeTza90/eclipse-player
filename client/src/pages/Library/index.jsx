@@ -7,7 +7,7 @@ import LibraryScreen from "../../components/library/LibraryScreen";
 import MiniPlayer from "../../components/player/MiniPlayer";
 import Circle from "../../components/ui/Circle";
 
-function Library() {
+const Library = () => {
     const isMobile = useIsMobile();
     const { barMode, setPlayerPage } = useMiniPlayer();
     const { user } = useAuth();

@@ -6,7 +6,7 @@ import { AuthProvider } from "./contexts/AuthContextWeb";
 import { ToastProvider } from "./contexts/ToastContextWeb";
 import { MiniPlayerProvider } from "./contexts/MiniPlayerContextWeb";
 
-function App() {
+const App = () => {
     return (
         <ToastProvider>
             <AuthProvider>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import styles from "./playlist.module.css"
 
-export default function Playlist({ name = "Playlist" }) {
+const Playlist = ({ name = "Playlist" }) => {
     const { library, currentSong, playSong } = useAudio();
     const [currentName, setCurrentName] = useState(name);
 
@@ -37,3 +37,5 @@ export default function Playlist({ name = "Playlist" }) {
         </div>
     );
 }
+
+export default Playlist;

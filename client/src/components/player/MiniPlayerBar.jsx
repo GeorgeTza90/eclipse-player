@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { formatTime } from "../../hooks/useFormatTime";
-import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import PlayButton from "../buttons/PlayButton";
-import styles from "./miniPlayerBar.module.css";
 import VolButton from "../buttons/VolButton";
 import ArtistButton from "../buttons/ArtistButton";
+import styles from "./miniPlayerBar.module.css";
 
-export default function MiniPlayerBar({handleImageToast}) {
+const MiniPlayerBar = ({handleImageToast}) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { showImage, showMiniPlayer, showTimeBar, showVolumeBar, coloredGlow } = useMiniPlayer();       
 
@@ -122,3 +122,5 @@ export default function MiniPlayerBar({handleImageToast}) {
         }
     </>);
 };
+
+export default MiniPlayerBar;

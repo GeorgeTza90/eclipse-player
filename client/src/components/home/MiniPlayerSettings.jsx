@@ -9,9 +9,7 @@ const MiniPlayerSettings = () => {
         barMode, setBarMode, coloredGlow, setColoredGlow, pos, setPos,
     } = useMiniPlayer();
 
-    const posReset = () => {
-        setPos({ x: window.innerWidth * 45 / 100, y: window.innerHeight * 74 / 100 });
-    };
+    const posReset = () => setPos({ x: window.innerWidth * 45 / 100, y: window.innerHeight * 74 / 100 });
 
     return (
         <div className={styles.container}>

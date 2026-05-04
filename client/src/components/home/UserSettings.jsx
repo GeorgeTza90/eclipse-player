@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { usePostManager } from "../../hooks/useCallManager";
-import MiniPlayerSettings from "./MiniPlayerSettings";
-import styles from "./userSettings.module.css";
-import LoadingMessage from "../library/LoadingMessage";
 import { useAutoClear } from "../../hooks/useAutoClear";
+import LoadingMessage from "../library/LoadingMessage";
 import BackButton from "../buttons/BackButton";
 import MiniPlayer from "../player/MiniPlayer";
-import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+import MiniPlayerSettings from "./MiniPlayerSettings";
+import styles from "./userSettings.module.css";
 
-export function UserSettings() {
+const UserSettings = () => {
     const { loading: postLoading, error: postError, call: postCall } = usePostManager();
     const { user, loading } = useAuth();
     const isMobile = useIsMobile();
@@ -108,3 +108,5 @@ export function UserSettings() {
         </div>
     );
 }
+
+export default UserSettings;

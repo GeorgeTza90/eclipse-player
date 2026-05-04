@@ -3,7 +3,7 @@ import { useToast } from "../../contexts/ToastContextWeb";
 import { usePostManager } from "../../hooks/useCallManager";
 import styles from "./addPresetModal.module.css";
 
-export default function UpdatePresetModal({ visible, onClose, onCreated, presetNew, newEQ }) {
+const UpdatePresetModal = ({ visible, onClose, onCreated, presetNew, newEQ }) => {
     const { loading, call } = usePostManager();
     const { showToast } = useToast();
     const [id, setId] = useState(null);
@@ -58,3 +58,5 @@ export default function UpdatePresetModal({ visible, onClose, onCreated, presetN
         </div>
     );
 }
+
+export default UpdatePresetModal;

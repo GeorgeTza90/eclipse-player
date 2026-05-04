@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { usePostManager } from "../../hooks/useCallManager";
 import { useToast } from "../../contexts/ToastContextWeb";
+import { usePostManager } from "../../hooks/useCallManager";
 import styles from "./addPlaylistModal.module.css";
 
-export default function AddPlaylistModal({ visible, onClose, onCreated }) {
+const AddPlaylistModal = ({ visible, onClose, onCreated }) => {
     const { showToast } = useToast();
     const { loading, call } = usePostManager();
     
@@ -66,3 +66,5 @@ export default function AddPlaylistModal({ visible, onClose, onCreated }) {
     </div>
   );
 }
+
+export default AddPlaylistModal;

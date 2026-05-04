@@ -7,10 +7,10 @@ import AuthButton from '../buttons/AuthButton';
 import SettingsButton from "../buttons/SettingsButton";
 import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
-import styles from "./homeScreen.module.css";
 import Teaser from '../teasers/Teaser';
+import styles from "./homeScreen.module.css";
 
-export default function HomeScreen() {
+const HomeScreen = () => {
     const { user, logout, loading } = useAuth();
     const isMobile = useIsMobile();
     const navigate = useNavigate();
@@ -60,3 +60,5 @@ export default function HomeScreen() {
         </div>
     );
 }
+
+export default HomeScreen;

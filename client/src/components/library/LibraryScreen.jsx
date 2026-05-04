@@ -1,11 +1,11 @@
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
+import LibraryGroupItem from "./LibraryGroupItem";
 import LoadingMessage from "./LoadingMessage";
 import SearchForm from "./SearchForm";
 import styles from "./libraryScreen.module.css";
-import LibraryGroupItem from "./LibraryGroupItem";
 
-export default function LibraryScreen() {
+const LibraryScreen = () => {
     const { privateAlbums, singlesEps, albums, artists, loading } = useLibrary();
     const { priv_u } = useAuth();     
     
@@ -24,3 +24,5 @@ export default function LibraryScreen() {
         </div>
     );
 };
+
+export default LibraryScreen;

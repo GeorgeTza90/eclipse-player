@@ -1,8 +1,7 @@
 import styles from "./playlistItem.module.css";
 import DeletePlaylistButton from "../buttons/DeletePlaylistButton";
 
-export default function PlaylistItem({ playlist, onDelete, onPress }) {
-    
+const PlaylistItem = ({ playlist, onDelete, onPress }) => {    
     return (
         <div
             className={styles.playlistItem}
@@ -16,3 +15,5 @@ export default function PlaylistItem({ playlist, onDelete, onPress }) {
         </div>
     );
 }
+
+export default PlaylistItem;

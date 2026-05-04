@@ -3,7 +3,7 @@ import { useFetchManager, usePostManager } from "../../hooks/useCallManager";
 import { useToast } from "../../contexts/ToastContextWeb";
 import styles from "./addToPlaylistButton.module.css";
 
-export default function AddToPlaylistButton({ song }) {    
+const AddToPlaylistButton = ({ song }) => {    
     const { showToast } = useToast();
     const [modalVisible, setModalVisible] = useState(false);    
 
@@ -83,3 +83,5 @@ export default function AddToPlaylistButton({ song }) {
         </>
     );
 }
+
+export default AddToPlaylistButton;

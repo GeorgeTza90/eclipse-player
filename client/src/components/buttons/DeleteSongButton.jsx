@@ -4,7 +4,7 @@ import { useToast } from "../../contexts/ToastContextWeb";
 import ConfirmModal from "../ui/ConfirmModal";
 import styles from "./deleteSongButton.module.css";
 
-export default function DeleteSongButton({ playlistId, songId, onDeleted }) {    
+const DeleteSongButton = ({ playlistId, songId, onDeleted }) => {    
     const { showToast } = useToast();    
     const [confirmVisible, setConfirmVisible] = useState(false);
     const {loading: deleteLoading, call: deleteCall} = useDeleteManager();
@@ -44,3 +44,5 @@ export default function DeleteSongButton({ playlistId, songId, onDeleted }) {
         </>
     );
 }
+
+export default DeleteSongButton;

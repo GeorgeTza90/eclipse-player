@@ -1,4 +1,4 @@
-export default function Circle({
+const Circle = ({
   size = 200,
   left = -100,
   top = -40,
@@ -8,7 +8,7 @@ export default function Circle({
   colors,
   intensity = 30,
   heightOffset = 8,
-}) {
+}) => {
   const gradientColors = colors ?? [color1, color2];
 
   function hexToRgba(hex, alpha) {
@@ -39,3 +39,5 @@ export default function Circle({
     />
   );
 }
+
+export default Circle;

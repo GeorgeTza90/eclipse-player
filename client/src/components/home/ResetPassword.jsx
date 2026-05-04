@@ -9,7 +9,7 @@ import Circle from "../../components/ui/Circle";
 import PasswordInput from "../inputs/PasswordInput";
 import AuthButton from "../buttons/AuthButton";
 
-export default function ResetPasswordCard() {
+const ResetPasswordCard = () => {
     const { loading, error, call } = usePostManager();    
     const { login } = useAuth();    
     const [searchParams] = useSearchParams();
@@ -95,3 +95,5 @@ export default function ResetPasswordCard() {
         </div>
     );
 }
+
+export default ResetPasswordCard

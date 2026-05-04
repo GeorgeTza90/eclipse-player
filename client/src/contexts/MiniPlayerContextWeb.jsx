@@ -62,9 +62,6 @@ export const MiniPlayerProvider = ({ children }) => {
 
 export const useMiniPlayer = () => {
     const context = useContext(MiniPlayerContext);
-    if (!context) {
-        throw new Error("useMiniPlayer must be used within MiniPlayerProvider");
-    }
+    if (!context) throw new Error("useMiniPlayer must be used within MiniPlayerProvider");
     return context;
 };
-;

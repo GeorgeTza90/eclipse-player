@@ -7,7 +7,7 @@ import MiniPlayerBar from '../../components/player/MiniPlayerBar';
 import hexToRgba from '../../utils/hexToRgba';
 import styles from "./footer.module.css"
 
-function Footer() {
+const Footer = () => {
     const { currentSong, volume } = useAudio();
     const { coloredGlow, showGlow } = useMiniPlayer();
     const { barMode, playerPage, showMiniPlayer } = useMiniPlayer();    

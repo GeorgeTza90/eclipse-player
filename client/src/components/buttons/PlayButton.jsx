@@ -9,7 +9,7 @@ const icons = {
     next: "/assets/icons/nextButton.png",
 };
 
-export default function PlayButton({ type = "play", onClick, size = "40px" }) {
+const PlayButton = ({ type = "play", onClick, size = "40px" }) => {
     const iconSrc = icons[type] || icons.play;
     const { currentSong } = useAudio();
     const buttonStyle = { width: size, height: size }
@@ -21,4 +21,4 @@ export default function PlayButton({ type = "play", onClick, size = "40px" }) {
     );
 }
 
-
+export default PlayButton;

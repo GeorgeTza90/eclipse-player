@@ -1,7 +1,7 @@
-import styles from "./playlistSongItem.module.css";
 import DeleteSongButton from "../buttons/DeleteSongButton";
+import styles from "./playlistSongItem.module.css";
 
-export const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
+const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
     return (
         <div className={styles.songRow}>
             <span className={styles.songIndex}>{index + 1}.</span>
@@ -43,3 +43,5 @@ export const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
         </div >
     );
 };
+
+export default SongRow;

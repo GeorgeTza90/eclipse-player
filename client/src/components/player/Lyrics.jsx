@@ -1,7 +1,6 @@
 import styles from "./lyrics.module.css";
 
-export default function Lyrics({ currentSong }) {   
-
+const Lyrics = ({ currentSong }) => {    
     return (
         <div className={styles.container}>
             <h3 className={styles.heading}>{currentSong?.title} - Lyrics</h3>
@@ -17,3 +16,5 @@ export default function Lyrics({ currentSong }) {
         </div>
     );
 }
+
+export default Lyrics;

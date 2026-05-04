@@ -1,6 +1,6 @@
 import styles from "./mediaLink.module.css";
 
-export default function MediaLink({ platform, link }) {
+const MediaLink = ({ platform, link }) => {
     if (!link) return null;
 
     return (
@@ -13,3 +13,5 @@ export default function MediaLink({ platform, link }) {
         />
     );
 }
+
+export default MediaLink;

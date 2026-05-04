@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
-import { SongRow } from "./PlaylistSongItem";
-import { useAlbumDuration } from "../../hooks/useFormatTime";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { useFetchManager, usePostManager } from "../../hooks/useCallManager";
-import BackButton from "../buttons/BackButton";
-import styles from "./playlistDetail.module.css";
-import { useIsMobile } from "../../hooks/useIsMobile";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useAlbumDuration } from "../../hooks/useFormatTime";
+import { useFetchManager, usePostManager } from "../../hooks/useCallManager";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import SongRow from "./PlaylistSongItem";
 import MiniPlayer from "../player/MiniPlayer";
+import BackButton from "../buttons/BackButton";
+import styles from "./playlistDetail.module.css";
 
-export default function PlaylistDetail() {
+const PlaylistDetail = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { playSong } = useAudio();
@@ -112,3 +112,5 @@ export default function PlaylistDetail() {
         </div>
     );
 }
+
+export default PlaylistDetail;

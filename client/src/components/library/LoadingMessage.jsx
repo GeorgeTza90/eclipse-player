@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./loadingMessage.module.css";
 
-export default function LoadingMessage({ message = "Loading Collection ...", height = "50vh" }) {
+const LoadingMessage = ({ message = "Loading Collection ...", height = "50vh" }) => {
     const [visible, setVisible] = useState(true);
 
     const styleDiv = { height: height }
@@ -23,3 +23,5 @@ export default function LoadingMessage({ message = "Loading Collection ...", hei
         </div>
     );
 }
+
+export default LoadingMessage;

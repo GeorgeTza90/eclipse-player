@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
-import { useImageToast } from "../ui/ΙmageToast";
 import { formatTime } from "../../hooks/useFormatTime";
-import Circle from "../ui/MiniPlayerCircle";
+import { useImageToast } from "../ui/ΙmageToast";
 import PlayButton from "../buttons/PlayButton";
-import styles from "./miniPlayer.module.css";
 import VolButton from "../buttons/VolButton";
 import ArtistButton from "../buttons/ArtistButton";
+import Circle from "../ui/MiniPlayerCircle";
+import styles from "./miniPlayer.module.css";
 
-export default function MiniPlayer() {
+const MiniPlayer = () => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { pos, onMouseDown, onMouseMove, onMouseUp, showImage, showMiniPlayer, showTimeBar, showVolumeBar, transparency, showGlow, coloredGlow } = useMiniPlayer();        
     const { showImageToast, ImageToastUI } = useImageToast();    
@@ -155,3 +155,5 @@ export default function MiniPlayer() {
         }
     </>);
 };
+
+export default MiniPlayer;

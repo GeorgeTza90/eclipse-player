@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import { GOOGLE_CLIENT_ID } from "../../config";
 import { usePostManager } from "../../hooks/useCallManager";
 import { useAutoClear } from "../../hooks/useAutoClear";
+import { GOOGLE_CLIENT_ID } from "../../config";
 import AuthButton from "../buttons/AuthButton";
 import PasswordInput from "../inputs/PasswordInput";
 import Circle from "../../components/ui/Circle";
 import styles from "./authCard.module.css";
 
-export default function AuthCard() {
+const AuthCard = () => {
     const { loading, error, call } = usePostManager();
     const { login } = useAuth();    
     const isMobile = useIsMobile();
@@ -164,3 +164,6 @@ export default function AuthCard() {
         </div>
     );
 }
+
+
+export default AuthCard;

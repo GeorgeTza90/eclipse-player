@@ -1,4 +1,4 @@
-export default function ConfirmModal({ message, onConfirm, onCancel }) {
+const ConfirmModal = ({ message, onConfirm, onCancel }) => {
     const overlayStyle = {
         position: "fixed",
         top: 0, left: 0,
@@ -60,3 +60,5 @@ export default function ConfirmModal({ message, onConfirm, onCancel }) {
         </div>
     );
 }
+
+export default ConfirmModal;

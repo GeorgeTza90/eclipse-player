@@ -7,7 +7,7 @@ import AddPlaylistModal from "./AddPlaylistModal";
 import AddPlaylistButton from "../buttons/AddPlaylistButton";
 import styles from "./userPlaylists.module.css";
 
-export default function UserPlaylists() {
+const UserPlaylists = () => {
     const { state, loading, error, call } = useFetchManager();
     const navigate = useNavigate();
     const [modalVisible, setModalVisible] = useState(false);    
@@ -50,3 +50,5 @@ export default function UserPlaylists() {
         </div>
     );
 }
+
+export default UserPlaylists;

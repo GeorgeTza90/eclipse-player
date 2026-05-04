@@ -9,11 +9,9 @@ import PlaylistDetail from "./components/library/PlaylistDetail";
 import ResetPassword from "./components/home/ResetPassword";
 import ArtistDetail from "./components/library/ArtistDetail";
 import NotFound from "./pages/NotFound/index";
-import { UserSettings } from "./components/home/UserSettings";
+import UserSettings from "./components/home/UserSettings";
 
-
-
-export default function AppRouter() {
+const AppRouter = () => {
     return (
         <Routes>
             <Route element={<MainLayout />}>
@@ -36,3 +34,5 @@ export default function AppRouter() {
         </Routes>
     );
 }
+
+export default AppRouter;
