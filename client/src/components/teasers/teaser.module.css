@@ -25,10 +25,10 @@
 }
 
 @media (max-width: 768px) {
-    .videoLink {
-        height: 12vh;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+    .videoLink {        
+        width: 22rem;
+        margin-top: 2rem;        
+        opacity: 98%;
     }
 
     .teaserVideo {

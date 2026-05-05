@@ -1,8 +1,6 @@
 .container {
-    display: flex;
-    justify-content: center;
     margin-top: 2rem;
-    margin-bottom: 5rem;    
+    margin-bottom: 5rem;
 }
 
 .text {
@@ -26,16 +24,14 @@
 }
 
 @media (max-width: 768px) {
-    .container {
-        display: flex;
-        justify-content: center;
-        margin-left: 1rem;
+    .container {        
+        margin-top: 2rem;
+        margin-bottom: 0rem;
     }
     
     .notAvailable {
         font-size: 0.8rem;
-        color: #949494;
-        margin-left: 1rem;
+        color: #949494;        
         margin-bottom: 2rem;
     }
 

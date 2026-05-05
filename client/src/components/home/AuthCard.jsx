@@ -75,7 +75,7 @@ const AuthCard = () => {
 
     return (
         <div className={styles.authContainer}>        
-            <Circle size={isMobile ? 385 : 600} top={isMobile ? 110 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor}/>
+            <Circle size={isMobile ? 400 : 500} top={isMobile ? 100 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor}/>
     
     {/* Form */}
             <div className={styles.formWrapper}>
