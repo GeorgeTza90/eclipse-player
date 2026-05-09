@@ -11,7 +11,7 @@ const registerLimiter = createRateLimiter(10, 5);
 const forgotLimiter = createRateLimiter(15, 3);
 const googleLimiter = createRateLimiter(15, 10);
 const changePassLimiter = createRateLimiter(5, 5);
-const resetLimiter = createRateLimiter(15, 3);
+const resetLimiter = createRateLimiter(30, 3);
 
 // Public routes
 router.post('/login', loginLimiter, login);

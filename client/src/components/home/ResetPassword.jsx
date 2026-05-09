@@ -11,7 +11,7 @@ import AuthButton from "../buttons/AuthButton";
 
 const ResetPasswordCard = () => {
     const { loading, error, call } = usePostManager();    
-    const { login } = useAuth();    
+    const { login } = useAuth();
     const [searchParams] = useSearchParams();
     const isMobile = useIsMobile();
     const navigate = useNavigate();
@@ -22,6 +22,7 @@ const ResetPasswordCard = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [localError, setLocalError] = useState("");
+    const [message, setMessage] = useState("");
     
     const shadowColor = "#bebebe";   
 
@@ -41,12 +42,11 @@ const ResetPasswordCard = () => {
 
         const validationError = validatePassword(password);
         if (validationError) return setLocalError(validationError);
-
-        if (password !== confirmPassword) return setLocalError("Passwords do not match.");
+        if (password !== confirmPassword) return setLocalError("Passwords do not match.");       
 
         try {      
-            const res = await call("resetPassword", password, searchParams.get("token"));
-            if (res.user && res.token) { login(res.user, res.token); navigate("/"); }
+            const res = await call("resetPassword", searchParams.get("token"), password);            
+            if (res) { setMessage(res.message); navigate("/"); }
         } catch (err) {
             setLocalError(err.message || "Failed to reset password. Try again later.");
         }
@@ -58,7 +58,7 @@ const ResetPasswordCard = () => {
         <div className={styles.authContainer}>
     {/* Decorative Circle */}
             <div className={`${styles.circleWrapper} ${styles.circle1}`}>
-                <Circle size={isMobile ? 385 : 600} top={isMobile ? 110 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor}/>
+                <Circle size={isMobile ? 400 : 500} top={isMobile ? 100 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor}/>
             </div>
 
     {/* Form */}
@@ -91,6 +91,7 @@ const ResetPasswordCard = () => {
                 {(localError || error.resetPassword) && (
                     <p className={styles.errorText}>{localError || error.resetPassword?.message}</p>
                 )}
+                {message && <p className={styles.messageText}>{message}</p>}
             </div>
         </div>
     );

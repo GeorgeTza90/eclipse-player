@@ -46,6 +46,7 @@ export interface User extends RowDataPacket {
     username: string;
     email: string;
     premium: boolean;
+    private: boolean;
     google_id: string;
 }
 

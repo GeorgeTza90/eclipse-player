@@ -30,6 +30,8 @@ const AuthCard = () => {
 
     useAutoClear(localError, setLocalError, 4000);
     useAutoClear(message, setMessage, 8000);
+
+    console.log(message, error);
     
     const onSubmit = async () => {
         const mode = isLogin;

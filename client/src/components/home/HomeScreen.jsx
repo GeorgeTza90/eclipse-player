@@ -13,7 +13,7 @@ import styles from "./homeScreen.module.css";
 const HomeScreen = () => {
     const { user, logout, loading } = useAuth();
     const isMobile = useIsMobile();
-    const navigate = useNavigate();
+    const navigate = useNavigate();    
     
     if (loading) return (
         <div className={styles.container}>
@@ -29,7 +29,7 @@ const HomeScreen = () => {
 
             {user && (
                 <div className={styles.UserDiv}>
-                    {/* Auth */}                    
+                    {/* Auth */}
                     <h2 className={styles.text}>Welcome, {user.username}!</h2>
                     <AuthButton title="Logout" loading={false} onClick={logout} width={isMobile ? '80%' : '90%'}/>
                     <SettingsButton title="Settings" loading={false} onClick={() => navigate("/user-settings")}width={isMobile ? '10%' : '5%'}/>
