@@ -38,8 +38,6 @@ export const LibraryProvider = ({ children }) => {
             try {                
                 const [songsData, artistsData] = await Promise.all([ fetchCall("songs"), fetchCall("artists")]);
                 const privateSongsData = user ? await fetchCall("privateSongs").catch(() => {}) : [];
-                console.log(privateSongs);
-                          
                 setLibraryData(songsData, artistsData, privateSongsData);
                 setJSON("library/songs", songsData);
                 setJSON("library/artists", artistsData);
@@ -54,7 +52,7 @@ export const LibraryProvider = ({ children }) => {
                 setLoading(false);
             }
         })();
-    }, []); 
+    }, [user]); 
 
     return (
         <LibraryContext.Provider

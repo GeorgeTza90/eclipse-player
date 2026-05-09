@@ -19,7 +19,7 @@ export const getSongs = async (req: Request, res: Response): Promise<void> => {
 // GET PRIVATE SONGS
 // -----------------------------
 export const getPrivateSongs = async (req: AuthenticatedRequest, res: Response): Promise<void> => {  
-  try {    
+  try {
     const userId = req.user?.id;
     if(!userId) { res.status(401).json({ error: "Unauthorized"}); return;}
     
