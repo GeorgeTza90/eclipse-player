@@ -2,11 +2,13 @@ import { createContext, useState, useEffect, useContext, useMemo } from "react";
 import { useFetchManager } from "../hooks/useCallManager";
 import { setJSON, getJSON } from "../utils/localStorageManager";
 import { byYear } from "../utils/songsCetegorizer";
+import { useAuth } from "./AuthContextWeb";
 
 const LibraryContext = createContext();
 
 export const LibraryProvider = ({ children }) => {
     const { call: fetchCall } = useFetchManager();
+    const { user } = useAuth();
 
     const [originalSongs, setOriginalSongs] = useState([]);
     const [originalPrivateSongs, setOriginalPrivateSongs] = useState([]);
@@ -35,8 +37,9 @@ export const LibraryProvider = ({ children }) => {
         (async () => {
             try {                
                 const [songsData, artistsData] = await Promise.all([ fetchCall("songs"), fetchCall("artists")]);
-                const privateSongsData = await fetchCall("privateSongs");
-                
+                const privateSongsData = user ? await fetchCall("privateSongs").catch(() => {}) : [];
+                console.log(privateSongs);
+                          
                 setLibraryData(songsData, artistsData, privateSongsData);
                 setJSON("library/songs", songsData);
                 setJSON("library/artists", artistsData);

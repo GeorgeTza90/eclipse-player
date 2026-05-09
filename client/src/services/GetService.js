@@ -19,7 +19,9 @@ export async function fetchSongById(songId) {
 export async function fetchPrivateSongs() {  
     const res = await fetch(`${API_URL}/api/songs/private`, { credentials: "include" });  
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    return res.json();
+    const data = res.json();    
+    console.log(data);
+    return data;
 }
 
 // -------------------- Artists --------------------
