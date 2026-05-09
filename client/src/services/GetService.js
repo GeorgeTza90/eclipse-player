@@ -3,7 +3,7 @@ import { API_URL } from "../config";
 // -------------------- Songs --------------------
 export async function fetchSongs() {
     const res = await fetch(`${API_URL}/api/songs`, { credentials: "include" });
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);    
     return res.json(); 
 }
 
@@ -57,7 +57,6 @@ export async function fetchUserPlaylists() {
             return { ...pl, songCount: songs.length };
         })
     );
-
     return playlistsWithCounts;
 }
 

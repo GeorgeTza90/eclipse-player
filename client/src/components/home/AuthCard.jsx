@@ -29,9 +29,7 @@ const AuthCard = () => {
     const shadowColor = "#bebebe";
 
     useAutoClear(localError, setLocalError, 4000);
-    useAutoClear(message, setMessage, 8000);
-
-    console.log(message, error);
+    useAutoClear(message, setMessage, 8000);    
     
     const onSubmit = async () => {
         const mode = isLogin;

@@ -7,7 +7,7 @@ import styles from "./libraryScreen.module.css";
 
 const LibraryScreen = () => {
     const { privateAlbums, singlesEps, albums, artists, loading } = useLibrary();
-    const { priv_u } = useAuth();     
+    const { priv_u } = useAuth();         
     
     /* --- LOADING --- */
     if (loading) return <LoadingMessage message="Loading Library ..."/>

@@ -28,18 +28,21 @@ export const LibraryProvider = ({ children }) => {
     /* --- SONGS CATEGORIZER --- */
     const privateAlbums = useMemo(() => byYear(privateSongs, "album"), [songs]);
     const singlesEps = useMemo(() => byYear(songs, "single", "ep"), [songs]);
-    const albums = useMemo(() => byYear(songs, "album"), [songs]); 
-    
+    const albums = useMemo(() => byYear(songs, "album"), [songs]);        
+
     /* --- FETCH SONGS --- */
     useEffect(() => {
         (async () => {
-            try {
-                const [songsData, artistsData, privateSongsData] = await Promise.all([ fetchCall("songs"), fetchCall("artists"), fetchCall("privateSongs") ]);
+            try {                
+                const [songsData, artistsData] = await Promise.all([ fetchCall("songs"), fetchCall("artists")]);
+                const privateSongsData = await fetchCall("privateSongs");
+                
                 setLibraryData(songsData, artistsData, privateSongsData);
                 setJSON("library/songs", songsData);
                 setJSON("library/artists", artistsData);
                 setJSON("library/songs_private/private", privateSongsData);
             } catch (err) {
+                console.log(err)
                 const songsData = getJSON("library/songs", []);
                 const artistsData = getJSON("library/artists", []);
                 const privateSongsData = getJSON("library/songs/private", []);

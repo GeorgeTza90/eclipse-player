@@ -7,7 +7,7 @@ import db from "../db/db";
 // -----------------------------
 export const getAllArtists = async (req: Request, res: Response): Promise<void> => {
     try {
-        const [rows] = await db.query<Artist[]>("SELECT * FROM artists");
+        const [rows] = await db.query<Artist[]>("SELECT * FROM artists");        
         res.json(rows);
     } catch (error) {
         console.error("Error loading artists:", error);
