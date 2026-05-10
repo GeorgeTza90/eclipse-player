@@ -12,7 +12,7 @@ import styles from "./audioPlayer.module.css";
 
 const AudioPlayer = ({ onToggleExtention }) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();  
-    const { coloredGlow } = useMiniPlayer();
+    const { coloredGlow, goRGB } = useMiniPlayer();
     const { showImageToast, ImageToastUI } = useImageToast();
     
     const [extention, setExtention] = useState("Playlist");
@@ -20,7 +20,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
     const [sliderPosition, setSliderPosition] = useState(null);
     const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
 
-    const progress = duration ? (sliderPosition / duration) * 100 : 0;
+    const progress = duration ? (position / duration) * 100 : 0;
     const isMobile = useIsMobile();
     const navigate = useNavigate();
 
@@ -37,8 +37,26 @@ const AudioPlayer = ({ onToggleExtention }) => {
         WebkitAppearance: "none",
         height: "6px",        
         borderRadius: "3px",
-        background: `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
+        background: goRGB && coloredGlow 
+            ? `linear-gradient(to right, #acacac ${progress}%, #55555572 ${progress}%)`
+            : `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
         outline: "none",
+        zIndex: 2,
+    };
+
+    const sliderRGBStyle = {
+        position: "absolute",        
+        marginLeft: 60,
+        opacity: "80%",
+        width: "18.5rem",
+        height: "6px",
+        borderRadius: "3px",
+        backgroundImage: "linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)",
+        backgroundSize: "200% 200%",
+        backgroundPosition: "0% 50%",
+        animation:  "moveGradient 2s linear infinite",
+        outline: "none",
+        zIndex: 1,
     };
 
     const volumeSliderStyle = {
@@ -46,9 +64,27 @@ const AudioPlayer = ({ onToggleExtention }) => {
         WebkitAppearance: "none",    
         height: "5px",        
         borderRadius: "3px",
-        background: `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,
+        background: goRGB && coloredGlow 
+            ? `linear-gradient(to right, #acacac, #acacac ${volume * 100}%, #55555572 ${volume * 100}%)`
+            : `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,
         outline: "none",
+        zIndex: 2,
     };
+
+    const slidervolumeRGBStyle = {
+        position: "absolute",        
+        marginLeft: 70,
+        opacity: "80%",
+        width: "16.5rem",
+        height: "5px",
+        borderRadius: "3px",
+        backgroundImage: "linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)",
+        backgroundSize: "200% 200%",
+        backgroundPosition: "0% 50%",
+        animation:  "moveGradient 2s linear infinite",
+        outline: "none",
+        zIndex: 1,
+    }
 
     const extentionButtonsStyle = {
         width: "5rem",
@@ -110,8 +146,9 @@ const AudioPlayer = ({ onToggleExtention }) => {
                 </div><br />
 
                 {/* Time Slider */}
-                <div className={styles.sliderRow}>
+                <div className={styles.sliderRow}>                    
                     <span className={styles.time}>{formatTime(position * 1000)}</span>
+                    {goRGB && <div style={sliderRGBStyle} className={styles.time}></div>}
                     <input
                         type="range"
                         min={0}
@@ -120,15 +157,17 @@ const AudioPlayer = ({ onToggleExtention }) => {
                         value={sliderPosition ?? 0}
                         onChange={(e) => seekTo(Number(e.target.value))}
                         style={sliderStyle}
-                    />
-                    <span className={styles.time}>{formatTime(duration * 1000)}</span>
+                    />                    
+                    <span className={styles.time}>{formatTime(duration * 1000)}</span>                    
                 </div>
+                
 
     {/* Volume */}
                 <div className={styles.sliderRowVol}>
                     <button className={styles.VolButton} onClick={() => setVolume(0)}>
                         <img className={volume === 0 ? styles.volIconActive : styles.volIcon} src="/assets/icons/volMin2.png" />
-                    </button>
+                    </button>                    
+                    {goRGB && <div style={slidervolumeRGBStyle} className={styles.time}></div>}
                     <input
                         type="range"
                         min={0}
@@ -143,7 +182,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
                     </button>
                 </div>
 
-                {/* Extention Buttons */}
+    {/* Extention Buttons */}
                 <div className={styles.extentionButton} style={{ position: "relative" }}>        
                     <div style={extentionHoverStyle}/>          
                     {/* Buttons */}

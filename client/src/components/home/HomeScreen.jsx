@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContextWeb';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { API_URL } from "../../config";
+import { useMinimumLoading } from '../../hooks/useMinimumLoading.';
 import MiniPlayerSettings from "./MiniPlayerSettings";
 import AuthButton from '../buttons/AuthButton';
 import SettingsButton from "../buttons/SettingsButton";
@@ -9,12 +10,12 @@ import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
 import Teaser from '../teasers/Teaser';
 import styles from "./homeScreen.module.css";
-import { useMinimumLoading } from '../../hooks/useMinimumLoading.';
+
 
 const HomeScreen = () => {
     const { user, logout, loading } = useAuth();
     const isMobile = useIsMobile();
-    const navigate = useNavigate();    
+    const navigate = useNavigate();
     
     const showLoader = useMinimumLoading(loading, 2000);
     if (showLoader) return <Loader text="Checking login status"/>;

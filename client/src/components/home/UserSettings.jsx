@@ -97,10 +97,7 @@ const UserSettings = () => {
 
     {/* Mini Player Settings */}
                 <h3 className={styles.text3}>Mini Player Settings</h3>
-                {!isMobile 
-                    ? <MiniPlayerSettings /> 
-                    : <p className={styles.notAvailable}>Mini Player is not available in Mobile View</p>
-                }
+                    <MiniPlayerSettings />                                     
                 <br/><br/>
 
                 <BackButton navTo={"/"}/>

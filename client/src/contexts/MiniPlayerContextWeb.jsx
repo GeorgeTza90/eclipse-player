@@ -13,7 +13,8 @@ export const MiniPlayerProvider = ({ children }) => {
     const [transparency, setTransparency] = useState(() => getBool("miniPlayer_transparency", true));
     const [barMode, setBarMode] = useState(() => getBool("miniPlayer_barMode", false));
     const [playerPage, setPlayerPage] = useState(() => getBool("miniPlayer_playerPage", false));
-    const [coloredGlow , setColoredGlow ] = useState(() => getBool("miniPlayer_coloredGlow", false));
+    const [coloredGlow , setColoredGlow] = useState(() => getBool("player_coloredGlow", false));
+    const [goRGB, setGoRGB] = useState(() => getBool("player_goRGB", false))
     
     /* --- POSITION (DRAG) --- */
     const [pos, setPos] = useState(() => getJSON("miniPlayer_position", { x: 500, y: 850 }));
@@ -44,15 +45,16 @@ export const MiniPlayerProvider = ({ children }) => {
     useEffect(() => setJSON("miniPlayer_position", pos), [pos]);
     useEffect(() => setBool("miniPlayer_barMode", barMode),[barMode]);
     useEffect(() => setBool("miniPlayer_playerPage", playerPage),[playerPage]);
-    useEffect(() => setBool("miniPlayer_coloredGlow", coloredGlow), [coloredGlow]);
+    useEffect(() => setBool("player_coloredGlow", coloredGlow), [coloredGlow]);
+    useEffect(() => setBool("player_goRGB", goRGB), [goRGB]);
 
     return (
         <MiniPlayerContext.Provider
             value={{
                 pos, dragging, rel, showImage, showMiniPlayer, showTimeBar, showVolumeBar, 
-                showGlow, transparency, barMode, playerPage, coloredGlow,
-                setPos, setDragging, setRel, onMouseDown, onMouseMove, onMouseUp, setShowImage, setShowMiniPlayer,
-                setShowTimeBar, setShowVolumeBar, setShowGlow, setTransparency, setBarMode, setPlayerPage, setColoredGlow
+                showGlow, transparency, barMode, playerPage, coloredGlow, goRGB,
+                setPos, setDragging, setRel, onMouseDown, onMouseMove, onMouseUp, setShowImage, setShowMiniPlayer, setShowTimeBar,
+                setShowVolumeBar, setShowGlow, setTransparency, setBarMode, setPlayerPage, setColoredGlow, setGoRGB,
             }}
         >
             {children}

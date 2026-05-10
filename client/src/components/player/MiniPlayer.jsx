@@ -12,7 +12,7 @@ import styles from "./miniPlayer.module.css";
 
 const MiniPlayer = () => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
-    const { pos, onMouseDown, onMouseMove, onMouseUp, showImage, showMiniPlayer, showTimeBar, showVolumeBar, transparency, showGlow, coloredGlow } = useMiniPlayer();        
+    const { pos, onMouseDown, onMouseMove, onMouseUp, showImage, showMiniPlayer, showTimeBar, showVolumeBar, transparency, showGlow, coloredGlow, goRGB } = useMiniPlayer();
     const { showImageToast, ImageToastUI } = useImageToast();    
 
     if (!currentSong) return null;
@@ -53,8 +53,26 @@ const MiniPlayer = () => {
         width: "12rem",
         height: "5px",
         borderRadius: "3px",
-        background: `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
-        outline: "none",        
+              background: goRGB && coloredGlow 
+            ? `linear-gradient(to right, #acacac ${progress}%, #55555572 ${progress}%)`
+            : `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
+        outline: "none",   
+        zIndex: 9999,  
+    };
+
+    const sliderRGBStyle = {
+        position: "absolute",        
+        marginLeft: 0,
+        opacity: `${intensity / 24}`,
+        width: "8rem",
+        height: "5px",
+        borderRadius: "3px",
+        backgroundImage: "linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)",
+        backgroundSize: "200% 200%",
+        backgroundPosition: "0% 50%",
+        animation:  "moveGradient 2s linear infinite",
+        outline: "none",
+        zIndex: 9998,
     };
 
     const volumeSliderStyle = {
@@ -64,9 +82,28 @@ const MiniPlayer = () => {
         width: "6rem",
         height: "5px",
         borderRadius: "3px",
-        background: `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,
+        background: goRGB && coloredGlow 
+            ? `linear-gradient(to right, #acacac, #acacac ${volume * 100}%, #55555572 ${volume * 100}%)`
+            : `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,
         outline: "none",
-    };    
+        zIndex: 9999,  
+    };
+    
+    const slidervolumeRGBStyle = {
+        position: "absolute",        
+        marginLeft: 0,
+        opacity: `${intensity / 24}`,
+        marginTop: "-1.1rem",
+        width: "6rem",
+        height: "5px",
+        borderRadius: "3px",
+        backgroundImage: "linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)",
+        backgroundSize: "200% 200%",
+        backgroundPosition: "0% 50%",
+        animation:  "moveGradient 2s linear infinite",
+        outline: "none",
+        zIndex: 9998,
+    }
 
     return (<>
         {ImageToastUI}
@@ -117,6 +154,7 @@ const MiniPlayer = () => {
                     {showTimeBar &&
                         <div className={styles.sliderRow}>
                             <span className={styles.time}>{formatTime(position * 1000)}</span>
+                            {goRGB && <div style={sliderRGBStyle} className={styles.time}></div>}
                             <input
                                 type="range"
                                 min={0}
@@ -134,6 +172,7 @@ const MiniPlayer = () => {
                     {showVolumeBar &&
                         <div className={styles.sliderRow}>
                             <VolButton type="Min" onClick={() => setVolume(0)} active={volume === 0 && true} />
+                            {goRGB && <div style={slidervolumeRGBStyle} className={styles.time}></div>}
                             <input
                                 type="range"
                                 min={0}

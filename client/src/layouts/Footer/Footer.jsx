@@ -9,18 +9,20 @@ import styles from "./footer.module.css"
 
 const Footer = () => {
     const { currentSong, volume } = useAudio();
-    const { coloredGlow, showGlow } = useMiniPlayer();
+    const { coloredGlow, showGlow, goRGB } = useMiniPlayer();
     const { barMode, playerPage, showMiniPlayer } = useMiniPlayer();    
     const { ImageToastUI, showImageToast } = useImageToast();
     const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
 
-    useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe00"); else setShadowColor(currentSong?.averageColor ?? "#bebebe"); }, [coloredGlow, currentSong]);
+    useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe00"); else setShadowColor(currentSong?.averageColor ?? "#bebebe"); }, [coloredGlow, currentSong]);    
 
     const MBstyle = {
-        background: `linear-gradient(to top left, ${showGlow ? (!coloredGlow ? "#171717" : hexToRgba(shadowColor, 0.2)) : "#141414"}, ${showGlow ? (!coloredGlow ? "#141414" : "#171717") : "#141414" } ${volume*90}%)`,
+        background: goRGB
+            ? ``
+            : `linear-gradient(to top left, ${showGlow ? (!coloredGlow ? "#171717" : hexToRgba(shadowColor, 0.2)) : "#141414"}, ${showGlow ? (!coloredGlow ? "#141414" : "#171717") : "#141414" } ${volume*90}%)`,
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
-        zIndez: 9,        
+        zIndez: 9,  
     }
 
     return (<>
@@ -36,10 +38,10 @@ const Footer = () => {
 
         {/* Mini Player Bar */}
         {barMode && showMiniPlayer && !playerPage  &&
-            <>
+            <>                
                 {ImageToastUI}
-                <div className={styles.player} style={MBstyle}>
-                    <MiniPlayerBar handleImageToast={showImageToast}/>
+                <div className={styles.player} style={MBstyle}>                    
+                    <MiniPlayerBar handleImageToast={showImageToast}/>                    
                 </div>
             </>            
         }

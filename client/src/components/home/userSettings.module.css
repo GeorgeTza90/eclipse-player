@@ -86,13 +86,6 @@
         display: flex;
         justify-content: center;        
     }
-    
-    .notAvailable {
-        font-size: 0.8rem;
-        color: #949494;
-        margin-left: 1rem;
-        margin-bottom: 2rem;
-    }
 
     .teaserDiv {
         margin-bottom: 5rem;

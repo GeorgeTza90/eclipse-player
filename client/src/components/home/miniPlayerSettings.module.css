@@ -84,6 +84,14 @@
         line-height: 0.5rem;
     }
 
+        
+    .notAvailable {
+        font-size: 0.8rem;
+        color: #949494;
+        
+        
+    }
+
     .infoText {
         color: #aaa;
         font-size: 6px;
