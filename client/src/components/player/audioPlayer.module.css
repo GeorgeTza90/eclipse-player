@@ -64,20 +64,14 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    width: 200%;
-    max-width: 400px;
     margin-bottom: 1rem;
-    z-index: 2;
 }
 
 .sliderRowVol {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    width: 120%;
-    max-width: 400px;
-    margin-bottom: 1rem;
-    z-index: 2;
+    margin-bottom: 1rem;    
 }
 
 .VolButton {
@@ -110,8 +104,7 @@
 
 .time {
     color: #fff;
-    font-size: 0.8rem;
-    width: 35px;
+    font-size: 0.8rem;    
     text-align: center;
 }
 
@@ -193,13 +186,7 @@
     .artirtButton {
         font-size: 0.9rem;
     }
-
-    .sliderRow {
-        margin-bottom: 0.5rem;
-        width: 150%;
-        max-width: 320px;
-    }
-
+    
     .controls {
         gap: 2rem;
         margin-top: -2rem;

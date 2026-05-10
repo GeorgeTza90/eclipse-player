@@ -8,11 +8,13 @@ import { EQ_BANDS } from "../../utils/defaultEQ";
 import AddPresetModal from "./AddPresetModal";
 import UpdatePresetModal from "./UpdatePresetModal";
 import styles from "./equalizer.module.css";
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 
 const Equalizer = ({ color }) => {
     const isMobile = useIsMobile();
     const navigate = useNavigate();
     const { setEQGain, resetEQ, EQGain } = useAudio();
+    const { goRGB } = useMiniPlayer();
     const { user } = useAuth();
     
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
@@ -84,7 +86,7 @@ const Equalizer = ({ color }) => {
                             step={1}
                             value={EQGain[band.label] ?? 0}
                             className={styles.verticalSlider}
-                            style={{ accentColor: color }}
+                            style={{ accentColor: goRGB ? "#acacac" : color }}
                             onChange={e => setEQGain(band.label, Number(e.target.value))}
                         />
                         <span className={styles.label}>{band.label}</span>

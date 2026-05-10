@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+import { useToast } from "../../contexts/ToastContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import ToggleButton from "../buttons/ToggleButton";
 import styles from "./miniPlayerSettings.module.css";
@@ -10,8 +12,14 @@ const MiniPlayerSettings = () => {
         barMode, setBarMode, coloredGlow, setColoredGlow, pos, setPos,goRGB, setGoRGB,
     } = useMiniPlayer();
     const isMobile = useIsMobile();
-    const posReset = () => setPos({ x: window.innerWidth * 45 / 100, y: window.innerHeight * 74 / 100 });
+    const { showToast } = useToast();
+    const posReset = () => setPos({ x: window.innerWidth * 45 / 100, y: window.innerHeight * 74 / 100 });   
 
+    useEffect(() => {
+        if (!goRGB) return;
+        showToast("RGB: ON? So you're that kind of ...", "info", 4000);
+    }, [goRGB]);
+    
     return (<>
         {isMobile && (<>
             <p className={styles.notAvailable}>Mini Player is not available in Mobile View</p>
@@ -20,7 +28,7 @@ const MiniPlayerSettings = () => {
                 <ToggleButton value={coloredGlow} onChange={setColoredGlow} />
 
                 <h4 className={styles.text1}>Go Full RGB</h4>
-                <ToggleButton value={goRGB} onChange={setGoRGB} />
+                <ToggleButton value={goRGB} onChange={setGoRGB} inActive={coloredGlow ? false : true}/>
             </div>
         </>)}
         {!isMobile && (
@@ -55,7 +63,7 @@ const MiniPlayerSettings = () => {
                 <h4 className={!barMode ? styles.text1 : styles.text2}>Reset Position</h4>
                 <button onClick={posReset} className={!barMode ? styles.resetMPPosition : styles.resetMPPositionInActive} />
             </div>      
-        )}        
+        )}                 
     </>);
 };
 

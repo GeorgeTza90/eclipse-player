@@ -30,7 +30,7 @@ const Circle = ({
                     borderRadius: "50%",
                     top,                    
                     zIndex: 0,
-                    opacity: `${intensity / 60}`,
+                    opacity: `${intensity / 60 + 0.05}`,
                     background: "conic-gradient(red, orange, yellow, green, cyan, blue, violet, red)",
                     animation: "spin 2.5s linear infinite",
                     WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",

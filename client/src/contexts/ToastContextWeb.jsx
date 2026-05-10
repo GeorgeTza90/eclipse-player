@@ -32,7 +32,7 @@ export const ToastProvider = ({ children }) => {
                         backgroundColor:
                             t.type === "success" ? "#2ecc71" :
                                 t.type === "error" ? "#e74c3c" :
-                                    "#3498db",
+                                    "#5a5c5d",
                         boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
                         opacity: 0.95,
                         animation: "slideIn 0.3s ease-out"

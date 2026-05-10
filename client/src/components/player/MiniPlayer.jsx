@@ -63,7 +63,7 @@ const MiniPlayer = () => {
     const sliderRGBStyle = {
         position: "absolute",        
         marginLeft: 0,
-        opacity: `${intensity / 24}`,
+        opacity: `${intensity / 24 + 0.1}`,
         width: "8rem",
         height: "5px",
         borderRadius: "3px",
@@ -92,7 +92,7 @@ const MiniPlayer = () => {
     const slidervolumeRGBStyle = {
         position: "absolute",        
         marginLeft: 0,
-        opacity: `${intensity / 24}`,
+        opacity: `${intensity / 24 + 0.1}`,
         marginTop: "-1.1rem",
         width: "6rem",
         height: "5px",

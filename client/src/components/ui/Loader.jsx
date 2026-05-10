@@ -1,4 +1,7 @@
+import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+
 const Loader = ({ text, size }) => {
+  const { goRGB } = useMiniPlayer();
   const containerStyle = {
     position: "relative",
     width: size === "small" ? "12rem" : "20rem",
@@ -12,7 +15,7 @@ const Loader = ({ text, size }) => {
 
   const spinner1Style = {
     position: "absolute",
-    opacity: "20%",
+    opacity: goRGB ? "20%" : "2%",
     width: "95%",
     height: "95%",
     borderRadius: "35%",
@@ -34,6 +37,18 @@ const spinner2Style = {
     mask: "radial-gradient(farthest-side, transparent calc(100% - 10px), white calc(100% - 10px))",
   };
 
+  const spinner3Style = {
+    position: "absolute",
+    opacity: goRGB ? "0%" : "20%",
+    width: "95%",
+    height: "95%",
+    borderRadius: "35%",
+    background: "conic-gradient(white, black, white, black, white)",
+    animation: "spin 3s linear infinite",    
+    WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 10px), white calc(100% - 10px))",
+    mask: "radial-gradient(farthest-side, transparent calc(100% - 10px), white calc(100% - 10px))",
+  };
+
   const textStyle = {
     position: "absolute",
     margin: 0,
@@ -44,6 +59,7 @@ const spinner2Style = {
 
   return (
     <div style={containerStyle}>
+      <div style={spinner3Style}></div>
       <div style={spinner1Style}></div>
       <p style={textStyle}>{text}</p>
       <div style={spinner2Style}></div>

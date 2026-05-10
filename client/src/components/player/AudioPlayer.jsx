@@ -13,7 +13,7 @@ import styles from "./audioPlayer.module.css";
 const AudioPlayer = ({ onToggleExtention }) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();  
     const { coloredGlow, goRGB } = useMiniPlayer();
-    const { showImageToast, ImageToastUI } = useImageToast();
+    const { showImageToast, ImageToastUI } = useImageToast();    
     
     const [extention, setExtention] = useState("Playlist");
     const [intensity, setIntensity] = useState(30);  
@@ -35,7 +35,9 @@ const AudioPlayer = ({ onToggleExtention }) => {
     const sliderStyle = {
         flex: 1,
         WebkitAppearance: "none",
-        height: "6px",        
+        height: "6px",
+        
+        width: "17rem",  
         borderRadius: "3px",
         background: goRGB && coloredGlow 
             ? `linear-gradient(to right, #acacac ${progress}%, #55555572 ${progress}%)`
@@ -46,9 +48,9 @@ const AudioPlayer = ({ onToggleExtention }) => {
 
     const sliderRGBStyle = {
         position: "absolute",        
-        marginLeft: 60,
-        opacity: "80%",
-        width: "18.5rem",
+        marginLeft: 40,
+        opacity: `${intensity / 24 + 0.1}`,        
+        width: "17rem",  
         height: "6px",
         borderRadius: "3px",
         backgroundImage: "linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)",
@@ -61,8 +63,9 @@ const AudioPlayer = ({ onToggleExtention }) => {
 
     const volumeSliderStyle = {
         flex: 1,
-        WebkitAppearance: "none",    
-        height: "5px",        
+        WebkitAppearance: "none",            
+        height: "5px",
+        width: "12rem",        
         borderRadius: "3px",
         background: goRGB && coloredGlow 
             ? `linear-gradient(to right, #acacac, #acacac ${volume * 100}%, #55555572 ${volume * 100}%)`
@@ -74,8 +77,8 @@ const AudioPlayer = ({ onToggleExtention }) => {
     const slidervolumeRGBStyle = {
         position: "absolute",        
         marginLeft: 70,
-        opacity: "80%",
-        width: "16.5rem",
+        opacity: `${intensity / 24 + 0.1}`,        
+        width: "11.8rem",
         height: "5px",
         borderRadius: "3px",
         backgroundImage: "linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)",

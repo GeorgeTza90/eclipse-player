@@ -42,7 +42,7 @@ const MiniPlayerBar = ({handleImageToast}) => {
     const sliderRGBStyle = {
         position: "absolute",        
         marginLeft: 52,
-        opacity: `${intensity / 24}`,
+        opacity: `${intensity / 24 + 0.1}`,
         width: "11.2rem",
         height: "5px",
         borderRadius: "3px",
@@ -71,7 +71,7 @@ const MiniPlayerBar = ({handleImageToast}) => {
     const slidervolumeRGBStyle = {
         position: "absolute",        
         marginLeft: 60,
-        opacity: `${intensity / 24}`,
+        opacity: `${intensity / 24 + 0.1}`,
         marginTop: "-1rem",
         width: "4.8rem",
         height: "4px",
@@ -87,7 +87,7 @@ const MiniPlayerBar = ({handleImageToast}) => {
     const rgbStyle = {        
         position: "absolute",
         left: -10,
-        opacity: `${intensity / 500 }`,
+        opacity: `${intensity / 800 + 0.02}`,
         // opacity: "4%",
         width: "110%",
         height: "100%",
