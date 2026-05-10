@@ -73,14 +73,13 @@
 /* MOBILE */
 @media (max-width: 768px) {
     .nav {
-        display: none;
+        display: none;        
     }
-
     .desktopOnly {
         display: none;
     }
 
     .mobileOnly {
-        display: block;
+        display: block;        
     }
 }

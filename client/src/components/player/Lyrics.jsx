@@ -1,7 +1,7 @@
 import styles from "./lyrics.module.css";
 
 const Lyrics = ({ currentSong }) => {    
-    return (
+    return (<>
         <div className={styles.container}>
             <h3 className={styles.heading}>{currentSong?.title} - Lyrics</h3>
             <div className={styles.list}>
@@ -13,8 +13,9 @@ const Lyrics = ({ currentSong }) => {
                     !currentSong ? (<p className={styles.lyrics}>No Song Loaded</p>) : (<p className={styles.lyrics}>No Lyrics Yet</p>)                    
                 )}
             </div>
-        </div>
-    );
+        </div><br/><br/><br/><br/>
+        
+    </>);
 }
 
 export default Lyrics;

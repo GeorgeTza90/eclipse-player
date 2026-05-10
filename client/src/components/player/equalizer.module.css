@@ -285,7 +285,8 @@
 /* MOBILE */
 @media (max-width: 768px) {
   .divContainer{    
-    top: 440px;
+    top: 29rem;
+    
   }
 
   .EQcontainer {
@@ -320,23 +321,27 @@
 
   .presetsContainer {        
     height: 10.2rem;
+    max-width: 20rem;
+  }
+  .preset {
+    max-width: 10rem;
   }
 
-.notLoggedIn {
-  display: column;
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  margin-left: 5.5rem;
-  color: #a1a1a1a6;
-}
+  .notLoggedIn {
+    display: column;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    margin-left: 5.5rem;
+    color: #a1a1a1a6;
+  }
 
-.SignInButton {
-  font-size: 0.8rem;
-  border-radius: 0.8rem;
-  padding: 0.4rem 1rem;
-  color: #c2c2c2;
-  background-color: #33333300;
-  margin-bottom: 0.5rem;
-  margin-left: 2.5rem;
-}
+  .SignInButton {
+    font-size: 0.8rem;
+    border-radius: 0.8rem;
+    padding: 0.4rem 1rem;
+    color: #c2c2c2;
+    background-color: #33333300;
+    margin-bottom: 0.5rem;
+    margin-left: 2.5rem;
+  }
 }

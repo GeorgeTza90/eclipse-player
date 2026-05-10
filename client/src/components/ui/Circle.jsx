@@ -48,7 +48,7 @@ const Circle = ({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                top: top,
+                top,
                 boxShadow: goRGB && coloredGlow
                     ? ""
                     : `0px ${heightOffset}px ${intensity}px ${hexToRgba(shadowColor, Math.min(intensity / 30, 1))}`,

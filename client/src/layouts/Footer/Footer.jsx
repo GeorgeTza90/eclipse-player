@@ -28,8 +28,7 @@ const Footer = () => {
     return (<>
         {/* Desktop */}
         {(!barMode || !showMiniPlayer || playerPage) &&
-            <div className={styles.footer} >
-                <br />
+            <div className={styles.footer} >                
                 <a href="/player" className={styles.trademark}>&copy;{new Date().getFullYear()} Eclipse Player</a>
                 <label className={styles.labeled}>by George Tzachristas</label>
                 <br />

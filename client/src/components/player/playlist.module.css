@@ -24,7 +24,7 @@
     padding-bottom: 4.5rem;
     padding: 0.4rem;
     border-radius: 1rem;
-    background-color: #00000025;
+    background-color: #00000025;    
 }
 
 .list::-webkit-scrollbar {
@@ -88,23 +88,6 @@
     object-fit: cover;
 }
 
-@media (max-height: 1191px) {
-    .list {
-        max-height: 400px;
-    }
-}
-
-@media (max-height: 1050px) {
-    .list {
-        max-height: 300px;
-    }
-}
-
-@media (max-height: 990px) {
-    .list {
-        max-height: 220px;
-    }
-}
 
 /* MOBILE */
 @media (max-width: 768px) {
@@ -149,7 +132,7 @@
         gap: 0.3rem;
         max-height: 250px;
         padding-right: 5px;
-        margin-bottom: 0.1rem;
+        margin-bottom: 5rem;
     }
 
     .songImage {
@@ -162,5 +145,48 @@
     .trackFeature {
         font-size: 0.75rem;
         color: #ffffffc5;
+    }
+}
+
+/* RESPONSIVE */
+@media (max-height: 1220px) {
+    .list {
+        max-height: 450px;
+    }
+}
+
+@media (max-height: 1170px) {
+    .list {
+        max-height: 400px;
+    }
+}
+
+@media (max-height: 1120px) {
+    .list {
+        max-height: 320px;
+    }
+}
+
+@media (max-height: 1050px) {
+    .list {
+        max-height: 280px;
+    }
+}
+
+@media (max-height: 1010px) {
+    .list {
+        max-height: 260px;
+    }
+}
+
+@media (max-height: 990px) {
+    .list {
+        max-height: 200px;
+    }
+}
+
+@media (max-height: 780px) {
+    .list {
+        max-height: 150px;
     }
 }

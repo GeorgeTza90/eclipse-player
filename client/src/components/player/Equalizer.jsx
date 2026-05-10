@@ -121,7 +121,7 @@ const Equalizer = ({ color }) => {
                                 ))
                             )}
                         </div>
-                    )}
+                    )}<br/><br/><br/><br/>
                 </>
             ) : (
                 <div className={styles.notLoggedIn}>

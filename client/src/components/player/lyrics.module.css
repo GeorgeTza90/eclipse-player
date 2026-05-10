@@ -3,7 +3,8 @@
     max-width: 600px;
     margin: 120px auto 0 auto;
     position: absolute;
-    top: 30rem;    
+    top: 30rem;
+    display: grid;    
 }
 
 .heading {
@@ -24,7 +25,7 @@
     max-height: 500px;
     overflow-y: auto;
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 5rem;
 }
 
 .list::-webkit-scrollbar {
@@ -74,8 +75,8 @@
 @media (max-width: 768px) {
     .container {
         width: 100%;
-        max-width: 370px;
-        margin: -10px auto 0 auto;              
+        max-width: 370px;        
+        top: 21.5rem;
     }
 
     .heading {

@@ -117,6 +117,7 @@
     background-color: #33333375;
     color: #ffffff9d;
     border-color: #16161671;
+    margin-bottom: 1rem;
 }
 
 .lyricsDiv {
@@ -156,7 +157,7 @@
         position: absolute;
         top: 150px;
         display: block;
-        justify-items: center;
+        justify-items: center;       
     }
 
     .infoRow {
