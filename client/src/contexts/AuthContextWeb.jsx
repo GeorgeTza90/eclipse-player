@@ -14,8 +14,13 @@ export const AuthProvider = ({ children }) => {
     /* --- USER UPDATE --- */
     useEffect(() => {
         const initAuth = async () => {
-            try { const currentUser = await fetchCall("user"); setUser(currentUser);}
-            catch (err) { console.error("Error fetching current user:", err); setUser(null); }            
+            try { 
+                const currentUser = await fetchCall("user"); 
+                setUser(currentUser);
+            } catch (err) {
+                console.error("Error fetching current user:", err); 
+                setUser(null); 
+            }
         };
         initAuth();
     }, [fetchCall]);

@@ -9,17 +9,15 @@ import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
 import Teaser from '../teasers/Teaser';
 import styles from "./homeScreen.module.css";
+import { useMinimumLoading } from '../../hooks/useMinimumLoading.';
 
 const HomeScreen = () => {
     const { user, logout, loading } = useAuth();
     const isMobile = useIsMobile();
     const navigate = useNavigate();    
     
-    if (loading) return (
-        <div className={styles.container}>
-            <p className={styles.infoText}>Checking login status...</p>
-        </div>
-    );    
+    const showLoader = useMinimumLoading(loading, 2000);
+    if (showLoader) return <Loader text="Checking login status"/>;
 
     return (
         <div className={styles.container}>
