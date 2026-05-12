@@ -47,7 +47,7 @@ const CollectionDetail = () => {
         {/* Info */}
                 <div className={styles.header} style={headerStyle}>
                     {albumInfo.image && (
-                        <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => showImageToast(albumInfo.image)} />
+                        <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => showImageToast(albumInfo.imageHQ)} />
                     )}
                     {ImageToastUI}
                     <div className={styles.headerInfo}>

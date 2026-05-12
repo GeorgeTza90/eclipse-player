@@ -33,13 +33,13 @@
     font-size: 1.2rem;
 }
 
-.artist {
-    margin-top: 0.4rem;
-}
-
 .trackFeature {
     font-size: 1rem;
     color: #ffffffc4;
+}
+
+.artist {
+    margin-top: 0.4rem;
 }
 
 .controls {
@@ -49,15 +49,10 @@
     z-index: 2;
 }
 
-.button {
-    font-size: 1.5rem;
-    background: #333;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    cursor: pointer;
+.time {
     color: #fff;
-    transition: background 0.2s;
+    font-size: 0.8rem;    
+    text-align: center;
 }
 
 .sliderRow {
@@ -78,6 +73,49 @@
     background-color: transparent;
     border-color: transparent;
     cursor: pointer;
+}
+
+.sliderStyle, .volumeSliderStyle {
+    flex: 1;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    outline: none;
+    z-index: 2;
+}
+
+.sliderStyle {
+    height: 6px;
+    width: 23.5rem;
+}
+
+.volumeSliderStyle {    
+    height: 5px;
+    width: 14rem;
+}
+
+.sliderRGBStyle, .slidervolumeRGBStyle {
+    position: absolute;
+    border-radius: 3px;
+    background-image: linear-gradient(90deg,
+        red, orange, yellow, green, cyan, blue, violet, red);
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    animation: moveGradient 1.8s linear infinite;
+    outline: none;
+    z-index: 1;
+}
+
+.sliderRGBStyle {
+    margin-left: 2.5rem;
+    width: 23.5rem;
+    height: 6px;
+}
+
+.slidervolumeRGBStyle {
+    margin-left: 4rem;
+    height: 5px;
+    width: 14rem;    
 }
 
 .volIcon {
@@ -102,12 +140,6 @@
     opacity: 95%;
 }
 
-.time {
-    color: #fff;
-    font-size: 0.8rem;    
-    text-align: center;
-}
-
 .extentionButton{
     text-decoration: double;
     font-weight: bolder;
@@ -120,18 +152,26 @@
     margin-bottom: 1rem;
 }
 
-.lyricsDiv {
-    width: 30rem;
-    margin-left: 50rem;
-    margin-top: 5rem;
-    z-index: 9999;
-    background-color: #ffffff8a;
-    color: #000000;
-    padding: 0.8rem;
+.extentionHoverStyle {
+    position: absolute;
+    top: 0;
+    width: 33%;
+    height: 100%;
+    background-color: #9696965a;
     border-radius: 1rem;
-    font-size: 1rem;
-    font-family: 'Lucida Sans';
-    line-height: 0.5rem;
+    z-index: 0;
+    transition: left 0.3s ease;
+}
+
+.extentionButtonsStyle {
+    width: 5rem;
+    background-color: #49444400;
+    cursor: pointer;
+    border-radius: 1rem;
+    box-shadow: #000000 1fr 1fr;
+    color: #fff;
+    border-color: #33333300;
+    z-index: 2;
 }
 
 .emptyRow {
@@ -150,7 +190,6 @@
     color: #ffffff;
     cursor: pointer;
 }
-
 
 @media (max-width: 768px) {
     .playerContent {
@@ -184,10 +223,6 @@
         margin-left: 0.2rem;
     }
 
-    .artirtButton {
-        font-size: 0.9rem;
-    }
-    
     .controls {
         gap: 2rem;
         margin-top: -2rem;
@@ -195,12 +230,29 @@
         z-index: 2;
     }
 
-    .lyricsButton {
-        margin-top: 0.5rem;
+    .sliderStyle {
+        height: 6px;
+        width: 15rem;
+    }
+
+    .volumeSliderStyle {
+        height: 4.5px;
+        width: 8rem;
+    }
+
+    .sliderRGBStyle {
+        margin-left: 2.5rem;
+        width: 15rem;
+        height: 6px;
+    }
+
+    .slidervolumeRGBStyle {
+        margin-left: 4.2rem;
+        width: 8rem;
+        height: 4.5px;
     }
 
     .emptyRow {
-
         margin-top: 34rem;    
     }
 
@@ -209,4 +261,14 @@
         color: #ffffff76;    
     }
 
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
 }

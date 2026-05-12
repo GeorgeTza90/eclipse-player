@@ -37,73 +37,18 @@ const MiniPlayer = () => {
     useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);
 
     /* --- STYLES  --- */
-    const miniPlayerDiv = {
-        position: "fixed",
-        left: pos.x,
-        top: pos.y,
-        width: 100,
-        height: 100,
-        cursor: "grab",
-        opacity: transparency ? 0.7 : 1,
-    };
-
-    const sliderStyle = {
-        flex: 1,        
-        WebkitAppearance: "none",
-        width: "12rem",
-        height: "5px",
-        borderRadius: "3px",
-              background: goRGB && coloredGlow 
+    const miniPlayerDiv = { left: pos.x, top: pos.y, opacity: transparency ? 0.7 : 1 };
+    const sliderStyle = {        
+        background: goRGB && coloredGlow 
             ? `linear-gradient(to right, #acacac ${progress}%, #55555572 ${progress}%)`
             : `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
-        outline: "none",   
-        zIndex: 9999,  
     };
-
-    const sliderRGBStyle = {
-        position: "absolute",        
-        marginLeft: 0,
-        opacity: `${intensity / 24 + 0.1}`,
-        width: "8rem",
-        height: "5px",
-        borderRadius: "3px",
-        backgroundImage: "linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)",
-        backgroundSize: "200% 200%",
-        backgroundPosition: "0% 50%",
-        animation:  "moveGradient 2s linear infinite",
-        outline: "none",
-        zIndex: 9998,
-    };
-
-    const volumeSliderStyle = {
-        flex: 1,
-        WebkitAppearance: "none",
-        marginTop: "-1rem",
-        width: "6rem",
-        height: "5px",
-        borderRadius: "3px",
+    const volumeSliderStyle = {        
         background: goRGB && coloredGlow 
             ? `linear-gradient(to right, #acacac, #acacac ${volume * 100}%, #55555572 ${volume * 100}%)`
             : `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,
-        outline: "none",
-        zIndex: 9999,  
     };
-    
-    const slidervolumeRGBStyle = {
-        position: "absolute",        
-        marginLeft: 0,
-        opacity: `${intensity / 24 + 0.1}`,
-        marginTop: "-1.1rem",
-        width: "6rem",
-        height: "5px",
-        borderRadius: "3px",
-        backgroundImage: "linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)",
-        backgroundSize: "200% 200%",
-        backgroundPosition: "0% 50%",
-        animation:  "moveGradient 2s linear infinite",
-        outline: "none",
-        zIndex: 9998,
-    }
+    const RGBStyle = { opacity: `${intensity / 24 + 0.1}` };
 
     return (<>
         {ImageToastUI}
@@ -124,12 +69,7 @@ const MiniPlayer = () => {
                 <div>
                     <div className={styles.infoRow}>
                         {currentSong?.image && showImage &&
-                            <img
-                                src={currentSong.image}
-                                alt={currentSong.title}
-                                className={styles.image}
-                                onClick={(e) => { e.stopPropagation(); showImageToast(currentSong.image) }}
-                            />}                            
+                            <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={(e) => { e.stopPropagation(); showImageToast(currentSong.imageHQ) }} />}                            
                         <div>
                             <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
                             {currentSong.feature && (
@@ -154,7 +94,7 @@ const MiniPlayer = () => {
                     {showTimeBar &&
                         <div className={styles.sliderRow}>
                             <span className={styles.time}>{formatTime(position * 1000)}</span>
-                            {goRGB && <div style={sliderRGBStyle} className={styles.time}></div>}
+                            {goRGB && <div style={RGBStyle} className={styles.sliderRGBStyle}></div>}
                             <input
                                 type="range"
                                 min={0}
@@ -163,6 +103,7 @@ const MiniPlayer = () => {
                                 value={sliderPosition ?? 0}
                                 onChange={(e) => { e.stopPropagation(); seekTo(Number(e.target.value)); }}
                                 style={sliderStyle}
+                                className={styles.sliderStyle}
                             />
                             <span className={styles.time}>{formatTime(duration * 1000)}</span>
                         </div>
@@ -172,7 +113,7 @@ const MiniPlayer = () => {
                     {showVolumeBar &&
                         <div className={styles.sliderRow}>
                             <VolButton type="Min" onClick={() => setVolume(0)} active={volume === 0 && true} />
-                            {goRGB && <div style={slidervolumeRGBStyle} className={styles.time}></div>}
+                            {goRGB && <div style={RGBStyle} className={styles.slidervolumeRGBStyle}></div>}
                             <input
                                 type="range"
                                 min={0}
@@ -181,6 +122,7 @@ const MiniPlayer = () => {
                                 value={volume}
                                 onChange={(e) => { e.stopPropagation(); setVolume(Number(e.target.value)); }}
                                 style={volumeSliderStyle}
+                                className={styles.volumeSliderStyle}
                             />
                             <VolButton type="Max" onClick={() => setVolume(1)} active={volume === 1 && true} />
                         </div>

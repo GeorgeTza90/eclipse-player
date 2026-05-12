@@ -19,9 +19,9 @@ export const useImageToast = () => {
         backdropFilter: "blur(2px)",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
-        zIndex: 99999,
+        alignItems: "center",        
         cursor: "pointer",
+        zIndex: 9999,    
     };
 
     const imageWrapperStyle = {
@@ -38,7 +38,7 @@ export const useImageToast = () => {
         maxWidth: "75vw",
         maxHeight: "75vh",
         objectFit: "contain",
-        display: "block",
+        display: "block",        
     };
 
     const ImageToastUI = toastImage && visible && (

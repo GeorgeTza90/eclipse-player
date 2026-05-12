@@ -1,5 +1,9 @@
 .container {
     z-index: 9999;
+    position: fixed;
+    width: 5.7rem;
+    height: 5.7rem;
+    cursor: grab;
 }
 
 .infoRow {
@@ -25,9 +29,21 @@
     width: 8rem;
 }
 
-.trackFeature {
-    font-size: 0.72rem;
-    color: #ffffffc4;
+.tickerContainer {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.tickerText {
+    display: inline-block;
+    max-width: 9rem;
+    animation: scroll 10s linear infinite;
+    color: #e4e4e4;
+    font-size: 0.68rem;
+    margin-top: 0.4rem
 }
 
 .controls {
@@ -53,21 +69,48 @@
     text-align: center;
 }
 
-.tickerContainer {
+.sliderStyle, .volumeSliderStyle {
     flex: 1;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    outline: none;
+    z-index: 9999;
 }
 
-.tickerText {
-    display: inline-block;
-    max-width: 9rem;
-    animation: scroll 10s linear infinite;
-    color: #e4e4e4;
-    font-size: 0.68rem;
-    margin-top: 0.4rem
+.sliderStyle {
+    width: 8rem;
+    height: 5px;
+}
+
+.volumeSliderStyle {
+    margin-top: -1rem;
+    width: 6rem;
+    height: 4px;
+}
+
+.sliderRGBStyle, .slidervolumeRGBStyle {
+    position: absolute;
+    margin-left: 0;
+    border-radius: 3px;
+    background-image: linear-gradient(90deg, 
+        red, orange, yellow, green, cyan, blue, violet, red);
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    animation: moveGradient 1.8s linear infinite;
+    outline: none;
+    z-index: 9998;
+}
+
+.sliderRGBStyle {    
+    width: 8rem;
+    height: 5px;
+}
+
+.slidervolumeRGBStyle {
+    margin-top: -1.1rem;
+    width: 6rem;
+    height: 4px;
 }
 
 .playerButton,
@@ -122,8 +165,6 @@
     transition: 500ms;
 }
 
-
-
 @keyframes scroll {
     0% {
         transform: translateX(25%);
@@ -132,4 +173,14 @@
     100% {
         transform: translateX(-100%);
     }
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
 }

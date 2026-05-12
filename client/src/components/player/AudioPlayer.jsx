@@ -33,102 +33,29 @@ const AudioPlayer = ({ onToggleExtention }) => {
 
     /* --- STYLES --- */
     const sliderStyle = {
-        flex: 1,
-        WebkitAppearance: "none",
-        height: "6px",
-        
-        width: "17rem",  
-        borderRadius: "3px",
         background: goRGB && coloredGlow 
             ? `linear-gradient(to right, #acacac ${progress}%, #55555572 ${progress}%)`
             : `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
-        outline: "none",
-        zIndex: 2,
-    };
-
-    const sliderRGBStyle = {
-        position: "absolute",        
-        marginLeft: 40,
-        opacity: `${intensity / 24 + 0.1}`,        
-        width: "17rem",  
-        height: "6px",
-        borderRadius: "3px",
-        backgroundImage: "linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)",
-        backgroundSize: "200% 200%",
-        backgroundPosition: "0% 50%",
-        animation:  "moveGradient 2s linear infinite",
-        outline: "none",
-        zIndex: 1,
-    };
-
+    };  
     const volumeSliderStyle = {
-        flex: 1,
-        WebkitAppearance: "none",            
-        height: "5px",
-        width: "12rem",        
-        borderRadius: "3px",
         background: goRGB && coloredGlow 
             ? `linear-gradient(to right, #acacac, #acacac ${volume * 100}%, #55555572 ${volume * 100}%)`
-            : `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,
-        outline: "none",
-        zIndex: 2,
+            : `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,  
     };
+    const RGBStyle = { opacity: `${intensity / 24 + 0.1}` };    
+    const extentionHoverStyle = { left: `${extention === "Playlist" ? 0 : extention === "Lyrics" ? 33.5 : 66}%` }
 
-    const slidervolumeRGBStyle = {
-        position: "absolute",        
-        marginLeft: 70,
-        opacity: `${intensity / 24 + 0.1}`,        
-        width: "11.8rem",
-        height: "5px",
-        borderRadius: "3px",
-        backgroundImage: "linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)",
-        backgroundSize: "200% 200%",
-        backgroundPosition: "0% 50%",
-        animation:  "moveGradient 2s linear infinite",
-        outline: "none",
-        zIndex: 1,
-    }
-
-    const extentionButtonsStyle = {
-        width: "5rem",
-        backgroundColor: "#49444400",
-        cursor: "pointer",
-        borderRadius: "1rem",    
-        boxShadow: "#000000 1fr 1fr",    
-        color: "#fff",
-        borderColor: "#33333300",
-    }
-
-    const extentionHoverStyle = {
-        position: "absolute",
-        top: 0,
-        left: `${extention === "Playlist" ? 0 : extention === "Lyrics" ? 33.5 : 66}%`,    
-        width: "33%",
-        height: "100%",
-        backgroundColor: "#9696965a",
-        borderRadius: "1rem",
-        zIndex: 0,
-        transition: "left 0.3s ease",
-    }
-
-    return (
-        <div className={styles.container}>
+    return (<>
+        <div className={styles.container}>            
     {/* Circles */}
             <Circle size={isMobile ? 400 : 600} top={isMobile ? 110 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor} />
             <Circle size={isMobile ? 230 : 300} top={isMobile ? 550 : 800} intensity={intensity * 0.5} heightOffset={6} shadowColor={shadowColor} color2="#0e0e0eff" color1="#1b1a1aff" />
 
     {/* Player UI */}
             <div className={styles.playerContent}>
-                {/* Info */}
+    {/* Info */}
                 <div className={styles.infoRow}>
-                    {currentSong?.image &&
-                        <img 
-                            src={currentSong.image}
-                            alt={currentSong.title}
-                            className={styles.image}
-                            onClick={() => showImageToast(currentSong.image)}
-                        />}
-                    {ImageToastUI}
+                    {currentSong?.image && <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={() => showImageToast(currentSong.imageHQ)} />}
                     <div>
                         <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
                         {currentSong?.feature && (
@@ -151,7 +78,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
                 {/* Time Slider */}
                 <div className={styles.sliderRow}>                    
                     <span className={styles.time}>{formatTime(position * 1000)}</span>
-                    {goRGB && <div style={sliderRGBStyle} className={styles.time}></div>}
+                    {goRGB && <div style={RGBStyle} className={styles.sliderRGBStyle}></div>}
                     <input
                         type="range"
                         min={0}
@@ -160,6 +87,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
                         value={sliderPosition ?? 0}
                         onChange={(e) => seekTo(Number(e.target.value))}
                         style={sliderStyle}
+                        className={styles.sliderStyle}
                     />                    
                     <span className={styles.time}>{formatTime(duration * 1000)}</span>                    
                 </div>
@@ -170,7 +98,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
                     <button className={styles.VolButton} onClick={() => setVolume(0)}>
                         <img className={volume === 0 ? styles.volIconActive : styles.volIcon} src="/assets/icons/volMin2.png" />
                     </button>                    
-                    {goRGB && <div style={slidervolumeRGBStyle} className={styles.time}></div>}
+                    {goRGB && <div style={RGBStyle} className={styles.slidervolumeRGBStyle}></div>}
                     <input
                         type="range"
                         min={0}
@@ -179,6 +107,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
                         value={volume}
                         onChange={(e) => setVolume(Number(e.target.value))}
                         style={volumeSliderStyle}
+                        className={styles.volumeSliderStyle}
                     />
                     <button className={styles.VolButton} onClick={() => setVolume(1)}>
                         <img className={volume === 1 ? styles.volIconActive : styles.volIcon} src="/assets/icons/volMax2.png" />
@@ -187,11 +116,11 @@ const AudioPlayer = ({ onToggleExtention }) => {
 
     {/* Extention Buttons */}
                 <div className={styles.extentionButton} style={{ position: "relative" }}>        
-                    <div style={extentionHoverStyle}/>          
+                    <div style={extentionHoverStyle} className={styles.extentionHoverStyle}/>
                     {/* Buttons */}
-                    <button  style={{ ...extentionButtonsStyle, zIndex: 2 }} onClick={() => handleExtention("Playlist")}>Playlist</button>
-                    <button style={{ ...extentionButtonsStyle, zIndex: 2 }} onClick={() => handleExtention("Lyrics")}>Lyrics</button>
-                    <button style={{ ...extentionButtonsStyle, zIndex: 2 }} onClick={() => handleExtention("Equalizer")}>Equalizer</button>
+                    <button onClick={() => handleExtention("Playlist")} className={styles.extentionButtonsStyle}>Playlist</button>
+                    <button onClick={() => handleExtention("Lyrics")} className={styles.extentionButtonsStyle}>Lyrics</button>
+                    <button onClick={() => handleExtention("Equalizer")} className={styles.extentionButtonsStyle}>Equalizer</button>
                 </div>
             </div>
 
@@ -203,7 +132,8 @@ const AudioPlayer = ({ onToggleExtention }) => {
                 </div>   
             )}   
         </div>
-    );
+        {ImageToastUI}
+    </>);
 }
 
 export default AudioPlayer;
