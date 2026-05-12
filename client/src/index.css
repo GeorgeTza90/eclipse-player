@@ -1,19 +1,31 @@
-:root {
-  background-image: url(/assets/body1.jpg);
-  background-position: center;
-  background-size: cover;
-  color: aliceblue;
-  display: flex;
-  flex-direction: column;
-  min-height: 90vh;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100%;
+}
+
+:root {
+  display: flex;
+  flex-direction: column;
+  color: aliceblue;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background-image: url(/assets/body1.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
 }
 
 .body {
@@ -47,7 +59,6 @@ input[type="range"]::-moz-range-thumb {
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
   }
@@ -55,17 +66,15 @@ input[type="range"]::-moz-range-thumb {
 
 @keyframes pulse {
   0% {
-    opacity: 0.0;
+    opacity: 0;
     transform: scale(0.5);
   }
-
   50% {
     opacity: 1;
     transform: scale(1.2);
   }
-
   100% {
-    opacity: 0.0;
+    opacity: 0;
     transform: scale(0.5);
   }
 }
@@ -74,10 +83,7 @@ input[type="range"]::-moz-range-thumb {
   0% {
     background-position: 0% 50%;
   }
-
   100% {
     background-position: 200% 50%;
   }
 }
-
-@media (max-width: 768px) {}

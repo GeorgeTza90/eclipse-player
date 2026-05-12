@@ -9,6 +9,7 @@ const Circle = ({
   colors,
   intensity = 30,
   heightOffset = 8,
+  zIndex = 0
 }) => {
     const { goRGB, coloredGlow } = useMiniPlayer();
     const gradientColors = colors ?? [color1, color2];
@@ -29,7 +30,7 @@ const Circle = ({
                     height: size + 10,
                     borderRadius: "50%",
                     top,                    
-                    zIndex: 0,
+                    zIndex: zIndex,
                     opacity: `${intensity / 60 + 0.05}`,
                     background: "conic-gradient(red, orange, yellow, green, cyan, blue, violet, red)",
                     animation: "spin 2.5s linear infinite",
@@ -53,7 +54,7 @@ const Circle = ({
                     ? ""
                     : `0px ${heightOffset}px ${intensity}px ${hexToRgba(shadowColor, Math.min(intensity / 30, 1))}`,
                 background: `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`,
-                zIndex: 0,
+                zIndex: zIndex,
                 transition: "0.5s",
             }}
         />

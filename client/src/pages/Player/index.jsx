@@ -22,8 +22,8 @@ const Player = () => {
 
     return (<>
         <div id="heading" style={{ display: "flex", justifyContent: "center" }}>
-            <img src="/assets/images/logo.png" style={{ position: 'fixed', width: 180, top: isMobile ? 10 : 55, zIndex: "1" }} />
-            <Circle size={isMobile ? 400 : 1000} top={-isMobile ? -320 : -880} shadowColor={shadowColor} intensity={volume * 15} color2="#0b0b0bff" color1="#1f1e1eff" />
+            <img src="/assets/images/logo.png" style={{ position: 'fixed', width: 180, top: isMobile ? 10 : 55, zIndex: "99999" }} />
+            <Circle size={isMobile ? 400 : 1000} top={-isMobile ? -320 : -880} shadowColor={shadowColor} intensity={volume * 15} color2="#0b0b0bff" color1="#1f1e1eff" zIndex={9999} />
 
             <AudioPlayer onToggleExtention={handleExtention} />
 

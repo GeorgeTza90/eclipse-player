@@ -5,17 +5,17 @@
     border: none;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
+    transition: 1s;       
 }
 
 .button{
-    background-color: rgba(212, 212, 212, 0.685);
+    background-color: rgba(212, 212, 212, 0.423);    
     cursor: pointer;
 }
 
 .buttonInactive {
-    background-color: rgba(212, 212, 212, 0.276);
-    
+    background-color: rgba(212, 212, 212, 0.276);    
 }
 
 .icon {
@@ -25,7 +25,8 @@
 }
 
 .button:hover {
-    background-color: rgba(212, 212, 212, 0.89);
+    background-color: rgba(212, 212, 212, 0.926);    
+    transition: 0.5s;
 }
 
 @media (max-width: 768px) {
