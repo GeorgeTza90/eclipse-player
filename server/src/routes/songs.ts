@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getSongs, getPrivateSongs } from "../controllers/playerController";
-import { verifyToken } from "../middleware/authMiddleware";
+import { getSongs, getPrivateSongs } from "../controllers/playerController.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = Router();
 

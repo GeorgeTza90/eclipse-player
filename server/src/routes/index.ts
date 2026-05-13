@@ -1,11 +1,11 @@
 import { Express } from "express";
 
-import songsRoutes from "./songs";
-import authRoutes from "./auth";
-import playlistRoutes from "./playlists";
-import artistsRoutes from "./artists";
-import presetsRoutes from "./presets";
-import downloadRoutes from "./download";
+import songsRoutes from "./songs.js";
+import authRoutes from "./auth.js";
+import playlistRoutes from "./playlists.js";
+import artistsRoutes from "./artists.js";
+import presetsRoutes from "./presets.js";
+import downloadRoutes from "./download.js";
 
 export function setupRoutes(app: Express) {
   app.use("/api/auth", authRoutes);

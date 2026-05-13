@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { register, login, logout, googleLogin, forgotPassword, resetPassword, changePassword, updateUsername, me } from '../controllers/authController';
-import { verifyToken } from '../middleware/authMiddleware';
-import { createRateLimiter } from '../middleware/rateLimiter';
+import { register, login, logout, googleLogin, forgotPassword, resetPassword, changePassword, updateUsername, me } from '../controllers/authController.js';
+import { verifyToken } from '../middleware/authMiddleware.js';
+import { createRateLimiter } from '../middleware/rateLimiter.js';
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { verifyToken } from "../middleware/authMiddleware";
-import { createRateLimiter }  from '../middleware/rateLimiter';
-import { createPresets, deletePresets, getPresets, updatePresets } from "../controllers/presetsController";
+import { verifyToken } from "../middleware/authMiddleware.js";
+import { createRateLimiter }  from '../middleware/rateLimiter.js';
+import { createPresets, deletePresets, getPresets, updatePresets } from "../controllers/presetsController.js";
 
 const router = Router();
 

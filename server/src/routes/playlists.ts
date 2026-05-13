@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { verifyToken } from "../middleware/authMiddleware";
+import { verifyToken } from "../middleware/authMiddleware.js";
 import {
     getPlaylists, createPlaylist, updatePlaylist, deletePlaylist,
     getPlaylistSongs, addSongToPlaylist, moveSongInPlaylist, deleteSongFromPlaylist
-} from "../controllers/playlistController";
-import { createRateLimiter }  from '../middleware/rateLimiter';
+} from "../controllers/playlistController.js";
+import { createRateLimiter }  from '../middleware/rateLimiter.js';
 
 const router = Router();
 router.use(verifyToken);
