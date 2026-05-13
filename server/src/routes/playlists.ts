@@ -9,9 +9,9 @@ import { createRateLimiter }  from '../middleware/rateLimiter';
 const router = Router();
 router.use(verifyToken);
 
-// Rate limiters (soft limit)
-const createPlaylistLimiter = createRateLimiter(1, 30);         // 30 / min
-const deletePlaylistLimiter = createRateLimiter(1, 30);         // 30 / min
+// Rate limiters (min/max)
+const createPlaylistLimiter = createRateLimiter(1, 30);
+const deletePlaylistLimiter = createRateLimiter(1, 30);
 
 // Playlist CRUD
 router.get("/", getPlaylists);

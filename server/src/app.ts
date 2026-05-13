@@ -1,50 +1,38 @@
 import express, { Request, Response, NextFunction } from "express";
-import cors from "cors";
-import helmet from "helmet";
-import cookieParser from "cookie-parser";
-import songsRoutes from "./routes/songs";
-import authRoutes from "./routes/auth";
-import playlistRoutes from "./routes/playlists";
-import artistsRoutes from "./routes/artists";
-import presetsRoutes from "./routes/presets";
-import downloadRoutes from "./routes/download"
-import { AppError } from "./types/ErrorTypes";
+import { setupSecurity } from "./config/security.js";
+import { logger } from "./utils/logger.js";
+import { corsMiddleware } from "./config/cors.js";
+import { setupParsers } from "./middleware/parsers.js";
+import { setupRoutes } from "./routes/index.js";
 
 export const app = express();
-app.use(helmet({
-    contentSecurityPolicy: false,
-    crossOriginResourcePolicy: {policy: "cross-origin"}
-}));
 
-/* -------------------- ENV Vars -------------------- */
-const allowedOrigins =
-    process.env.CLIENT_ORIGINS?.split(",").map(o => o.trim()) ?? [
-        "http://localhost:5173",
-        "https://eclipseplayer.netlify.app",
-        "https://eclipseplayer.com",
-    ];
+/* -------------------- Security Layer -------------------- */
+setupSecurity(app);
 
-/* -------------------- Core config -------------------- */
-app.set("trust proxy", 1);
-app.use(cors({ origin: allowedOrigins, credentials: true }));
-app.use(cookieParser());
-app.use(express.json({ limit: "100kb" }));
+/* -------------------- CORS -------------------- */
+app.use(corsMiddleware);
+
+/* -------------------- Parser -------------------- */
+setupParsers(app);
 
 /* -------------------- Routes -------------------- */
-app.use("/api/auth", authRoutes);
-app.use("/api/songs", songsRoutes);
-app.use("/api/playlists", playlistRoutes);
-app.use("/api/artists", artistsRoutes);
-app.use("/api/presets", presetsRoutes);
-app.use("/api/download", downloadRoutes);
+setupRoutes(app);
 
 /* -------------------- Health check -------------------- */
-app.get("/", (_req, res) => res.json({ message: "Server is running!" }));
+app.get("/health", (_req, res) => res.json({ message: "Server is running!" }));
+
+/* -------------------- Error 404 -------------------- */
+app.use((_req, res) => {
+    logger.error("Route not found", {method: _req.method, url: _req.originalUrl,});
+    res.status(404).json({ error: "Route not found" });
+});
 
 /* -------------------- Error handler -------------------- */
-app.use((_req, res) => res.status(404).json({ error: "Route not found" }));
-app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
-        console.error(err);
-        res.status(err.status ?? 500).json({ error: err.message ?? "Internal Server Error" });
-    }
-);
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    const status = err.status ?? 500;
+    const message = status === 500 ? "Internal Server Error" : err.message;
+    logger.error("API Error", {message, stack: err.stack, status});
+    res.status(status).json({error: message});
+});
+

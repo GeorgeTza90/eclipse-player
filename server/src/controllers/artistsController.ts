@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Artist } from "../types/controllersTypes";
-import db from "../db/db";
+import { Artist } from "../types/controllersTypes.js";
+import db from "../db/db.js";
 
 // -----------------------------
 // Artists GET ALL

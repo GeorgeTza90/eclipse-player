@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import sendEmail from './sendEmail';
+import sendEmail from './sendEmail.js';
 
 (async () => {
   try {

@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { ResultSetHeader } from "mysql2";
-import { AuthenticatedRequest, Presets } from "../types/controllersTypes";
-import db from "../db/db";
+import { AuthenticatedRequest, Presets } from "../types/controllersTypes.js";
+import db from "../db/db.js";
 
 // -----------------------------
 // GET PRESETS

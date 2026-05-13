@@ -1,8 +1,10 @@
 import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { AuthenticatedRequestMidl } from "../types/controllersTypes";
+import { AuthenticatedRequestMidl } from "../types/controllersTypes.js";
+import { logger } from "../utils/logger.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "#$%^$!#JWT";
+if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET missing");
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const verifyToken = (req: AuthenticatedRequestMidl, res: Response, next: NextFunction): void => {  
     const authHeader = req.headers.authorization;
@@ -24,7 +26,7 @@ export const verifyToken = (req: AuthenticatedRequestMidl, res: Response, next: 
         req.user = decoded;
         next();
     } catch (err: any) {
-        console.error("JWT verification failed:", err);
+        logger.warn("JWT verification failed:", err);
         res.status(401).json({ error: "Invalid token" });
     }
 };

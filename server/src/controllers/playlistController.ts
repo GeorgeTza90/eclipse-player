@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { RowDataPacket, ResultSetHeader} from "mysql2";
-import { Playlist, PlaylistSong, AuthenticatedRequest} from "../types/controllersTypes";
-import db from "../db/db";
+import { Playlist, PlaylistSong, AuthenticatedRequest} from "../types/controllersTypes.js";
+import db from "../db/db.js";
 
 // -----------------------------
 // GET PLAYLISTS

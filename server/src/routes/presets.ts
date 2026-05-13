@@ -7,7 +7,7 @@ const router = Router();
 
 router.use(verifyToken);
 
-// Rate limiters (soft limit)
+// Rate limiters (min/max)
 const createPresetsLimiter = createRateLimiter(1, 30);
 const deletePresetsLimiter = createRateLimiter(1, 30);
 

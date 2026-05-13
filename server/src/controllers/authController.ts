@@ -1,20 +1,19 @@
 import { Request, Response } from "express";
-import { RowDataPacket, ResultSetHeader } from "mysql2";
-import { User, AuthenticatedRequest } from "../types/controllersTypes";
-import axios from "axios";
-import db from "../db/db";
-import bcrypt from "bcrypt";
+import { ResultSetHeader } from "mysql2";
+import { User, AuthenticatedRequest } from "../types/controllersTypes.js";
 import { randomBytes, createHash } from "crypto";
+import axios from "axios";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import sendEmail from "../utils/sendEmail";
-import { error } from "node:console";
+import db from "../db/db.js";
+import sendEmail from "../utils/sendEmail.js";
 
 // -----------------------------
 // ENVIORONMENT VARS
 // -----------------------------
 const JWT_SECRET = process.env.JWT_SECRET!;
-const RESET_SECRET = process.env.RESET_PASSWORD_SECRET!;
 const FRONTEND_URL = process.env.FRONTEND_URL!;
+const RESET_SECRET = process.env.RESET_PASSWORD_SECRET!;
 const isProd = process.env.NODE_ENV === "production";
 
 // -----------------------------
@@ -208,32 +207,42 @@ export const changePassword = async ( req: AuthenticatedRequest, res: Response )
 // Reset Password
 // -----------------------------
 export const resetPassword = async (req: Request, res: Response): Promise<void> => {
-    const { token, newPassword } = req.body as { token?: string; newPassword?: string; };    
-
+    const { token, newPassword } = req.body as { token?: string; newPassword?: string };
     if (!token || !newPassword) { res.status(400).json({ error: "Token and new password are required" }); return; }
     if (newPassword.length < 8) { res.status(400).json({ error: "Password must be at least 8 characters long" }); return; }
 
     try {
         const tokenHash = createHash("sha256").update(token).digest("hex");
-        const [rows] = await db.query<any[]>(`SELECT * FROM password_reset_requests WHERE token_hash = ? AND expires_at > NOW() AND used_at IS NULL`, [tokenHash]);              
+        const [rows] = await db.query<any[]>(`SELECT *  FROM password_reset_requests  WHERE token_hash = ?  AND expires_at > NOW()  AND used_at IS NULL`, [tokenHash]);
         const request = rows[0];
         if (!request) { res.status(400).json({ error: "Invalid or expired token" }); return; }
-        
-                const [userRows] = await db.query<User[]>('SELECT password FROM users WHERE id = ?', [request.user_id]);
-        const user = userRows[0];
-        if (!user || !user.password) { res.status(404).json({ error: "User not found" }); return;}        
 
-        const samePassword = await bcrypt.compare(newPassword, user.password);        
-        if (samePassword) { res.status(404).json({error: "New password cannot be the same as the old password"}); return; }
+        const [userRows] = await db.query<User[]>("SELECT password FROM users WHERE id = ?", [request.user_id]);
+        const user = userRows[0];
+        if (!user || !user.password) { res.status(404).json({ error: "User not found" }); return; }
+
+        const samePassword = await bcrypt.compare(newPassword, user.password);
+        if (samePassword) { res.status(400).json({ error: "New password cannot be the same as the old password" }); return; }
 
         const hashed = await bcrypt.hash(newPassword, 10);
-        await db.query("UPDATE users SET password = ? WHERE id = ?", [hashed, request.user_id] );
-        await db.query( "UPDATE password_reset_requests SET used_at = NOW() WHERE id = ?", [request.id]);
+        
+        const conn = await db.getConnection();
+        try {
+            await conn.beginTransaction();
+            await conn.query("UPDATE users SET password = ? WHERE id = ?", [hashed, request.user_id]);
+            await conn.query("UPDATE password_reset_requests SET used_at = NOW() WHERE id = ?", [request.id]);
+            await conn.commit();
+        } catch (err) {
+            await conn.rollback();
+            throw err;
+        } finally {
+            conn.release();
+        }
 
         const newToken = jwt.sign( { id: request.user_id }, JWT_SECRET, { expiresIn: "7d" } );
 
-        res.cookie("token", newToken, { httpOnly: true, secure: true, sameSite: "none", maxAge: 7 * 24 * 60 * 60 * 1000 });
-        res.json({ message: "Password reset successful" });        
+        res.cookie("token", newToken, { httpOnly: true, secure: true, sameSite: "none", maxAge: 7 * 24 * 60 * 60 * 1000, });
+        res.json({ message: "Password reset successful" });
     } catch (error) {
         console.error("Error resetting password:", error);
         res.status(500).json({ error: "Something went wrong" });
