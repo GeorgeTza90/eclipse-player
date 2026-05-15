@@ -1,11 +1,11 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../types/controllersTypes.js";
 import { songsService } from "../services/songsService.js";
 
 // -----------------------------
 // GET SONGS
 // -----------------------------
-export const getSongs = async (req: Response, res: Response): Promise<void> => {
+export const getSongs = async (req: Request, res: Response): Promise<void> => {
     try {
         const songs = await songsService.getSongs();
         res.json(songs);
