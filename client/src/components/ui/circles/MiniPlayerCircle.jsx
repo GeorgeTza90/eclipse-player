@@ -1,5 +1,5 @@
-import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
-import { useAudio } from "../../contexts/AudioContextWeb";
+import { useMiniPlayer } from "../../../contexts/MiniPlayerContextWeb";
+import { useAudio } from "../../../contexts/AudioContextWeb";
 
 const Circle = ({
   size = 200,

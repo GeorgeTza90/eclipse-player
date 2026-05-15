@@ -1,16 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContextWeb';
-import { useIsMobile } from '../../hooks/useIsMobile';
 import { API_URL } from "../../config";
+import { useIsMobile } from '../../hooks/useIsMobile';
 import { useMinimumLoading } from '../../hooks/useMinimumLoading.';
 import MiniPlayerSettings from "./MiniPlayerSettings";
-import AuthButton from '../buttons/AuthButton';
-import SettingsButton from "../buttons/SettingsButton";
 import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
-import Teaser from '../teasers/Teaser';
+import AuthButton from '../ui/buttons/AuthButton';
+import SettingsButton from "../ui/buttons/SettingsButton";
+import Teaser from '../ui/teasers/Teaser';
 import styles from "./homeScreen.module.css";
-
 
 const HomeScreen = () => {
     const { user, logout, loading } = useAuth();

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import PlayButton from "../buttons/PlayButton";
+import PlayButton from "../ui/buttons/PlayButton";
 import styles from "./collectionCard.module.css"
 
 const CollectionCard = ({ item, onClick, type }) => {

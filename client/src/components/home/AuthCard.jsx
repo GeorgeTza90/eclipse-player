@@ -4,9 +4,10 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 import { usePostManager } from "../../hooks/useCallManager";
 import { useAutoClear } from "../../hooks/useAutoClear";
 import { GOOGLE_CLIENT_ID } from "../../config";
-import AuthButton from "../buttons/AuthButton";
-import PasswordInput from "../inputs/PasswordInput";
-import Circle from "../../components/ui/Circle";
+import AuthButton from "../ui/buttons/AuthButton";
+import PasswordInput from "../ui/inputs/PasswordInput";
+import Circle from "../ui/circles/Circle";
+import FormInput from "../ui/inputs/FormInput";
 import styles from "./authCard.module.css";
 
 const AuthCard = () => {
@@ -80,23 +81,21 @@ const AuthCard = () => {
     {/* Form */}
             <div className={styles.formWrapper}>
                 {!isLogin && (
-                    <input
+                    <FormInput
                         type="text"
+                        name="username"
                         placeholder="Username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className={styles.input}
-                        autoComplete="username"
+                        onChangeText={setUsername}                        
                     />
                 )}
 
-                <input
+                <FormInput
                     type="email"
+                    name="email"
                     placeholder="Email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={styles.input}
-                    autoComplete="email"
+                    onChangeText={setEmail}                    
                 />
 
                 <PasswordInput

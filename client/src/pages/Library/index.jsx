@@ -5,7 +5,7 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import LibraryScreen from "../../components/library/LibraryScreen";
 import MiniPlayer from "../../components/player/MiniPlayer";
-import Circle from "../../components/ui/Circle";
+import Circle from "../../components/ui/circles/Circle";
 
 const Library = () => {
     const isMobile = useIsMobile();

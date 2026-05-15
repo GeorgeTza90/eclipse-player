@@ -3,7 +3,7 @@ import { useAuth } from "../../contexts/AuthContextWeb";
 import { useMinimumLoading } from "../../hooks/useMinimumLoading.";
 import LibraryGroupItem from "./LibraryGroupItem";
 import SearchForm from "./SearchForm";
-import Loader from "../ui/Loader";
+import Loader from "../ui/loaders/Loader";
 import styles from "./libraryScreen.module.css";
 
 const LibraryScreen = () => {

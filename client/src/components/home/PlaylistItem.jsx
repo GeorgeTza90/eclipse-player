@@ -1,5 +1,5 @@
+import DeletePlaylistButton from "../ui/buttons/DeletePlaylistButton";
 import styles from "./playlistItem.module.css";
-import DeletePlaylistButton from "../buttons/DeletePlaylistButton";
 
 const PlaylistItem = ({ playlist, onDelete, onPress }) => {    
     return (

@@ -1,4 +1,4 @@
-import AddToPlaylistButton from "../buttons/AddToPlaylistButton";
+import AddToPlaylistButton from "../ui/buttons/AddToPlaylistButton";
 import styles from "./trackItem.module.css";
 
 const TrackItem = ({ track, index, onPress, user }) => {

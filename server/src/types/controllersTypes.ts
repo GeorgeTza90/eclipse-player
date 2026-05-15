@@ -72,3 +72,11 @@ export interface Presets extends RowDataPacket {
     preset?: [string];
     created_at: Date;
 }
+
+export interface PasswordResetTypes extends RowDataPacket {
+    id: number;
+    user_id: number;
+    token_hash: number;
+    expires_at: Date;
+    used_at: Date;
+}

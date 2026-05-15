@@ -4,11 +4,12 @@ import { useAuth } from "../../contexts/AuthContextWeb";
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { usePostManager } from "../../hooks/useCallManager";
 import { useAutoClear } from "../../hooks/useAutoClear";
-import LoadingMessage from "../library/LoadingMessage";
-import BackButton from "../buttons/BackButton";
 import MiniPlayer from "../player/MiniPlayer";
+import LoadingMessage from "../ui/loaders/LoadingMessage";
+import BackButton from "../ui/buttons/BackButton";
 import MiniPlayerSettings from "./MiniPlayerSettings";
 import styles from "./userSettings.module.css";
+import FormInput from "../ui/inputs/FormInput";
 
 const UserSettings = () => {
     const { loading: postLoading, error: postError, call: postCall } = usePostManager();
@@ -65,16 +66,15 @@ const UserSettings = () => {
         {/* Username */}
                 <div className={styles.userInfo}>
                     Username: 
-                    <input
+                    <FormInput 
                         type="text"
+                        name="username"
                         placeholder="Username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className={styles.input}
-                        autoComplete="username"
-                    />
-                    <button className={styles.updateButton} onClick={() => updateUsername(username, user?.id)}>↺</button>
-                    
+                        onChangeText={setUsername}
+                        isForm={false}
+                    />                    
+                    <button className={styles.updateButton} onClick={() => updateUsername(username, user?.id)}>↺</button>                    
                 </div>
                 
         {/* Premium */}

@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { formatTime } from "../../hooks/useFormatTime";
-import { useImageToast } from "../ui/ΙmageToast";
-import PlayButton from "../buttons/PlayButton";
-import VolButton from "../buttons/VolButton";
-import ArtistButton from "../buttons/ArtistButton";
-import Circle from "../ui/MiniPlayerCircle";
+import { useImageToast } from "../ui/toasts/ΙmageToast";
+import PlayButton from "../ui/buttons/PlayButton";
+import VolButton from "../ui/buttons/VolButton";
+import ArtistButton from "../ui/buttons/ArtistButton";
+import Circle from "../ui/circles/MiniPlayerCircle";
 import styles from "./miniPlayer.module.css";
 
 const MiniPlayer = () => {

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useToast } from "../../contexts/ToastContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import ToggleButton from "../buttons/ToggleButton";
+import ToggleButton from "../ui/buttons/ToggleButton";
 import styles from "./miniPlayerSettings.module.css";
 
 const MiniPlayerSettings = () => {
@@ -24,42 +24,22 @@ const MiniPlayerSettings = () => {
         {isMobile && (<>
             <p className={styles.notAvailable}>Mini Player is not available in Mobile View</p>
             <div className={styles.container}>
-                <h4 className={styles.text1}>Colored</h4>
-                <ToggleButton value={coloredGlow} onChange={setColoredGlow} />
-
-                <h4 className={styles.text1}>Go Full RGB</h4>
-                <ToggleButton value={goRGB} onChange={setGoRGB} inActive={coloredGlow ? false : true}/>
+                <ToggleButton heading={"Colored"} isBarMode={false} value={coloredGlow} onChange={setColoredGlow} />                
+                <ToggleButton heading={"Go Full RGB"} isBarMode={false} value={goRGB} onChange={setGoRGB} inActive={coloredGlow ? false : true}/>
             </div>
         </>)}
         {!isMobile && (
-            <div className={styles.container}>
-                <h4 className={styles.text1}>Show MiniPlayer</h4>
-                <ToggleButton value={showMiniPlayer} onChange={setShowMiniPlayer} />
-
-                <h4 className={!barMode ? styles.text1 : styles.text2}>Song's Image</h4>
-                <ToggleButton value={showImage} onChange={setShowImage} inActive={!barMode ? false : true} />
-
-                <h4 className={!barMode ? styles.text1 : styles.text2}>Time Bar</h4>
-                <ToggleButton value={showTimeBar} onChange={setShowTimeBar} inActive={!barMode ? false : true} />
-
-                <h4 className={styles.text1}>Bar Mode</h4>
-                <ToggleButton value={barMode} onChange={setBarMode} />
-                
-                <h4 className={styles.text1}>Show Glow</h4>
-                <ToggleButton value={showGlow} onChange={setShowGlow} />
-                
-                <h4 className={!barMode ? styles.text1 : styles.text2}>Volume Bar</h4>
-                <ToggleButton value={showVolumeBar} onChange={setShowVolumeBar} inActive={!barMode ? false : true} />
-
-                <h4 className={!barMode ? styles.text1 : styles.text2}>Transparent</h4>
-                <ToggleButton value={transparency} onChange={setTransparency} inActive={!barMode ? false : true} />
-
-                <h4 className={styles.text1}>Colored</h4>
-                <ToggleButton value={coloredGlow} onChange={setColoredGlow} />
-
-                <h4 className={styles.text1}>Go Full RGB</h4>
-                <ToggleButton value={goRGB} onChange={setGoRGB} inActive={coloredGlow ? false : true}/>
-                
+            <div className={styles.container}>                
+                <ToggleButton heading={"Show MiniPlayer"} isBarMode={false} value={showMiniPlayer} onChange={setShowMiniPlayer} />                
+                <ToggleButton heading={"Song's Image"} isBarMode={barMode} value={showImage} onChange={setShowImage} inActive={!barMode ? false : true} />                
+                <ToggleButton heading={"Time Bar"} isBarMode={barMode} value={showTimeBar} onChange={setShowTimeBar} inActive={!barMode ? false : true} />                
+                <ToggleButton heading={"Bar Mode"} isBarMode={false} value={barMode} onChange={setBarMode} />                                
+                <ToggleButton heading={"Show Glow"} isBarMode={false} value={showGlow} onChange={setShowGlow} />                                
+                <ToggleButton heading={"Volume Bar"} isBarMode={barMode} value={showVolumeBar} onChange={setShowVolumeBar} inActive={!barMode ? false : true} />                
+                <ToggleButton heading={"Transparent"} isBarMode={barMode} value={transparency} onChange={setTransparency} inActive={!barMode ? false : true} />                
+                <ToggleButton heading={"Colored"} isBarMode={false} value={coloredGlow} onChange={setColoredGlow} />                
+                <ToggleButton heading={"Go Full RGB"} isBarMode={!coloredGlow} value={goRGB} onChange={setGoRGB} inActive={coloredGlow ? false : true}/>
+                                
                 <h4 className={!barMode ? styles.text1 : styles.text2}>Reset Position</h4>
                 <button onClick={posReset} className={!barMode ? styles.resetMPPosition : styles.resetMPPositionInActive} />
             </div>      

@@ -4,10 +4,10 @@ import { useAuth } from "../../contexts/AuthContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { usePostManager } from "../../hooks/useCallManager";
 import { useAutoClear } from "../../hooks/useAutoClear";
+import Circle from "../ui/circles/Circle";
+import PasswordInput from "../ui/inputs/PasswordInput";
+import AuthButton from "../ui/buttons/AuthButton";
 import styles from "./resetPassword.module.css";
-import Circle from "../../components/ui/Circle";
-import PasswordInput from "../inputs/PasswordInput";
-import AuthButton from "../buttons/AuthButton";
 
 const ResetPasswordCard = () => {
     const { loading, error, call } = usePostManager();    

@@ -6,10 +6,10 @@ import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useFetchManager } from "../../hooks/useCallManager";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { byYear } from "../../utils/songsCetegorizer";
-import LibraryGroupItem from "../library/LibraryGroupItem";
-import BackButton from "../buttons/BackButton";
 import MediaLink from "./MediaLink";
+import LibraryGroupItem from "../library/LibraryGroupItem";
 import MiniPlayer from "../player/MiniPlayer";
+import BackButton from "../ui/buttons/BackButton";
 import styles from "./artistDetail.module.css";
 
 const ArtistDetail = () => {

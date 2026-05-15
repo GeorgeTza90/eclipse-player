@@ -1,16 +1,14 @@
 import { Request, Response } from "express";
-import path from "path";
-
-const APKfilePath = path.resolve("files/eclipse_player_v1.2.4.apk");
+import { apkService } from "../services/downloadService.js";
 
 // -----------------------------
 // Download APK
 // -----------------------------
 export const downloadAPK = async (req: Request, res: Response): Promise<void> => {
     try {
-        res.download(APKfilePath);
-    } catch (error) {
-        console.error("Error downloading APK:", error);
+        const filePath = apkService.getApkPath();
+        res.download(filePath);
+    } catch (error) {        
         res.status(500).json({ error: "Server Error" });
     }
 };

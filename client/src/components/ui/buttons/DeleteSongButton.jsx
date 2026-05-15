@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useDeleteManager } from "../../hooks/useCallManager";
-import { useToast } from "../../contexts/ToastContextWeb";
-import ConfirmModal from "../ui/ConfirmModal";
+import { useDeleteManager } from "../../../hooks/useCallManager";
+import { useToast } from "../../../contexts/ToastContextWeb";
+import ConfirmModal from "../modals/ConfirmModal";
 import styles from "./deleteSongButton.module.css";
 
 const DeleteSongButton = ({ playlistId, songId, onDeleted }) => {    

@@ -2,13 +2,12 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFetchManager } from "../../hooks/useCallManager";
 import { useMinimumLoading } from "../../hooks/useMinimumLoading.";
-import LoadingMessage from "../library/LoadingMessage"
 import PlaylistItem from "./PlaylistItem";
-import AddPlaylistModal from "./AddPlaylistModal";
-import AddPlaylistButton from "../buttons/AddPlaylistButton";
+import LoadingMessage from "../ui/loaders/LoadingMessage"
+import AddPlaylistModal from "../ui/modals/AddPlaylistModal";
+import AddPlaylistButton from "../ui/buttons/AddPlaylistButton";
+import Loader from "../ui/loaders/Loader";
 import styles from "./userPlaylists.module.css";
-import Loader from "../ui/Loader";
-
 
 const UserPlaylists = () => {
     const { state, loading, error, call } = useFetchManager();

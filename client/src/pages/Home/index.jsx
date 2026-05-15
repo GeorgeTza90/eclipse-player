@@ -5,7 +5,7 @@ import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import HomeScreen from "../../components/home/HomeScreen";
 import MiniPlayer from "../../components/player/MiniPlayer";
-import Circle from "../../components/ui/Circle";
+import Circle from "../../components/ui/circles/Circle";
 
 const Home = () => {
     const { volume } = useAudio();    

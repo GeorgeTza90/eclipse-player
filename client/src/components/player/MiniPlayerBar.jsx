@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { formatTime } from "../../hooks/useFormatTime";
-import PlayButton from "../buttons/PlayButton";
-import VolButton from "../buttons/VolButton";
-import ArtistButton from "../buttons/ArtistButton";
+import PlayButton from "../ui/buttons/PlayButton";
+import VolButton from "../ui/buttons/VolButton";
+import ArtistButton from "../ui/buttons/ArtistButton";
 import styles from "./miniPlayerBar.module.css";
 
 const MiniPlayerBar = ({handleImageToast}) => {

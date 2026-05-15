@@ -4,10 +4,10 @@ import { useAudio } from "../../contexts/AudioContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { formatTime } from "../../hooks/useFormatTime";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import { useImageToast } from "../ui/ΙmageToast";
-import PlayButton from "../buttons/PlayButton";
-import ArtistButton from "../buttons/ArtistButton";
-import Circle from "../ui/Circle";
+import { useImageToast } from "../ui/toasts/ΙmageToast";
+import PlayButton from "../ui/buttons/PlayButton";
+import ArtistButton from "../ui/buttons/ArtistButton";
+import Circle from "../ui/circles/Circle";
 import styles from "./audioPlayer.module.css";
 
 const AudioPlayer = ({ onToggleExtention }) => {

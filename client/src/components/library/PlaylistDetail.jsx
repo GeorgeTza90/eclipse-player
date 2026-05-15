@@ -9,7 +9,7 @@ import { useFetchManager, usePostManager } from "../../hooks/useCallManager";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import SongRow from "./PlaylistSongItem";
 import MiniPlayer from "../player/MiniPlayer";
-import BackButton from "../buttons/BackButton";
+import BackButton from "../ui/buttons/BackButton";
 import styles from "./playlistDetail.module.css";
 
 const PlaylistDetail = () => {

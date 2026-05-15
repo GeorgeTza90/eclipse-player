@@ -5,7 +5,7 @@ import authRoutes from "./auth.js";
 import playlistRoutes from "./playlists.js";
 import artistsRoutes from "./artists.js";
 import presetsRoutes from "./presets.js";
-import downloadRoutes from "./download.js";
+import downloadRoutes from "./downloads.js";
 
 export function setupRoutes(app: Express) {
   app.use("/api/auth", authRoutes);

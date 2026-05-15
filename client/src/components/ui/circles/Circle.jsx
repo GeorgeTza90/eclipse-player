@@ -1,4 +1,4 @@
-import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+import { useMiniPlayer } from "../../../contexts/MiniPlayerContextWeb";
 
 const Circle = ({
   size = 200,

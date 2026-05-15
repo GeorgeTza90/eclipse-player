@@ -6,7 +6,7 @@ import AudioPlayer from "../../components/player/AudioPlayer";
 import Equalizer from "../../components/player/Equalizer";
 import Lyrics from "../../components/player/Lyrics";
 import Playlist from "../../components/player/Playlist";
-import Circle from "../../components/ui/Circle";
+import Circle from "../../components/ui/circles/Circle";
 
 const Player = () => {
     const isMobile = useIsMobile();

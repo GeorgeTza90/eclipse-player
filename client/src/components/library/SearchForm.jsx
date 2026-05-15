@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
-import SearchInput from "../inputs/SearchInput";
+import SearchInput from "../ui/inputs/SearchInput";
 
 const SearchForm = () => {
     const [searchKey, setSearchKey] = useState("");

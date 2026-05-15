@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useFetchManager, usePostManager } from "../../hooks/useCallManager";
-import { useToast } from "../../contexts/ToastContextWeb";
+import { useFetchManager, usePostManager } from "../../../hooks/useCallManager";
+import { useToast } from "../../../contexts/ToastContextWeb";
 import styles from "./addToPlaylistButton.module.css";
 
 const AddToPlaylistButton = ({ song }) => {    

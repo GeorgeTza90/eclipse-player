@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMiniPlayer } from '../../contexts/MiniPlayerContextWeb';
 import { useAudio } from '../../contexts/AudioContextWeb';
-import { useImageToast } from '../../components/ui/ΙmageToast';
+import { useImageToast } from '../../components/ui/toasts/ΙmageToast';
 import MiniPlayerBar from '../../components/player/MiniPlayerBar';
 import hexToRgba from '../../utils/hexToRgba';
 import styles from "./footer.module.css"

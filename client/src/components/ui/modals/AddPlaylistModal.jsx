@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useToast } from "../../contexts/ToastContextWeb";
-import { usePostManager } from "../../hooks/useCallManager";
+import { useToast } from "../../../contexts/ToastContextWeb";
+import { usePostManager } from "../../../hooks/useCallManager";
 import styles from "./addPlaylistModal.module.css";
 
 const AddPlaylistModal = ({ visible, onClose, onCreated }) => {
@@ -27,7 +27,7 @@ const AddPlaylistModal = ({ visible, onClose, onCreated }) => {
         } catch {
             showToast("Could not create playlist", "error");
         }
-  };
+  };  
 
   return (
     <div className={styles.modalOverlay}>

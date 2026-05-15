@@ -6,13 +6,13 @@ import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import { useImageToast } from "../ui/ΙmageToast";
+import { useImageToast } from "../ui/toasts/ΙmageToast";
+import TrackItem from "./TrackItem";
 import MiniPlayer from "../player/MiniPlayer";
 import hexToRgba from "../../utils/hexToRgba";
-import ArtistButton from "../buttons/ArtistButton";
-import BackButton from "../buttons/BackButton";
-import LoadingMessage from "./LoadingMessage";
-import TrackItem from "./TrackItem";
+import ArtistButton from "../ui/buttons/ArtistButton";
+import BackButton from "../ui/buttons/BackButton";
+import LoadingMessage from "../ui/loaders/LoadingMessage";
 import styles from "./collectionDetail.module.css";
 
 const CollectionDetail = () => {

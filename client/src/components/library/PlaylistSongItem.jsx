@@ -1,4 +1,4 @@
-import DeleteSongButton from "../buttons/DeleteSongButton";
+import DeleteSongButton from "../ui/buttons/DeleteSongButton";
 import styles from "./playlistSongItem.module.css";
 
 const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {

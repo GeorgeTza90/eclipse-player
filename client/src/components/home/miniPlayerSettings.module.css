@@ -83,13 +83,10 @@
         align-items: center;
         line-height: 0.5rem;
     }
-
         
     .notAvailable {
         font-size: 0.8rem;
-        color: #949494;
-        
-        
+        color: #949494;      
     }
 
     .infoText {

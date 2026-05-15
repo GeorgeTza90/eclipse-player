@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getSongs, getPrivateSongs } from "../controllers/playerController.js";
+import { getSongs, getPrivateSongs } from "../controllers/songsController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = Router();

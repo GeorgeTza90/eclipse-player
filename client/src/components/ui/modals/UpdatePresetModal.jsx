@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useToast } from "../../contexts/ToastContextWeb";
-import { usePostManager } from "../../hooks/useCallManager";
+import { useToast } from "../../../contexts/ToastContextWeb";
+import { usePostManager } from "../../../hooks/useCallManager";
 import styles from "./addPresetModal.module.css";
 
 const UpdatePresetModal = ({ visible, onClose, onCreated, presetNew, newEQ }) => {
