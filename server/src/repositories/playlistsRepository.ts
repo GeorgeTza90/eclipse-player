@@ -4,7 +4,7 @@ import { Playlist, PlaylistSong, Song } from "../types/controllersTypes.js";
 
 export const playlistsRepository = {
     // PLAYLISTS CRUD
-    async getPlaylists(userId: number): Promise<Playlist[]> {
+    async findPlaylists(userId: number): Promise<Playlist[]> {
         const [playlists] = await db.query<Playlist[]>("SELECT * FROM playlists WHERE user_id = ?", [userId]);    
         return playlists;
     },
@@ -24,7 +24,7 @@ export const playlistsRepository = {
     },
 
     // PLAYLISTS SONGS CRUD
-    async getPlaylistSongs(playlistId: number): Promise<Playlist[]> {
+    async findPlaylistSongs(playlistId: number): Promise<Playlist[]> {
         const [playlistSuffled] = await db.query<Playlist[]>(
             `SELECT s.*, ps.id AS playlistSongId, ps.order AS playlistOrder
             FROM playlist_songs ps
@@ -36,11 +36,11 @@ export const playlistsRepository = {
         return playlistSuffled;
     },
 
-    async addSongInPlaylist(playlistId: number, songId: number, order:number): Promise<void> {
+    async createSongInPlaylist(playlistId: number, songId: number, order:number): Promise<void> {
         await db.query<ResultSetHeader>("INSERT INTO playlist_songs (playlist_id, song_id, `order`) VALUES (?, ?, ?)", [playlistId, songId, order]);                
     },
 
-    async moveSongInPlaylist(songs: PlaylistSong[]): Promise<void> {
+    async updateSongInPlaylist(songs: PlaylistSong[]): Promise<void> {
         await Promise.all(
             songs.map((s, i) =>
                 db.query<ResultSetHeader>("UPDATE playlist_songs SET `order` = ? WHERE id = ?", [i, s.id])
@@ -54,22 +54,22 @@ export const playlistsRepository = {
     },
 
     // HELPERS
-    async getPlaylist(playlistId: number, userId: number): Promise<Playlist[]> {
+    async findPlaylist(playlistId: number, userId: number): Promise<Playlist[]> {
         const [playlist] = await db.query<Playlist[]>("SELECT * FROM playlists WHERE id = ? AND user_id = ?", [playlistId, userId]);
         return playlist;
     },
 
-    async getPlaylistSong(playlistId: number, songId: number): Promise<PlaylistSong[]> {
+    async findPlaylistSong(playlistId: number, songId: number): Promise<PlaylistSong[]> {
         const [playlistSong] = await db.query<PlaylistSong[]>("SELECT id FROM playlist_songs WHERE playlist_id = ? AND song_id = ?", [playlistId, songId]);
         return playlistSong;
     },
 
-    async getPlaylistSongsInOrder(playlistId: number): Promise<PlaylistSong[]> {
+    async findPlaylistSongsInOrder(playlistId: number): Promise<PlaylistSong[]> {
         const [playlistSongsInOrder] = await db.query<PlaylistSong[]>("SELECT id, `order` FROM playlist_songs WHERE playlist_id = ? ORDER BY `order` ASC", [playlistId]);
         return playlistSongsInOrder;
     },
 
-    async selectMaxOrder(playlistId: number): Promise<RowDataPacket[]> {
+    async findMaxOrder(playlistId: number): Promise<RowDataPacket[]> {
         const [lastOrder] = await db.query<RowDataPacket[]>("SELECT MAX(`order`) AS maxOrder FROM playlist_songs WHERE playlist_id = ?", [playlistId]);
         return lastOrder;
     },
