@@ -2,24 +2,24 @@ import { authRepository } from "../repositories/authRepository.js"
 
 export const authService = {
     // GET USER DATA
-    async getUserbyID(userId: number) {
-        return await authRepository.getUserbyID(userId);
+    async findUserById(userId: number) {
+        return await authRepository.findUserById(userId);
     },
 
-    async getUserbyEmail(email: string) {
-        return await authRepository.getUserbyEmail(email);
+    async findUserByEmail(email: string) {
+        return await authRepository.findUserByEmail(email);
     },
 
-    async getUserbyEmailNoPassword(email: string) {
-        return await authRepository.getUserbyEmailNoPassword(email);
+    async findUserByEmailNoPassword(email: string) {
+        return await authRepository.findUserByEmailNoPassword(email);
     },
 
-    async getUserPassword(userId: number) {
-        return await authRepository.getUserPassword(userId);
+    async findUserPassword(userId: number) {
+        return await authRepository.findUserPassword(userId);
     },
 
-    async getUserPremium(userId: number) {
-        return await authRepository.getUserPremium(userId);
+    async findUserPremium(userId: number) {
+        return await authRepository.findUserPremium(userId);
     },
 
     // UPDATE USER DATA
@@ -27,29 +27,29 @@ export const authService = {
         return await authRepository.updateUserPassword(newPassword, userId);
     },
 
-    async updateUserName(newUsername: string, userId: number) {
-        return await authRepository.updateUserName(newUsername, userId);        
+    async updateUsername(newUsername: string, userId: number) {
+        return await authRepository.updateUsername(newUsername, userId);        
     },
 
     // REGISTER USER DATA
     async registerUser(username: string, email: string, hashedPassword: string) {
-        return await authRepository.registerUser(username, email, hashedPassword);
+        return await authRepository.createUser(username, email, hashedPassword);
     },
 
     async registerGoogleUser(name: string, email: string, googleId: string) {
-        return await authRepository.registerGoogleUser(name, email, googleId);
+        return await authRepository.createGoogleUser(name, email, googleId);
     },
 
     // PASSWORD RESET
     async logPasswordResetRequest(userId: number, token: string, expireDate: string) {
-        await authRepository.logPasswordResetRequest(userId, token, expireDate);
+        await authRepository.createPasswordResetRequest(userId, token, expireDate);
     },
 
     async getPasswordResetRequest(token: string) {
-        return await authRepository.getPasswordResetRequest(token);
+        return await authRepository.findPasswordResetRequest(token);
     },
 
     async resetUserPassword(userId: number, requestId: number, password: string) {
-        return await authRepository.resetUserPasswordTransaction(userId, requestId, password);
+        return await authRepository.updateUserPasswordTransaction(userId, requestId, password);
     },
 }

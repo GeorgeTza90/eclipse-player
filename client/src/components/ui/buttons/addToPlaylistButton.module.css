@@ -8,13 +8,14 @@
     background-color: #55555500;
     border: none;
     margin-right: 0.15rem;
-    z-index: 999;
+    z-index: 999; 
 }
 
 .button:hover {
-    color: #9cd5ad;
+    color: #f1fff5;
     margin-right: 0rem;
-    font-size: 1.7rem;    
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.475);
 }
 
 .modalOverlay {

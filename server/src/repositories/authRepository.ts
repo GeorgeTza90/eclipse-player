@@ -4,27 +4,27 @@ import { PasswordResetTypes, Playlist, PlaylistSong, Song, User } from "../types
 
 export const authRepository = {
     // GET USER DATA
-    async getUserbyID(userId: number): Promise<User[]> {
-        const [user] = await db.query<User[]>("SELECT id, username, email, premium, private FROM users WHERE id = ?", [userId]);
-        return user;
+    async findUserById(userId: number): Promise<User | null> {
+        const [rows] = await db.query<User[]>("SELECT id, username, email, premium, private FROM users WHERE id = ?", [userId]);
+        return rows[0] ?? null;
     },
 
-    async getUserbyEmail(email: string): Promise<User[]> {
-        const [user] = await db.query<User[]>("SELECT id, username, email, password, premium, private FROM users WHERE email = ?", [email]);
-        return user;
+    async findUserByEmail(email: string): Promise<User | null> {
+        const [rows] = await db.query<User[]>("SELECT id, username, email, password, premium, private FROM users WHERE email = ?", [email]);
+        return rows[0] ?? null;
     },
 
-    async getUserbyEmailNoPassword(email: string): Promise<User[]> {
-        const [user] = await db.query<User[]>("SELECT id, username, email, premium, private FROM users WHERE email = ?", [email]);
-        return user;
+    async findUserByEmailNoPassword(email: string): Promise<User | null> {
+        const [row] = await db.query<User[]>("SELECT id, username, email, premium, private FROM users WHERE email = ?", [email]);
+        return row[0] ?? null;
     },
 
-    async getUserPassword(userId: number): Promise<User[]> {
-        const [userPass] = await db.query<User[]>("SELECT password FROM users WHERE id = ?", [userId] );
-        return userPass;
+    async findUserPassword(userId: number): Promise<User | null> {
+        const [rows] = await db.query<User[]>("SELECT password FROM users WHERE id = ?", [userId] );
+        return rows[0] ?? null;
     },
 
-    async getUserPremium(userId: number): Promise<User[]> {
+    async findUserPremium(userId: number): Promise<User[]> {
         const [user] = await db.query<User[]>("SELECT premium, private FROM users WHERE id = ?", [userId]);
         return user;
     },
@@ -34,33 +34,33 @@ export const authRepository = {
         await db.query<ResultSetHeader>("UPDATE users SET password = ? WHERE id = ?", [newPassword, userId]);
     },
 
-    async updateUserName(newUsername: string, userId: number): Promise<ResultSetHeader> {
+    async updateUsername(newUsername: string, userId: number): Promise<ResultSetHeader> {
         const [result] = await db.query<ResultSetHeader>("UPDATE users SET username = ? WHERE id = ?", [newUsername, userId]);        
         return result;
     },
 
     // REGISTER USER DATA
-    async registerUser(username: string, email: string, hashedPassword: string): Promise<ResultSetHeader> {
+    async createUser(username: string, email: string, hashedPassword: string): Promise<ResultSetHeader> {
         const [result] = await db.query<ResultSetHeader>("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", [username, email, hashedPassword]);
         return result;
     },
 
-    async registerGoogleUser(name: string, email: string, googleId: string): Promise<ResultSetHeader> {
+    async createGoogleUser(name: string, email: string, googleId: string): Promise<ResultSetHeader> {
         const [result] = await db.query<ResultSetHeader>("INSERT INTO users (username, email, google_id, password) VALUES (?, ?, ?, ?)", [name, email, googleId, null]);
         return result;
     },
 
     // PASSWORD RESET
-    async logPasswordResetRequest(userId: number, token: string, expireDate: string): Promise<void> {
+    async createPasswordResetRequest(userId: number, token: string, expireDate: string): Promise<void> {
         await db.query(`INSERT INTO password_reset_requests (user_id, token_hash, expires_at) VALUES (?, ?, ?)`, [userId, token, expireDate]);
     },
 
-    async getPasswordResetRequest(token: string): Promise<PasswordResetTypes[]> {
+    async findPasswordResetRequest(token: string): Promise<PasswordResetTypes[]> {
         const [rows] = await db.query<PasswordResetTypes[]>(`SELECT * FROM password_reset_requests WHERE token_hash = ?  AND expires_at > NOW()  AND used_at IS NULL`, [token]);
         return rows;
     },
 
-    async resetUserPasswordTransaction(userId: number, requestId: number, password: string): Promise<void> {
+    async updateUserPasswordTransaction(userId: number, requestId: number, password: string): Promise<void> {
         const conn = await db.getConnection();
         try {
             await conn.beginTransaction();

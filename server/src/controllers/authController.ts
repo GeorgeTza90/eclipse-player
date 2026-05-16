@@ -24,9 +24,9 @@ export const me = async (req: AuthenticatedRequest, res: Response): Promise<void
     if (!userId) { res.status(401).json({ error: "Not authenticated" }); return; }
 
     try {
-        const userRows = await authService.getUserbyID(userId);
-        const user = userRows[0];
+        const user = await authService.findUserById(userId);        
         if (!user) { res.status(404).json({ error: "User not found" }); return; }
+
         res.json(user);
     } catch (error) {        
         res.status(500).json({ error: "Internal server error" });
@@ -48,8 +48,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         const result = await authService.registerUser(username,email, hashedPassword);
         const userId = result.insertId;
 
-        const userRows = await authService.getUserbyID(userId)
-        const user = userRows[0];
+        const user = await authService.findUserById(userId);
+        if (!user) { res.status(404).json({ error: "User not found"}); return;}
+        
         const token = jwt.sign( { id: user.id }, JWT_SECRET, { expiresIn: "7d" } );
 
         res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "none", maxAge: 7*24*60*60*1000 });
@@ -68,12 +69,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     if (!email || !password) { res.status(400).json({ error: "Email and password are required" }); return; }
 
     try {
-        const rows = await authService.getUserbyEmail(email);
-        const user = rows[0];
+        const user = await authService.findUserByEmail(email);        
         if (!user) { res.status(401).json({ error: "Invalid credentials" }); return; }
 
         const passwordMatch = await bcrypt.compare(password, user.password!);
         if (!passwordMatch) { res.status(401).json({ error: "Invalid credentials" }); return; }
+        
         const token = jwt.sign( { id: user.id }, JWT_SECRET, { expiresIn: "7d" } );
         const { password: _, ...safeUser } = user;
 
@@ -96,22 +97,23 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
         const { data } = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", { headers: { Authorization: `Bearer ${accessToken}` } });
         const { email, name, sub: googleId } = data;
         if (!email) { res.status(400).json({ error: "Google account has no email"}); return; }
-        const rows = await authService.getUserbyEmailNoPassword(email);
-        let user: User;
+        const existingUser = await authService.findUserByEmailNoPassword(email);
+        let finalUser: User;
 
-        if (rows.length > 0) {
-          user = rows[0];
+        if (existingUser) {
+          finalUser = existingUser;
         } else {
           const result = await authService.registerGoogleUser(name, email, googleId)
           const userId = result.insertId;
-          const userRows = await authService.getUserbyID(userId);
-          user = userRows[0];
+          const user = await authService.findUserById(userId);
+          if (!user) { res.status(404).json({ error: "User Not found" }); return;}
+          finalUser = user;
         }
 
-        const token = jwt.sign( { id: user.id }, JWT_SECRET, { expiresIn: "7d" } );
+        const token = jwt.sign( { id: finalUser.id }, JWT_SECRET, { expiresIn: "7d" } );
         
         res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "none", maxAge: 7*24*60*60*1000 });
-        res.json({ user, token });
+        res.json({ user: finalUser, token });
     } catch (error: any) {
         console.error("Google login error:", error.response?.data || error);
         res.status(400).json({ error: "Google login failed" });
@@ -134,9 +136,8 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
     if (!email) { res.status(400).json({ error: "Email is required" }); return; }
       
     try {
-        const rows = await authService.getUserbyEmailNoPassword(email);
-        const user = rows[0];        
-        if (!user) { res.json({ message: "If this email exists, /n a reset link has been sent" }); return; }
+        const user = await authService.findUserByEmailNoPassword(email);
+        if (!user) { res.json({ message: "If this email exists, a reset link has been sent" }); return; }
          
         const minEXP = 30;
         const resetToken = randomBytes(32).toString("hex");
@@ -180,8 +181,7 @@ export const changePassword = async ( req: AuthenticatedRequest, res: Response )
     if (newPassword.length < 8) { res.status(400).json({ error: "New password must be at least 8 characters long" }); return; }
 
     try {
-        const rows = await authService.getUserPassword(userId);
-        const user = rows[0];
+        const user = await authService.findUserPassword(userId);        
         if (!user) { res.status(404).json({ error: "User not found" }); return; }
         if (!user.password) { res.status(400).json({ error: "Password login not enabled for this account" }); return; }
 
@@ -215,8 +215,7 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
         const userId = request.user_id;
         if (!userId) { res.status(404).json({ error: "User not found" }); return; }
 
-        const userRows = await authService.getUserPassword(userId);
-        const user = userRows[0];
+        const user = await authService.findUserPassword(userId);        
         if (!user || !user.password) { res.status(404).json({ error: "User not found" }); return; }
 
         const samePassword = await bcrypt.compare(newPassword, user.password);
@@ -248,7 +247,7 @@ export const updateUsername = async (req: AuthenticatedRequest , res: Response):
     if (cleanedUsername.length < 2) { res.status(400).json({ error: "Username must be at least 2 characters long" }); return; }    
 
     try {    
-        const result = await authService.updateUserName(cleanedUsername, userId);         
+        const result = await authService.updateUsername(cleanedUsername, userId);         
         if (result.affectedRows === 0) { res.status(404).json({ error: "User not found" }); return; }        
         
         res.json({ success: true, message: "Username update successful", username: cleanedUsername });
@@ -266,7 +265,7 @@ export const premiumCheck = async (req: AuthenticatedRequest, res: Response): Pr
         const userId = req.user?.id;
         if (!userId) {res.status(401).json({ error: "Unauthorized" }); return; }
 
-        const rows = await authService.getUserPremium(userId);
+        const rows = await authService.findUserPremium(userId);
         const user = rows[0];
         if (!user) { res.status(404).json({ error: "User not found" }); return; }
 
