@@ -75,7 +75,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
                     <PlayButton type="next" onClick={next} />
                 </div><br />
 
-                {/* Time Slider */}
+    {/* Time Slider */}
                 <div className={styles.sliderRow}>                    
                     <span className={styles.time}>{formatTime(position * 1000)}</span>
                     {goRGB && <div style={RGBStyle} className={styles.sliderRGBStyle}></div>}
