@@ -27,7 +27,8 @@ Optimized rendering and audio handling for smooth, uninterrupted playback.
 
 ## 🧠 Technical Highlights
 
-- Designed scalable backend structure with separation of concerns  
-- Implemented complex state management beyond basic global state patterns  
-- Built system with real-world use cases in mind (user roles, media handling, persistence)  
-- Deployed full-stack environment with active users  
+- Built a production-ready full-stack music streaming platform with web and mobile clients
+- Implemented JWT authentication with role-based access control (premium/private users)
+- Designed scalable RESTful APIs for users, playlists, and media management
+- Integrated Cloudinary for optimized media storage and delivery
+- Integrated email notification system using Resend API
