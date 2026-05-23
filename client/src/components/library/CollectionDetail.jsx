@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
@@ -18,7 +18,8 @@ import Loader from "../ui/loaders/Loader";
 
 const CollectionDetail = () => {
     const { user } = useAuth();
-    const location = useLocation();    
+    const location = useLocation();
+    const [searchParams] = useSearchParams();
     const { songs, loading } = useLibrary();    
     const { playSong, currentSong } = useAudio();
     const { showImageToast, ImageToastUI } = useImageToast();
@@ -26,7 +27,7 @@ const CollectionDetail = () => {
     const isMobile = useIsMobile();
     const navigate = useNavigate();       
 
-    const album = location.state.album;
+    const album = searchParams.get("album") || location.state.album;
     const albumSongs = useMemo(() => songs.filter(s => s.album === album) ,[songs, album]);    
     
     /* --- LOADING --- */
