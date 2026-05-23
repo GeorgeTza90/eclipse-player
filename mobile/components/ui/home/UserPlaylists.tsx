@@ -45,7 +45,15 @@ export default function UserPlaylists() {
                             playlist={pl}
                             onDelete={loadPlaylists}
                             onPress={(playlist) =>
-                              router.push(`/library/PlaylistDetail?id=${playlist.id}&title=${encodeURIComponent(playlist.title)}`)
+                                router.push({
+                                    pathname: "/library/PlaylistDetail",
+                                    params: {
+                                        id: String(playlist.id),
+                                        title: playlist.title,
+                                        description: playlist.description ?? "",
+                                        songCount: String(playlist.songCount ?? 0),
+                                    }
+                                })
                             }
                         />
                     ))}
