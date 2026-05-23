@@ -27,7 +27,7 @@ const CollectionDetail = () => {
     const isMobile = useIsMobile();
     const navigate = useNavigate();       
 
-    const album = searchParams.get("album") || location.state.album;
+    const album = searchParams.get("album") || location.state?.album;
     const albumSongs = useMemo(() => songs.filter(s => s.album === album) ,[songs, album]);    
     
     /* --- LOADING --- */
