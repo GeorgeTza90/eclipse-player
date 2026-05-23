@@ -47,17 +47,9 @@ export async function fetchArtist(artistName) {
 export async function fetchUserPlaylists() {
     const res = await fetch(`${API_URL}/api/playlists`, { credentials: "include" });
     if (!res.ok) throw new Error("Failed to fetch playlists");
+        
     const playlists = await res.json();
-
-    const playlistsWithCounts = await Promise.all(
-        playlists.map(async (pl) => {
-            const songsRes = await fetch(`${API_URL}/api/playlists/${pl.id}/songs`, { credentials: "include" });
-            const songs = songsRes.ok ? await songsRes.json() : [];
-            
-            return { ...pl, songCount: songs.length };
-        })
-    );
-    return playlistsWithCounts;
+    return playlists;
 }
 
 export async function fetchPlaylistSongs(playlistId) {
