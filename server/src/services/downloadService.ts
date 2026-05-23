@@ -1,9 +1,8 @@
 import path from "path";
 
-const APKfilePath = path.resolve("files/eclipse_player_v1.2.4.apk");
-
 export const apkService = {
-    getApkPath(): string {
-        return APKfilePath;
+    getApkPath(version?: string): string {
+        const v = version ?? "1.2.4";
+        return path.resolve(`files/eclipse_player_v${v}.apk`);
     }
 };
