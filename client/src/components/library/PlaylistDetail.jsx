@@ -11,6 +11,7 @@ import SongRow from "./PlaylistSongItem";
 import MiniPlayer from "../player/MiniPlayer";
 import BackButton from "../ui/buttons/BackButton";
 import styles from "./playlistDetail.module.css";
+import Loader from "../ui/loaders/Loader";
 
 const PlaylistDetail = () => {
     const location = useLocation();
@@ -20,14 +21,15 @@ const PlaylistDetail = () => {
     const { barMode, setPlayerPage } = useMiniPlayer();
     const { user } = useAuth();    
 
-    const params = new URLSearchParams(location.search);
-    const id = Number(params.get("id"));
-    const title = params.get("title");    
+    const playlist = location.state;
+    const id = playlist.id;
+    const title = playlist.title;
+    const description = playlist.description;
     
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
     const { call: postCall } = usePostManager();
     const songs = fetchState.playlistSongs || [];
-    const loading = fetchLoading.playlistSongs;
+    const loading = fetchLoading.playlistSongs;    
     
     /* --- LOAD PLAYLIST SONGS --- */
     useEffect(() => {
@@ -65,15 +67,17 @@ const PlaylistDetail = () => {
         <div className={styles.container}>
             {!isMobile && user && !barMode && (<MiniPlayer />)}
 
-            <div className={styles.headerInfo}>
-                <h2 className={styles.playlistTitle}>{title}</h2>
+            <div>
+                <h2>{title}</h2>
+                <h2 className={styles.description}>{description}</h2>
                 <p className={styles.artistInfo}>{songs.length} songs • {useAlbumDuration(songs)}</p>
             </div>
 
             {loading ? (
                 <div className={styles.centered}>
-                <div className={styles.spinner}></div>
-                <p className={styles.loadingText}>Loading songs...</p>
+                    <Loader text={"Loading songs"} size={"small"}/>
+                    {/* <div className={styles.spinner}></div>
+                    <p className={styles.loadingText}>Loading songs...</p> */}
                 </div>
             ) : songs.length === 0 ? (
                 <div className={styles.centered}>

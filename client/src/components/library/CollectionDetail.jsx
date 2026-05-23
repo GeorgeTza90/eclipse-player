@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
@@ -14,21 +14,24 @@ import ArtistButton from "../ui/buttons/ArtistButton";
 import BackButton from "../ui/buttons/BackButton";
 import LoadingMessage from "../ui/loaders/LoadingMessage";
 import styles from "./collectionDetail.module.css";
+import Loader from "../ui/loaders/Loader";
 
 const CollectionDetail = () => {
     const { user } = useAuth();
-    const [searchParams] = useSearchParams();    
+    const location = useLocation();    
     const { songs, loading } = useLibrary();    
     const { playSong, currentSong } = useAudio();
     const { showImageToast, ImageToastUI } = useImageToast();
     const { barMode, setPlayerPage } = useMiniPlayer();
     const isMobile = useIsMobile();
-    const navigate = useNavigate();    
-    const album = searchParams.get("album");
+    const navigate = useNavigate();       
+
+    const album = location.state.album;
     const albumSongs = useMemo(() => songs.filter(s => s.album === album) ,[songs, album]);    
     
     /* --- LOADING --- */
-    if (!albumSongs || albumSongs.length === 0) return <LoadingMessage />
+    if (!albumSongs || albumSongs.length === 0) return (<div className={styles.loadingContainer}><Loader text={"Loading Collection"}/></div>)
+
     const albumInfo = albumSongs[0];
     const durationString = useAlbumDuration(albumSongs);
 

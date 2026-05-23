@@ -13,8 +13,8 @@ import sendEmail from "../utils/sendEmail.js";
 // -----------------------------
 const JWT_SECRET = process.env.JWT_SECRET!;
 const FRONTEND_URL = process.env.FRONTEND_URL!;
-const RESET_SECRET = process.env.RESET_PASSWORD_SECRET!;
-const isProd = process.env.NODE_ENV === "production";
+// const RESET_SECRET = process.env.RESET_PASSWORD_SECRET!;
+// const isProd = process.env.NODE_ENV === "production";
 
 // -----------------------------
 // ME
@@ -34,11 +34,10 @@ export const me = async (req: AuthenticatedRequest, res: Response): Promise<void
 };
 
 // -----------------------------
-// REGISTER
+// Register
 // -----------------------------
 export const register = async (req: Request, res: Response): Promise<void> => {
     const { username, email, password } = req.body as { username?: string; email?: string; password?: string; };
-
     if (!username || !email || !password) { res.status(400).json({ error: "Email, password and username are required" }); return; }
     if (username.length < 2) { res.status(400).json({ error: "Username must be at least 2 characters long" }); return; }
     if (password.length < 8) { res.status(400).json({ error: "Password must be at least 8 characters long" }); return; }

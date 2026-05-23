@@ -31,11 +31,12 @@ const LibraryGroupItem = ({ type, group }) => {
                         type={isPrivate ? "private" : (isArtist ? "artist" : "song")}
                         onClick={() =>
                             navigate(
-                                isPrivate ? `/library/PrivateCollectionDetail?album=${encodeURIComponent(item.album)}` : ( 
-                                    isArtist
-                                        ? `/library/ArtistInfo?artist=${encodeURIComponent(item.name)}`
-                                        : `/library/CollectionDetail?album=${encodeURIComponent(item.album)}` 
-                                )
+                                isPrivate 
+                                    ? `/library/PrivateCollectionDetail`
+                                    : isArtist
+                                        ? `/library/ArtistInfo`
+                                        : `/library/CollectionDetail`
+                                , {state: item}
                             )
                         }
                     />

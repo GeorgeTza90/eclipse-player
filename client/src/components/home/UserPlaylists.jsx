@@ -25,12 +25,12 @@ const UserPlaylists = () => {
 
     //--- LOADING & MESSAGING --- */
     const showLoader = useMinimumLoading(loading.playlists, 500);
-    if (showLoader) return <Loader text="Loading Playlists" size="small"/>
-    if (loading.playlists) return <LoadingMessage message="Loading playlists ..." height="14vh"/>;  
+    if (showLoader) return <Loader text="Loading Playlists" size="small"/> 
     if (error.playlists) return <LoadingMessage message="Error loading playlists" height="14vh"/>;    
 
     //--- PRESS PLAYLIST ---//
-    const handlePlaylistPress = (playlist) => navigate(`/library/PlaylistDetail?id=${playlist.id}&title=${encodeURIComponent(playlist.title)}`);
+    // const handlePlaylistPress = (playlist) => navigate(`/library/PlaylistDetail?id=${playlist.id}&title=${encodeURIComponent(playlist.title)}`);
+    const handlePlaylistPress = (playlist) => navigate(`/library/PlaylistDetail`, {state: playlist});
 
     return (
         <div className={styles.container}>

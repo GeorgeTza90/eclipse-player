@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { AuthenticatedRequest} from "../types/controllersTypes.js";
 import { playlistsService } from "../services/playlistsService.js";
+import { logger } from "../utils/logger.js";
 
 // -----------------------------
 // PLAYLISTS CRUD
@@ -90,12 +91,12 @@ export const getPlaylistSongs = async (req: AuthenticatedRequest, res: Response)
 // -----------------------------
 // ADD SONG TO PLAYLISTS
 // -----------------------------
-export const addSongToPlaylist = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const addSongToPlaylist = async (req: AuthenticatedRequest, res: Response): Promise<void> => {    
     const userId = req.user?.id;
-    const playlistId = Number(req.params.playlistId);
-    const { songId } = req.body as { songId?: number };
-
     if (!userId) { res.status(401).json({ error: "Unauthorized" }); return; }
+
+    const playlistId = Number(req.params.playlistId);
+    const { songId } = req.body as { songId?: number };   
     if (!songId) { res.status(400).json({ error: "Song ID is required" }); return; }
 
     try {        
@@ -104,11 +105,11 @@ export const addSongToPlaylist = async (req: AuthenticatedRequest, res: Response
 
         const existing = await playlistsService.getPlaylistSong(playlistId, songId)
         if (existing.length > 0) { res.status(400).json({ error: "Song already in playlist" }); return; }
-
+        
         const lastOrder = await playlistsService.selectMaxOrder(playlistId);
         const order = (lastOrder[0].maxOrder as number || 0) + 1;
         await playlistsService.addSongInPlaylist(playlistId, songId, order);
-        res.status(201).json({ message: "Song added to playlist" });
+        res.status(201).json({ message: "Song added to playlist" });        
     } catch (error) {        
         res.status(500).json({ error: "Server error" });
     }
@@ -159,7 +160,7 @@ export const deleteSongFromPlaylist = async (req: AuthenticatedRequest, res: Res
     try {
         const [playlist] = await playlistsService.getPlaylist(playlistId, userId);
         if (!playlist) { res.status(404).json({ error: "Playlist not found or not authorized" }); return; }
-
+                
         const result = await playlistsService.deleteSongInPlaylist(playlistId, songId);        
         if (result.affectedRows === 0) { res.status(404).json({ error: "Song not found in playlist" }); return; }
         

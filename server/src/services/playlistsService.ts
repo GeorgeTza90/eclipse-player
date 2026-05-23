@@ -15,7 +15,7 @@ export const playlistsService = {
         return await playlistsRepository.updatePlaylist(title, description, id, userId);        
     },
 
-    async deletePlaylist( playlistId: number, userId: number) {
+    async deletePlaylist(playlistId: number, userId: number) {
         return await playlistsRepository.deletePlaylist( playlistId, userId);
     },
 

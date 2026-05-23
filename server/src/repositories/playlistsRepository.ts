@@ -37,7 +37,18 @@ export const playlistsRepository = {
     },
 
     async createSongInPlaylist(playlistId: number, songId: number, order:number): Promise<void> {
-        await db.query<ResultSetHeader>("INSERT INTO playlist_songs (playlist_id, song_id, `order`) VALUES (?, ?, ?)", [playlistId, songId, order]);                
+        const conn = await db.getConnection();
+        try {
+            await conn.beginTransaction();
+            await conn.query<ResultSetHeader>("INSERT INTO playlist_songs (playlist_id, song_id, `order`) VALUES (?, ?, ?)", [playlistId, songId, order]);
+            await conn.query<ResultSetHeader>("UPDATE playlists SET songCount = songCount + 1 WHERE id = ?", [playlistId]);
+            await conn.commit();
+        } catch (err) {
+            await conn.rollback();
+            throw err;
+        } finally {
+            conn.release();
+        }    
     },
 
     async updateSongInPlaylist(songs: PlaylistSong[]): Promise<void> {
@@ -49,8 +60,19 @@ export const playlistsRepository = {
     },
 
     async deleteSongInPlaylist(playlistId: number, songId: number): Promise<ResultSetHeader> {
-        const [result] = await db.query<ResultSetHeader>("DELETE FROM playlist_songs WHERE playlist_id = ? AND song_id = ?", [playlistId, songId]);
-        return result;
+        const conn = await db.getConnection();
+        try {
+            await conn.beginTransaction();
+            const [result] = await conn.query<ResultSetHeader>("DELETE FROM playlist_songs WHERE playlist_id = ? AND song_id = ?", [playlistId, songId]);
+            if (result.affectedRows > 0) await conn.query("UPDATE playlists SET songCount = songCount - 1 WHERE id = ?", [playlistId]);
+            await conn.commit();
+            return result;
+        } catch (err) {
+            await conn.rollback();
+            throw err;
+        } finally {
+            conn.release();
+        }
     },
 
     // HELPERS
