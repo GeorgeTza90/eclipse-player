@@ -22,7 +22,7 @@ const LibraryGroupItem = ({ type, group }) => {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.categoryTitle}>{type}</h2>        
+            <h2 className={styles.categoryTitle}>{type}</h2>
             <div className={styles.horizontalScroll} style={horizontalScrollStyle}>
                 {group.map((item) => (                    
                     <CollectionCard

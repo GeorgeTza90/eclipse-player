@@ -2,27 +2,65 @@ import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useMinimumLoading } from "../../hooks/useMinimumLoading.";
 import LibraryGroupItem from "./LibraryGroupItem";
+import VinylGroupItem from "./VinylGroupItem";
 import SearchForm from "./SearchForm";
 import Loader from "../ui/loaders/Loader";
 import styles from "./libraryScreen.module.css";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useState } from "react";
 
 const LibraryScreen = () => {
     const { privateAlbums, singlesEps, albums, artists, loading } = useLibrary();
     const { priv_u } = useAuth();
-        
-    /* --- LOADING --- */
-    const showLoader = useMinimumLoading(loading, 2000);
-    if (showLoader) return <Loader text="Loading Library"/>;
+    const isMobile = useIsMobile();
 
-    return (        
-        <div className={styles.container}>            
-            <SearchForm />
-            <div className={styles.groupItemDiv}>
-                {priv_u && (<LibraryGroupItem type="Private" group={privateAlbums} />)}
-                <LibraryGroupItem type="Singles & EPs" group={singlesEps} />
-                <LibraryGroupItem type="Albums" group={albums} />
-                <LibraryGroupItem type="Artists" group={artists} />        
-            </div>      
+    const [vinyl, setVinyl] = useState("Off");
+
+    const showLoader = useMinimumLoading(loading, 2000);
+    if (showLoader) return <Loader text="Loading Library" />;
+
+    /* --- EXTENTION --- */
+    const handleExtention = (key) => {
+        setVinyl(key);
+    };
+
+    const extentionHoverStyle = {
+        left: `${vinyl === "Off" ? 0 : vinyl === "On" ? 50 : 66}%`
+    };
+
+    return (
+        <div className={styles.container}>
+        {/* --- MODE CONTROL --- */}
+            <div className={styles.formContainer}>
+                <SearchForm />
+                {!isMobile && (
+                    <div className={styles.extentionButton} style={{ position: "relative" }}>
+                        <div style={extentionHoverStyle} className={styles.extentionHoverStyle} />
+                        <button onClick={() => handleExtention("Off")} className={styles.extentionButtonsStyle}>Card</button>
+                        <button onClick={() => handleExtention("On")} className={styles.extentionButtonsStyle}>Vinyl</button>
+                    </div>
+                )}                
+            </div>
+
+        {/* --- VINYL MODE --- */}
+            {!isMobile && vinyl === "On" && (
+                <div className={styles.groupItemDiv}>
+                    {priv_u && <VinylGroupItem type="Private" group={privateAlbums} />}
+                    <VinylGroupItem type="Singles & EPs" group={singlesEps} />
+                    <VinylGroupItem type="Albums" group={albums} />
+                    <LibraryGroupItem type="Artists" group={artists} />
+                </div>
+            )}
+
+        {/* --- CARD MODE --- */}
+            {(isMobile || vinyl === "Off") && (
+                <div className={styles.groupItemDiv}>
+                    {priv_u && <LibraryGroupItem type="Private" group={privateAlbums} />}
+                    <LibraryGroupItem type="Singles & EPs" group={singlesEps} />
+                    <LibraryGroupItem type="Albums" group={albums} />
+                    <LibraryGroupItem type="Artists" group={artists} />
+                </div>
+            )}
         </div>
     );
 };

@@ -1,22 +1,62 @@
-    .loadingContainer {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 50vh;
-    }
-    
-    .container {
-        width: 100%;
-        height: 100%;
-        margin-top: 4rem;
-        padding: 10px;
-        margin-bottom: 7rem;    
-    }
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
 
-    .groupItemDiv{
-        margin-left: 4rem;
-    }
+.container {
+    width: 100%;
+    height: 100%;
+    margin-top: 4rem;
+    padding: 10px;
+    margin-bottom: 7rem;    
+}
+
+.groupItemDiv{
+    margin-left: 4rem;
+}
+
+.formContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.extentionButton{
+    text-decoration: double;
+    font-weight: bolder;
+    border-radius: 1rem;
+    padding: 0.3rem 0rem;
+    box-shadow: #252525 1fr 1fr;
+    background-color: #33333375;
+    color: #ffffff6a;
+    border-color: #16161671;    
+}
+
+.extentionHoverStyle {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background-color: #9696965a;
+    border-radius: 1rem;
+    z-index: 0;
+    transition: left 0.3s ease;
+}
+
+.extentionButtonsStyle {
+    width: 4rem;
+    background-color: #49444400;
+    cursor: pointer;
+    border-radius: 1rem;
+    box-shadow: #000000 1fr 1fr;
+    color: #ffffff80;
+    border-color: #33333300;
+    z-index: 2;
+}
 
 @media (max-width: 768px) {
     .container {        

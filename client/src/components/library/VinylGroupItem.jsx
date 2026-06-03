@@ -1,0 +1,50 @@
+import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useWidth } from "../../hooks/useScreen";
+import { getGridConfig } from "../../utils/sizeSwitch";
+import VinylCard from "./VinylCard";
+import styles from "./vinylGroupItem.module.css";
+
+const LibraryGroupItem = ({ type, group }) => {
+    const navigate = useNavigate();
+    const isArtist = type === "Artists";
+    const isPrivate = type === "Private";
+    const width = useWidth();
+    const isMobile = useIsMobile();
+    const {columns, rows} = getGridConfig(width);    
+
+    /* --- STYLES --- */
+    const horizontalScrollStyle = {        
+        gridTemplateColumns: isMobile ? `repeat(3, 6.5rem)` : `repeat(${columns}, 8rem)`,        
+        gap: isMobile ? "2rem" : "2.4rem",
+        marginLeft: width < 800 ? "" : "",        
+    };    
+
+    return (
+        <div className={styles.container}>
+            <h2 className={styles.categoryTitle}>{type}</h2>        
+            <div className={styles.horizontalScroll} style={horizontalScrollStyle}>                
+                {group.map((item) => (
+                    <div className={styles.cardWrapper} key={isArtist ? item.name : item.id}>
+                        <VinylCard
+                            key={isArtist ? item.name : item.id}
+                            item={item}
+                            type={isPrivate ? "private" : (isArtist ? "artist" : "song")}
+                            onClick={() =>
+                                navigate(
+                                    isPrivate 
+                                        ? `/library/PrivateCollectionDetail/${encodeURIComponent(item.album)}`
+                                        : isArtist
+                                            ? `/library/ArtistInfo/${encodeURIComponent(item.name)}`
+                                            : `/library/CollectionDetail/${encodeURIComponent(item.album)}`
+                                )
+                            }
+                        />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export default LibraryGroupItem
