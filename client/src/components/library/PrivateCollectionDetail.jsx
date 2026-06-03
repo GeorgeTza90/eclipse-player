@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
@@ -17,20 +17,20 @@ import styles from "./collectionDetail.module.css";
 
 const CollectionDetail = () => {
     const { user } = useAuth();
-    const location = useLocation();
-    const [searchParams] = useSearchParams();    
-    const { privateSongs } = useLibrary();
-    const isMobile = useIsMobile();
+    const location = useLocation();    
+    const { privateSongs } = useLibrary();    
     const { barMode, setPlayerPage } = useMiniPlayer();
     const { playSong, currentSong } = useAudio();
     const { showImageToast, ImageToastUI } = useImageToast();
+    const isMobile = useIsMobile();
     const navigate = useNavigate(); 
 
-    const album = searchParams.get("album") || location.state?.album;
+    const { album } = useParams();
     const albumSongs = useMemo(() => privateSongs.filter(s => s.album === album) ,[privateSongs, album]);
 
     /* --- LOADING --- */
     if (!albumSongs || albumSongs.length === 0) return <LoadingMessage />
+
     const albumInfo = albumSongs[0];
     const durationString = useAlbumDuration(albumSongs);
 

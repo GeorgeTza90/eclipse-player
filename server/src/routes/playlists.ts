@@ -5,24 +5,27 @@ import {
     getPlaylistSongs, addSongToPlaylist, moveSongInPlaylist, deleteSongFromPlaylist
 } from "../controllers/playlistController.js";
 import { createRateLimiter }  from '../middleware/rateLimiter.js';
+import { validateBody, validateParams } from "../middleware/validate.js";
+import { createPlaylistSchema, getAllIdsSchema, newOrderSchema, playlistIdSchema, songIdSchema, updatePlaylistSchema } from "../schemas/playlists.schema.js";
 
 const router = Router();
-router.use(verifyToken);
 
 // Rate limiters (min/max)
 const createPlaylistLimiter = createRateLimiter(1, 30);
 const deletePlaylistLimiter = createRateLimiter(1, 30);
 
+router.use(verifyToken);
+
 // Playlist CRUD
 router.get("/", getPlaylists);
-router.post("/", createPlaylistLimiter, createPlaylist);
-router.put("/:id", updatePlaylist);
-router.delete("/:id", deletePlaylistLimiter, deletePlaylist);
+router.post("/", createPlaylistLimiter, validateBody(createPlaylistSchema), createPlaylist);
+router.put("/:id", validateParams(playlistIdSchema), validateBody(updatePlaylistSchema), updatePlaylist);
+router.delete("/:id", deletePlaylistLimiter, validateParams(playlistIdSchema), deletePlaylist);
 
 // Playlist Songs
-router.get("/:playlistId/songs", getPlaylistSongs);
-router.post("/:playlistId/songs", addSongToPlaylist);
-router.put("/:playlistId/songs/:songId", moveSongInPlaylist);
-router.delete("/:playlistId/songs/:songId", deleteSongFromPlaylist);
+router.get("/:id/songs", validateParams(playlistIdSchema), getPlaylistSongs);
+router.post("/:id/songs", validateParams(playlistIdSchema), validateBody(songIdSchema), addSongToPlaylist);
+router.put("/:id/songs/:songId", validateParams(getAllIdsSchema), validateBody(newOrderSchema), moveSongInPlaylist);
+router.delete("/:id/songs/:songId", validateParams(getAllIdsSchema), deleteSongFromPlaylist);
 
 export default router;

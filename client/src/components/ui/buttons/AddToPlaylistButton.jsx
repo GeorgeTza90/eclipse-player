@@ -33,8 +33,8 @@ const AddToPlaylistButton = ({ song }) => {
             await postCall("addSongToPlaylist", playlistId, song.id);
             showToast(`Added "${song.title}" to playlist`, "success");
             setModalVisible(false);
-        } catch (err) {            
-            const msg = err.message?.includes("already in playlist")
+        } catch (err) {
+            const msg = err.message?.includes("SONG_ALREADY_IN_PLAYLIST")
                 ? `"${song.title}" is already in this playlist`
                 : "Could not add song to playlist";            
             showToast(msg, "error");

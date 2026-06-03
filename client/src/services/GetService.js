@@ -32,10 +32,9 @@ export async function fetchArtists() {
     return res.json();
 }
 
-export async function fetchArtist(artistName) {
+export async function fetchArtist(artistName) {    
     if (!artistName) throw new Error("Artist name is required");
-
-    const res = await fetch(`${API_URL}/api/artists/${encodeURIComponent(artistName)}`, { credentials: "include" });
+    const res = await fetch(`${API_URL}/api/artists/${encodeURIComponent(artistName)}`, { credentials: "include" });    
     if (!res.ok) {
         const error = await res.json().catch(() => ({}));
         throw new Error(error?.message || "Failed to fetch artist");
@@ -52,13 +51,12 @@ export async function fetchUserPlaylists() {
     return playlists;
 }
 
-export async function fetchPlaylistSongs(playlistId) {
-    if (!playlistId) throw new Error("Playlist ID is required");
-
-    const res = await fetch(`${API_URL}/api/playlists/${playlistId}/songs`, { credentials: "include" });
+export async function fetchPlaylistSongs(id) {
+    if (!id) throw new Error("Playlist ID is required");    
+    const res = await fetch(`${API_URL}/api/playlists/${id}/songs`, { credentials: "include" });
     if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || "Failed to fetch playlist songs");
+        throw new Error("Failed to fetch playlist songs");
     }
     return res.json();
 }
@@ -94,8 +92,7 @@ export async function logoutUser() {
 // -------------------- Presets --------------------
 export async function fetchUserPresets() {
     const res = await fetch(`${API_URL}/api/presets`, { credentials: "include" });
-    if (!res.ok) throw new Error("Failed to fetch presets");  
-
+    if (!res.ok) throw new Error("Failed to fetch presets");
     const presets = await res.json();  
     return presets;
 }

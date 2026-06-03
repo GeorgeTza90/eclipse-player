@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
@@ -14,22 +14,25 @@ import styles from "./artistDetail.module.css";
 
 const ArtistDetail = () => {
     const { state, loading, error, call } = useFetchManager();
+    const { name } = useParams();
+    const artistName = name ?  decodeURIComponent(name) : null;    
+    const artist = state.artist;
+
     const isMobile = useIsMobile();
     const { barMode, setPlayerPage } = useMiniPlayer();
     const { user } = useAuth();   
-    const artist = state.artist;
-    const [groupsKind, setGroupKind] = useState("Singles & EPs");
-    const [searchParams] = useSearchParams();
-    const artistName = searchParams.get("artist");
+    
     const { songs } = useLibrary();
     const navigate = useNavigate();   
+
+    const [groupsKind, setGroupKind] = useState("Singles & EPs");
     
     /* --- LOAD ARTIST --- */
     useEffect(() => { if (!artistName) return; call("artist", artistName).catch(() => navigate("/library")); }, [artistName, call, navigate]);    
     if (loading.artist) return <p style={{ color: "#fff", padding: "10px" }}>Loading artist...</p>;
     if (error.artist) return <p style={{ color: "#fff", padding: "10px" }}>Error loading artist.</p>;
     if (!artist) return null;
-
+    
     /* --- SONGS FILTERING --- */
     const artistSongs = songs.filter(s => s.artist === artist.name);
     const singlesEps = byYear(artistSongs, "single", "ep");

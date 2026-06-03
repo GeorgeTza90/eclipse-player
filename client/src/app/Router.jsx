@@ -23,10 +23,10 @@ const AppRouter = () => {
                 <Route path="/player" element={<Player />} />
 
                 <Route path="/library" element={<Library />} />
-                <Route path="/library/CollectionDetail" element={<CollectionDetail />} />
-                <Route path="/library/PrivateCollectionDetail" element={<PrivateCollectionDetail />} />
+                <Route path="/library/CollectionDetail/:album" element={<CollectionDetail />} />
+                <Route path="/library/PrivateCollectionDetail/:album" element={<PrivateCollectionDetail />} />                
+                <Route path="/library/ArtistInfo/:name" element={<ArtistDetail />} />
                 <Route path="/library/PlaylistDetail" element={<PlaylistDetail />} />
-                <Route path="/library/ArtistInfo" element={<ArtistDetail />} />
 
                 <Route path="*" element={<NotFound />} />
 

@@ -6,11 +6,13 @@ import { useAudio } from "@/contexts/AudioContext";
 import { useLibrary } from "@/contexts/LibraryContext";
 import { useAlbumDuration } from "@/hooks/useFormatTime";
 import { Song } from "@/types/songs";
-import AddToPlaylistButton from "../buttons/AddToPlaylistButton";
+import AddToPlaylistButton from "../ui/buttons/AddToPlaylistButton";
+import { useImageToast } from "../ui/toasts/ImageToast";
 
 const { width } = Dimensions.get("window");
 
 export default function CollectionDetail() {
+    const { showImageToast, ImageToastUI } = useImageToast();
     const { user } = useAuth();
     const { album } = useLocalSearchParams<{ album: string }>();
     const { songs } = useLibrary();
@@ -34,16 +36,16 @@ export default function CollectionDetail() {
         <View style={styles.container}>
             <View style={styles.header}>
                 {albumInfo.image && (
-                  <Image source={albumInfo.image} style={styles.albumImage} contentFit="cover" />
+                    <TouchableOpacity onPress={() => showImageToast(albumInfo.imageHQ)} >
+                        <Image source={albumInfo.image} style={styles.albumImage} contentFit="cover" />
+                    </TouchableOpacity>             
                 )}
                 <View style={styles.headerInfo}>
                     <Text style={styles.type}>{albumInfo.type.toUpperCase()}</Text>
                     <Text style={styles.albumName}>{albumInfo.album}</Text>
                     <View style={styles.infoRow}>
                         <TouchableOpacity onPress={() => handlePressArtist(albumInfo.artist)}>
-                            <Text style={styles.artistInfo}>
-                                {albumInfo.artist}
-                            </Text>  
+                            <Text style={styles.artistInfo}>{albumInfo.artist}</Text>  
                         </TouchableOpacity>          
                         <Text style={styles.albumInfo}>
                             {" "} • {albumSongs.length} songs • {durationString}
@@ -82,6 +84,7 @@ export default function CollectionDetail() {
                     </View>          
                 )}
             />
+            {ImageToastUI}
         </View>
     );
 }

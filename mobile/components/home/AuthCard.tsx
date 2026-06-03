@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { usePostManager } from '@/hooks/useCallManager';
-import { GOOGLE_CLIENT_IDS } from '../../../config';
+import { GOOGLE_CLIENT_IDS } from '../../config';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import Circle from '@/components/ui/player/Circle';
-import useAuthActions from '@/hooks/useAuthActions';
-import AuthButton from '../buttons/authButtons';
 import validateAndSubmitAuth from '@/utils/validateAndSubmitAuth';
-import PasswordInput from '../inputs/PasswordInput';
-
+import useAuthActions from '@/hooks/useAuthActions';
+import Circle from '../ui/circles/Circle';
+import AuthButton from '../ui/buttons/authButtons';
+import PasswordInput from '../ui/inputs/PasswordInput';
 
 WebBrowser.maybeCompleteAuthSession();
 

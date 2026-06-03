@@ -1,8 +1,23 @@
+import { AppError } from "../errors/AppError.js";
 import { playlistsRepository } from "../repositories/playlistsRepository.js";
-import { PlaylistSong } from "../types/controllersTypes.js";
+import { Playlist, PlaylistSong } from "../types/controllersTypes.js";
 
+// -------------------- PRIVATE HELPERS --------------------
+function ensurePlaylistExists(playlist: Playlist[]) {
+    if (playlist.length === 0) throw new AppError("PLAYLIST_NOT_FOUND", 404);
+}
+
+function ensureSongExists(song: PlaylistSong[]) {
+    if (song.length === 0) throw new AppError("SONG_NOT_FOUND_IN_PLAYLIST", 404);
+}
+
+function ensureSongNotExists(song: PlaylistSong[]) {
+    if (song.length > 0) throw new AppError("SONG_ALREADY_IN_PLAYLIST", 400);
+}
+
+// -------------------- SERVICE --------------------
 export const playlistsService = {
-    // PLAYLISTS CRUD  
+    // ---------------- PLAYLISTS CRUD ----------------
     async getPlaylists(userId: number) {
         return await playlistsRepository.findPlaylists(userId);        
     },    
@@ -19,37 +34,50 @@ export const playlistsService = {
         return await playlistsRepository.deletePlaylist( playlistId, userId);
     },
 
-    // PLAYLISTS SONGS CRUD
-    async getPlaylistSongs(playlistId: number) {
+        // ---------------- PLAYLISTS SONGS CRUD ----------------
+    async getPlaylistSongs(playlistId: number, userId: number) {
+        const playlist = await playlistsRepository.findPlaylist(playlistId, userId);
+        ensurePlaylistExists(playlist);
+
         return await playlistsRepository.findPlaylistSongs(playlistId);
     },
 
-    async addSongInPlaylist(playlistId: number, songId: number, order:number) {
+    async addSongInPlaylist(playlistId: number, songId: number, userId: number) {
+        const playlist = await playlistsRepository.findPlaylist(playlistId, userId);
+        ensurePlaylistExists(playlist);
+
+        const existingSong = await playlistsRepository.findPlaylistSong(playlistId, songId);
+        ensureSongNotExists(existingSong);
+
+        const lastOrder = await playlistsRepository.findMaxOrder(playlistId);
+        const order = (lastOrder?.[0]?.maxOrder ?? 0) + 1;
+
         return await playlistsRepository.createSongInPlaylist(playlistId, songId, order);
     },
 
-    async moveSongInPlaylist(songs: PlaylistSong[]) {
+    async moveSongInPlaylist(playlistId: number, songId: number, newOrder: number, userId: number) {
+        const playlist = await playlistsRepository.findPlaylist(playlistId, userId);
+        ensurePlaylistExists(playlist);
+
+        const songs = await playlistsRepository.findPlaylistSongsInOrder(playlistId);
+        const index = songs.findIndex(s => s.id === songId);
+        if (index === -1) throw new AppError("SONG_NOT_FOUND_IN_PLAYLIST", 404);
+
+        const [movedSong] = songs.splice(index, 1);
+        const targetIndex = Math.max(0, Math.min(newOrder, songs.length))
+        songs.splice(targetIndex, 0, movedSong);
+
         return await playlistsRepository.updateSongInPlaylist(songs);
     },
 
-    async deleteSongInPlaylist(playlistId: number, songId: number) {
+    async deleteSongInPlaylist(playlistId: number, songId: number, userId: number) {
+        const playlist = await playlistsRepository.findPlaylist(playlistId, userId);
+        ensurePlaylistExists(playlist);
+        
+        const existingSong = await playlistsRepository.findPlaylistSong(playlistId, songId);
+        ensureSongExists(existingSong);
+        
         return await playlistsRepository.deleteSongInPlaylist(playlistId, songId);
     },
-
-    // HELPERS
-    async getPlaylist(playlistId: number, userId: number) {
-        return await playlistsRepository.findPlaylist(playlistId, userId);        
-    },
-
-    async getPlaylistSong(playlistId: number, songId: number) {
-        return await playlistsRepository.findPlaylistSong(playlistId, songId);
-    },
-
-    async getPlaylistSongsInOrder(playlistId: number) {
-        return await playlistsRepository.findPlaylistSongsInOrder(playlistId);
-    },
-
-    async selectMaxOrder(playlistId: number) {
-        return await playlistsRepository.findMaxOrder(playlistId);
-    },
+    
 }

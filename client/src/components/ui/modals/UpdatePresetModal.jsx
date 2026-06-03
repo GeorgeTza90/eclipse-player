@@ -20,7 +20,7 @@ const UpdatePresetModal = ({ visible, onClose, onCreated, presetNew, newEQ }) =>
         if (title.length > 20) return showToast("Preset title maximum length is 20 characters", "error");
 
         try {            
-            await call("updatePreset", id, title, JSON.stringify(preset));
+            await call("updatePreset", id, title, preset);
             showToast("Preset updated successfully", "success");
             onCreated?.();
             onClose?.();

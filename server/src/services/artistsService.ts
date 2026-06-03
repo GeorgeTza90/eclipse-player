@@ -5,7 +5,7 @@ export const artistsService = {
         return await artistsRepository.findAll();
     },
 
-    async getArtist(name: string) {
+    async getArtist(name: string) {        
         return await artistsRepository.findByName(name);
     }
 };

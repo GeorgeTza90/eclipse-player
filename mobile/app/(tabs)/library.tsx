@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import TabLayoutWrapper from '@/components/ui/TabLayoutWrapper';
-import LibraryScreen from '@/components/ui/library/libraryScreen';
-import Circle from '@/components/ui/player/Circle';
+import LibraryScreen from '@/components/library/libraryScreen';
+import Circle from '@/components/ui/circles/Circle';
 
 const width = 150;
 

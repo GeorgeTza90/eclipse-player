@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@/contexts/AuthContext';
-import AuthButton from '../buttons/authButtons';
 import AuthCard from './AuthCard';
 import UserPlaylists from './UserPlaylists';
-import Teaser from '../teasers/Teaser';
+import AuthButton from '../ui/buttons/authButtons';
+import Teaser from '../ui/teasers/Teaser';
 
 export default function Home() {    
     const { user, logout, loading } = useAuth();     

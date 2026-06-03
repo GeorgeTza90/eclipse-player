@@ -5,7 +5,7 @@ import { useFetchManager } from "@/hooks/useCallManager";
 import { useAuth } from "@/contexts/AuthContext";
 import PlaylistItem from "./PlaylistItem";
 import AddPlaylistModal from "./AddPlaylistModal";
-import AddPlaylistButton from "../buttons/AddPlaylistButton";
+import AddPlaylistButton from "../ui/buttons/AddPlaylistButton";
 
 export default function UserPlaylists() {
     const router = useRouter();
@@ -23,8 +23,7 @@ export default function UserPlaylists() {
 
     const loadPlaylists = async () => {        
         try {
-            await fetchCall("playlists");
-            
+            await fetchCall("playlists");            
         } catch (err: any) {
             console.log("Failed to load playlists:", err);
         }

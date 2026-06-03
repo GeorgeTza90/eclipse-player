@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
-import { useLibrary } from "../../../contexts/LibraryContext";
+import { useLibrary } from "../../contexts/LibraryContext";
 import { Song } from "@/types/songs";
 import { Artist } from "@/types/artists";
 

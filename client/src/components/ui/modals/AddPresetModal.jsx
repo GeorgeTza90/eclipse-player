@@ -17,7 +17,7 @@ const AddPresetModal = ({ visible, onClose, onCreated, eqGains }) => {
         if (title.length > 20 ) return showToast("Playlist title maximum length is 20 characters", "error")
 
         try {                                    
-            await call("createPreset", title, eqGains)
+            await call("createPreset", title, eqGains);            
             setTitle("");            
             showToast("Preset created successfully", "success");
             onCreated?.();

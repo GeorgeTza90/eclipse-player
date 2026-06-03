@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import TabLayoutWrapper from '@/components/ui/TabLayoutWrapper';
-import Circle from '@/components/ui/player/Circle';
-import Home from '@/components/ui/home/Home';
+import Circle from '@/components/ui/circles/Circle';
+import Home from '@/components/home/Home';
 
 const width = 150;
 

@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity, Linking, StyleSheet, ActivityIndicator } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useLibrary } from "../../../contexts/LibraryContext";
-import { fetchArtist } from "../../../services/api";
-import { byYear } from "../../../utils/songsCetegorizer";
+import { useLibrary } from "../../contexts/LibraryContext";
+import { fetchArtist } from "../../services/api";
+import { byYear } from "../../utils/songsCetegorizer";
 import LibraryGroupItem from "./LibraryGroupItem";
+import { useImageToast } from "../ui/toasts/ImageToast";
 
 export default function ArtistDetail() {
+    const { showImageToast, ImageToastUI } = useImageToast();
     const [artist, setArtist] = useState<any>(null);
     const [groupsKind, setGroupKind] = useState<"Singles & EPs" | "Albums" | "Artists">("Singles & EPs");
     const { artist: artistName } = useLocalSearchParams();
@@ -47,7 +49,10 @@ export default function ArtistDetail() {
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 10 }}>      
             <View style={styles.headerInfo}>
                 {artist.image_url && (
-                    <Image source={{ uri: encodeURI(artist.image_url) }} style={styles.artistImage} />
+                    <TouchableOpacity onPress={() => showImageToast(artist.image_url)} >
+                        <Image source={{ uri: encodeURI(artist.image_url) }} style={styles.artistImage} />
+                    </TouchableOpacity>
+                    
                 )}
               
                 <Text style={styles.artistName}>{artist.name}</Text>
@@ -95,6 +100,7 @@ export default function ArtistDetail() {
             ) : (
                 <Text style={styles.noSongs}>No songs for this artist.</Text>
             )}
+            {ImageToastUI}
         </ScrollView>
     );
 }

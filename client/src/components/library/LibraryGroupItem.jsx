@@ -24,7 +24,7 @@ const LibraryGroupItem = ({ type, group }) => {
         <div className={styles.container}>
             <h2 className={styles.categoryTitle}>{type}</h2>        
             <div className={styles.horizontalScroll} style={horizontalScrollStyle}>
-                {group.map((item) => (
+                {group.map((item) => (                    
                     <CollectionCard
                         key={isArtist ? item.name : item.id}
                         item={item}
@@ -32,11 +32,10 @@ const LibraryGroupItem = ({ type, group }) => {
                         onClick={() =>
                             navigate(
                                 isPrivate 
-                                    ? `/library/PrivateCollectionDetail`
+                                    ? `/library/PrivateCollectionDetail/${encodeURIComponent(item.album)}`
                                     : isArtist
-                                        ? `/library/ArtistInfo`
-                                        : `/library/CollectionDetail`
-                                , {state: item}
+                                        ? `/library/ArtistInfo/${encodeURIComponent(item.name)}`
+                                        : `/library/CollectionDetail/${encodeURIComponent(item.album)}`
                             )
                         }
                     />

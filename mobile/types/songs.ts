@@ -5,6 +5,7 @@ export type Song = {
     album: string;
     year: number;
     image: any;
+    imageHQ: any;
     url: any;
     type: string;
     duration: number;

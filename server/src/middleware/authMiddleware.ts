@@ -1,14 +1,13 @@
-import { Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { AuthenticatedRequestMidl } from "../types/controllersTypes.js";
 import { logger } from "../utils/logger.js";
 
 if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET missing");
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export const verifyToken = (req: AuthenticatedRequestMidl, res: Response, next: NextFunction): void => {  
+export const verifyToken = (req: Request, res: Response, next: NextFunction): void => {
     const authHeader = req.headers.authorization;
-    let token;
+    let token: string | undefined;
 
     if (authHeader?.startsWith("Bearer ")) {
         token = authHeader.split(" ")[1];
@@ -22,8 +21,8 @@ export const verifyToken = (req: AuthenticatedRequestMidl, res: Response, next: 
     }
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        req.user = decoded;
+        const decoded = jwt.verify(token, JWT_SECRET) as { id: number };
+        (req as any).user = { id: decoded.id };
         next();
     } catch (err: any) {
         logger.warn("JWT verification failed:", err);

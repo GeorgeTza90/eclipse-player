@@ -8,8 +8,8 @@ export async function loginUser(email, password) {
         body: JSON.stringify({ email, password }),
         credentials: "include"
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Login Failed");
+    const data = await res.json();    
+    if (!res.ok) throw new Error("Login Failed");
     return data;
 }
 
@@ -21,7 +21,7 @@ export async function registerUser(username, email, password) {
         credentials: "include"
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Register Failed");
+    if (!res.ok) throw new Error("Register Failed");
     return data;
 }
 
@@ -44,7 +44,7 @@ export async function forgotPassword(email) {
         credentials: "include"
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to send reset email");
+    if (!res.ok) throw new Error("Failed to send reset email");
     return data;
 }
 
@@ -56,7 +56,7 @@ export async function resetPassword(token, newPassword) {
         credentials: "include"
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Reset password failed");
+    if (!res.ok) throw new Error("Reset password failed");
     return data;
 }
 
@@ -68,7 +68,7 @@ export async function updateUsername(newUsername, userID) {
         credentials: "include"
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Username update failed");
+    if (!res.ok) throw new Error("Username update failed");
     return data;
 }
 
@@ -81,7 +81,7 @@ export async function createPlaylist(title, description) {
         credentials: "include"
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to create playlist");
+    if (!res.ok) throw new Error("Failed to create playlist");
     return data;
 }
 
@@ -93,36 +93,37 @@ export async function updatePlaylist(id, title, description) {
         credentials: "include"
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to update playlist");
+    if (!res.ok) throw new Error("Failed to update playlist");
     return data;
 }
 
-export async function addSongToPlaylist(playlistId, songId) {
-    const res = await fetch(`${API_URL}/api/playlists/${playlistId}/songs`, {
+export async function addSongToPlaylist(id, songId) {    
+    const res = await fetch(`${API_URL}/api/playlists/${id}/songs`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ songId }),
         credentials: "include"
-    });
+    });    
     const data = await res.json();
+    console.log(data.error);
     if (!res.ok) throw new Error(data.error || "Failed to add song");
     return data;
 }
 
-export async function moveSongInPlaylist(playlistId, songId, newOrder) {
-    const res = await fetch(`${API_URL}/api/playlists/${playlistId}/songs/${songId}`, {
+export async function moveSongInPlaylist(id, songId, newOrder) {    
+    const res = await fetch(`${API_URL}/api/playlists/${id}/songs/${songId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ newOrder }),
         credentials: "include"
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to move song");
+    if (!res.ok) throw new Error("Failed to move song");
     return data;
 }
 
 // -------------------- Presets --------------------
-export async function createPreset(title, preset) {
+export async function createPreset(title, preset) {    
     const res = await fetch(`${API_URL}/api/presets`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -130,18 +131,18 @@ export async function createPreset(title, preset) {
         credentials: "include"
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to create preset");
+    if (!res.ok) throw new Error("Failed to create preset");
     return data;
 }
 
-export async function updatePreset(id, title, presetJsonString) {
+export async function updatePreset(id, title, preset) {   
     const res = await fetch(`${API_URL}/api/presets/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, preset: presetJsonString }),
+        body: JSON.stringify({title, preset }),
         credentials: "include"
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to update preset");
-    return data;
+    const data = await res.json();    
+    if (!res.ok) throw new Error("Failed to update preset");
+    return data;    
 }

@@ -1,13 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Animated } from "react-native";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
+import Slider from "@react-native-community/slider";
 import { useAudio } from "@/contexts/AudioContext";
 import { formatTimeSeconds } from "@/hooks/useFormatTime";
-import { useRouter } from "expo-router";
 import { AudioPlayerProps } from "@/types/audio";
-import Slider from "@react-native-community/slider";
-import PlayButton from "../buttons/PlayButtons";
-import Circle from "./Circle";
+import PlayButton from "../ui/buttons/PlayButtons";
+import Circle from "../ui/circles/Circle";
+import { useImageToast } from "../ui/toasts/ImageToast";
 
 const { width } = Dimensions.get("window");
 
@@ -17,6 +18,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
         togglePlay, stop, next, previous, setVolume, seekTo,
     } = useAudio();
 
+    const { showImageToast, ImageToastUI } = useImageToast();
     const [intensity, setIntensity] = useState(30);
     const [sliderPosition, setSliderPosition] = useState<number>(0);
     const [activeExtention, setActiveExtention] = useState<"Playlist" | "Lyrics">("Playlist");
@@ -43,8 +45,8 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
         }).start();
     };
 
-    const handlePressArtist = (artist: string) => router.push(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`);    
-
+    const handlePressArtist = (artist: string) => router.push(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`);        
+    
     return (
         <View style={styles.container}>
             {!currentSong ? (
@@ -64,13 +66,16 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
                         {/* Info */}
                         <View style={styles.headerRowWrapper}>
                             <View style={styles.headerRow}>
-                                {currentSong.image && (
-                                    <Image
-                                        source={{ uri: currentSong.image }}
-                                        style={styles.albumImageHorizontal}
-                                        contentFit="cover"
-                                        transition={1000}
-                                    />
+                                {currentSong.image && (                                    
+                                    <TouchableOpacity onPress={() => showImageToast(currentSong.imageHQ)}>
+                                        <Image
+                                            source={{ uri: currentSong.image }}
+                                            style={styles.albumImageHorizontal}
+                                            contentFit="cover"
+                                            transition={1000}
+                                        />
+                                    </TouchableOpacity>
+                                    
                                 )}
                                 <View style={styles.textContainer}>
                                     <Text style={styles.title}>{currentSong.title}</Text>
@@ -131,7 +136,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
                             <Animated.View
                                 style={[
                                     styles.highlight,
-                                    { width: buttonWidth, transform: [{ translateX: highlightAnim }], zIndex: -4 }
+                                    { width: buttonWidth, transform: [{ translateX: highlightAnim }], zIndex: 4 }
                                 ]}
                                 pointerEvents="box-none"
                             />
@@ -153,6 +158,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
                     </View>
                 </>
             )}
+            {ImageToastUI}
         </View>
     );
 }
@@ -172,7 +178,7 @@ const styles = StyleSheet.create({
     volumeSliderContainer: { flexDirection: "row", alignItems: "center", width: width * 0.8, marginBottom: 20 },
     time: { width: 40, textAlign: "center", color: "#fff" },
     volIcon: { width: 40, height: 40 },
-    extentionButtons: { flexDirection: "row", width: width * 0.5, height: 40, borderRadius: 16, backgroundColor: 'rgba(37, 36, 36, 0.82)', overflow: "hidden", marginTop: 10 },
+    extentionButtons: { flexDirection: "row", width: width * 0.5, height: 40, borderRadius: 16, backgroundColor: 'rgba(37, 36, 36, 0.82)', overflow: "hidden", marginTop: 10, zIndex: 9999 },
     highlight: { position:"absolute", top: 0, left: 0, height: "100%", backgroundColor: "rgba(150,150,150,0.3)", borderRadius: 16 },
     extentionButton: { flex: 1, justifyContent: "center", alignItems: "center", zIndex: 20 },
     extentionText: { color: "#fff", fontWeight: "bold" },

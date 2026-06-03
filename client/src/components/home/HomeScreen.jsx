@@ -41,13 +41,11 @@ const HomeScreen = () => {
         {/* Teasers */}        
                 <div className={styles.teaserDiv}>
                     <Teaser 
-                        link={`/library/CollectionDetail?album=${encodeURIComponent("No Gods In Heaven")}`} 
+                        link={`/library/CollectionDetail/${encodeURIComponent("No Gods In Heaven")}`} 
                         source={"/assets/vids/Video Teaser 2.mp4"}
                         video={true}
                     />
-                    <Teaser 
-                        // link={`https://docs.google.com/uc?export=download&id=1VbJL7jn2caPnMS9xAO4FkLVXtXFC49p5`} 
-                        // link={`https://drive.google.com/file/d/1VbJL7jn2caPnMS9xAO4FkLVXtXFC49p5/view?usp=drive_link`}
+                    <Teaser
                         link = {`${API_URL}/api/download/apk?version=1.2.5`}
                         source={"/assets/images/App_Teaser_1.jpg"}
                         download

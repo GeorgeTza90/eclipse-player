@@ -29,11 +29,13 @@ const PlaylistDetail = () => {
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
     const { call: postCall } = usePostManager();
     const songs = fetchState.playlistSongs || [];
-    const loading = fetchLoading.playlistSongs;    
+    const loading = fetchLoading.playlistSongs;
+
+    
     
     /* --- LOAD PLAYLIST SONGS --- */
     useEffect(() => {
-        if (!id) return;
+        if (!id) return;        
         fetchCall("playlistSongs", id).catch(() => navigate("/"));
     }, [id, fetchCall, navigate]);
 

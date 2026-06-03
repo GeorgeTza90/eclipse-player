@@ -1,6 +1,6 @@
 import db from "../db/db.js";
-import { RowDataPacket, ResultSetHeader} from "mysql2";
-import { PasswordResetTypes, Playlist, PlaylistSong, Song, User } from "../types/controllersTypes.js";
+import { ResultSetHeader} from "mysql2";
+import { PasswordResetTypes, User } from "../types/controllersTypes.js";
 
 export const authRepository = {
     // GET USER DATA
@@ -24,9 +24,9 @@ export const authRepository = {
         return rows[0] ?? null;
     },
 
-    async findUserPremium(userId: number): Promise<User[]> {
-        const [user] = await db.query<User[]>("SELECT premium, private FROM users WHERE id = ?", [userId]);
-        return user;
+    async findUserPremium(userId: number): Promise<User | null> {
+        const [rows] = await db.query<User[]>("SELECT premium, private FROM users WHERE id = ?", [userId]);
+        return rows[0] ?? null;
     },
     
     // UPDATE USER DATA

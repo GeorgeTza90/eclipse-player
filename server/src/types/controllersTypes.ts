@@ -1,6 +1,5 @@
 import { Request } from "express";
 import { RowDataPacket } from "mysql2";
-import { JwtPayload } from "jsonwebtoken";
 
 export interface Artist extends RowDataPacket {
     id: string;
@@ -22,8 +21,8 @@ export interface Song extends RowDataPacket {
     duration: number;
     averageColor?: string;
     playlistId?: string;
-    feature?: string
-    lyrics?: string
+    feature?: string;
+    lyrics?: string;
 }
 
 export interface Playlist extends RowDataPacket {
@@ -50,19 +49,15 @@ export interface User extends RowDataPacket {
     google_id: string;
 }
 
-export interface AuthenticatedRequest extends Request {
-    user?: {
-        id: number;
-        username: string;
-        email: string;
-        premium: boolean;
-        private: boolean;
-        google_id: string;
-    };
+/* =========================
+   AUTH TYPES
+   ========================= */
+export interface JwtUser {
+    id: number;
 }
 
-export interface AuthenticatedRequestMidl extends Request {
-    user?: string | JwtPayload;
+export interface AuthenticatedRequest extends Request {
+    user: JwtUser;
 }
 
 export interface Presets extends RowDataPacket {
@@ -76,7 +71,7 @@ export interface Presets extends RowDataPacket {
 export interface PasswordResetTypes extends RowDataPacket {
     id: number;
     user_id: number;
-    token_hash: number;
+    token_hash: string;
     expires_at: Date;
     used_at: Date;
 }

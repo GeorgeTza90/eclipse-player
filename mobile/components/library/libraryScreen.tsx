@@ -1,9 +1,10 @@
 import { useMemo } from "react";
-import { View, Text, StyleSheet, Dimensions, ActivityIndicator } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { useLibrary } from "@/contexts/LibraryContext";
 import { byYear } from "@/utils/songsCetegorizer";
 import SearchForm from "./SearchForm";
 import LibraryGroupItem from "./LibraryGroupItem";
+import Loader from "../ui/loaders/Loader";
 
 const { width } = Dimensions.get("window");
 
@@ -14,10 +15,7 @@ export default function LibraryScreen() {
 
     if (loading) {
         return (
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#fff" />
-                <Text style={{ color: "#fff", marginTop: 10 }}>Loading library...</Text>
-            </View>
+            <Loader text="Loading Library" />
         );
     }
 

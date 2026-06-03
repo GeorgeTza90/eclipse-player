@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 import { PlaylistItemProps } from "@/types/playlists";
-import DeletePlaylistButton from "../buttons/DeletePlaylistButton";
+import DeletePlaylistButton from "../ui/buttons/DeletePlaylistButton";
 
 export default function PlaylistItem({ playlist, onDelete, onPress }: PlaylistItemProps) {    
     return (

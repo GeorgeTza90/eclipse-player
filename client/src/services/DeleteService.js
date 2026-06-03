@@ -22,12 +22,12 @@ export async function deleteSongFromPlaylist(playlistId, songId) {
 }
 
 // -------------------- Presets --------------------
-export async function deleteUserPreset(id) {
+export async function deleteUserPreset(id) {    
     const res = await fetch(`${API_URL}/api/presets/${id}`, {
         method: "DELETE",
         credentials: "include"
     });
-    const data = await res.json();
+    const data = await res.json();    
     if (!res.ok) throw new Error(data.error || "Failed to delete preset");
     return data;
 }

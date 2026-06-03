@@ -3,10 +3,10 @@ import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import { useAudio } from '@/contexts/AudioContext';
 import TabLayoutWrapper from '@/components/ui/TabLayoutWrapper';
-import AudioPlayer from '@/components/ui/player/AudioPlayer';
-import Playlist from '@/components/ui/player/Playlist';
-import Lyrics from '@/components/ui/player/Lyrics';
-import Circle from '@/components/ui/player/Circle';
+import AudioPlayer from '@/components/player/AudioPlayer';
+import Playlist from '@/components/player/Playlist';
+import Lyrics from '@/components/player/Lyrics';
+import Circle from '@/components/ui/circles/Circle';
 
 const width = 250;
 

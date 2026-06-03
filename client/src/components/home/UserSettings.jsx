@@ -13,7 +13,7 @@ import FormInput from "../ui/inputs/FormInput";
 
 const UserSettings = () => {
     const { loading: postLoading, error: postError, call: postCall } = usePostManager();
-    const { user, loading } = useAuth();
+    const { user, setUser, loading } = useAuth();
     const isMobile = useIsMobile();
     const { barMode, setPlayerPage } = useMiniPlayer();
     const [username, setUsername] = useState("");
@@ -36,6 +36,7 @@ const UserSettings = () => {
         if (!user) return;
         try {
             await postCall('updateUsername', username, id)
+            setUser(prev => ({ ...prev, username }))
             setMessage("Username Updated")
         } catch (err) {
             console.error(err);

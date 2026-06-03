@@ -38,9 +38,7 @@ const Equalizer = ({ color }) => {
     const loadPresets = async () => {user && await fetchCall("userPresets");}
     
     useEffect(() => {
-        const fetchPresets = async () => {
-            await loadPresets();
-        };
+        const fetchPresets = async () => await loadPresets();
         fetchPresets();
     }, []);
     
