@@ -20,7 +20,7 @@ export const createPresets = asyncHandler(async (req: AuthenticatedRequest, res:
     const userId = req.user.id; 
     const { title, preset } = req.body;
     await presetsService.createPresets(userId, title, preset ? JSON.stringify(preset) : undefined);
-    res.status(201).json({ message: "Preset created successfully" });
+    res.json({ message: "Preset created successfully" });
 });
 
 // -----------------------------

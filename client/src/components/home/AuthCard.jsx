@@ -9,6 +9,7 @@ import PasswordInput from "../ui/inputs/PasswordInput";
 import Circle from "../ui/circles/Circle";
 import FormInput from "../ui/inputs/FormInput";
 import styles from "./authCard.module.css";
+import { validateAndSubmitAuth } from "../../utils/validateAndSubmitAuth";
 
 const AuthCard = () => {
     const { loading, error, call } = usePostManager();
@@ -36,13 +37,14 @@ const AuthCard = () => {
         const mode = isLogin;
         let data;        
         try {
-            if (mode) {
+            validateAndSubmitAuth({ isLogin, username, email, password, confirmPassword });
+            if (mode) {                
                 data = await call("loginUser", email, password);                
-            } else {
+            } else {                
                 data = await call("registerUser", username, email, password, confirmPassword);                
             }
             login(data.user);
-        } catch (err) {
+        } catch (err) {            
             setLocalError(err.message || "Something went wrong");
         }
     };
@@ -55,8 +57,7 @@ const AuthCard = () => {
                 try {
                     const data = await call("googleLogin", response.access_token, "web");
                     login(data.user, data.token);
-                } catch (err) {
-                    console.error(err);
+                } catch (err) {                    
                     setLocalError(err.message || "Google login failed");
                 }
             },
@@ -80,61 +81,64 @@ const AuthCard = () => {
     
     {/* Form */}
             <div className={styles.formWrapper}>
-                {!isLogin && (
+                <div className={styles.authButtonsDiv}>
+                    {!isLogin && (
+                        <FormInput
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            value={username}
+                            onChangeText={setUsername}                        
+                        />
+                    )}
+
                     <FormInput
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        value={username}
-                        onChangeText={setUsername}                        
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={email}
+                        onChangeText={setEmail}                    
                     />
-                )}
 
-                <FormInput
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={setEmail}                    
-                />
-
-                <PasswordInput
-                    value={password}
-                    onChangeText={setPassword}
-                    show={showPassword}
-                    setShow={setShowPassword}
-                    placeholder="Password"
-                />
-
-                {!isLogin && (
                     <PasswordInput
-                        value={confirmPassword}
-                        onChangeText={setConfirmPassword}
-                        show={showConfirmPassword}
-                        setShow={setShowConfirmPassword}
-                        placeholder="Confirm Password"
+                        value={password}
+                        onChangeText={setPassword}
+                        show={showPassword}
+                        setShow={setShowPassword}
+                        placeholder="Password"
                     />
-                )}
 
-                <button
-                    type="button"
-                    onClick={onGoogleLogin}
-                    className={styles.googleButton}
-                    disabled={loading.googleLogin}
-                >
-                    {isLogin ? "Login with Google" : "Register with Google"}
-                </button>
+                    {!isLogin && (
+                        <PasswordInput
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                            show={showConfirmPassword}
+                            setShow={setShowConfirmPassword}
+                            placeholder="Confirm Password"
+                        />
+                    )}                
+                    <button
+                        type="button"
+                        onClick={onGoogleLogin}
+                        className={styles.googleButton}
+                        disabled={loading.googleLogin}
+                    >
+                        {isLogin ? "Login with Google" : "Register with Google"}
+                    </button>
 
-                <AuthButton
-                    loading={loading.registerUser || loading.loginUser}
-                    isLogin={isLogin}
-                    onClick={onSubmit}                    
-                />
+                    <AuthButton
+                        loading={loading.registerUser || loading.loginUser}
+                        isLogin={isLogin}
+                        onClick={onSubmit}                    
+                    />
+                </div>
+
+                
 
     {/* Error Message */}
                 {(currentError || localError) && (
                     <p className={styles.errorText}>
-                        {error.registerUser?.message || localError}
+                        {currentError?.message || localError}
                     </p>
                 )}
                 {message && <p className={styles.messageText}>{message}</p>}

@@ -15,7 +15,7 @@ export const getSongs = asyncHandler(async (req: Request, res: Response): Promis
 // GET PRIVATE SONGS
 // -----------------------------
 export const getPrivateSongs = asyncHandler(async ( req: AuthenticatedRequest, res: Response ): Promise<void> => {    
-        const userId = req.user.id;        
-        const { songs } = await songsService.getPrivateSongs(userId);       
-        res.json(songs);
+    const userId = req.user.id;        
+    const { songs } = await songsService.getPrivateSongs(userId);       
+    res.json(songs);
 });
