@@ -5,6 +5,7 @@ import { usePostManager } from "../../hooks/useCallManager";
 import { useAutoClear } from "../../hooks/useAutoClear";
 import { GOOGLE_CLIENT_ID } from "../../config";
 import AuthButton from "../ui/buttons/AuthButton";
+import GoogleButton from "../ui/buttons/GoogleButton";
 import PasswordInput from "../ui/inputs/PasswordInput";
 import Circle from "../ui/circles/Circle";
 import FormInput from "../ui/inputs/FormInput";
@@ -77,7 +78,11 @@ const AuthCard = () => {
 
     return (
         <div className={styles.authContainer}>        
-            <Circle size={isMobile ? 400 : 500} top={isMobile ? 100 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor}/>
+            <Circle 
+                size={isMobile ? 400 : 500} top={isMobile ? 100 : 150} 
+                intensity={isMobile ? intensity * 0.6 : intensity * 0.8} 
+                heightOffset={8} shadowColor={shadowColor}
+            />
     
     {/* Form */}
             <div className={styles.formWrapper}>
@@ -116,24 +121,21 @@ const AuthCard = () => {
                             setShow={setShowConfirmPassword}
                             placeholder="Confirm Password"
                         />
-                    )}                
-                    <button
-                        type="button"
+                    )}
+
+                    <GoogleButton
                         onClick={onGoogleLogin}
-                        className={styles.googleButton}
+                        isLogin={isLogin}
+                        loading={loading.registerUser || loading.loginUser}
                         disabled={loading.googleLogin}
-                    >
-                        {isLogin ? "Login with Google" : "Register with Google"}
-                    </button>
+                    />
 
                     <AuthButton
                         loading={loading.registerUser || loading.loginUser}
                         isLogin={isLogin}
                         onClick={onSubmit}                    
                     />
-                </div>
-
-                
+                </div>                
 
     {/* Error Message */}
                 {(currentError || localError) && (

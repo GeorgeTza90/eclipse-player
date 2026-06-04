@@ -1,5 +1,5 @@
 .input1 {
-    height: 40px;
+    height: 30px;
     width: 260px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -20,7 +20,7 @@
 
 @media (max-width: 768px) {
     .input1 {
-        height: 36px;
+        height: 28px;
         width: 220px;
     }
 }

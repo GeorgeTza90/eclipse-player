@@ -14,7 +14,7 @@
 }
 
 .authButton {
-    height: 2.2rem;  
+    height: 32px;
     max-width: 18rem;
 }
 
@@ -45,5 +45,6 @@
     .authButton, .settingsButton {
         font-size: 13.5px;
         width: 90%;
+        height: 30px;
     }
 }

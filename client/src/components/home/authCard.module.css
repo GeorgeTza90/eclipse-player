@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 22rem;
+    margin-top: 21rem;
     margin-bottom: 16rem;
     position: relative;    
 }
@@ -30,6 +30,7 @@
 
 .authButtonsDiv {
     max-width: 280px;
+    margin-bottom: 1rem;
 }
 
 .switchWrapper {
@@ -41,11 +42,11 @@
 .switchButton {
     background: none;
     border: none;
-    color: #888;
-    
+    color: #888;    
     cursor: pointer;
     font-size: 1rem;
     transition: color 0.2s ease;
+    padding: 0.2rem 0rem;
 }
 
 .switchButton:hover {
@@ -53,10 +54,11 @@
 }
 
 .errorText {    
-    color: red;
+    color: rgb(255, 52, 52);
     padding: 0.4rem 0.6rem;
+    margin: 0rem;
     border-radius: 0.5rem;
-    background-color: #00000097;
+    background-color: #04001197;
     font-size: 14px;
 }
 
@@ -65,28 +67,9 @@
     font-size: 14px;
 }
 
-.googleButton {
-    background-color: #2456a7;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    height: 100%;
-    width: 100%;
-    max-width: 18rem;
-    margin-bottom: 12px;
-}
-
-.googleButton:hover {
-    background-color: #4285f4;
-
-}
-
 @media (max-width: 768px) {
     .authContainer {
-        margin-top: 18rem;
+        margin-top: 18.5rem;
         margin-bottom: 7rem;
     }
 
@@ -99,9 +82,9 @@
         top: -250px;
     }
 
-    .input {
-        height: 36px;
-        width: 220px;
+    .authButtonsDiv {
+        max-width: 241.5px;
+        margin-bottom: 1rem;
     }
 
     .switchButton {
