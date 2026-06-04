@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext, useMemo } from "react";
 import { useFetchManager } from "../hooks/useCallManager";
-import { setJSON, getJSON } from "../utils/localStorageManager";
+import { setJSON, getJSON, getBool, setBool } from "../utils/localStorageManager";
 import { byYear } from "../utils/songsCetegorizer";
 import { useAuth } from "./AuthContextWeb";
 
@@ -16,7 +16,8 @@ export const LibraryProvider = ({ children }) => {
     const [songs, setSongs] = useState([]);
     const [privateSongs, setPrivateSongs] = useState([]);
     const [artists, setArtists] = useState([]);
-    const [loading, setLoading] = useState(true);    
+    const [loading, setLoading] = useState(true);
+    const [vinyl, setVinyl] = useState(() => getBool("library_vinylMode", false));
 
     const setLibraryData = (songsData, artistsData, privateSongsData) => {
         setSongs(songsData);
@@ -26,6 +27,9 @@ export const LibraryProvider = ({ children }) => {
         setOriginalArtists(artistsData);
         setOriginalPrivateSongs(privateSongsData);
     };
+
+    /* --- LOCAL STORAGE --- */
+    useEffect(() => setBool("library_vinylMode", vinyl), [vinyl])
 
     /* --- SONGS CATEGORIZER --- */
     const privateAlbums = useMemo(() => byYear(privateSongs, "album"), [songs]);
@@ -57,8 +61,10 @@ export const LibraryProvider = ({ children }) => {
     return (
         <LibraryContext.Provider
             value={{ 
-                songs, privateSongs, artists, loading, originalSongs, originalPrivateSongs, originalArtists, privateAlbums, singlesEps, albums,
-                setSongs, setPrivateSongs, setArtists, setOriginalSongs, setOriginalArtists, setOriginalPrivateSongs
+                songs, privateSongs, artists, loading, originalSongs, originalPrivateSongs,
+                originalArtists, privateAlbums, singlesEps, albums, vinyl,
+                setSongs, setPrivateSongs, setArtists, setOriginalSongs,
+                setOriginalArtists, setOriginalPrivateSongs, setVinyl
             }}
         >
             {children}
