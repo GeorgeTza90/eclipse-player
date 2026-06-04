@@ -8,6 +8,7 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 import { byYear } from "../../utils/songsCetegorizer";
 import MediaLink from "./MediaLink";
 import LibraryGroupItem from "../library/LibraryGroupItem";
+import VinylGroupItem from "../library/VinylGroupItem";
 import MiniPlayer from "../player/MiniPlayer";
 import BackButton from "../ui/buttons/BackButton";
 import styles from "./artistDetail.module.css";
@@ -22,7 +23,7 @@ const ArtistDetail = () => {
     const { barMode, setPlayerPage } = useMiniPlayer();
     const { user } = useAuth();   
     
-    const { songs } = useLibrary();
+    const { songs, vinyl } = useLibrary();
     const navigate = useNavigate();   
 
     const [groupsKind, setGroupKind] = useState("Singles & EPs");
@@ -73,10 +74,13 @@ const ArtistDetail = () => {
                 >
                     Albums
                 </button>
-                <LibraryGroupItem
-                    type={groupsKind}
-                    group={groupsKind === "Albums" ? albums : singlesEps}
-                />
+                {vinyl ? (<>
+                    <VinylGroupItem  type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
+                </>) : (<>
+                    <LibraryGroupItem  type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
+                </>)}
+                
+
                 </div>
             ) : (
                 <p style={{ color: "#fff", padding: "10px" }}>No songs for this artist.</p>

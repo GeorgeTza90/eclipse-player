@@ -1,5 +1,5 @@
-.container{
-    margin-left: -4rem;
+.container {
+    
 }
 
 .categoryTitle {
@@ -8,15 +8,23 @@
     color: #fff;
 }
 
-.horizontalScroll {
-    height: 18rem;
-    width: 140%;
+.horizontalScroll {    
+    width: 140%;    
     padding: 1rem;
+    max-height: 30rem;
     display: flex;
     overflow-x: auto;
-    justify-content: left;
-    align-items: center;
-    position: relative;
+    align-items: flex-start;}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.row {
+    display: flex;
+    gap: 2rem;
 }
 
 .cardWrapper {
@@ -34,5 +42,4 @@
 }
 
 @media (max-width: 768px) {
-
 }
