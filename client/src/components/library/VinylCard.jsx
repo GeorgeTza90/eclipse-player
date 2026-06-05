@@ -21,20 +21,20 @@ const CollectionCard = ({ item, onClick, type }) => {
 
     /* --- STYLES --- */  
     return (<>
-            <div className={styles.trackContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>                
-                {item.image && (
-                    <> 
-                        <div className={styles.imageDiv}>
-                            <div className={styles.blackOverlay}/>
-                            <img src={encodeURI(item.image)} alt={item.album} className={styles.albumImage}/>
-                        </div>                        
-                        <div className={styles.vinylImage}>                            
-                            <img src={encodeURI("/assets/images/vinylImage.png")} alt={item.album} className={styles.albumImageVinyl}/>
-                            <img src={encodeURI(item.image)} alt={item.album} className={styles.albumImageOnVinyl}/>
-                        </div>
-                    </>
-                )}
-            </div>            
+        <div className={styles.trackContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>                
+            {item.image && (
+                <>
+                    <div className={styles.imageDiv}>
+                        <div className={styles.blackOverlay}/>
+                        <img src={encodeURI(item.image)} alt={item.album} className={styles.albumImage}/>
+                    </div>
+                    <div className={styles.vinylImage}>                            
+                        <img src={encodeURI("/assets/images/vinylImage.png")} alt={item.album} className={styles.albumImageVinyl}/>
+                        <img src={encodeURI(item.image)} alt={item.album} className={styles.albumImageOnVinyl}/>
+                    </div>
+                </>
+            )}
+        </div>            
     </>);
 }
 

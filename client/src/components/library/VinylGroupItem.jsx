@@ -4,8 +4,9 @@ import { useWidth } from "../../hooks/useScreen";
 import { getGridConfig } from "../../utils/sizeSwitch";
 import VinylCardSlot from "./VinylCardSlot";
 import styles from "./vinylGroupItem.module.css";
+import { useVinylPagination } from "../../hooks/useVinylPagination";
 
-const LibraryGroupItem = ({ type, group }) => {
+const VinylGroupItem = ({ type, group }) => {
     const navigate = useNavigate();
 
     const isArtist = type === "Artists";
@@ -16,14 +17,8 @@ const LibraryGroupItem = ({ type, group }) => {
 
     const { columns, rows } = getGridConfig(width);
 
-    const itemsPerRow = isMobile ? 3 : columns * 2;
-    const rowsCount = rows;
-
-    const pages = [];
-
-    for (let i = 0; i < group.length; i += itemsPerRow * rowsCount) {
-        pages.push(group.slice(i, i + itemsPerRow * rowsCount));
-    }
+    const itemsPerRow = columns * 1.8;       
+    const pages = useVinylPagination(group, itemsPerRow, rows);
 
     const getType = () => {
         if (isPrivate) return "private";
@@ -44,53 +39,32 @@ const LibraryGroupItem = ({ type, group }) => {
     return (
         <div className={styles.container}>
             <h2 className={styles.categoryTitle}>{type}</h2>
+            <div className={styles.horizontalScroll}>
+                {pages.map((page, pageIndex) => (
+                    <div className={styles.page} key={pageIndex}>
+                        {Array.from({ length: rows }).map((_, rowIndex) => {
+                            const start = rowIndex * itemsPerRow;
+                            const rowItems = page.slice(start, start + itemsPerRow);
 
-            <div
-                className={styles.horizontalScroll}
-                style={{
-                    gridTemplateColumns: isMobile
-                        ? `repeat(${itemsPerRow}, 6.5rem)`
-                        : `repeat(${itemsPerRow}, 8rem)`,
-                    gap: isMobile ? "2rem" : "2.4rem",
-                }}
-            >
-                {pages.map((page, pageIndex) => {
-                    const row1 = page.slice(0, itemsPerRow);
-                    const row2 = page.slice(itemsPerRow);
-
-                    return (
-                        <div className={styles.page} key={pageIndex}>
-
-                            <div className={styles.row}>
-                                {row1.map((item) => (
-                                    <VinylCardSlot
-                                        key={isArtist ? item.name : item.id}
-                                        item={item}
-                                        type={getType()}
-                                        onNavigate={() => handleNavigate(item)}
-                                        className={styles.cardWrapper}
-                                    />
-                                ))}
-                            </div>
-
-                            <div className={styles.row}>
-                                {row2.map((item) => (
-                                    <VinylCardSlot
-                                        key={isArtist ? item.name : item.id}
-                                        item={item}
-                                        type={getType()}
-                                        onNavigate={() => handleNavigate(item)}
-                                        className={styles.cardWrapper}
-                                    />
-                                ))}
-                            </div>
-
-                        </div>
-                    );
-                })}
+                            return (
+                                <div className={styles.row} key={rowIndex}>
+                                    {rowItems.map((item) => (
+                                        <VinylCardSlot
+                                            key={isArtist ? item.name : item.id}
+                                            item={item}
+                                            type={getType()}
+                                            onNavigate={() => handleNavigate(item)}
+                                            className={styles.cardWrapper}
+                                        />
+                                    ))}
+                                </div>
+                            );
+                        })}
+                    </div>
+                ))}
             </div>
         </div>
     );
 };
 
-export default LibraryGroupItem;
+export default VinylGroupItem;
