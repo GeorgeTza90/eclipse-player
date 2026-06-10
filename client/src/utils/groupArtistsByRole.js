@@ -1,4 +1,4 @@
-export function groupArtistsByRole(artists) {
+export function groupArtistsByRole(artists = []) {
     const mainArtists = [];
     const featArtists = [];
 
