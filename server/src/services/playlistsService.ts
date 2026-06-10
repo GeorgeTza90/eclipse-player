@@ -50,14 +50,16 @@ export const playlistsService = {
         for (const sa of songArtists) {
             const artist = artistMap.get(sa.artist_id);
             if (!artist) continue;
-            if (!songArtistMap.has(sa.song_id)) songArtistMap.set(sa.song_id, []);
 
-            songArtistMap.get(sa.song_id)!.push({ name: artist.name, role: sa.role });
+            const key = String(sa.song_id);
+            if (!songArtistMap.has(key)) songArtistMap.set(key, []);
+
+            songArtistMap.get(key)!.push({ name: artist.name, role: sa.role });
         }
         
         return songs.map(song => ({
             ...song,
-            artists: songArtistMap.get((song.id)) || []
+            artists: songArtistMap.get(String(song.id)) || []
         }));
     },
 
