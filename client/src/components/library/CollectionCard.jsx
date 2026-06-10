@@ -6,10 +6,10 @@ import PlayButton from "../ui/buttons/PlayButton";
 import styles from "./collectionCard.module.css"
 
 const CollectionCard = ({ item, onClick, type }) => {
-    const { playSong, currentSong, isPlaying, togglePlay, stop } = useAudio();    
+    const { playSong, currentSong, isPlaying, togglePlay, stop } = useAudio();
     const [ hover, setHover ] = useState(false);
     const { songs, privateSongs } = useLibrary();
-    const isMobile = useIsMobile();
+    const isMobile = useIsMobile();    
 
     /* --- INSTANT PLAY LOGIC --- */
     const handlePlayClick = (item) => {        
@@ -54,7 +54,7 @@ const CollectionCard = ({ item, onClick, type }) => {
         )}
 
     {/* ARTIST */}
-        {type === "artist" && (
+        {(type === "artist" && item.roles.includes("main")) && (
             <div className={styles.artistContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                 {item.image_url && (
                     <img src={encodeURI(item.image_url)} alt={item.album} className={styles.artistImage} style={ArtistImageStyle} />

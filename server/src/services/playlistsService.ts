@@ -1,3 +1,4 @@
+import { pl } from "zod/locales";
 import { AppError } from "../errors/AppError.js";
 import { playlistsRepository } from "../repositories/playlistsRepository.js";
 import { Playlist, PlaylistSong } from "../types/controllersTypes.js";
@@ -37,9 +38,27 @@ export const playlistsService = {
         // ---------------- PLAYLISTS SONGS CRUD ----------------
     async getPlaylistSongs(playlistId: number, userId: number) {
         const playlist = await playlistsRepository.findPlaylist(playlistId, userId);
-        ensurePlaylistExists(playlist);
+        ensurePlaylistExists(playlist);        
 
-        return await playlistsRepository.findPlaylistSongs(playlistId);
+        const songs =  await playlistsRepository.findPlaylistSongs(playlistId);
+        const songArtists = await playlistsRepository.findAllSongArtists();
+        const artists = await playlistsRepository.findAllArtists();
+
+        const artistMap = new Map(artists.map(a => [a.id, a]));        
+        const songArtistMap = new Map<string, { name: string; role: string }[]>();
+
+        for (const sa of songArtists) {
+            const artist = artistMap.get(sa.artist_id);
+            if (!artist) continue;
+            if (!songArtistMap.has(sa.song_id)) songArtistMap.set(sa.song_id, []);
+
+            songArtistMap.get(sa.song_id)!.push({ name: artist.name, role: sa.role });
+        }
+        
+        return songs.map(song => ({
+            ...song,
+            artists: songArtistMap.get((song.id)) || []
+        }));
     },
 
     async addSongInPlaylist(playlistId: number, songId: number, userId: number) {

@@ -23,6 +23,10 @@
     background-image: url("/assets/icons/facebook.png");
 }
 
+.bandcamp {
+    background-image: url("/assets/icons/bandcamp.png");
+}
+
 .youtube {
     background-image: url("/assets/icons/youtube.png");
 }

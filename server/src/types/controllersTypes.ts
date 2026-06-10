@@ -25,6 +25,13 @@ export interface Song extends RowDataPacket {
     lyrics?: string;
 }
 
+export interface SongArtists extends RowDataPacket {
+    id: string;
+    artist_id: string;
+    song_id: string;
+    role: string;
+}
+
 export interface Playlist extends RowDataPacket {
     id: number;
     user_id: number;
@@ -37,7 +44,7 @@ export interface PlaylistSong extends RowDataPacket {
     id: number;
     playlist_id: number;
     song_id: number;
-    order: number;
+    order: number;    
 }
 
 export interface User extends RowDataPacket {

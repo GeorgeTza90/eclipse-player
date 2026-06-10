@@ -9,10 +9,12 @@
     width: 100%;
     max-width: 18rem;
     margin-bottom: 12px;
+    transition: 0.5s;
 }
 
 .googleButton:hover {
     background-color: #4285f4;
+    transition: 0.5s;
 }
 
 @media (max-width: 768px) {

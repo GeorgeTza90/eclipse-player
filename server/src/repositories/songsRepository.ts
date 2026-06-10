@@ -1,5 +1,5 @@
 import db from "../db/db.js";
-import { Song, User } from "../types/controllersTypes.js";
+import { Song, Artist, SongArtists, User } from "../types/controllersTypes.js";
 
 export const songsRepository = {
     async findAll(): Promise<Song[]> {
@@ -14,6 +14,16 @@ export const songsRepository = {
 
     async findPrivateSongs(): Promise<Song[]> {
         const [rows] = await db.query<Song[]>("SELECT * FROM private_songs");
+        return rows;
+    },
+
+    async findAllSongArtists(): Promise<SongArtists[]> {
+        const [rows] = await db.query<SongArtists[]>("SELECT * FROM song_artists");
+        return rows;
+    },
+
+    async findAllArtists(): Promise<Artist[]> {
+        const [rows] = await db.query<Artist[]>("SELECT * FROM artists");
         return rows;
     }
 };

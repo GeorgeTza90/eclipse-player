@@ -34,12 +34,14 @@
 }
 
 .trackFeature {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #ffffffc4;
+    margin-left: 0.4rem;
 }
 
 .artist {
-    margin-top: 0.4rem;
+    margin-top: 0.2rem;
+    margin-left: 0.4rem;
 }
 
 .controls {

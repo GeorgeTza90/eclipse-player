@@ -7,6 +7,7 @@ import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { useImageToast } from "../ui/toasts/ΙmageToast";
+import { groupArtistsByRole } from "../../utils/groupArtistsByRole";
 import TrackItem from "./TrackItem";
 import MiniPlayer from "../player/MiniPlayer";
 import hexToRgba from "../../utils/hexToRgba";
@@ -34,14 +35,15 @@ const CollectionDetail = () => {
         
     const albumInfo = albumSongs[0];
     const durationString = useAlbumDuration(albumSongs);
+    const { mainArtists } = groupArtistsByRole(albumInfo.artists);    
 
     /* --- PRESS SONG --- */
     const handlePressSong = (song) => { playSong(song, albumSongs, album).then( navigate("/player")); };    
 
     /* --- STYLES --- */
     const headerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.1)}, #55555500 )` }
-    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }
-
+    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }  
+    
     return (
         <>
             {!isMobile && user && !barMode && (<MiniPlayer />)}
@@ -57,8 +59,13 @@ const CollectionDetail = () => {
                         <p className={styles.type}>{albumInfo.type.toUpperCase()}</p>
                         <p className={styles.albumName}>{albumInfo.album}</p>
                         <p className={styles.artistInfo}>
-                            <ArtistButton artist={currentSong?.artist || "Artist Name"} size="0.9rem"/>                        
-                            • {albumSongs.length} songs • {durationString}
+                            {mainArtists.map((artist, index) => (
+                                <span key={artist}>
+                                    <ArtistButton artist={artist || "Artist Name"} size="0.9rem" />
+                                    {"• "}
+                                </span>
+                            ))}                            
+                            {albumSongs.length} songs • {durationString}
                         </p>
                     </div>
                 </div>

@@ -9,6 +9,7 @@ import PlayButton from "../ui/buttons/PlayButton";
 import ArtistButton from "../ui/buttons/ArtistButton";
 import Circle from "../ui/circles/Circle";
 import styles from "./audioPlayer.module.css";
+import { groupArtistsByRole } from "../../utils/groupArtistsByRole";
 
 const AudioPlayer = ({ onToggleExtention }) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();  
@@ -19,6 +20,8 @@ const AudioPlayer = ({ onToggleExtention }) => {
     const [intensity, setIntensity] = useState(30);  
     const [sliderPosition, setSliderPosition] = useState(null);
     const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
+    
+    const { mainArtists, featArtists } = groupArtistsByRole(currentSong.artists);
 
     const progress = duration ? (position / duration) * 100 : 0;
     const isMobile = useIsMobile();
@@ -58,11 +61,17 @@ const AudioPlayer = ({ onToggleExtention }) => {
                     {currentSong?.image && <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={() => showImageToast(currentSong.imageHQ)} />}
                     <div>
                         <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
-                        {currentSong?.feature && (
-                            <span className={styles.trackFeature}>{`feat. ${currentSong.feature}`}</span>
+                        {featArtists.length > 0 && (
+                            <span className={styles.trackFeature}>
+                                feat. {featArtists.join(", ")}
+                            </span>
                         )}
                         <p className={styles.artist}>
-                            <ArtistButton artist={currentSong?.artist || "Artist Name"} size="1.1rem"/>
+                            {mainArtists.map((artist, index) => (
+                                <span key={artist}>
+                                    <ArtistButton artist={artist || "Artist Name"} size="0.9rem" />                                    
+                                </span>
+                            ))} 
                         </p>
                     </div>
                 </div>

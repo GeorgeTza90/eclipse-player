@@ -1,6 +1,6 @@
 import db from "../db/db.js";
 import { RowDataPacket, ResultSetHeader} from "mysql2";
-import { Playlist, PlaylistSong, Song } from "../types/controllersTypes.js";
+import { Playlist, PlaylistSong, SongArtists, Artist } from "../types/controllersTypes.js";
 
 export const playlistsRepository = {
     // PLAYLISTS CRUD
@@ -95,4 +95,14 @@ export const playlistsRepository = {
         const [lastOrder] = await db.query<RowDataPacket[]>("SELECT MAX(`order`) AS maxOrder FROM playlist_songs WHERE playlist_id = ?", [playlistId]);
         return lastOrder;
     },
+
+    async findAllSongArtists(): Promise<SongArtists[]> {
+        const [rows] = await db.query<SongArtists[]>("SELECT * FROM song_artists");
+        return rows;
+    },
+
+    async findAllArtists(): Promise<Artist[]> {
+        const [rows] = await db.query<Artist[]>("SELECT * FROM artists");
+        return rows;
+    }
 }

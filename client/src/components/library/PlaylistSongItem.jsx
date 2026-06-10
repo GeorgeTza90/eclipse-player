@@ -1,7 +1,10 @@
+import { groupArtistsByRole } from "../../utils/groupArtistsByRole";
 import DeleteSongButton from "../ui/buttons/DeleteSongButton";
 import styles from "./playlistSongItem.module.css";
 
-const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
+const PlaylistSongItem = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
+    const { mainArtists, featArtists } = groupArtistsByRole(item.artists);        
+
     return (
         <div className={styles.songRow}>
             <span className={styles.songIndex}>{index + 1}.</span>
@@ -12,9 +15,11 @@ const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
             <div className={styles.titleRow}>
                 <span className={styles.songTitle} onClick={() => onPlay(item)}>{item.title}</span><br />
                 <div className={styles.tickerContainer}>
-                    {item.feature && (
-                        <span className={styles.trackfeature}>{`(feat. ${item.feature})`}</span>
-                    )}
+                        {featArtists.length > 0 && (
+                            <span className={styles.trackFeature}>
+                                feat. {featArtists.join(", ")}
+                            </span>
+                        )}
                 </div>
             </div>
 
@@ -22,7 +27,8 @@ const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
             
             <div className={styles.tickerContainer} onClick={() => onPlay(item)}>
                 <div className={styles.tickerText}>
-                    {`${item.artist} - ${item.album}`}
+                    {mainArtists.join(", ")}
+                    {` - ${item.album}`}
                 </div>
             </div>
 
@@ -44,4 +50,4 @@ const SongRow = ({ item, index = 0, playlistId, onPlay, onDelete }) => {
     );
 };
 
-export default SongRow;
+export default PlaylistSongItem;

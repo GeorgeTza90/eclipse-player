@@ -7,7 +7,8 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
 import { useFetchManager, usePostManager } from "../../hooks/useCallManager";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import SongRow from "./PlaylistSongItem";
+import { groupArtistsByRole } from "../../utils/groupArtistsByRole";
+import PlaylistSongItem from "./PlaylistSongItem";
 import MiniPlayer from "../player/MiniPlayer";
 import BackButton from "../ui/buttons/BackButton";
 import styles from "./playlistDetail.module.css";
@@ -29,9 +30,7 @@ const PlaylistDetail = () => {
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
     const { call: postCall } = usePostManager();
     const songs = fetchState.playlistSongs || [];
-    const loading = fetchLoading.playlistSongs;
-
-    
+    const loading = fetchLoading.playlistSongs;       
     
     /* --- LOAD PLAYLIST SONGS --- */
     useEffect(() => {
@@ -78,8 +77,6 @@ const PlaylistDetail = () => {
             {loading ? (
                 <div className={styles.centered}>
                     <Loader text={"Loading songs"} size={"small"}/>
-                    {/* <div className={styles.spinner}></div>
-                    <p className={styles.loadingText}>Loading songs...</p> */}
                 </div>
             ) : songs.length === 0 ? (
                 <div className={styles.centered}>
@@ -94,7 +91,7 @@ const PlaylistDetail = () => {
                             <Draggable key={song.id} draggableId={String(song.id)} index={index}>
                                 {(provided) => (
                                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                        <SongRow
+                                        <PlaylistSongItem
                                             item={song}
                                             index={index}
                                             onPlay={handlePlay}

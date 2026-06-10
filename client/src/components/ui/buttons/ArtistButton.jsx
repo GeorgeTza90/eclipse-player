@@ -8,9 +8,10 @@ const ArtistButton = ({ artist, size = "1rem", marginTop = "0.28rem" }) => {
     
     return ( 
         <button
+            key={artist.name}
             style={buttonStyle}
             className={styles.artirtButton}
-            onClick={() => artist && navigate(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`)}
+            onClick={() => artist && navigate(`/library/ArtistInfo/${encodeURIComponent(artist)}`)}
         >
             {artist || "Artist Name"}
         </button>        

@@ -12,6 +12,7 @@ import VinylGroupItem from "../library/VinylGroupItem";
 import MiniPlayer from "../player/MiniPlayer";
 import BackButton from "../ui/buttons/BackButton";
 import styles from "./artistDetail.module.css";
+import AlbumSwitchButton from "../ui/buttons/AlbumSwitchButton";
 
 const ArtistDetail = () => {
     const { state, loading, error, call } = useFetchManager();
@@ -33,27 +34,27 @@ const ArtistDetail = () => {
     if (loading.artist) return <p style={{ color: "#fff", padding: "10px" }}>Loading artist...</p>;
     if (error.artist) return <p style={{ color: "#fff", padding: "10px" }}>Error loading artist.</p>;
     if (!artist) return null;
-    
-    /* --- SONGS FILTERING --- */
-    const artistSongs = songs.filter(s => s.artist === artist.name);
+   
+    /* --- SONGS FILTERING --- */    
+    const artistSongs = songs.filter(s => s.artists?.some(a => a.name === artist.name));
     const singlesEps = byYear(artistSongs, "single", "ep");
-    const albums = byYear(artistSongs, "album");
+    const albums = byYear(artistSongs, "album");    
 
     return (
         <div className={styles.container}>
             {!isMobile && user && !barMode && (<MiniPlayer />)}
-
+            {(artist.photos?.length > 0 && !isMobile) && (<img src={artist.photos[0]} alt="" className={styles.backgroundPhoto}/>)}
     {/* Info */}
-            <div className={styles.header}>
-                {artist.image_url && (
+            <div className={styles.header}>                
+                {artist.image_url && (                    
                     <img src={artist.image_url} alt={artist.name} className={styles.Image} />
                 )}
                 <div className={styles.headerInfo}>
                     <p className={styles.artistName}>{artist.name}</p>
                     <p className={styles.artistInfo}>{artist.description}</p>
                     <div className={styles.contactInfo}>
-                        {Object.entries(artist.media).map(([platform, link]) => (
-                        <MediaLink key={platform} platform={platform} link={link} />
+                        {Object.entries(artist.media ?? {}).map(([platform, link]) => (
+                            <MediaLink key={platform} platform={platform} link={link} />
                         ))}
                     </div>
                 </div>
@@ -62,25 +63,28 @@ const ArtistDetail = () => {
     {/* Songs */}
             {artistSongs.length > 0 ? (
                 <div className={styles.songsContainer}>
-                <button
-                    className={groupsKind === "Singles & EPs" ? styles.groupsKindButtonClicked : styles.groupsKindButton}
-                    onClick={() => setGroupKind("Singles & EPs")}
-                >
-                    Singles & EPs
-                </button>
-                <button
-                    className={groupsKind === "Albums" ? styles.groupsKindButtonClicked : styles.groupsKindButton}
-                    onClick={() => setGroupKind("Albums")}
-                >
-                    Albums
-                </button>
-                {vinyl ? (<>
-                    <VinylGroupItem  type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
-                </>) : (<>
-                    <LibraryGroupItem  type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
-                </>)}
-                
-
+                    {singlesEps.length > 0 && (
+                        <AlbumSwitchButton 
+                            groupsKind={groupsKind}
+                            type={"Singles & EPs"}
+                            onClick={() => setGroupKind("Singles & EPs")}
+                        />
+                    )}
+                    {albums.length > 0 && (
+                        <AlbumSwitchButton 
+                            groupsKind={groupsKind}
+                            type={"Albums"}
+                            onClick={() => setGroupKind("Albums")}
+                        />
+                    )}
+                    <>
+                        {(vinyl && !isMobile) ? (
+                            <VinylGroupItem  type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
+                        ) : (
+                            <LibraryGroupItem  type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
+                        )}
+                    </>
+                    
                 </div>
             ) : (
                 <p style={{ color: "#fff", padding: "10px" }}>No songs for this artist.</p>
