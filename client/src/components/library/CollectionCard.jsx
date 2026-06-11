@@ -2,14 +2,19 @@ import { useState } from "react";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
+
 import PlayButton from "../ui/buttons/PlayButton";
 import styles from "./collectionCard.module.css"
+import { groupArtistsByRole } from "../../utils/groupArtistsByRole";
 
 const CollectionCard = ({ item, onClick, type }) => {
     const { playSong, currentSong, isPlaying, togglePlay, stop } = useAudio();
     const [ hover, setHover ] = useState(false);
     const { songs, privateSongs } = useLibrary();
     const isMobile = useIsMobile();    
+    
+    const { mainArtists } = groupArtistsByRole(item.artists);    
+    const artists = mainArtists?.join(", ") || null;
 
     /* --- INSTANT PLAY LOGIC --- */
     const handlePlayClick = (item) => {        
@@ -47,7 +52,7 @@ const CollectionCard = ({ item, onClick, type }) => {
                 )}
                 <div className={styles.trackInfo}>
                     <p className={styles.trackTitle} style={TextStyle}>{item.album}</p>
-                    <p className={styles.trackArtist}>{item.artist}</p>
+                    <p className={styles.trackArtist}>{artists ? artists : item.artist}</p>
                     <p className={styles.trackYear} style={trackYearStyle} > {hover ? "" : item.year}</p>
                 </div>
             </div>
