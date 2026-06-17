@@ -17,7 +17,7 @@ export const useLyricsToast = (lyrics) => {
         left: 0,
         width: "100vw",
         height: "100vh",
-        background: "rgba(0, 0, 0, 0.72)",
+        background: "rgba(10, 10, 10, 0.79)",
         backdropFilter: "blur(10px)",
         display: "flex",
         justifyContent: "center",
@@ -33,11 +33,11 @@ export const useLyricsToast = (lyrics) => {
         maxWidth: "90vw",
         overflowY: "auto",
         overflowX: "hidden",
-        boxShadow: `
-            0 0 20px rgba(0,0,0,0.8),
-            0 0 40px rgba(0,0,0,0.6),
-            0 0 80px rgba(0,0,0,0.4)
-        `,
+        // boxShadow: `
+        //     0 0 20px rgba(0,0,0,0.8),
+        //     0 0 40px rgba(0,0,0,0.6),
+        //     0 0 80px rgba(0,0,0,0.4)
+        // `,
     };
 
     const lyricsStyle = {
