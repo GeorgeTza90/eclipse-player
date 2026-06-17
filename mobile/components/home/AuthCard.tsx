@@ -67,11 +67,11 @@ export default function AuthCard() {
 
     return (
         <View style={styles.container}>
-            <View style={{ position: 'absolute', top: -350, left: -195, zIndex: 0, justifyContent: 'center' }}>
-                <Circle size={390} shadowColor={shadowColor} intensity={intensity} />
+            <View style={styles.circleContainer}>
+                <Circle size={450} shadowColor={shadowColor} intensity={intensity} />
             </View>
 
-            <View style={{ position: 'absolute', top: -190, left: -130, zIndex: 1 }}>
+            <View style={styles.formContainer}>
                 {!isLogin && (
                     <TextInput placeholder="Username" value={username} onChangeText={setUsername} style={styles.input} />
                 )}
@@ -112,8 +112,10 @@ export default function AuthCard() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 250, marginLeft: 209, marginBottom: -250 },
-    input: { height: 45, color: "#131313ff", borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#fff', paddingRight: 40, marginBottom: 12 },
+    container: { flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 250, marginLeft: 0, marginBottom: -250 },
+    circleContainer: { position: "absolute", top: -320, left: 0, right: 0, alignItems: "center", zIndex: 0 },
+    formContainer: { top: -90, left: 0, zIndex: 1 },
+    input: { height: 45, color: "#131313ff", borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#fff', marginBottom: 12 },
     googleButton: { backgroundColor: "#4285F4", paddingVertical: 12, paddingHorizontal: 15, borderRadius: 8, alignItems: "center", marginBottom: 10 },
     googleButtonText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
 });

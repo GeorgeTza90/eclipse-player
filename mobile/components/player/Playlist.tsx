@@ -10,7 +10,7 @@ export default function Playlist() {
   return (
     <View style={styles.container}>
         <Text style={styles.heading}>{playlistName} - Playlist</Text>
-        <FlatList
+        <FlatList            
             data={library}
             renderItem={({ item }) => (
                 <PlaylistSongItem
@@ -31,9 +31,9 @@ export default function Playlist() {
 }
 
 const styles = StyleSheet.create({
-    container: { position: "absolute", marginTop: 500,width: width, height: height * 0.365 },
+    container: { position: "absolute", top: 510, width: width, height: height * 0.365 },
     heading: { color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
-    list: { flexGrow: 0 },
+    list: { flexGrow: 0, backgroundColor: '#0000002d', borderRadius: 40 },
     listContent: { paddingBottom: 40 },
     songItem: { paddingVertical: 10, paddingHorizontal: 20, borderRadius: 15, backgroundColor: '#1e1e1e8d', marginVertical: 5, marginHorizontal: 20 },
     activeSongItem: { backgroundColor: '#414141c9' },

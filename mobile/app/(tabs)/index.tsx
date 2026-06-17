@@ -10,8 +10,8 @@ export default function HomeScreen() {
   return (
     <TabLayoutWrapper title="">
 
-      <View style={{ position: 'absolute', top: -440, left: -10, right: 0, bottom: 0, zIndex: 0 }}>
-        <Circle size={450} shadowColor="#181818ff" color2 = "#0b0b0bff" color1 = "#1f1e1eff"/>             
+      <View style={styles.circleContainer}>
+        <Circle size={470} shadowColor="#181818ff" color2 = "#0b0b0bff" color1 = "#1f1e1eff"/>             
       </View>
 
       <Image
@@ -27,5 +27,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  circleContainer: { position: 'absolute', alignItems: "center", top: -455, left: -10, right: 0, bottom: 0, zIndex: 0 },
   logo: { width: width, height: width / 3, alignSelf: 'center', marginTop: -70 },
 });

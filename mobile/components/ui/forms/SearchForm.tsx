@@ -59,6 +59,6 @@ export default function SearchForm() {
 };
 
 const styles = StyleSheet.create({
-    container: { justifyContent: "center", alignItems: "center", padding: 10, width: "100%", top: 15, marginBottom: 30 },
+    container: { justifyContent: "center", alignItems: "center", padding: 10, width: "100%", top: 45, marginBottom: 50 },
     input: { paddingVertical: 8, paddingHorizontal: 12, borderRadius: 16, width: 300, maxWidth: 300, backgroundColor: "rgba(47, 47, 48, 0.36)", color: "#fff", fontSize: 16 },
 });

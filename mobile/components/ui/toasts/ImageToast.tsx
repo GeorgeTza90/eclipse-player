@@ -55,7 +55,7 @@ export const useImageToast = () => {
 };
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "rgba(0, 0, 0, 0.75)", justifyContent: "center", alignItems: "center" },
+  overlay: { flex: 1, backgroundColor: "rgba(0, 0, 0, 0.83)", justifyContent: "center", alignItems: "center" },
   imageWrapper: { width: "85%", height: "70%", borderRadius: 6, overflow: "hidden", justifyContent: "center", alignItems: "center" },
   image: { width: "100%", height: "100%" },
   loader: { position: "absolute", zIndex: 10 },
