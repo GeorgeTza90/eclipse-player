@@ -1,10 +1,15 @@
 import { TouchableOpacity, View, Text,StyleSheet, Dimensions } from "react-native";
 import { Image } from "expo-image";
 import { Cards } from "@/types/cards";
+import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
 
 const { width } = Dimensions.get("window");
 
 export default function CollectionCard({ songItem, artistItem, onPress }: Cards) {
+    const { mainArtists } = groupArtistsByRole(songItem?.artists ?? []);
+    const artists = mainArtists.join(", ");
+    const IsMainArtists = artistItem?.roles.includes("main");   
+
     return (<>
         {songItem && (
             <TouchableOpacity style={styles.trackContainer} onPress={onPress}>
@@ -19,13 +24,13 @@ export default function CollectionCard({ songItem, artistItem, onPress }: Cards)
               )}
                 <View style={styles.trackInfo}>
                     <Text style={styles.trackTitle}>{songItem.album}</Text>
-                    <Text style={styles.trackArtist}>{songItem.artist}</Text>
+                    <Text style={styles.trackArtist}>{artists ? artists : songItem.artist}</Text>
                     <Text style={styles.trackAlbum}>{songItem.year}</Text>
                 </View>
             </TouchableOpacity>
         )}
 
-        {artistItem && (
+        {artistItem && IsMainArtists && (
             <TouchableOpacity style={styles.artistContainer} onPress={onPress}>
                 {artistItem.image_url && (
                     <Image

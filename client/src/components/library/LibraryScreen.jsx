@@ -19,11 +19,11 @@ const LibraryScreen = () => {
 
     /* --- EXTENTION --- */
     const handleExtention = (key) => setVinyl(key);
-    const extentionHoverStyle = { left: `${vinyl === false ? 0 : vinyl === true ? 50 : 66}%` };
+    const extentionHoverStyle = { left: `${vinyl === false ? 0 : vinyl === true ? 50 : 66}%` };    
 
     return (
         <div className={styles.container}>
-        {/* --- MODE CONTROL --- */}
+    {/* --- MODE CONTROL --- */}
             <div className={styles.formContainer}>
                 <SearchForm />
                 {!isMobile && (
@@ -35,25 +35,27 @@ const LibraryScreen = () => {
                 )}
             </div>
 
-        {/* --- VINYL MODE --- */}
-            {!isMobile && vinyl && (
-                <div className={styles.groupItemDiv}>
-                    {priv_u && <VinylGroupItem type="Private" group={privateAlbums} />}
-                    <VinylGroupItem type="Singles & EPs" group={singlesEps} />
-                    <VinylGroupItem type="Albums" group={albums} />
-                    <LibraryGroupItem type="Artists" group={artists} />
-                </div>
-            )}
+            <div className={styles.libraryContainer}>                
+    {/* --- VINYL MODE --- */}
+                {!isMobile && vinyl && (
+                    <div className={styles.groupItemDiv}>
+                        {priv_u && <VinylGroupItem type="Private" group={privateAlbums} />}
+                        <VinylGroupItem type="Singles & EPs" group={singlesEps} />
+                        <VinylGroupItem type="Albums" group={albums} />
+                        <LibraryGroupItem type="Artists" group={artists} />
+                    </div>
+                )}
 
-        {/* --- CARD MODE --- */}
-            {(isMobile || !vinyl) && (
-                <div className={styles.groupItemDiv}>
-                    {priv_u && <LibraryGroupItem type="Private" group={privateAlbums} />}
-                    <LibraryGroupItem type="Singles & EPs" group={singlesEps} />
-                    <LibraryGroupItem type="Albums" group={albums} />
-                    <LibraryGroupItem type="Artists" group={artists} />
-                </div>
-            )}
+    {/* --- CARD MODE --- */}
+                {(isMobile || !vinyl) && (
+                    <div className={styles.groupItemDiv}>
+                        {priv_u && <LibraryGroupItem type="Private" group={privateAlbums} />}
+                        <LibraryGroupItem type="Singles & EPs" group={singlesEps} />
+                        <LibraryGroupItem type="Albums" group={albums} />
+                        <LibraryGroupItem type="Artists" group={artists} />
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

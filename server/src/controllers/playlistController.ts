@@ -39,6 +39,7 @@ export const deletePlaylist = asyncHandler(async (req: AuthenticatedRequest, res
 // Playlist Songs CRUD
 // -----------------------------
 export const getPlaylistSongs = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+    console.log("hey");
     const userId = req.user.id;    
     const playlistId = Number(req.params.id);
     const rows = await playlistsService.getPlaylistSongs(playlistId, userId);        

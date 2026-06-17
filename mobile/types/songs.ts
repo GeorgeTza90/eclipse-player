@@ -1,7 +1,10 @@
+import { SongArtist } from "./cards";
+
 export type Song = {
     id: string;
     title: string;
     artist: string;
+    artists: SongArtist[];
     album: string;
     year: number;
     image: any;
@@ -29,3 +32,18 @@ export interface SongRowProps {
     onDelete: (songId: string) => void;
     playlistId: number;
 }
+
+export type TrackItemProps = {
+    item: Song;
+    index: number;
+    user: any;    
+    onPressSong: (song: Song) => void;
+};
+
+export type PlaylistSongItemProps = {
+    item: any;
+    currentSongId?: string | number;
+    playlistName: string;
+    library: any[];
+    onPlay: (item: any, library: any[], playlistName: string) => void;
+};

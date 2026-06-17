@@ -1,5 +1,5 @@
-.container{
-    padding-bottom: 2rem;    
+.container{    
+    margin-bottom: 5rem;
 }
 
 .categoryTitle {
@@ -9,11 +9,20 @@
 }
 
 .horizontalScroll {
-    padding: 1rem 0;
-    display: grid;    
+    display: grid;
     overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
 }
 
 @media (max-width: 768px) {
+    .container{
+        margin-left: 1.5rem;  
+    }
 
+    .horizontalScroll {
+        padding: 0 0;
+        display: grid;    
+        overflow-x: auto;
+    }
 }

@@ -28,7 +28,10 @@ export default function Home() {
             )}
             
             <View style={styles.teaserWrapper}>
-                <Teaser />
+                <Teaser 
+                    link={`/library/CollectionDetail?album=${encodeURIComponent("No Gods In Heaven")}`}
+                    source={require("@/assets/vids/video_teaser_2.mp4")}
+                />
             </View>
         </SafeAreaView>
     );
@@ -40,5 +43,5 @@ const styles = StyleSheet.create({
     text: { color: "#fff", fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
     text2: { color: "#fff", fontSize: 18, fontWeight: 'bold', marginBottom: 10, marginTop: 25 },
     playlistsWrapper: { flex: 1 },
-    teaserWrapper: { flex: 1, marginTop: 320 },
+    teaserWrapper: { flex: 1, marginTop: 320, zIndex: 10 },
 });

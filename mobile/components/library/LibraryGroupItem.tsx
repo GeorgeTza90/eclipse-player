@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { Song } from "@/types/songs";
 import { Artist } from "@/types/artists";
 import CollectionCard from "../library/CollectionCard";
+import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
 
 type LibraryGroupItemProps = {
     type: "Singles & EPs" | "Albums" | "Artists";
@@ -15,8 +16,9 @@ export default function LibraryGroupItem({ type, group, title= true }: LibraryGr
     const isArtist = type === "Artists";  
     const songsGroup = !isArtist ? (group as Song[]) : [];
     const artistsGroup = isArtist ? (group as Artist[]) : [];
+    const {} = groupArtistsByRole();
 
-    const handlePress = (item: string, type: string): void => {
+    const handlePress = (item: string, type: string): void => {        
         if (type === "artist") {
             router.push(`/library/ArtistInfo?artist=${encodeURIComponent(item)}`);
         } else {
@@ -29,22 +31,23 @@ export default function LibraryGroupItem({ type, group, title= true }: LibraryGr
                 {title && <Text style={styles.categoryTitle}>{type}</Text>}
 
                 {!isArtist && (
-                        <FlatList
-                            data={songsGroup}
-                            keyExtractor={(item) => item.id.toString()}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            renderItem={({ item }) => (
-                                <CollectionCard
-                                    songItem={item}
-                                    onPress={() => handlePress(item.album, "album")}
-                                />
-                            )}
-                            initialNumToRender={5}
-                            maxToRenderPerBatch={10}
-                            windowSize={5}
-                            removeClippedSubviews={false}
-                        />
+                    <FlatList
+                        data={songsGroup}
+                        keyExtractor={(item) => item.id.toString()}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
+                            <CollectionCard
+                                key={index}
+                                songItem={item}
+                                onPress={() => handlePress(item.album, "album")}
+                            />
+                        )}
+                        initialNumToRender={5}
+                        maxToRenderPerBatch={10}
+                        windowSize={5}
+                        removeClippedSubviews={false}
+                    />
                 )}
 
                 {isArtist && (
@@ -53,8 +56,9 @@ export default function LibraryGroupItem({ type, group, title= true }: LibraryGr
                         keyExtractor={(item) => item.name}
                         horizontal
                         showsHorizontalScrollIndicator={false}
-                        renderItem={({ item }) => (
+                        renderItem={({ item, index }) => (
                             <CollectionCard
+                                key={index}
                                 artistItem={item}
                                 onPress={() => handlePress(item.name, "artist")}
                             />

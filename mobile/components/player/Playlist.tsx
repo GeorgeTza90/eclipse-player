@@ -1,39 +1,26 @@
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import { Image } from 'expo-image'
 import { useAudio } from '@/contexts/AudioContext';
+import PlaylistSongItem from './PlaylistSongItem';
 
 const { width, height } = Dimensions.get('window');
 
 export default function Playlist() {
-  const { library, currentSong, playSong, playlistName } = useAudio();    
-
-  const renderItem = ({ item }: any) => (
-    <TouchableOpacity
-        style={[
-            styles.songItem,
-            currentSong?.id === item.id && styles.activeSongItem
-        ]}
-        onPress={() => playSong(item, library, playlistName)}
-    >
-        <View style={styles.songRow}>
-            {item.image && <Image source={item.image} style={styles.songImage} />}
-            <View style={styles.songText}>
-                <Text style={styles.title}>{item.title}</Text>
-                {item.feature && (
-                    <Text style={styles.trackFeature}>(feat. {item.feature})</Text>
-                )}
-                <Text style={styles.artist}>{item.artist}</Text>
-            </View>
-          </View>
-    </TouchableOpacity>
-  );
+  const { library, currentSong, playSong, playlistName } = useAudio();
 
   return (
     <View style={styles.container}>
         <Text style={styles.heading}>{playlistName} - Playlist</Text>
         <FlatList
             data={library}
-            renderItem={renderItem}
+            renderItem={({ item }) => (
+                <PlaylistSongItem
+                    item={item}
+                    currentSongId={currentSong?.id}
+                    playlistName={playlistName}
+                    library={library}
+                    onPlay={playSong}
+                />
+            )}
             keyExtractor={(item) => item.id.toString()}
             style={styles.list}
             contentContainerStyle={styles.listContent}

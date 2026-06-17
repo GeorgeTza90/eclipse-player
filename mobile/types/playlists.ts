@@ -21,3 +21,12 @@ export interface AddPlaylistModalProps {
     onClose: () => void;    
     onCreated: () => void;
 }
+
+export interface EditPlaylistModalProps {
+    visible: boolean;
+    onClose: () => void;    
+    onUpdated: (title: string, description: string) => void;
+    currentTitle: string;
+    currentDescription: string;
+    currentId: number;    
+}

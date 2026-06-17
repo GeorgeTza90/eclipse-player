@@ -20,8 +20,8 @@ export default function PlayerScreen() {
   return (
     <TabLayoutWrapper title="">
       
-      <View style={{ position: 'absolute', top: -440, left: -10, right: 0, bottom: 0, zIndex: 0 }}>
-        <Circle size={450} shadowColor={shadowColor} color2 = "#0a0a0aff" color1 = "#1f1e1eff"/>
+      <View style={styles.circleContainer}>
+        <Circle size={485} shadowColor={shadowColor} color2 = "#0a0a0aff" color1 = "#1f1e1eff"/>
       </View>
       
       <Image
@@ -41,5 +41,6 @@ export default function PlayerScreen() {
 }
 
 const styles = StyleSheet.create({
+  circleContainer: { position: "absolute", top: -1360, left: 0, right: 0, bottom: 0, justifyContent: "center", alignItems: "center", zIndex: 0 },
   logo: { width: width, height: width / 4.5, alignSelf: 'center', marginTop: -70 },
 });

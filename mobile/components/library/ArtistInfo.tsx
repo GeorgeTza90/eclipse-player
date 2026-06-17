@@ -13,7 +13,7 @@ export default function ArtistDetail() {
     const [groupsKind, setGroupKind] = useState<"Singles & EPs" | "Albums" | "Artists">("Singles & EPs");
     const { artist: artistName } = useLocalSearchParams();
     const { songs } = useLibrary();
-    const router = useRouter();
+    const router = useRouter();   
 
     useEffect(() => {
         const loadArtist = async () => {
@@ -27,7 +27,7 @@ export default function ArtistDetail() {
             }
         };
         loadArtist();
-    }, [artistName]);
+    }, [artistName]);    
 
     if (!artist)
         return (
@@ -37,22 +37,24 @@ export default function ArtistDetail() {
             </View>
         );    
 
-    const artistSongs = songs.filter((s: any) => s.artist === artist.name);
+    const artistSongs = songs.filter(s => s.artists?.some(a => a.name === artist.name));
     const singlesEps = byYear(artistSongs, "single", "ep");
     const albums = byYear(artistSongs, "album");
 
     const openLink = (url?: string) => {
         if (url) Linking.openURL(url).catch((err) => console.error("Failed to open link", err));
-    };
+    };    
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 10 }}>      
-            <View style={styles.headerInfo}>
-                {artist.image_url && (
+            {artist.photos.length > 0 && (
+                <Image source={{ uri: encodeURI(artist.photos[0])}} style={styles.artistImageBG} />
+            )}
+            <View style={styles.headerInfo}>                
+                {artist.image_url && (                    
                     <TouchableOpacity onPress={() => showImageToast(artist.image_url)} >
                         <Image source={{ uri: encodeURI(artist.image_url) }} style={styles.artistImage} />
-                    </TouchableOpacity>
-                    
+                    </TouchableOpacity>                    
                 )}
               
                 <Text style={styles.artistName}>{artist.name}</Text>
@@ -78,21 +80,24 @@ export default function ArtistDetail() {
             </View>
 
             {artistSongs.length > 0 ? (
-                <View style={styles.songsContainer}>            
+                <View style={styles.songsContainer}>
                     <View style={styles.toggleRow}>
-                        <TouchableOpacity
-                            style={[ styles.toggleButton, groupsKind === "Singles & EPs" && styles.toggleButtonActive ]}
-                            onPress={() => setGroupKind("Singles & EPs")}
-                        >
-                        <Text style={styles.toggleText}>Singles & EPs</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={[ styles.toggleButton, groupsKind === "Albums" && styles.toggleButtonActive ]}
-                            onPress={() => setGroupKind("Albums")}
-                        >
-                        <Text style={styles.toggleText}>Albums</Text>
-                        </TouchableOpacity>
+                        {singlesEps.length > 0 && (
+                            <TouchableOpacity
+                                style={[ styles.toggleButton, groupsKind === "Singles & EPs" && styles.toggleButtonActive ]}
+                                onPress={() => setGroupKind("Singles & EPs")}
+                            >
+                                <Text style={styles.toggleText}>Singles & EPs</Text>
+                            </TouchableOpacity>
+                        )}                        
+                        {albums.length > 0 && (
+                            <TouchableOpacity
+                                style={[ styles.toggleButton, groupsKind === "Albums" && styles.toggleButtonActive ]}
+                                onPress={() => setGroupKind("Albums")}
+                            >
+                                <Text style={styles.toggleText}>Albums</Text>
+                            </TouchableOpacity>
+                        )}                        
                     </View>
 
                     <LibraryGroupItem type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} title={false}/>
@@ -107,14 +112,15 @@ export default function ArtistDetail() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: "#000", marginTop: 50 },
-    loadingText: { marginTop: 32, padding: 2, marginLeft: 0 },    
+    loadingText: { marginTop: 32, padding: 2, marginLeft: 0 },
+    artistImageBG: { position:"absolute", width: 500, height: 200, borderRadius: 12, zIndex: -1, top: -10},
     artistImage: { width: 120, height: 120, borderRadius: 12 },
-    headerInfo: { flex: 1, marginLeft: 15, justifyContent: 'center' },
+    headerInfo: { flex: 1, marginLeft: 15, justifyContent: 'center', top: 100 },
     artistName: { color: '#fff', fontSize: 20, fontWeight: 'bold', marginBottom: 5 },
     artistInfo: { color: '#d6d6d6', fontSize: 14 },
     contactRow: { flexDirection: "row", marginTop: 10, gap: 12 },
     contactIcon: { width: 35, height: 35, marginHorizontal: 5, marginVertical: 5, opacity: 0.5 },
-    songsContainer: { marginTop: 50 },
+    songsContainer: { marginTop: 120 },
     toggleRow: { flexDirection: "row", justifyContent: "center", marginBottom: 16, gap: 8 },
     toggleButton: { paddingVertical: 8, paddingHorizontal: 16, borderRadius: 20, backgroundColor: "#222" },
     toggleButtonActive: { backgroundColor: "#444" },

@@ -24,11 +24,6 @@ const PlaylistsongItem = ({item, currentSong, onClick}) => {
                     </span>
                     <p className={styles.artist}>
                         {mainArtists.join(", ")}
-                        {/* {mainArtists.map((artist, index) => (
-                            <span key={artist}>
-                                {artist}
-                            </span>
-                        ))} */}
                     </p>
                 </div>
             </div>

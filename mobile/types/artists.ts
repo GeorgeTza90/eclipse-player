@@ -4,4 +4,5 @@ export type Artist = {
     description: string;
     media: any;
     image_url: string;
+    roles: ("main" | "feat")[];
 };

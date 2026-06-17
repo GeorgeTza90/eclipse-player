@@ -1,5 +1,5 @@
 .container {
-    
+    padding: 1rem auto 1rem;
 }
 
 .categoryTitle {
@@ -9,9 +9,7 @@
 }
 
 .horizontalScroll {    
-    width: 100%;
-    padding: 1rem;
-    max-height: 30rem;
+    width: 100%;    
     display: flex;
     overflow-x: auto;
     align-items: flex-start;}

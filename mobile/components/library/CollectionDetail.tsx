@@ -6,8 +6,9 @@ import { useAudio } from "@/contexts/AudioContext";
 import { useLibrary } from "@/contexts/LibraryContext";
 import { useAlbumDuration } from "@/hooks/useFormatTime";
 import { Song } from "@/types/songs";
-import AddToPlaylistButton from "../ui/buttons/AddToPlaylistButton";
 import { useImageToast } from "../ui/toasts/ImageToast";
+import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
+import TrackItem from "./TrackItem";
 
 const { width } = Dimensions.get("window");
 
@@ -23,8 +24,9 @@ export default function CollectionDetail() {
     
     if (!albumSongs || !albumSongs.length) { return <Text style={{ color: "#fff", padding: 10 }}>No collection data</Text>; }
 
-    const albumInfo = albumSongs[0];    
-
+    const albumInfo = albumSongs[0];
+    const { mainArtists } = groupArtistsByRole(albumInfo.artists);    
+    
     const handlePressSong = (song: Song) => {    
         playSong(song, albumSongs, albumInfo.album);
         router.push("/player");
@@ -44,11 +46,17 @@ export default function CollectionDetail() {
                     <Text style={styles.type}>{albumInfo.type.toUpperCase()}</Text>
                     <Text style={styles.albumName}>{albumInfo.album}</Text>
                     <View style={styles.infoRow}>
-                        <TouchableOpacity onPress={() => handlePressArtist(albumInfo.artist)}>
-                            <Text style={styles.artistInfo}>{albumInfo.artist}</Text>  
-                        </TouchableOpacity>          
+                        {mainArtists.map((artist) => (
+                        <View key={artist} style={{ flexDirection: "row" }}>
+                            <TouchableOpacity onPress={() => handlePressArtist(artist)}>
+                                <Text style={styles.artistInfo}>{artist}</Text>
+                            </TouchableOpacity>
+
+                            <Text style={styles.albumInfo}> • </Text>
+                        </View>
+                        ))}     
                         <Text style={styles.albumInfo}>
-                            {" "} • {albumSongs.length} songs • {durationString}
+                            {albumSongs.length} songs • {durationString}
                         </Text>
                     </View>          
                 </View>
@@ -58,30 +66,13 @@ export default function CollectionDetail() {
                 data={albumSongs}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item, index }) => (
-                    <View style={styles.track}>            
-                        <TouchableOpacity style={styles.trackInfo} onPress={() => handlePressSong(item)}>
-                            <Text style={styles.trackNumber}>{index + 1}.</Text>
-                            <View>
-                                <Text style={styles.trackTitle}>{item.title}</Text>
-                                {item.feature && (
-                                    <Text style={styles.trackFeature}>(feat. {item.feature})</Text>
-                                )}                
-                            </View>              
-                        </TouchableOpacity>
-                            
-                        {user && (
-                            <TouchableOpacity style={styles.addButtonWrapper}>
-                                <AddToPlaylistButton song={item} />
-                            </TouchableOpacity>
-                        )}
-
-                        {/* Duration */}
-                        {item.duration && (
-                            <Text style={styles.trackDuration}>
-                                {Math.floor(item.duration / 60)}:{("0" + (item.duration % 60)).slice(-2)}
-                            </Text>
-                        )}
-                    </View>          
+                    <TrackItem
+                        key={index}
+                        item={item}
+                        index={index}
+                        user={user}                        
+                        onPressSong={handlePressSong}
+                    />
                 )}
             />
             {ImageToastUI}

@@ -90,7 +90,6 @@ export const createPlaylist = (title: string, description?: string) =>
         body: JSON.stringify({ title, description }),
     });
 
-
 export const updatePlaylist = (id: number, title: string, description: string) => 
     apiFetch<Playlist>(`/api/playlists/${id}`, {
         method: "PUT",

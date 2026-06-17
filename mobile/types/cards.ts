@@ -7,3 +7,7 @@ export type Cards = {
     onPress: () => void;
 };
 
+export type SongArtist = {
+    name: string;
+    role: "main" | "feat";
+}

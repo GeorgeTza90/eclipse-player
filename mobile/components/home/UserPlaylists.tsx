@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect, useRouter } from "expo-router";
 import { ScrollView, Text, StyleSheet, View, Dimensions } from "react-native";
 import { useFetchManager } from "@/hooks/useCallManager";
 import { useAuth } from "@/contexts/AuthContext";
 import PlaylistItem from "./PlaylistItem";
-import AddPlaylistModal from "./AddPlaylistModal";
+import AddPlaylistModal from "../ui/modals/AddPlaylistModal";
 import AddPlaylistButton from "../ui/buttons/AddPlaylistButton";
 
 export default function UserPlaylists() {
@@ -16,14 +16,16 @@ export default function UserPlaylists() {
 
     const [ modalVisible, setModalVisible ] = useState(false);
 
-    useEffect(() => {
-        if (authLoading || !user) return;
-        loadPlaylists();
-    }, [authLoading, user]);
+    useFocusEffect(
+        useCallback(() => {
+            if (authLoading || !user) return;
+            loadPlaylists();
+        }, [authLoading, user])
+    );
 
     const loadPlaylists = async () => {        
         try {
-            await fetchCall("playlists");            
+            await fetchCall("playlists");
         } catch (err: any) {
             console.log("Failed to load playlists:", err);
         }

@@ -1,7 +1,37 @@
 .container {
-    padding: 20px;
-    margin-top: 10%;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 10%;
+    padding: 1rem;
     color: #fff;
+}
+
+.titleDiv {
+    display: flex;
+    align-items: center;
+}
+
+.updateButton {
+    height: 2rem;
+    margin-left: 2rem;
+    background-image: url("/assets/icons/edit.png");
+    background-color: #33333300;
+    border: #33333300;
+    width: 22px;
+    height: 22px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    transition: 650ms;
+    opacity: 50%;
+}
+
+
+/* HOVERS */
+.updateButton:hover {
+    transition: 350ms;
+    opacity: 100%;
 }
 
 .description {

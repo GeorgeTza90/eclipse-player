@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
@@ -13,6 +13,7 @@ import MiniPlayer from "../player/MiniPlayer";
 import BackButton from "../ui/buttons/BackButton";
 import styles from "./playlistDetail.module.css";
 import Loader from "../ui/loaders/Loader";
+import EditPlaylistModal from "../ui/modals/EditPlaylistModal";
 
 const PlaylistDetail = () => {
     const location = useLocation();
@@ -24,13 +25,17 @@ const PlaylistDetail = () => {
 
     const playlist = location.state;
     const id = playlist.id;
-    const title = playlist.title;
-    const description = playlist.description;
+    // const title = playlist.title;
+    // const description = playlist.description;
     
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
     const { call: postCall } = usePostManager();
     const songs = fetchState.playlistSongs || [];
-    const loading = fetchLoading.playlistSongs;       
+    const loading = fetchLoading.playlistSongs;
+
+    const [ modalVisible, setModalVisible ] = useState(false);
+    const [ title, setTitle ] = useState(playlist.title);
+    const [ description, setDescription ] = useState(playlist.description);
     
     /* --- LOAD PLAYLIST SONGS --- */
     useEffect(() => {
@@ -64,14 +69,26 @@ const PlaylistDetail = () => {
         }
     };
 
+    const handlePlaylistUpdate = (newTitle, newDescription) => {
+        setTitle(newTitle);
+        setDescription(newDescription);
+    };
+
     return (
         <div className={styles.container}>
             {!isMobile && user && !barMode && (<MiniPlayer />)}
 
             <div>
-                <h2>{title}</h2>
-                <h2 className={styles.description}>{description}</h2>
+                <div className={styles.titleDiv}>
+                    <h2>{title}</h2>
+                    <button 
+                        className={styles.updateButton}
+                        onClick={() => setModalVisible(true)}
+                    />
+                </div>                
+                {description && (<h2 className={styles.description}>{description}</h2>)}
                 <p className={styles.artistInfo}>{songs.length} songs • {useAlbumDuration(songs)}</p>
+                
             </div>
 
             {loading ? (
@@ -112,6 +129,15 @@ const PlaylistDetail = () => {
             )}
 
             <BackButton navTo={`/`} />
+
+            <EditPlaylistModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onUpdated={handlePlaylistUpdate}
+                currentTitle={title}
+                currentDescription={description}
+                playlistId={playlist.id}
+            />
         </div>
     );
 }

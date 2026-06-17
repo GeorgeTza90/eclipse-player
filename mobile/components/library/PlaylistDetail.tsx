@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { useEffect, useState, useCallback } from "react";
+import { View, Text, StyleSheet, ActivityIndicator, Image, TouchableOpacity } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { useFetchManager, usePostManager } from "@/hooks/useCallManager";
@@ -8,54 +8,86 @@ import { useToast } from "@/contexts/ToastContext";
 import { useAlbumDuration } from "@/hooks/useFormatTime";
 import { Song, PlaylistSong } from "@/types/songs";
 import SongRow from "./PlaylistSongItem";
+import EditPlaylistModal from "../ui/modals/EditPlaylistModal";
 
 export default function PlaylistDetail() {
-    const { id, title } = useLocalSearchParams<{ id: string; title: string }>();    
+    const params = useLocalSearchParams<{
+        id: string;
+        title?: string;
+        description?: string;
+    }>();
+
+    const id = Number(params.id);
+
     const router = useRouter();
     const { playSong } = useAudio();
     const { showToast } = useToast();
 
     const { loading: fetchLoading, call: fetchCall } = useFetchManager();
     const { call: postCall } = usePostManager();
+
     const loading = fetchLoading?.playlistSongs;
 
     const [songs, setSongs] = useState<PlaylistSong[]>([]);
-    const [trash, setTrash] = useState(false); 
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [playlistTitle, setPlaylistTitle] = useState<string>("");
+    const [playlistDescription, setPlaylistDescription] = useState<string>("");
 
     const durationString = useAlbumDuration(songs);
 
-    const loadSongs = async () => {
+    /* ---------------- LOAD ---------------- */
+    const loadSongs = useCallback(async () => {
         try {
-            const data = await fetchCall("playlistSongs", Number(id));
-            setSongs(data);
+            const res = await fetchCall("playlistSongs", id);
+            setSongs(res || []);
         } catch (err) {
-            console.error("Failed to load playlist songs", err);
+            console.error(err);
             showToast("Failed to load playlist songs", "error");
         }
-    };
+    }, [id, fetchCall, showToast]);
 
+    useEffect(() => { if (!id) return; loadSongs(); }, [id, loadSongs]);
+
+    /* ---------------- INIT PARAM SYNC ---------------- */
+    useEffect(() => {
+        if (params.title) setPlaylistTitle(String(params.title));
+        if (params.description) setPlaylistDescription(String(params.description));
+    }, [params.title, params.description]);
+
+    /* ---------------- PLAY ---------------- */
     const handlePlay = (song: Song) => {
         try {
-            playSong(song, songs, title); 
+            playSong(song, songs, playlistTitle);
             router.push("/player");
-        } catch (err: any) {
-            showToast("Could not play song", err);
+        } catch {
+            showToast("Could not play song", "error");
         }
     };
 
-    const handleDragEnd = async ({ data, from, to }: { data: PlaylistSong[]; from: number; to: number }) => {        
-        const previous = songs.slice();
+    /* ---------------- DRAG ---------------- */
+    const handleDragEnd = async ({ data, to }: any) => {
+        if (to == null) return;
+        const previous = songs;
         setSongs(data);
-        try {      
-            const movedSong = data[to];      
-            await postCall("moveSongInPlaylist", Number(id), Number(movedSong.playlistSongId), to);      
-        } catch (err: any) {
-            console.error("Failed to move song", err);      
+        const movedSong = data[to];
+        if (!movedSong) return;
+        try {
+            await postCall( "moveSongInPlaylist", id, Number(movedSong.playlistSongId), to );
+        } catch (err) {
             setSongs(previous);
             showToast("Failed to move song. Order reverted.", "error");
         }
     };
 
+    /* ---------------- UPDATE FROM MODAL ---------------- */
+    const handlePlaylistUpdate = (newTitle: string, newDescription: string) => {
+        setPlaylistTitle(newTitle);
+        setPlaylistDescription(newDescription);
+        loadSongs();
+    };
+
+    /* ---------------- RENDER ITEM ---------------- */
     const renderItem = ({ item, drag, isActive, getIndex }: RenderItemParams<PlaylistSong>) => (
         <SongRow
             item={item}
@@ -64,54 +96,80 @@ export default function PlaylistDetail() {
             getIndex={getIndex}
             onPlay={handlePlay}
             onDelete={(songId) => setSongs(prev => prev.filter(s => s.id !== songId))}
-            playlistId={Number(id)}
+            playlistId={id}
         />
     );
 
-    useEffect(() => {
-        loadSongs();
-    }, [id]);
-
     return (
         <View style={styles.container}>
-            <Text style={styles.playlistTitle}>{title}</Text>
-            <Text style={styles.playlistDetails}>{songs.length} songs • {durationString}</Text>
+
+            <View style={styles.titleDiv}>
+                <Text style={styles.playlistTitle}>{playlistTitle}</Text>
+
+                <TouchableOpacity
+                    style={styles.editButton}
+                    onPress={() => setModalVisible(true)}
+                >
+                    <Image
+                        source={require("@/assets/icons/edit.png")}
+                        style={{ width: 20, height: 20 }}
+                    />
+                </TouchableOpacity>
+            </View>
+
+            {playlistDescription ? (
+                <Text style={styles.playlistDetails}>
+                    {playlistDescription}
+                </Text>
+            ) : null}
+
+            <Text style={styles.playlistDetails}>
+                {songs.length} songs • {durationString}
+            </Text>
+
             {loading ? (
                 <View style={styles.centered}>
                     <ActivityIndicator size="large" color="#fff" />
-                    <Text style={{ color: "#aaa", marginTop: 10 }}>Loading songs...</Text>
+                    <Text style={{ color: "#aaa", marginTop: 10 }}>
+                        Loading songs...
+                    </Text>
                 </View>
             ) : songs.length === 0 ? (
                 <View style={styles.centered}>
-                    <Text style={{ color: "#aaa" }}>No songs in this playlist yet.</Text>
+                    <Text style={{ color: "#aaa" }}>
+                        No songs in this playlist yet.
+                    </Text>
                 </View>
             ) : (
                 <DraggableFlatList
-                    data={songs}          
+                    data={songs}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={renderItem}
-                    onDragBegin={() => setTrash(true)}
                     onDragEnd={handleDragEnd}
                     activationDistance={10}
                     dragItemOverflow={false}
                     animationConfig={{ duration: 150 }}
                     contentContainerStyle={{ paddingBottom: 100 }}
                 />
-            )}     
+            )}
+
+            <EditPlaylistModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onUpdated={handlePlaylistUpdate}
+                currentTitle={playlistTitle}
+                currentDescription={playlistDescription}
+                currentId={id}
+            />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: "#000", padding: 10, marginTop: "10%" },
-    playlistTitle: { color: "#fff", fontSize: 22, fontWeight: "bold", marginBottom: 10 },
-    playlistDetails: { color: "#ffffff8e", fontSize: 18, fontWeight: "thin", marginBottom: 10 },
-    text: { color: "#888" },
-    songRow: { flexDirection: "row", alignItems: "center", paddingVertical: 8, borderBottomColor: "#333", borderBottomWidth: 1 },
-    songIndex: { color: "#888", width: 20 },
-    songTitle: { color: "#fff", flex: 0 },
-    songArtist: { color: "#a49f9fff", flex: 0 },
-    songAlbum: { color: "#656262ff", flex: 1 },
-    centered: { flex: 1, justifyContent: "center", alignItems: "center" },
-    trackDuration: { color: "#888", width: 50, textAlign: "right" },  
+    titleDiv: { flexDirection: "row", alignItems: "center", minHeight: 50 },
+    playlistTitle: { color: "#fff", fontSize: 25, fontWeight: "bold" },
+    editButton: { marginLeft: 20 },
+    playlistDetails: { color: "#ffffff8e", fontSize: 18, marginBottom: 10 },
+    centered: { flex: 1, justifyContent: "center", alignItems: "center" }
 });

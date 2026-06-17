@@ -3,6 +3,11 @@ export function getGridConfig(width) {
     let rows;
 
     switch (true) {
+         case width >= 3060:
+            columns = 16;
+            rows = 3;
+            break;
+
         case width >= 2760:
             columns = 14;
             rows = 3;

@@ -11,17 +11,17 @@ const LibraryGroupItem = ({ type, group }) => {
     const isPrivate = type === "Private";
     const width = useWidth();
     const isMobile = useIsMobile();
-    const {columns, rows} = getGridConfig(width);    
+    const {columns, rows} = getGridConfig(width);
 
     /* --- STYLES --- */
+    const containerStyle = {marginLeft: isMobile ? `${width/1000}rem` : `${width/100}rem`  }
     const horizontalScrollStyle = {        
-        gridTemplateColumns: isMobile ? `repeat(3, 6.5rem)` : `repeat(${columns}, 8rem)`,        
-        gap: isMobile ? "2rem" : "2.4rem",
-        marginLeft: width < 800 ? "" : "",        
+        gridTemplateColumns: isMobile ? `repeat(${columns} , 6.5rem)` : `repeat(${columns}, 7rem)`,        
+        gap: isMobile ? "1rem" : "2.4rem",        
     };    
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={containerStyle}>
             <h2 className={styles.categoryTitle}>{type}</h2>
             <div className={styles.horizontalScroll} style={horizontalScrollStyle}>
                 {group.map((item) => (                    

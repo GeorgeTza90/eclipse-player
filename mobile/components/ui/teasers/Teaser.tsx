@@ -1,34 +1,39 @@
 import { View, StyleSheet, Dimensions, Pressable } from "react-native";
 import { VideoView, useVideoPlayer } from "expo-video";
-import { useRouter } from "expo-router";
+import { Href, useRouter } from "expo-router";
 
-export default function Teaser() {
-    const router = useRouter();
-    const videoSource = require("@/assets/vids/video_teaser_2.mp4");
+type TeaserProps = {
+    link: Href;
+    source: any;
+}
 
-    const player = useVideoPlayer(videoSource, (player) => {
+export default function Teaser({link, source}: TeaserProps) {
+    const router = useRouter();    
+
+    const player = useVideoPlayer(source, (player) => {
         player.loop = true;
         player.play();
         player.muted = true;
     });
 
-    const handlePress = () => router.push(`/library/CollectionDetail?album=${encodeURIComponent("No Gods In Heaven")}`);
+    const handlePress = () => router.push(link);
 
     return (
         <View style={styles.container}>
-            <Pressable style={styles.pressable} onPress={handlePress}>
-                <VideoView
-                    style={styles.video}
-                    player={player}
-                    nativeControls={false}
-                />
-            </Pressable>
+            <VideoView
+                style={styles.video}
+                player={player}
+                nativeControls={false}
+                pointerEvents="none"
+            />
+
+            <Pressable style={StyleSheet.absoluteFill} onPress={handlePress} />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: { justifyContent: "center", alignItems: "center",  },
-    video: { width: Dimensions.get("window").width, height: 200 },
+    video: { width: Dimensions.get("window").width, height: 200, opacity: 0.1 },
     pressable: { width: '100%', height: 200, justifyContent: 'center', alignItems: 'center' },
 });

@@ -8,7 +8,7 @@ const fetchHooks = {
     songs: fetchSongs,
     songsById: fetchSongById,    
     artists: fetchArtists,
-    artist: fetchArtist,
+    artist: fetchArtist,    
     playlists: fetchUserPlaylists,
     playlistSongs: fetchPlaylistSongs,
     user: fetchCurrentUser,
@@ -24,7 +24,7 @@ const deleteHooks = {
     deletePlaylist, deleteSongFromPlaylist,
 } satisfies HookMap;
 
-function useCallManager<T extends HookMap>(hooksMap: T) {
+function useCallManager<T extends HookMap>(hooksMap: T) {    
     const [state, setState] = useState<StateType<T>>({});
     const [loading, setLoading] = useState<LoadingType<T>>({});
     const [error, setError] = useState<ErrorType<T>>({});

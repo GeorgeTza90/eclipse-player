@@ -2,13 +2,14 @@ import { useEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Animated } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import Slider from "@react-native-community/slider";
 import { useAudio } from "@/contexts/AudioContext";
 import { formatTimeSeconds } from "@/hooks/useFormatTime";
 import { AudioPlayerProps } from "@/types/audio";
 import PlayButton from "../ui/buttons/PlayButtons";
-import Circle from "../ui/circles/Circle";
 import { useImageToast } from "../ui/toasts/ImageToast";
+import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
+import Slider from "@react-native-community/slider";
+import Circle from "../ui/circles/Circle";
 
 const { width } = Dimensions.get("window");
 
@@ -25,6 +26,8 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
     const shadowColor = currentSong?.averageColor ?? "#bebebe";
     const volMin = 0.000001;
     const router = useRouter();
+
+    const { featArtists, mainArtists} = groupArtistsByRole(currentSong ? currentSong.artists : [])
     
     const highlightAnim = useRef(new Animated.Value(0)).current;
 
@@ -45,7 +48,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
         }).start();
     };
 
-    const handlePressArtist = (artist: string) => router.push(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`);        
+    const handlePressArtist = (artist: string) => router.push(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`);    
     
     return (
         <View style={styles.container}>
@@ -56,14 +59,14 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
                 </View>
             ) : (
                 <>
-                    {/* Big Circle */}
-                    <View style={{ position: "absolute", top: -190, left: -28, zIndex: 0 }}>
-                        <Circle size={390} shadowColor={shadowColor} intensity={intensity} />
+{/* Big Circle */}
+                    <View style={styles.circleContainerBig}>
+                        <Circle size={420} shadowColor={shadowColor} intensity={intensity} />
                     </View>
 
-                    {/* Player Content */}
+{/* Player Content */}
                     <View style={styles.playerContent}>
-                        {/* Info */}
+{/* Info */}
                         <View style={styles.headerRowWrapper}>
                             <View style={styles.headerRow}>
                                 {currentSong.image && (                                    
@@ -74,20 +77,24 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
                                             contentFit="cover"
                                             transition={1000}
                                         />
-                                    </TouchableOpacity>
-                                    
+                                    </TouchableOpacity>                                    
                                 )}
+
                                 <View style={styles.textContainer}>
                                     <Text style={styles.title}>{currentSong.title}</Text>
-                                    {currentSong.feature && <Text style={styles.trackFeature}>(feat. {currentSong.feature})</Text>}
-                                    <TouchableOpacity onPress={() => handlePressArtist(currentSong.artist)}>
-                                        <Text style={styles.artist}>{currentSong.artist}</Text>
-                                    </TouchableOpacity>
+                                    {currentSong.feature && <Text style={styles.trackFeature}>(feat. {featArtists.join(", ")})</Text>}                                    
+                                    <View style={styles.artistsContainer}>
+                                        {mainArtists.map(artist => (
+                                            <TouchableOpacity key={artist} onPress={() => handlePressArtist(artist)}>
+                                                <Text style={styles.artist}>{artist} </Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>                                    
                                 </View>
                             </View>
                         </View>
 
-                        {/* Controls */}
+{/* Controls */}
                         <View style={styles.buttonDiv}>
                             <PlayButton type="previous" onPress={previous} />
                             <PlayButton type="stop" onPress={stop} />
@@ -95,7 +102,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
                             <PlayButton type="next" onPress={next} />
                         </View>
 
-                        {/* Time Slider */}
+{/* Time Slider */}
                         <View style={styles.timeSliderContainer}>
                             <Text style={styles.time}>{formatTimeSeconds(sliderPosition)}</Text>
                             <Slider
@@ -111,7 +118,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
                             <Text style={styles.time}>{formatTimeSeconds(duration)}</Text>
                         </View>
 
-                        {/* Volume Slider */}
+{/* Volume Slider */}
                         <View style={styles.volumeSliderContainer}>
                             <TouchableOpacity onPress={() => setVolume(volMin)}>
                                 <Image source={require('@/assets/icons/volMin2.png')} style={styles.volIcon} contentFit="contain" />
@@ -131,7 +138,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
                             </TouchableOpacity>
                         </View>
 
-                        {/* Extension Buttons */}
+{/* Extension Buttons */}
                         <View style={styles.extentionButtons}>
                             <Animated.View
                                 style={[
@@ -151,8 +158,8 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
                             ))}
                         </View>
 
-                        {/* Small Circle */}
-                        <View style={{ position: 'absolute', top: 300, left: 65, zIndex: 0 }}>
+{/* Small Circle */}
+                        <View style={styles.circleContainerSmall}>
                             <Circle size={200} color2="#0e0e0eff" color1="#1b1a1aff" shadowColor={shadowColor} intensity={intensity * 0.25} heightOffset={-8}/>
                         </View>
                     </View>
@@ -164,7 +171,9 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
 }
 
 const styles = StyleSheet.create({
-    container: { position:"absolute" ,alignItems: "center", justifyContent: "center", marginTop: 220 },
+    container: { position:"absolute" ,alignItems: "center", justifyContent: "center", marginTop: 215 },
+    circleContainerBig: { position: "absolute", top: -180, left: 0, right: 0, alignItems: "center", zIndex: 0 },
+    circleContainerSmall: { position: "absolute", top: 350, left: 0, right: 0, alignItems: "center", zIndex: 0 },
     playerContent: { flex: 1, alignItems: "center", justifyContent: "center", marginTop: -80 },
     headerRowWrapper: { width: "100%", justifyContent: "center", alignItems: "center", marginBottom: 20 },
     headerRow: { flexDirection: "row", alignItems: "center", maxWidth: 400 },
@@ -172,13 +181,14 @@ const styles = StyleSheet.create({
     textContainer: { maxWidth: 200 },
     title: { fontSize: 16, fontWeight: "bold", color: "#ebebeb", marginBottom: 5 },
     trackFeature: { fontSize: 12, color: "#ccc", marginBottom: 5 },
-    artist: { fontSize: 14, color: "rgba(240,248,255,0.6)", marginBottom: 10 },
-    buttonDiv: { flexDirection: "row", justifyContent: "space-around", width: width * 0.8, marginBottom: 20 },
-    timeSliderContainer: { flexDirection: "row", alignItems: "center", width: width * 0.8, marginBottom: 20 },
-    volumeSliderContainer: { flexDirection: "row", alignItems: "center", width: width * 0.8, marginBottom: 20 },
+    artistsContainer: { flexDirection: "row", flexWrap: "wrap", alignItems: "center" },
+    artist: { fontSize: 14, color: "rgba(240,248,255,0.6)", marginBottom: 10, marginRight: 5 },
+    buttonDiv: { flexDirection: "row", justifyContent: "space-around", width: width * 0.8, marginBottom: 32 },
+    timeSliderContainer: { flexDirection: "row", alignItems: "center", width: width * 0.8, marginBottom: 30 },
+    volumeSliderContainer: { flexDirection: "row", alignItems: "center", width: width * 0.8, marginBottom: 20, zIndex: 9 },
     time: { width: 40, textAlign: "center", color: "#fff" },
     volIcon: { width: 40, height: 40 },
-    extentionButtons: { flexDirection: "row", width: width * 0.5, height: 40, borderRadius: 16, backgroundColor: 'rgba(37, 36, 36, 0.82)', overflow: "hidden", marginTop: 10, zIndex: 9999 },
+    extentionButtons: { flexDirection: "row", width: width * 0.5, height: 40, borderRadius: 16, backgroundColor: 'rgba(37, 36, 36, 0.82)', overflow: "hidden", marginTop: 8, zIndex: 9999 },
     highlight: { position:"absolute", top: 0, left: 0, height: "100%", backgroundColor: "rgba(150,150,150,0.3)", borderRadius: 16 },
     extentionButton: { flex: 1, justifyContent: "center", alignItems: "center", zIndex: 20 },
     extentionText: { color: "#fff", fontWeight: "bold" },
