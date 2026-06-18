@@ -9,9 +9,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { loading: fetchLoading, call: fetchCall } = useFetchManager();
     const { call: postCall } = usePostManager();
     const loading: boolean = fetchLoading?.user || false;
+    const [priv_u, setPriv_u] = useState(false); 
     const [user, setUser] = useState<User | null>(null);  
 
-    // check If User Already Logged In
+    /* --- USER UPDATE --- */
     useEffect(() => {
         const initAuth = async () => {
             try {
@@ -34,7 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         initAuth();
     }, []);
 
-    // Set User Login/Logout
+    /* --- LOG ACTIONS --- */
     const loginWithUser = async (user: User) => {
         if (!user) return;
         setUser(user);
@@ -47,8 +48,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         await removeItem("user");
     };
 
+    /* --- PRIVATE USER CHECK --- */
+    useEffect(() => { if (user?.private) {setPriv_u(true)} else {setPriv_u(false)} }, [user]);
+
     return (
-        <AuthContext.Provider value={{ user, loading, loginWithUser, logout }}>
+        <AuthContext.Provider value={{ user, loading, priv_u, loginWithUser, logout }}>
             {children}
         </AuthContext.Provider>
     );

@@ -55,8 +55,7 @@ const CollectionDetail = () => {
                     <p className={styles.type}>{albumInfo.type.toUpperCase()}</p>
                     <p className={styles.albumName}>{albumInfo.album}</p>
                     <p className={styles.artistInfo}>
-                        <ArtistButton artist={currentSong?.artist || "Artist Name"} size="0.9rem"/>                        
-                        • {albumSongs.length} songs • {durationString}
+                        {albumInfo.artist || "Artist Name"} • {albumSongs.length} songs • {durationString}
                     </p>
                 </div>
             </div>

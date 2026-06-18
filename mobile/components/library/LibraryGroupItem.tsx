@@ -6,20 +6,23 @@ import CollectionCard from "../library/CollectionCard";
 import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
 
 type LibraryGroupItemProps = {
-    type: "Singles & EPs" | "Albums" | "Artists";
+    type: "Singles & EPs" | "Albums" | "Artists" | "Private";
     group: Song[] | Artist[];
     title?: boolean;
 };
 
 export default function LibraryGroupItem({ type, group, title= true }: LibraryGroupItemProps) {
     const router = useRouter();
-    const isArtist = type === "Artists";  
+    const isArtist = type === "Artists";
+    const isPrivate = type === "Private";  
     const songsGroup = !isArtist ? (group as Song[]) : [];
     const artistsGroup = isArtist ? (group as Artist[]) : [];
     const {} = groupArtistsByRole();
 
-    const handlePress = (item: string, type: string): void => {        
-        if (type === "artist") {
+    const handlePress = (item: string, type: string): void => {
+        if (isPrivate) {
+            router.push(`/library/PrivateCollectionDetail?album=${encodeURIComponent(item)}`);
+        } else if (isArtist) {
             router.push(`/library/ArtistInfo?artist=${encodeURIComponent(item)}`);
         } else {
             router.push(`/library/CollectionDetail?album=${encodeURIComponent(item)}`);

@@ -78,6 +78,7 @@ export default function PlaylistDetail() {
             setSongs(previous);
             showToast("Failed to move song. Order reverted.", "error");
         }
+        loadSongs();
     };
 
     /* ---------------- UPDATE FROM MODAL ---------------- */

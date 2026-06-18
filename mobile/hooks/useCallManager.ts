@@ -1,12 +1,13 @@
 import { useCallback, useState } from "react";
-import { fetchArtist, fetchPlaylistSongs, fetchSongs, fetchSongById, fetchUserPlaylists, fetchArtists, fetchCurrentUser, logoutUser } from "../services/api";
+import { fetchArtist, fetchPlaylistSongs, fetchSongs, fetchSongById, fetchUserPlaylists, fetchPrivateSongs, fetchArtists, fetchCurrentUser, logoutUser } from "../services/api";
 import { addSongToPlaylist, createPlaylist, forgotPassword, loginUser, googleLogin, moveSongInPlaylist, registerUser, resetPassword, updatePlaylist } from "../services/api";
 import { deletePlaylist, deleteSongFromPlaylist } from "../services/api";
 import { HookMap, StateType, LoadingType, ErrorType } from "@/types/callManager";
 
 const fetchHooks = {
     songs: fetchSongs,
-    songsById: fetchSongById,    
+    songsById: fetchSongById,
+    privateSongs: fetchPrivateSongs,
     artists: fetchArtists,
     artist: fetchArtist,    
     playlists: fetchUserPlaylists,

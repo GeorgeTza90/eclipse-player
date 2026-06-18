@@ -9,6 +9,8 @@ export const fetchSongs = () => apiFetch<Song[]>("/api/songs");
 
 export const fetchSongById = (songId: number) => apiFetch<Song>(`/api/songs/${songId}`);
 
+export const fetchPrivateSongs = () => apiFetch<Song[]>("/api/songs/private");
+
 // -------------------- Artists --------------------
 export const fetchArtists = () => apiFetch<any[]>("/api/artists");
 
