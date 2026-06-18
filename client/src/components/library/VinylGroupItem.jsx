@@ -16,7 +16,6 @@ const VinylGroupItem = ({ type, group }) => {
     const isMobile = useIsMobile();
 
     const { columns, rows } = getGridConfig(width);
-
     const itemsPerRow = columns * 1.8;       
     const pages = useVinylPagination(group, itemsPerRow, rows);
 
@@ -36,8 +35,10 @@ const VinylGroupItem = ({ type, group }) => {
         }
     };
 
+    const containerStyle = {marginLeft: isMobile ? `${width/1000}rem` : `${width/100}rem`  }
+
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={containerStyle}>
             <h2 className={styles.categoryTitle}>{type}</h2>
             <div className={styles.horizontalScroll}>
                 {pages.map((page, pageIndex) => (

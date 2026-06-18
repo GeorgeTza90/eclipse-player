@@ -7,8 +7,10 @@ import styles from "./libraryGroupItem.module.css";
 
 const LibraryGroupItem = ({ type, group }) => {
     const navigate = useNavigate();
+
     const isArtist = type === "Artists";
     const isPrivate = type === "Private";
+    
     const width = useWidth();
     const isMobile = useIsMobile();
     const {columns, rows} = getGridConfig(width);

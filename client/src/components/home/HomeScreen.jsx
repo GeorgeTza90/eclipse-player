@@ -46,7 +46,7 @@ const HomeScreen = () => {
                         video={true}
                     />
                     <Teaser
-                        link = {`${API_URL}/api/download/apk?version=1.2.7`}
+                        link = {`${API_URL}/api/download/apk?version=1.2.8`}
                         source={"/assets/images/App_Teaser_1.jpg"}
                         download
                         video={false}

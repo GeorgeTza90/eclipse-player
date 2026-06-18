@@ -1,5 +1,6 @@
 .container {
     padding: 1rem auto 1rem;
+    margin-left: 10%;
 }
 
 .categoryTitle {
@@ -12,7 +13,8 @@
     width: 100%;    
     display: flex;
     overflow-x: auto;
-    align-items: flex-start;}
+    align-items: flex-start;
+}
 
 .page {
     display: flex;
