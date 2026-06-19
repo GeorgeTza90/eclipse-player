@@ -30,7 +30,7 @@ const Equalizer = ({ color }) => {
     /* --- SET FREQ --- */
     const frequencies = useMemo(() => (
         isMobile
-            ? EQ_BANDS.filter(b => [100, 250, 630, 1600, 4000, 10000, 16000, 20000].includes(b.value))
+            ? EQ_BANDS.filter(b => [63, 100, 250, 630, 1600, 4000, 10000, 16000, 20000].includes(b.value))
             : EQ_BANDS
     ), [isMobile]);
 
