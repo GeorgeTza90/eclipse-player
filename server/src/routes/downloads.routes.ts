@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createRateLimiter } from '../middleware/rateLimiter.js';
-import { downloadAPK } from "../controllers/downloadsController.js";
+import { downloadAPK } from "../controllers/downloads.controller.js";
 
 const router = Router();
 

@@ -3,7 +3,7 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 import {
     getPlaylists, createPlaylist, updatePlaylist, deletePlaylist,
     getPlaylistSongs, addSongToPlaylist, moveSongInPlaylist, deleteSongFromPlaylist
-} from "../controllers/playlistController.js";
+} from "../controllers/playlist.controller.js";
 import { createRateLimiter }  from '../middleware/rateLimiter.js';
 import { validateBody, validateParams } from "../middleware/validate.js";
 import { createPlaylistSchema, getAllIdsSchema, newOrderSchema, playlistIdSchema, songIdSchema, updatePlaylistSchema } from "../schemas/playlists.schema.js";

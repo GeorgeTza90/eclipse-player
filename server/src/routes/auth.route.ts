@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register, login, logout, googleLogin, forgotPassword, resetPassword, changePassword, updateUsername, me } from '../controllers/authController.js';
+import { register, login, logout, googleLogin, forgotPassword, resetPassword, changePassword, updateUsername, me } from '../controllers/auth.controller.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { createRateLimiter } from '../middleware/rateLimiter.js';
 import { validateBody } from "../middleware/validate.js";

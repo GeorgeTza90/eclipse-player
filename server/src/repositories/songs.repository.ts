@@ -1,5 +1,5 @@
 import db from "../db/db.js";
-import { Song, Artist, SongArtists, User } from "../types/controllersTypes.js";
+import { Song, Artist, SongArtists, User } from "../types/controllers.types.js";
 
 export const songsRepository = {
     async findAll(): Promise<Song[]> {

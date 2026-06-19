@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { apkService } from "../services/downloadService.js";
+import { apkService } from "../services/download.service.js";
 import { guard } from "../utils/guards.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 

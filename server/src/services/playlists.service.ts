@@ -1,7 +1,7 @@
 import { pl } from "zod/locales";
 import { AppError } from "../errors/AppError.js";
-import { playlistsRepository } from "../repositories/playlistsRepository.js";
-import { Playlist, PlaylistSong } from "../types/controllersTypes.js";
+import { playlistsRepository } from "../repositories/playlists.repository.js";
+import { Playlist, PlaylistSong } from "../types/controllers.types.js";
 
 // -------------------- PRIVATE HELPERS --------------------
 function ensurePlaylistExists(playlist: Playlist[]) {

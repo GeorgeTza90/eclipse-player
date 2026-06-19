@@ -1,6 +1,6 @@
 import db from "../db/db.js";
 import { ResultSetHeader} from "mysql2";
-import { PasswordResetTypes, User } from "../types/controllersTypes.js";
+import { PasswordResetTypes, User } from "../types/controllers.types.js";
 
 export const authRepository = {
     // GET USER DATA

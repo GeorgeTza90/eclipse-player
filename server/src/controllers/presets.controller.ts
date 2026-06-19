@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { AuthenticatedRequest } from "../types/controllersTypes.js";
-import { presetsService } from "../services/presetsService.js";
+import { AuthenticatedRequest } from "../types/controllers.types.js";
+import { presetsService } from "../services/presets.service.js";
 import { guard } from "../utils/guards.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 

@@ -1,5 +1,5 @@
 import { AppError } from "../errors/AppError.js";
-import { presetsRepository } from "../repositories/presetsRepository.js";
+import { presetsRepository } from "../repositories/presets.repository.js";
 
 export const presetsService = {
     async getPresets(userId: number) {

@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import axios from "axios";
 import { AppError } from "../errors/AppError.js";
-import { authRepository } from "../repositories/authRepository.js"
+import { authRepository } from "../repositories/auth.repository.js"
 import { signToken } from "../utils/authTokens.js";
 import { randomBytes, createHash } from "crypto";
 import sendEmail from "../utils/sendEmail.js";

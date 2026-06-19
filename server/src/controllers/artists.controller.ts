@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { artistsService } from "../services/artistsService.js";
+import { artistsService } from "../services/artists.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 // -----------------------------

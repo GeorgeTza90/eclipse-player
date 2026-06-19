@@ -1,6 +1,6 @@
 import db from "../db/db.js";
 import { RowDataPacket, ResultSetHeader} from "mysql2";
-import { Playlist, PlaylistSong, SongArtists, Artist } from "../types/controllersTypes.js";
+import { Playlist, PlaylistSong, SongArtists, Artist } from "../types/controllers.types.js";
 
 export const playlistsRepository = {
     // PLAYLISTS CRUD

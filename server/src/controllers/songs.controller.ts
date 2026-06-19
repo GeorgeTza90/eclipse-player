@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { AuthenticatedRequest } from "../types/controllersTypes.js";
-import { songsService } from "../services/songsService.js";
+import { AuthenticatedRequest } from "../types/controllers.types.js";
+import { songsService } from "../services/songs.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 // -----------------------------

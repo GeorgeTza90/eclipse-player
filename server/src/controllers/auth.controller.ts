@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { AuthenticatedRequest } from "../types/controllersTypes.js";
-import { authService } from "../services/authService.js";
+import { AuthenticatedRequest } from "../types/controllers.types.js";
+import { authService } from "../services/auth.service.js";
 import { clearAuthCookie, setAuthCookie } from "../utils/authCoockie.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 

@@ -1,5 +1,5 @@
 import { AppError } from "../errors/AppError.js";
-import { songsRepository } from "../repositories/songsRepository.js";
+import { songsRepository } from "../repositories/songs.repository.js";
 
 export const songsService = {
      async getSongs() {

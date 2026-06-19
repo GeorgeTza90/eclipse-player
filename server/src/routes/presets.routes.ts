@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import { createRateLimiter }  from '../middleware/rateLimiter.js';
-import { createPresets, deletePresets, getPresets, updatePresets } from "../controllers/presetsController.js";
+import { createPresets, deletePresets, getPresets, updatePresets } from "../controllers/presets.controller.js";
 import { validateBody, validateParams } from "../middleware/validate.js";
 import { createPresetSchema, deletePresetSchema, updatePresetSchema } from "../schemas/presets.schema.js";
 

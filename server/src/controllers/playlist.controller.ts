@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { AuthenticatedRequest} from "../types/controllersTypes.js";
-import { playlistsService } from "../services/playlistsService.js";
+import { AuthenticatedRequest} from "../types/controllers.types.js";
+import { playlistsService } from "../services/playlists.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 // -----------------------------
@@ -38,8 +38,7 @@ export const deletePlaylist = asyncHandler(async (req: AuthenticatedRequest, res
 // -----------------------------
 // Playlist Songs CRUD
 // -----------------------------
-export const getPlaylistSongs = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    console.log("hey");
+export const getPlaylistSongs = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {    
     const userId = req.user.id;    
     const playlistId = Number(req.params.id);
     const rows = await playlistsService.getPlaylistSongs(playlistId, userId);        
@@ -49,8 +48,7 @@ export const getPlaylistSongs = asyncHandler(async (req: AuthenticatedRequest, r
 // -----------------------------
 // ADD SONG TO PLAYLISTS
 // -----------------------------
-export const addSongToPlaylist = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    console.log("Reached");
+export const addSongToPlaylist = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {    
     const userId = req.user.id;
     const playlistId = Number(req.params.id);
     const { songId } = req.body;        

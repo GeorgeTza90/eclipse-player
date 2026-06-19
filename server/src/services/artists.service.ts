@@ -1,4 +1,4 @@
-import { artistsRepository } from "../repositories/artistsRepository.js";
+import { artistsRepository } from "../repositories/artists.repository.js";
 
 export const artistsService = {
     async getAllArtists() {

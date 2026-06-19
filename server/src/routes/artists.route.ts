@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllArtists, getArtist } from '../controllers/artistsController.js';
+import { getAllArtists, getArtist } from '../controllers/artists.controller.js';
 import { validateParams } from '../middleware/validate.js';
 import { getArtistSchema } from '../schemas/artists.schema.js';
 

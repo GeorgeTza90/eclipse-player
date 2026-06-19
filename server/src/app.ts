@@ -1,8 +1,8 @@
 import express from "express";
 import { setupSecurity } from "./config/security.js";
 import { corsMiddleware } from "./config/cors.js";
+import { setupRoutes } from "./routes/index.routes.js";
 import { setupParsers } from "./middleware/parsers.js";
-import { setupRoutes } from "./routes/index.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { notFoundHandler } from "./middleware/notFoundHandler.js";
 
