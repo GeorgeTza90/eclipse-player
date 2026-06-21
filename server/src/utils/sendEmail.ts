@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { Resend } from 'resend';
+import { logger } from './logger.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -11,9 +12,10 @@ async function sendEmail(to: string | string[], subject: string, html: string): 
             subject,
             html,
         });
-        console.log('Email sent:', data);
-    } catch (error: any) {
-        console.error('Error sending email:', error.response?.data || error);
+        logger.info("Email sent", { emailId: data.data?.id, subject });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Unknown error";
+        logger.error("Error sending email", { subject, error: message });
         throw error;
     }
 }

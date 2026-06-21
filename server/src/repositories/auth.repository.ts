@@ -1,6 +1,7 @@
 import db from "../db/db.js";
 import { ResultSetHeader} from "mysql2";
 import { PasswordResetTypes, User } from "../types/controllers.types.js";
+import { AppError } from "../errors/AppError.js";
 
 export const authRepository = {
     // GET USER DATA
@@ -64,8 +65,13 @@ export const authRepository = {
         const conn = await db.getConnection();
         try {
             await conn.beginTransaction();
-            await conn.query("UPDATE users SET password = ? WHERE id = ?", [password, userId]);
-            await conn.query("UPDATE password_reset_requests SET used_at = NOW() WHERE id = ?", [requestId]);
+            const [result] = await conn.query<ResultSetHeader>(
+                "UPDATE password_reset_requests SET used_at = NOW() WHERE id = ?",
+                [requestId]
+            );
+            if (result.affectedRows === 0 ) throw new AppError("INVALID_RESET_TOKEN", 400);
+
+            await conn.query("UPDATE users SET password = ? WHERE id = ?", [password, userId]);            
             await conn.commit();
         } catch (err) {
             await conn.rollback();

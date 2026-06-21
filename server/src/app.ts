@@ -23,8 +23,9 @@ app.get("/health", (_req, res) => res.json({ message: "Server is running!" }));
 /* -------------------- Routes -------------------- */
 setupRoutes(app);
 
+/* -------------------- Error 404 -------------------- */
+app.use(notFoundHandler);
+
 /* -------------------- Error Handler -------------------- */
 app.use(errorHandler);
 
-/* -------------------- Error 404 -------------------- */
-app.use(notFoundHandler);

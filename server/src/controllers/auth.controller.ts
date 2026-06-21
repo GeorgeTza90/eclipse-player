@@ -3,6 +3,7 @@ import { AuthenticatedRequest } from "../types/controllers.types.js";
 import { authService } from "../services/auth.service.js";
 import { clearAuthCookie, setAuthCookie } from "../utils/authCoockie.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import bcrypt from "bcrypt";
 
 // -----------------------------
 // ME
@@ -37,6 +38,16 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 // Google Login
 // -----------------------------
 export const googleLogin = asyncHandler(async (req: Request, res: Response) => {
+    // test
+
+    console.log(await bcrypt.hash("anything-at-all", 10));
+
+    for (const cost of [10, 11, 12]) {
+        const start = Date.now();
+        await bcrypt.hash("test-password", cost);
+        console.log(`cost ${cost}: ${Date.now() - start}ms`);
+    }
+
     const { accessToken, platform } = req.body;
     const { user, token } = await authService.googleLogin(accessToken, platform);
     setAuthCookie(res, token);

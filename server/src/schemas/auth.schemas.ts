@@ -1,7 +1,11 @@
 import { z } from "zod";
 
+const usernamePattern = /^[a-zA-Z0-9_.-]+$/;
+
 export const registerSchema = z.object({
-    username: z.string().min(2).max(30),
+    username: z.string().min(2).max(30)
+        .regex(usernamePattern,
+            "Username can only contain letters, numbers, underscores, periods, and hyphens"),
     email: z.email(),
     password: z.string().min(8),
 });
@@ -31,5 +35,7 @@ export const forgotPasswordSchema = z.object({
 });
 
 export const updateUsernameSchema = z.object({
-    newUsername: z.string().min(2).max(30),
+    newUsername: z.string().min(2).max(30)
+        .regex(usernamePattern,
+            "Username can only contain letters, numbers, underscores, periods, and hyphens"),
 });

@@ -4,10 +4,11 @@ import { AppError } from "../errors/AppError.js";
 import { authRepository } from "../repositories/auth.repository.js"
 import { signToken } from "../utils/authTokens.js";
 import { randomBytes, createHash } from "crypto";
+import { escapeHtml } from "../utils/escapeHtml.js";
 import sendEmail from "../utils/sendEmail.js";
 
-
-const FRONTEND_URL = process.env.FRONTEND_URL!;
+const FRONTEND_URL = process.env.FRONTEND_URL;
+const DUMMY_HASH = process.env.DUMMY_HASH;
 
 export const authService = {
     async register(username?: string, email?: string, password?: string) {            
@@ -34,10 +35,9 @@ export const authService = {
         if (!email || !password) throw new AppError("VALIDATION_ERROR", 400);
 
         const user = await authRepository.findUserByEmail(email);
-        if (!user || !user.password) throw new AppError("INVALID_CREDENTIALS", 401);
-
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) throw new AppError("INVALID_CREDENTIALS", 401);
+        const hashToCheck = user?.password ?? DUMMY_HASH;
+        const passwordMatch = await bcrypt.compare(password, hashToCheck);
+        if (!user || !user.password || !passwordMatch) throw new AppError("INVALID_CREDENTIALS", 401);        
         
         const { password: _, ...safeUser } = user;
         const token = signToken(user.id);
@@ -47,14 +47,20 @@ export const authService = {
 
     async googleLogin(accessToken: string, platform: string) {        
         if (platform !== "web") throw new AppError("INVALID_PLATFORM", 400);
-        const { data } = await axios.get(
-            "https://www.googleapis.com/oauth2/v3/userinfo",
-            { headers: { Authorization: `Bearer ${accessToken}` }}
-        );
+        let data;
+        try {
+            const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            });
+            data = res.data;
+        } catch {
+            throw new AppError("INVALID_GOOGLE_TOKEN", 401);
+        }
+        
         const { email, name, sub: googleId } = data;
         if (!email) throw new AppError("GOOGLE_NO_EMAIL", 400);
         
-        let user = await authRepository.findUserByEmailNoPassword(email);        
+        let user = await authRepository.findUserByEmailNoPassword(email);
         if (!user) {
             const result = await authRepository.createGoogleUser(name, email, googleId);
             user = await authRepository.findUserById(result.insertId);
@@ -83,7 +89,7 @@ export const authService = {
 
         const html = `
             <h2>Password Reset Request</h2>
-            <p>Hello ${user.username || ""},</p>
+            <p>Hello ${escapeHtml(user.username || "")},</p>
             <p>Click the link below to reset your password:</p>
             <a href="${resetLink}" target="_blank">Reset Password</a>
             <p>This link expires in ${minEXP} minutes.</p>
@@ -156,18 +162,5 @@ export const authService = {
     // GET USER DATA
     async findUserById(userId: number) {
         return await authRepository.findUserById(userId);
-    },
-
-    // PASSWORD RESET
-    async logPasswordResetRequest(userId: number, token: string, expireDate: string) {
-        await authRepository.createPasswordResetRequest(userId, token, expireDate);
-    },
-
-    async getPasswordResetRequest(token: string) {
-        return await authRepository.findPasswordResetRequest(token);
-    },
-
-    async resetUserPassword(userId: number, requestId: number, password: string) {
-        return await authRepository.updateUserPasswordTransaction(userId, requestId, password);
     },
 }

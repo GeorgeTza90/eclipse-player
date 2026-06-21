@@ -1,4 +1,5 @@
 import cors from "cors";
+import { AppError } from "../errors/AppError.js";
 
 const allowedOrigins =
   process.env.CLIENT_ORIGINS?.split(",").map(o => o.trim()) ?? [
@@ -11,7 +12,7 @@ export const corsMiddleware = cors({
   origin: (origin, cb) => {
     if (!origin) return cb(null, true);
     if (allowedOrigins.includes(origin)) return cb(null, true);
-    return cb(new Error("CORS blocked"), false);
+    return cb(new AppError("CORS blocked", 403), false);
   },
   credentials: true,
 });
