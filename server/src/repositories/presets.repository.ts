@@ -1,11 +1,16 @@
 import db from "../db/db.js";
-import { Presets } from "../types/controllers.types.js";
+import { Presets } from "../types/presets.types.js";
 import { ResultSetHeader } from "mysql2";
 
 export const presetsRepository = {
     async findByUserId(userId: number): Promise<Presets[]> {
         const [rows] = await db.query<Presets[]>("SELECT * FROM eq_presets WHERE user_id = ?", [userId]);
         return rows;
+    },
+
+    async findById(id: number, userId: number): Promise<Presets | null> {
+        const [rows] = await db.query<Presets[]>("SELECT * FROM eq_presets WHERE id = ? AND user_id = ?", [id, userId]);
+        return rows[0] ?? null;
     },
 
     async create(userId: number, title: string, preset: string) {
@@ -18,5 +23,5 @@ export const presetsRepository = {
 
     async delete(id: number, userId: number) {
         return db.query<ResultSetHeader>("DELETE FROM eq_presets WHERE id = ? AND user_id = ?", [id, userId]);
-    }
+    },
 };

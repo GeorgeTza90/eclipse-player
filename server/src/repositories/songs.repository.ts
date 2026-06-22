@@ -1,5 +1,7 @@
 import db from "../db/db.js";
-import { Song, Artist, SongArtists, User } from "../types/controllers.types.js";
+import { User } from "../types/auth.types.js";
+import { Song, SongArtists } from "../types/songs.types.js";
+import { Artist } from "../types/artists.types.js";
 
 export const songsRepository = {
     async findAll(): Promise<Song[]> {
@@ -25,5 +27,23 @@ export const songsRepository = {
     async findAllArtists(): Promise<Artist[]> {
         const [rows] = await db.query<Artist[]>("SELECT * FROM artists");
         return rows;
-    }
+    },
+
+    async findSongArtistsForSongs(songIds: number[]): Promise<SongArtists[]> {
+        if (songIds.length === 0) return [];
+        const [rows] = await db.query<SongArtists[]>(
+            "SELECT * FROM song_artists WHERE song_id IN (?)",
+            [songIds]
+        );
+        return rows;
+    },
+
+    async findArtistsByIds(artistIds: number[]): Promise<Artist[]> {
+        if (artistIds.length === 0) return [];
+        const [rows] = await db.query<Artist[]>(
+            "SELECT * FROM artists WHERE id IN (?)",
+            [artistIds]
+        );
+        return rows;
+    },
 };

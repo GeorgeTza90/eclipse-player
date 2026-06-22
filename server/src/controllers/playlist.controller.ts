@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { AuthenticatedRequest} from "../types/controllers.types.js";
+import { AuthenticatedRequest} from "../types/auth.types.js";
 import { playlistsService } from "../services/playlists.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -7,16 +7,16 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 // PLAYLISTS CRUD
 // -----------------------------
 export const getPlaylists = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    const userId = req.user.id;    
+    const userId = req.user.id;
     const playlists = await playlistsService.getPlaylists(userId);
-    res.json(playlists);    
+    res.json(playlists);
 });
 
 export const createPlaylist = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     const userId = req.user.id;
-    const { title, description } = req.body;          
+    const { title, description } = req.body;
     await playlistsService.createPlaylist(userId, title, description);
-    res.status(201).json({ message: "Playlist created successfully" });    
+    res.status(201).json({ message: "Playlist created successfully" });
 });
 
 export const updatePlaylist = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
@@ -31,12 +31,11 @@ export const deletePlaylist = asyncHandler(async (req: AuthenticatedRequest, res
     const userId = req.user.id;  
     const playlistId = Number(req.params.id);   
     await playlistsService.deletePlaylist(playlistId, userId)    
-    res.json({ message: "Playlist deleted successfully" });
-   
+    res.json({ message: "Playlist deleted successfully" });   
 });
 
 // -----------------------------
-// Playlist Songs CRUD
+// GET PLAYLIST SONGS
 // -----------------------------
 export const getPlaylistSongs = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {    
     const userId = req.user.id;    
@@ -60,7 +59,7 @@ export const addSongToPlaylist = asyncHandler(async (req: AuthenticatedRequest, 
 // MOVE SONG IN PLAYLISTS
 // -----------------------------
 export const moveSongInPlaylist = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    const userId = req.user.id;   
+    const userId = req.user.id;
     const playlistId = Number(req.params.id);
     const songId = Number(req.params.songId);
     const { newOrder } = req.body;
@@ -74,7 +73,7 @@ export const moveSongInPlaylist = asyncHandler(async (req: AuthenticatedRequest,
 export const deleteSongFromPlaylist = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     const userId = req.user.id;
     const playlistId = Number(req.params.id);
-    const songId = Number(req.params.songId);            
-    await playlistsService.deleteSongInPlaylist(playlistId, songId, userId);    
+    const songId = Number(req.params.songId);
+    await playlistsService.deleteSongInPlaylist(playlistId, songId, userId);
     res.json({ message: "Song removed from playlist" });
 });

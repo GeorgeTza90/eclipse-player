@@ -2,9 +2,8 @@
     padding: 10rem;    
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    max-width: 150rem;    
-    margin-top: -5rem;
+    justify-content: center;      
+    margin-top: -5rem;    
 }
 
 .header {
@@ -21,7 +20,6 @@
     transform: translate(-50%, -50%);
     z-index: -1;
     opacity: 0.35;    
-    max-width: 120rem;
     object-fit: cover;
 }
 
@@ -122,23 +120,35 @@
 
 @media (max-width: 768px) {
     .container {
-        padding: 0px;
-        width: 100%;
-        margin-top: -10%;
-        margin-left: -25px;
+        padding: 1rem;        
+        margin-top: -40%;
+        margin-left: 0px;
+    }   
+
+    .artistInfo {
+        color: #d6d6d6;
+        font-size: 12px;    
+        background-color: #1313135c;
+        padding: 0.5rem;
+        border-radius: 1rem;
     }
 
-    .Image {
-        width: 35%;
-        height: 35%;
-        max-width: 200px;
+    .backgroundPhoto {
+        position: absolute;
+        top: 5rem;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        opacity: 0.35;    
+        object-fit: cover;
     }
 
     .songsContainer {
-        margin-top: 2rem;
+        margin-top: 0rem;        
         width: 25rem;
         padding: 2px;
         margin-left: 0rem;
+        margin-bottom: -5rem;
     }
 
     .artistName {

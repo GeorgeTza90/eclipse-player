@@ -3,7 +3,7 @@ import { register, login, logout, googleLogin, forgotPassword, resetPassword, ch
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { createRateLimiter } from '../middleware/rateLimiter.js';
 import { validateBody } from "../middleware/validate.js";
-import { loginSchema, googleLoginSchema, registerSchema, changePasswordSchema, resetPasswordSchema, updateUsernameSchema, forgotPasswordSchema } from "../schemas/auth.schemas.js";
+import { loginSchema, googleLoginSchema, registerSchema, changePasswordSchema, resetPasswordSchema, updateUsernameSchema, forgotPasswordSchema } from "../schemas/auth.schema.js";
 
 const router = Router();
 

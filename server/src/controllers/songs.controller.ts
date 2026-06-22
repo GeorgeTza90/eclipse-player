@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AuthenticatedRequest } from "../types/controllers.types.js";
+import { AuthenticatedRequest } from "../types/auth.types.js";
 import { songsService } from "../services/songs.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -16,6 +16,6 @@ export const getSongs = asyncHandler(async (req: Request, res: Response): Promis
 // -----------------------------
 export const getPrivateSongs = asyncHandler(async ( req: AuthenticatedRequest, res: Response ): Promise<void> => {    
     const userId = req.user.id;        
-    const { songs } = await songsService.getPrivateSongs(userId);       
+    const songs = await songsService.getPrivateSongs(userId);       
     res.json(songs);
 });

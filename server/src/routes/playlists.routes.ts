@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { verifyToken } from "../middleware/authMiddleware.js";
+import { createRateLimiter }  from '../middleware/rateLimiter.js';
+import { validateBody, validateParams } from "../middleware/validate.js";
+import { createPlaylistSchema, getAllIdsSchema, newOrderSchema, playlistIdSchema, songIdSchema, updatePlaylistSchema } from "../schemas/playlists.schema.js";
 import {
     getPlaylists, createPlaylist, updatePlaylist, deletePlaylist,
     getPlaylistSongs, addSongToPlaylist, moveSongInPlaylist, deleteSongFromPlaylist
 } from "../controllers/playlist.controller.js";
-import { createRateLimiter }  from '../middleware/rateLimiter.js';
-import { validateBody, validateParams } from "../middleware/validate.js";
-import { createPlaylistSchema, getAllIdsSchema, newOrderSchema, playlistIdSchema, songIdSchema, updatePlaylistSchema } from "../schemas/playlists.schema.js";
 
 const router = Router();
 

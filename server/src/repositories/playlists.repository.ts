@@ -1,6 +1,8 @@
 import db from "../db/db.js";
 import { RowDataPacket, ResultSetHeader} from "mysql2";
-import { Playlist, PlaylistSong, SongArtists, Artist } from "../types/controllers.types.js";
+import { Playlist, PlaylistSong } from "../types/playlists.types.js";
+import { Artist } from "../types/artists.types.js";
+import { SongArtists } from "../types/songs.types.js";
 
 export const playlistsRepository = {
     // PLAYLISTS CRUD
@@ -36,11 +38,11 @@ export const playlistsRepository = {
         return playlistSuffled;
     },
 
-    async createSongInPlaylist(playlistId: number, songId: number, order:number): Promise<void> {
+    async createSongInPlaylist(playlistId: number, songId: number, playlistOrder:number): Promise<void> {
         const conn = await db.getConnection();
         try {
             await conn.beginTransaction();
-            await conn.query<ResultSetHeader>("INSERT INTO playlist_songs (playlist_id, song_id, `order`) VALUES (?, ?, ?)", [playlistId, songId, order]);
+            await conn.query<ResultSetHeader>("INSERT INTO playlist_songs (playlist_id, song_id, `order`) VALUES (?, ?, ?)", [playlistId, songId, playlistOrder]);
             await conn.query<ResultSetHeader>("UPDATE playlists SET songCount = songCount + 1 WHERE id = ?", [playlistId]);
             await conn.commit();
         } catch (err) {
@@ -52,11 +54,19 @@ export const playlistsRepository = {
     },
 
     async updateSongInPlaylist(songs: PlaylistSong[]): Promise<void> {
-        await Promise.all(
-            songs.map((s, i) =>
-                db.query<ResultSetHeader>("UPDATE playlist_songs SET `order` = ? WHERE id = ?", [i, s.id])
-            )
-        );
+        const conn = await db.getConnection();
+        try {
+            await conn.beginTransaction();
+            for (const [i, s] of songs.entries()) {
+                await conn.query<ResultSetHeader>("UPDATE playlist_songs SET `order` = ? WHERE id = ?", [i, s.id]);
+            }
+            await conn.commit();
+        } catch (err) {
+            await conn.rollback();
+            throw err;
+        } finally {
+            conn.release();
+        }
     },
 
     async deleteSongInPlaylist(playlistId: number, songId: number): Promise<ResultSetHeader> {
@@ -104,5 +114,17 @@ export const playlistsRepository = {
     async findAllArtists(): Promise<Artist[]> {
         const [rows] = await db.query<Artist[]>("SELECT * FROM artists");
         return rows;
-    }
+    },
+
+    async findSongArtistsForSongs(songIds: number[]): Promise<SongArtists[]> {
+        if (songIds.length === 0) return [];
+        const [rows] = await db.query<SongArtists[]>("SELECT * FROM song_artists WHERE song_id IN (?)", [songIds]);
+        return rows;
+    },
+
+    async findArtistsByIds(artistIds: number[]): Promise<Artist[]> {
+        if (artistIds.length === 0) return [];
+        const [rows] = await db.query<Artist[]>("SELECT * FROM artists WHERE id IN (?)", [artistIds]);
+        return rows;
+    },
 }

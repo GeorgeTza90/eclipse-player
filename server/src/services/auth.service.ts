@@ -1,26 +1,30 @@
 import bcrypt from "bcrypt";
 import axios from "axios";
+import { randomBytes, createHash } from "crypto";
 import { AppError } from "../errors/AppError.js";
 import { authRepository } from "../repositories/auth.repository.js"
 import { signToken } from "../utils/authTokens.js";
-import { randomBytes, createHash } from "crypto";
-import { escapeHtml } from "../utils/escapeHtml.js";
+import { FRONTEND_URL, DUMMY_HASH } from "../config/env.js";
+import { resetEmailHtml } from "../templates/resetPassword.email.js";
 import sendEmail from "../utils/sendEmail.js";
-
-const FRONTEND_URL = process.env.FRONTEND_URL;
-const DUMMY_HASH = process.env.DUMMY_HASH;
+import {
+    ensureUsername, ensureEmail, ensurePassword, ensureUserExists, ensurePlatform,
+    ensureGoogleEmail, ensurePasswordLength, ensureUserPassword, ensurePasswordMatch,
+    ensureToken, ensureRequest, ensurePasswordDontMatch, ensureUsernameLength
+} from "../guards/auth.guard.js";
 
 export const authService = {
     async register(username?: string, email?: string, password?: string) {            
-        if (!username || !email || !password) throw new AppError("VALIDATION_ERROR", 400);
-        if (username.length < 2 || password.length < 8) throw new AppError("VALIDATION_ERROR", 400);
+        ensureUsername(username);
+        ensureEmail(email);
+        ensurePassword(password);
         
         const hashedPassword = await bcrypt.hash(password, 10);
 
         try {
             const result = await authRepository.createUser(username, email, hashedPassword);                
             const user = await authRepository.findUserById(result.insertId);
-            if (!user) throw new AppError("USER_NOT_FOUND", 404);
+            ensureUserExists(user);
 
             const token = signToken(user.id);
 
@@ -46,7 +50,7 @@ export const authService = {
     },
 
     async googleLogin(accessToken: string, platform: string) {        
-        if (platform !== "web") throw new AppError("INVALID_PLATFORM", 400);
+        ensurePlatform(platform);
         let data;
         try {
             const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -58,13 +62,13 @@ export const authService = {
         }
         
         const { email, name, sub: googleId } = data;
-        if (!email) throw new AppError("GOOGLE_NO_EMAIL", 400);
+        ensureGoogleEmail(email);        
         
         let user = await authRepository.findUserByEmailNoPassword(email);
         if (!user) {
             const result = await authRepository.createGoogleUser(name, email, googleId);
             user = await authRepository.findUserById(result.insertId);
-            if (!user) throw new AppError("USER_NOT_FOUND", 404);
+            ensureUserExists(user);            
         }
         
         const token = signToken(user.id);
@@ -73,7 +77,7 @@ export const authService = {
     },
 
     async forgotPassword(email?: string): Promise<void> {
-        if (!email) throw new AppError("EMAIL_REQUIRED", 400);
+        ensureEmail(email);     
         
         const user = await authRepository.findUserByEmailNoPassword(email);        
         if (!user) return;
@@ -86,51 +90,44 @@ export const authService = {
         await authRepository.createPasswordResetRequest(user.id, tokenHash, expiresAt);
         
         const resetLink = `${FRONTEND_URL}/reset-password?token=${resetToken}`;
-
-        const html = `
-            <h2>Password Reset Request</h2>
-            <p>Hello ${escapeHtml(user.username || "")},</p>
-            <p>Click the link below to reset your password:</p>
-            <a href="${resetLink}" target="_blank">Reset Password</a>
-            <p>This link expires in ${minEXP} minutes.</p>
-            <br/>
-            <p>If you didn’t request this, you can ignore this email.</p>
-        `;
+        const html = resetEmailHtml(user.username, resetLink, minEXP);
         
         await sendEmail( user.email, "Reset Your Password", html );
     },
 
     async changePassword(userId: number, oldPassword?: string, newPassword?: string): Promise<void> {
-        if (!oldPassword || !newPassword) throw new AppError("VALIDATION_ERROR", 400);
-        if (newPassword.length < 8) throw new AppError("VALIDATION_ERROR", 400);
+        ensurePassword(oldPassword);
+        ensurePassword(newPassword);
+        ensurePasswordLength(newPassword, 8);
         
         const user = await authRepository.findUserPassword(userId);
-
-        if (!user) throw new AppError("USER_NOT_FOUND", 404);
-        if (!user.password) throw new AppError("PASSWORD_LOGIN_DISABLED", 400);
+        ensureUserExists(user);
+        ensureUserPassword(user);
 
         const isMatch = await bcrypt.compare(oldPassword, user.password);
-        if (!isMatch) throw new AppError("INVALID_OLD_PASSWORD", 401);
+        ensurePasswordMatch(isMatch);        
         
         const hashedPassword = await bcrypt.hash(newPassword, 10);    
         await authRepository.updateUserPassword(hashedPassword, userId);
     },
 
-    async resetPassword(token?: string, newPassword?: string): Promise<string> {        
-        if (!token || !newPassword) throw new AppError("VALIDATION_ERROR", 400);
-        if (newPassword.length < 8) throw new AppError("VALIDATION_ERROR", 400);
+    async resetPassword(token?: string, newPassword?: string): Promise<string> {
+        ensureToken(token);
+        ensurePassword(newPassword);
+        ensurePasswordLength(newPassword, 8);        
         
         const tokenHash = createHash("sha256").update(token).digest("hex");        
         const rows = await authRepository.findPasswordResetRequest(tokenHash);
 
         const request = rows[0];
-        if (!request) throw new AppError("INVALID_RESET_TOKEN", 400);
+        ensureRequest(request);        
         
         const user = await authRepository.findUserPassword(request.user_id);
-        if (!user || !user.password) throw new AppError("USER_NOT_FOUND", 404);
+        ensureUserExists(user);
+        ensureUserPassword(user);        
         
         const samePassword = await bcrypt.compare(newPassword, user.password);
-        if (samePassword) throw new AppError("SAME_PASSWORD", 400);
+        ensurePasswordDontMatch(samePassword);        
         
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         
@@ -141,12 +138,12 @@ export const authService = {
     },
 
     async updateUsername(userId: number, newUsername?: string): Promise<string> {
-        if (!newUsername) throw new AppError("VALIDATION_ERROR", 400);
+        ensureUsername(newUsername);        
 
         const cleanedUsername = newUsername.trim();
-        if (cleanedUsername.length < 2) throw new AppError("VALIDATION_ERROR", 400);
+        ensureUsernameLength(cleanedUsername, 2)        
         
-        const result = await authRepository.updateUsername(cleanedUsername, userId);        
+        const result = await authRepository.updateUsername(cleanedUsername, userId);
         if (result.affectedRows === 0) throw new AppError("USER_NOT_FOUND", 404);
 
         return cleanedUsername;
@@ -158,8 +155,7 @@ export const authService = {
 
         return { premium: Boolean(user.premium), private: Boolean(user.private)};
     },
-
-    // GET USER DATA
+    
     async findUserById(userId: number) {
         return await authRepository.findUserById(userId);
     },

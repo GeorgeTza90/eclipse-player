@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 40vh;    
+    height: 40vh;
 }
 
 .container {
@@ -94,18 +94,13 @@
 
 
 @media (max-width: 768px) {
+    .container {
+        margin-top: -5%;  
+    }
+    
     .button {
         width: 38px;
         height: 38px;
-    }
-
-    .container {
-        margin: 0rem 0rem;
-        padding: 0px;
-        width: 115%;
-        margin-left: -1.5rem;
-        margin-top: -4rem;
-        margin-bottom: 2rem;
     }
 
     .headerInfo {

@@ -1,8 +1,6 @@
 import styles from "./albumSwitchButton.module.css";
 
-const AlbumSwitchButton = ({ groupsKind, type, onClick }) => {
-    console.log(groupsKind);
-
+const AlbumSwitchButton = ({ groupsKind, type, onClick }) => {   
     return(
         <button
             className={groupsKind === type ? styles.groupsKindButtonClicked : styles.groupsKindButton}

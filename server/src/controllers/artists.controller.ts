@@ -14,7 +14,7 @@ export const getAllArtists = asyncHandler(async (req: Request, res: Response) =>
 // Artist GET 
 // -----------------------------
 export const getArtist = asyncHandler(async (req: Request, res: Response): Promise<void> => {    
-    const name = Array.isArray(req.params.name) ? req.params.name[0] : req.params.name;
+    const name = req.params.name as string;    
     const artist = await artistsService.getArtist(name);    
     res.json(artist);
 });

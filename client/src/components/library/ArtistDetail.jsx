@@ -13,17 +13,17 @@ import MiniPlayer from "../player/MiniPlayer";
 import BackButton from "../ui/buttons/BackButton";
 import styles from "./artistDetail.module.css";
 import AlbumSwitchButton from "../ui/buttons/AlbumSwitchButton";
+import { useWidth } from "../../hooks/useScreen";
 
 const ArtistDetail = () => {
     const { state, loading, error, call } = useFetchManager();
     const { name } = useParams();
     const artistName = name ?  decodeURIComponent(name) : null;    
-    const artist = state.artist;
-
+    const artist = state.artist;    
     const isMobile = useIsMobile();
+    const width = useWidth();
     const { barMode, setPlayerPage } = useMiniPlayer();
-    const { user } = useAuth();   
-    
+    const { user } = useAuth();       
     const { songs, vinyl } = useLibrary();
     const navigate = useNavigate();   
 
@@ -38,15 +38,18 @@ const ArtistDetail = () => {
     /* --- SONGS FILTERING --- */    
     const artistSongs = songs.filter(s => s.artists?.some(a => a.name === artist.name));
     const singlesEps = byYear(artistSongs, "single", "ep");
-    const albums = byYear(artistSongs, "album");    
+    const albums = byYear(artistSongs, "album");
+
+    /* --- STYLES --- */    
+    const backgroundPhoto = { maxWidth: width };
 
     return (
         <div className={styles.container}>
             {!isMobile && user && !barMode && (<MiniPlayer />)}
-            {(artist.photos?.length > 0 && !isMobile) && (<img src={artist.photos[0]} alt="" className={styles.backgroundPhoto}/>)}
+            {artist.photos?.length > 0 && (<img src={artist.photos[0]} alt="" className={styles.backgroundPhoto} style={backgroundPhoto}/>)}
     {/* Info */}
             <div className={styles.header}>                
-                {artist.image_url && (                    
+                {(artist.image_url && !isMobile) && (
                     <img src={artist.image_url} alt={artist.name} className={styles.Image} />
                 )}
                 <div className={styles.headerInfo}>
@@ -92,6 +95,7 @@ const ArtistDetail = () => {
 
     {/* Back Button */}
             <BackButton navTo={`/library`} />
+            <br/><br/><br/>
         </div>
     );
 }

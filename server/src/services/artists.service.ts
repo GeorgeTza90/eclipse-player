@@ -1,11 +1,15 @@
 import { artistsRepository } from "../repositories/artists.repository.js";
+import { ensureArtistExists } from "../guards/artists.guard.js";
 
+// -------------------- SERVICE --------------------
 export const artistsService = {
     async getAllArtists() {
-        return await artistsRepository.findAll();
+        return artistsRepository.findAll();
     },
 
     async getArtist(name: string) {        
-        return await artistsRepository.findByName(name);
+        const artist = await artistsRepository.findByName(name);
+        ensureArtistExists(artist);
+        return artist;
     }
 };
