@@ -23,6 +23,13 @@
     margin-top: 2.8rem;
 }
 
+.teaserDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 @media (max-width: 768px) {
     .container {        
         margin-top: 2rem;
