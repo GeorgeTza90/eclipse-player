@@ -14,7 +14,7 @@ export const MiniPlayerProvider = ({ children }) => {
     const [barMode, setBarMode] = useState(() => getBool("miniPlayer_barMode", false));
     const [playerPage, setPlayerPage] = useState(() => getBool("miniPlayer_playerPage", false));
     const [coloredGlow , setColoredGlow] = useState(() => getBool("player_coloredGlow", false));
-    const [goRGB, setGoRGB] = useState(() => getBool("player_goRGB", false))
+    const [goRGB, setGoRGB] = useState(() => getBool("player_goRGB", true))
     
     /* --- POSITION (DRAG) --- */
     const [pos, setPos] = useState(() => getJSON("miniPlayer_position", { x: 500, y: 850 }));
