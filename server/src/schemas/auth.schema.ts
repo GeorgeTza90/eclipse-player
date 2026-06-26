@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const usernamePattern = /^[a-zA-Z0-9_.-]+$/;
+const usernamePattern = /^[a-zA-Z0-9_.\- ]+$/;
 
 export const registerSchema = z.object({
     username: z.string().min(2).max(30)
@@ -17,7 +17,7 @@ export const loginSchema = z.object({
 
 export const googleLoginSchema = z.object({
     accessToken: z.string().min(1),
-    platform: z.enum(["web"]).optional(),
+    platform: z.enum(["web", "mobile"]).optional(),
 });
 
 export const changePasswordSchema = z.object({

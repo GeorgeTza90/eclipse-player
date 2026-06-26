@@ -24,7 +24,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): vo
         (req as AuthenticatedRequest).user = { id: decoded.id };
         next();
     } catch (err: any) {
-        logger.warn("JWT verification failed:", err);
+        logger.warn("JWT verification failed", { error: err.message });
         res.status(401).json({ error: "Invalid token" });
     }
 };

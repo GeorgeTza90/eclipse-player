@@ -4,14 +4,16 @@ import { EQ_BANDS, DEFAULT_EQ } from "../utils/defaultEQ";
 
 const AudioContext = createContext(undefined);
 
-export const AudioProvider = ({ children }) => {  
+export const AudioProvider = ({ children }) => {
     const [library, setLibrary] = useState(() => getJSON("audio_library", []));
     const [playlistName, setPlaylistName] = useState(() => getJSON("audio_playlistName", ""));
     const [currentSongIndex, setCurrentSongIndex] = useState(() => getJSON("audio_currentSongIndex", 0));
     const [currentSong, setCurrentSong] = useState(() => getJSON("audio_currentSong", null));
     const [volume, setVolumeState] = useState(() => getJSON("audio_volume", 1));
     const [positionRealtime, setPositionRealtime] = useState(() => getJSON("positionRealtime", 0));
-    const [EQGain, setEQGain] = useState(() => getJSON("EQGain", DEFAULT_EQ));  
+    const [EQGain, setEQGain] = useState(() => getJSON("EQGain", DEFAULT_EQ));
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [duration, setDuration] = useState(0);
 
     const audioRef = useRef(null);
     const audioCtxRef = useRef(null);
@@ -19,15 +21,19 @@ export const AudioProvider = ({ children }) => {
     const filtersRef = useRef([]);
     const masterGainRef = useRef(null);
     const isInitialLoadRef = useRef(true);
-    const wasPlayingRef = useRef(false);  
+    const wasPlayingRef = useRef(false);
+    const nextRef = useRef(null);
 
     /* --- LOCAL STORAGE --- */
     useEffect(() => setJSON("audio_library", library), [library]);
     useEffect(() => setJSON("audio_playlistName", playlistName), [playlistName]);
     useEffect(() => setJSON("audio_currentSongIndex", currentSongIndex), [currentSongIndex]);
     useEffect(() => setJSON("EQGain", EQGain), [EQGain]);
-    useEffect(() => { if (currentSong) setJSON("audio_currentSong", currentSong) }, [currentSong]);
-    useEffect(() => { setJSON("audio_volume", volume); if (audioRef.current) audioRef.current.volume = volume; }, [volume]);
+    useEffect(() => { if (currentSong) setJSON("audio_currentSong", currentSong); }, [currentSong]);
+    useEffect(() => {
+        setJSON("audio_volume", volume);
+        if (audioRef.current) audioRef.current.volume = volume;
+    }, [volume]);
 
     /* --- AUDIO CONTEXT --- */
     const unlockAudioContext = async () => {
@@ -37,7 +43,7 @@ export const AudioProvider = ({ children }) => {
 
     const initEQ = () => {
         if (!audioRef.current) return;
-        if (!audioCtxRef.current) audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioCtxRef.current) return;
         if (!sourceRef.current) sourceRef.current = audioCtxRef.current.createMediaElementSource(audioRef.current);
 
         try {
@@ -55,7 +61,7 @@ export const AudioProvider = ({ children }) => {
             return filter;
         });
 
-        masterGainRef.current = audioCtxRef.current.createGain();
+        masterGainRef.current = audioCtxRef.current.createGain();        
         masterGainRef.current.gain.value = 0.7;
 
         sourceRef.current.connect(filtersRef.current[0]);
@@ -81,9 +87,24 @@ export const AudioProvider = ({ children }) => {
     };
 
     /* --- PLAYER --- */
+    const next = () => {
+        setCurrentSongIndex(i => {
+            const nextI = (i + 1) % library.length;
+            setCurrentSong(library[nextI]);
+            setPositionRealtime(0);
+            setJSON("positionRealtime", 0);
+            return nextI;
+        });
+    };
+
+    nextRef.current = next;
+
     useEffect(() => {
         if (!currentSong) return;
-        const savedPosition = parseFloat(getJSON("positionRealtime", 0)) || 0;
+
+        const savedPosition = isInitialLoadRef.current
+            ? parseFloat(getJSON("positionRealtime", 0)) || 0
+            : 0;
 
         if (!audioRef.current) {
             audioRef.current = new Audio(currentSong.url);
@@ -93,29 +114,41 @@ export const AudioProvider = ({ children }) => {
         audioRef.current.volume = volume;
         audioRef.current.currentTime = savedPosition;
 
-        const handleLoaded = () => initEQ();
+        const handleLoaded = () => {
+            setDuration(audioRef.current?.duration || 0);
+            initEQ();
+        };
         const updateTime = () => {
             const pos = audioRef.current?.currentTime ?? 0;
             setPositionRealtime(pos);
             setJSON("positionRealtime", pos);
         };
-        const handleEnded = () => next();
+        const handleEnded = () => nextRef.current();
+        const handlePlay = () => setIsPlaying(true);
+        const handlePause = () => setIsPlaying(false);
 
         audioRef.current.addEventListener("loadedmetadata", handleLoaded);
         audioRef.current.addEventListener("timeupdate", updateTime);
         audioRef.current.addEventListener("ended", handleEnded);
+        audioRef.current.addEventListener("play", handlePlay);
+        audioRef.current.addEventListener("pause", handlePause);
 
-        if (!isInitialLoadRef.current) audioRef.current.play().catch(console.warn);
+        if (!isInitialLoadRef.current) {
+            audioRef.current.play().catch(console.warn);
+            setIsPlaying(true);
+        }
         isInitialLoadRef.current = false;
 
         return () => {
             audioRef.current?.removeEventListener("loadedmetadata", handleLoaded);
             audioRef.current?.removeEventListener("timeupdate", updateTime);
             audioRef.current?.removeEventListener("ended", handleEnded);
+            audioRef.current?.removeEventListener("play", handlePlay);
+            audioRef.current?.removeEventListener("pause", handlePause);
         };
     }, [currentSong]);
 
-    const playSong = async (song, playlist, name = "") => {
+    const playSong = async (song, playlist, name = "", startPosition = 0) => {
         await unlockAudioContext();
         if (playlist) {
             setLibrary(playlist);
@@ -124,39 +157,57 @@ export const AudioProvider = ({ children }) => {
             setPlaylistName(name);
         }
         setCurrentSong(song);
-        setPositionRealtime(0);
-        setJSON("positionRealtime", 0);
+        setPositionRealtime(startPosition);
+        setJSON("positionRealtime", startPosition);
     };
 
     const togglePlay = async () => {
         if (!audioRef.current) return;
         await unlockAudioContext();
         if (audioRef.current.paused) {
-            audioRef.current.play().catch(console.warn)
-            wasPlayingRef.current == true;
+            audioRef.current.play().catch(console.warn);
+            wasPlayingRef.current = true;
+            setIsPlaying(true);
+        } else {
+            audioRef.current.pause();
+            wasPlayingRef.current = false;
+            setIsPlaying(false);
         }
-        else {
-            audioRef.current.pause()
-            wasPlayingRef.current == false;
-        };
     };
 
-    const stop = () => { if (!audioRef.current) return; audioRef.current.pause(); audioRef.current.currentTime = 0; wasPlayingRef.current == false; };
-    const next = () => { setCurrentSongIndex(i => { const nextI = (i + 1) % library.length; setCurrentSong(library[nextI]); setPositionRealtime(0); setJSON("positionRealtime", 0); return nextI; }); };
-    const previous = () => { if (!library.length) return; const prevI = (currentSongIndex - 1 + library.length) % library.length; setCurrentSongIndex(prevI); setCurrentSong(library[prevI]); setPositionRealtime(0); setJSON("positionRealtime", 0); };
+    const stop = () => {
+        if (!audioRef.current) return;
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        wasPlayingRef.current = false;
+        setIsPlaying(false);
+    };
+
+    const previous = () => {
+        if (!library.length) return;
+        const prevI = (currentSongIndex - 1 + library.length) % library.length;
+        setCurrentSongIndex(prevI);
+        setCurrentSong(library[prevI]);
+        setPositionRealtime(0);
+        setJSON("positionRealtime", 0);
+    };
+
     const setVolume = vol => setVolumeState(vol);
-    const seekTo = pos => { if (!audioRef.current) return; audioRef.current.currentTime = pos; setPositionRealtime(pos); };
+    
+    const seekTo = pos => {
+        if (!audioRef.current) return;
+        audioRef.current.currentTime = pos;
+        setPositionRealtime(pos);
+    };
 
     return (
         <AudioContext.Provider
             value={{
                 currentSong, library, playlistName, volume, EQGain,
-                isPlaying: audioRef.current?.paused === false,
-                duration: audioRef.current?.duration || 0,        
-                position: positionRealtime,        
+                isPlaying, duration, position: positionRealtime,
                 playSong, togglePlay, stop, next, previous,
                 setVolume, seekTo, setLibrary, resetEQ,
-                setEQGain: updateEQGain,        
+                setEQGain: updateEQGain,
             }}
         >
             {children}

@@ -3,7 +3,10 @@ import { API_URL } from "../config";
 // -------------------- Songs --------------------
 export async function fetchSongs() {
     const res = await fetch(`${API_URL}/api/songs`, { credentials: "include" });
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);    
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Failed to fetch songs");
+    }
     return res.json(); 
 }
 
@@ -11,14 +14,17 @@ export async function fetchSongById(songId) {
     const res = await fetch(`${API_URL}/api/songs/${songId}`, { credentials: "include" });
     if (!res.ok) {
         const error = await res.json().catch(() => ({}));
-        throw new Error(error?.message || "Failed to fetch song");
+        throw new Error(error?.error || "Failed to fetch song");
     }
     return res.json();
 }
 
 export async function fetchPrivateSongs() {
     const res = await fetch(`${API_URL}/api/songs/private`, { credentials: "include" });    
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);    
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Failed to fetch private songs");
+    }
     return res.json();
 }
 
@@ -27,7 +33,7 @@ export async function fetchArtists() {
     const res = await fetch(`${API_URL}/api/artists`, { credentials: "include" });
     if (!res.ok) {
         const error = await res.json().catch(() => ({}));
-        throw new Error(error?.message || "Failed to fetch artists");
+        throw new Error(error?.error || "Failed to fetch artists");
     }
     return res.json();
 }
@@ -37,7 +43,7 @@ export async function fetchArtist(artistName) {
     const res = await fetch(`${API_URL}/api/artists/${encodeURIComponent(artistName)}`, { credentials: "include" });    
     if (!res.ok) {
         const error = await res.json().catch(() => ({}));
-        throw new Error(error?.message || "Failed to fetch artist");
+        throw new Error(error?.error || "Failed to fetch artist");
     }
     return res.json();
 }

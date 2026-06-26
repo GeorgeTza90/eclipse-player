@@ -1,6 +1,6 @@
-import { AppError } from "../errors/AppError.js";
 import { ResultSetHeader } from "mysql2";
+import { Ensure } from "../utils/ensure.js";
 
 export function ensurePresetExists(result: ResultSetHeader) {
-    if (result.affectedRows === 0) throw new AppError("PRESET_NOT_FOUND", 404);
+    Ensure.that(result.affectedRows > 0, "PRESET_NOT_FOUND", 404);
 }

@@ -29,6 +29,6 @@ router.use(verifyToken);
 router.get('/me', me);
 router.post('/logout', logout);
 router.post('/change-password', changePassLimiter, validateBody(changePasswordSchema), changePassword);
-router.post('/update-username', updateUsernameLimiter, validateBody(updateUsernameSchema), updateUsername);
+router.put('/update-username', updateUsernameLimiter, validateBody(updateUsernameSchema), updateUsername);
 
 export default router;

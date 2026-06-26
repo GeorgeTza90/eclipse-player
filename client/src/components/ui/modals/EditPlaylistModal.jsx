@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useToast } from "../../../contexts/ToastContextWeb";
-import { usePostManager } from "../../../hooks/useCallManager";
+import { usePutManager } from "../../../hooks/useCallManager";
 import styles from "./addPlaylistModal.module.css";
 
 const EditPlaylistModal = ({ visible, onClose, onUpdated, currentTitle, currentDescription, playlistId }) => {
     const { showToast } = useToast();
-    const { loading, call } = usePostManager();
+    const { loading, call } = usePutManager();
     
     const [title, setTitle] = useState(currentTitle);
     const [description, setDescription] = useState(currentDescription);    
@@ -43,7 +43,7 @@ const EditPlaylistModal = ({ visible, onClose, onUpdated, currentTitle, currentD
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className={styles.input}
-                    disabled={loading.createPlaylist}
+                    disabled={loading.updatePlaylist}
                 />
                 <input
                     type="text"
@@ -51,19 +51,19 @@ const EditPlaylistModal = ({ visible, onClose, onUpdated, currentTitle, currentD
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     className={styles.input}
-                    disabled={loading.createPlaylist}
+                    disabled={loading.updatePlaylist}
                 />
                 <button
                     className={styles.modalButton}
                     onClick={handleCreate}
-                    disabled={loading.createPlaylist}
+                    disabled={loading.updatePlaylist}
                 >
-                    {loading.createPlaylist ? "Updating..." : "Update"}
+                    {loading.updatePlaylist ? "Updating..." : "Update"}
                 </button>
                 <button
                     className={`${styles.modalButton} ${styles.modalCancel}`}
                     onClick={onClose}
-                    disabled={loading.createPlaylist}
+                    disabled={loading.updatePlaylist}
                 >
                     Cancel
                 </button>

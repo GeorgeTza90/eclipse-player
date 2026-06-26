@@ -9,6 +9,7 @@
 
 .artirtButton:hover {
     /* text-decoration: underline; */
+    text-decoration: underline;    
     color: #ffffff;
     cursor: pointer;
     transition: 0.5s;

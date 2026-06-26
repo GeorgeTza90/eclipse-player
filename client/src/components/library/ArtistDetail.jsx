@@ -14,12 +14,16 @@ import BackButton from "../ui/buttons/BackButton";
 import styles from "./artistDetail.module.css";
 import AlbumSwitchButton from "../ui/buttons/AlbumSwitchButton";
 import { useWidth } from "../../hooks/useScreen";
+import Loader from "../ui/loaders/Loader";
+import { useMinimumLoading } from "../../hooks/useMinimumLoading.";
 
 const ArtistDetail = () => {
     const { state, loading, error, call } = useFetchManager();
     const { name } = useParams();
+
     const artistName = name ?  decodeURIComponent(name) : null;    
     const artist = state.artist;    
+
     const isMobile = useIsMobile();
     const width = useWidth();
     const { barMode, setPlayerPage } = useMiniPlayer();
@@ -29,16 +33,27 @@ const ArtistDetail = () => {
 
     const [groupsKind, setGroupKind] = useState("Singles & EPs");
     
-    /* --- LOAD ARTIST --- */
-    useEffect(() => { if (!artistName) return; call("artist", artistName).catch(() => navigate("/library")); }, [artistName, call, navigate]);    
-    if (loading.artist) return <p style={{ color: "#fff", padding: "10px" }}>Loading artist...</p>;
-    if (error.artist) return <p style={{ color: "#fff", padding: "10px" }}>Error loading artist.</p>;
-    if (!artist) return null;
-   
     /* --- SONGS FILTERING --- */    
-    const artistSongs = songs.filter(s => s.artists?.some(a => a.name === artist.name));
+    const artistSongs = artist ? songs.filter(s => s.artists?.some(a => a.name === artist.name)) : [];
     const singlesEps = byYear(artistSongs, "single", "ep");
     const albums = byYear(artistSongs, "album");
+
+    useEffect(() => {
+        if (singlesEps.length === 0 && albums.length > 0) setGroupKind("Albums");
+    }, [singlesEps, albums]);
+
+    /* --- LOAD ARTIST --- */
+    useEffect(() => { if (!artistName) return; call("artist", artistName).catch(() => navigate("/library")); }, [artistName, call, navigate]);        
+    
+    const showLoader = useMinimumLoading(loading.artist && artistSongs.length === 0, 500);
+    if (showLoader) return (
+        <div style={{ display: "flex", justifyContent: "center"}}>
+            <Loader text={"Loading artist"} />
+        </div>
+    );
+    if (artistSongs.length === 0) return <p style={{ color: "#fff", padding: "10px" }}>No songs for this artist.</p>;
+    if (error.artist) return <p style={{ color: "#fff", padding: "10px" }}>Error loading artist.</p>;
+    if (!artist) return null;    
 
     /* --- STYLES --- */    
     const backgroundPhoto = { maxWidth: width };
@@ -64,7 +79,7 @@ const ArtistDetail = () => {
             </div>
 
     {/* Songs */}
-            {artistSongs.length > 0 ? (
+            {artistSongs.length > 0 && (
                 <div className={styles.songsContainer}>
                     {singlesEps.length > 0 && (
                         <AlbumSwitchButton 
@@ -89,9 +104,7 @@ const ArtistDetail = () => {
                     </>
                     
                 </div>
-            ) : (
-                <p style={{ color: "#fff", padding: "10px" }}>No songs for this artist.</p>
-            )}
+           )}
 
     {/* Back Button */}
             <BackButton navTo={`/library`} />

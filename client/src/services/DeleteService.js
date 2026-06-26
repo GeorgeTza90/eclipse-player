@@ -6,9 +6,11 @@ export async function deletePlaylist(id) {
         method: "DELETE",
         credentials: "include"
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to delete playlist");
-    return data;
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Failed to delete playlist");
+    }    
+    return res.json();
 }
 
 export async function deleteSongFromPlaylist(playlistId, songId) {
@@ -16,9 +18,11 @@ export async function deleteSongFromPlaylist(playlistId, songId) {
         method: "DELETE",
         credentials: "include"
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to delete song");
-    return data;
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Failed to delete song");
+    }    
+    return res.json();
 }
 
 // -------------------- Presets --------------------
@@ -27,7 +31,9 @@ export async function deleteUserPreset(id) {
         method: "DELETE",
         credentials: "include"
     });
-    const data = await res.json();    
-    if (!res.ok) throw new Error(data.error || "Failed to delete preset");
-    return data;
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Failed to delete preset");
+    }    
+    return res.json();
 }

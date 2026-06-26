@@ -7,19 +7,21 @@ export const AuthProvider = ({ children }) => {
     const { call: fetchCall } = useFetchManager();
     const { loading: postLoading, call: postCall } = usePostManager();
 
-    const [user, setUser] = useState(null);    
-    const [priv_u, setPriv_u] = useState(false); 
+    const [user, setUser] = useState(null);
+    const [authLoading, setAuthLoading] = useState(true);
+    const priv_u = Boolean(user?.private);
     const loading = postLoading?.user;
 
     /* --- USER UPDATE --- */
     useEffect(() => {
         const initAuth = async () => {
             try { 
-                const currentUser = await fetchCall("user"); 
+                const currentUser = await fetchCall("user");
                 setUser(currentUser);
-            } catch (err) {
-                console.error("Error fetching current user:", err); 
-                setUser(null); 
+            } catch (err) {                
+                setUser(null);
+            } finally {
+                setAuthLoading(false);
             }
         };
         initAuth();
@@ -37,10 +39,6 @@ export const AuthProvider = ({ children }) => {
             setUser(null);
         }
     };
-  
-    /* --- PRIVATE USER CHECK --- */
-    useEffect(() => { if (user?.private) {setPriv_u(true)} else {setPriv_u(false)} }, [user]);
-
 
     return (
         <AuthContext.Provider value={{ user, setUser, loading, priv_u, login, logout }}>

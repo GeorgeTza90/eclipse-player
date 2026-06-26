@@ -1,6 +1,6 @@
 import { useMiniPlayer } from "../../../contexts/MiniPlayerContextWeb";
 
-const Loader = ({ text, size }) => {
+export const Loader = ({ text, size }) => {
   const { goRGB } = useMiniPlayer();
   const containerStyle = {
     position: "relative",

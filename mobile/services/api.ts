@@ -44,7 +44,7 @@ export const registerUser = async (username: string, email: string, password: st
     return user;
 };
 
-export const googleLogin = async (accessToken: string, platform: "web" | "mobile") => {
+export const googleLogin = async (accessToken: string, platform: "mobile") => {
     const { user, token } = await apiFetch<{ user: User; token: string }>("/api/auth/google-login", {
         method: "POST",
         body: JSON.stringify({ accessToken, platform }),

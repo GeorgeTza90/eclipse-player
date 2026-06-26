@@ -1,5 +1,4 @@
 import { RowDataPacket } from "mysql2";
-import { Request } from "express";
 
 export interface Presets extends RowDataPacket {
     id: number;

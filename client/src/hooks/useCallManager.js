@@ -1,7 +1,8 @@
 import { useCallback, useState } from "react";
 import { fetchArtist, fetchPlaylistSongs, fetchSongs, fetchSongById, fetchUserPlaylists, fetchPrivateSongs, fetchArtists, fetchCurrentUser, logoutUser, fetchUserPresets } from "../services/GetService";
-import { addSongToPlaylist, createPlaylist, createPreset, forgotPassword, loginUser, googleLogin, moveSongInPlaylist, registerUser, resetPassword, updatePlaylist, updatePreset, updateUsername } from "../services/PostService";
+import { addSongToPlaylist, createPlaylist, createPreset, forgotPassword, loginUser, googleLogin, registerUser, resetPassword } from "../services/PostService";
 import { deletePlaylist, deleteSongFromPlaylist, deleteUserPreset } from "../services/DeleteService";
+import { updatePlaylist, updatePreset, updateUsername, moveSongInPlaylist } from "../services/PutService";
 
 const fetchHooks = {
     songs: fetchSongs,
@@ -11,20 +12,22 @@ const fetchHooks = {
     artist: fetchArtist,
     playlists: fetchUserPlaylists,
     playlistSongs: fetchPlaylistSongs,
-    user: fetchCurrentUser,
-    logout: logoutUser,
+    user: fetchCurrentUser,    
     userPresets: fetchUserPresets,
 }
 
 const postHooks = {
-    registerUser, loginUser, googleLogin, forgotPassword, resetPassword, logoutUser,
-    createPlaylist, updatePlaylist, addSongToPlaylist, moveSongInPlaylist,
-    createPreset, updatePreset, updateUsername
+    registerUser, loginUser, googleLogin, forgotPassword, resetPassword,
+    logoutUser, createPlaylist, addSongToPlaylist, createPreset
+};
+
+const putHooks = {
+    updatePlaylist, updatePreset, updateUsername, moveSongInPlaylist
 };
 
 const deleteHooks = {
     deleteUserPreset, deletePlaylist, deleteSongFromPlaylist,
-}
+};
 
 function useCallManager(hooksMap) {
     const [state, setState] = useState({});
@@ -36,7 +39,9 @@ function useCallManager(hooksMap) {
         setError(prev => ({ ...prev, [key]: null }));
 
         try {
-            const data = await hooksMap[key](...args);
+            const fn = hooksMap[key];
+            if (!fn) throw new Error(`No handler registered for key: "${key}"`);
+            const data = await fn(...args);
             setState(prev => ({ ...prev, [key]: data }));
             return data;
         } catch (err) {
@@ -50,6 +55,7 @@ function useCallManager(hooksMap) {
     return { state, loading, error, call };
 }
 
-export const useFetchManager = () => useCallManager(fetchHooks);
 export const usePostManager = () => useCallManager(postHooks);
+export const useFetchManager = () => useCallManager(fetchHooks);
+export const usePutManager = () => useCallManager(putHooks);
 export const useDeleteManager = () => useCallManager(deleteHooks);

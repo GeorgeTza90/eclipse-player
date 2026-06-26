@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useIsMobile } from '../../hooks/useIsMobile';
-import { usePostManager } from "../../hooks/useCallManager";
+import { usePostManager, usePutManager } from "../../hooks/useCallManager";
 import { useAutoClear } from "../../hooks/useAutoClear";
 import MiniPlayer from "../player/MiniPlayer";
 import LoadingMessage from "../ui/loaders/LoadingMessage";
@@ -13,9 +13,11 @@ import FormInput from "../ui/inputs/FormInput";
 
 const UserSettings = () => {
     const { loading: postLoading, error: postError, call: postCall } = usePostManager();
+    const { loading: putLoading, error: putError, call: putCall } = usePutManager();
+    const { barMode, setPlayerPage } = useMiniPlayer();
     const { user, setUser, loading } = useAuth();
     const isMobile = useIsMobile();
-    const { barMode, setPlayerPage } = useMiniPlayer();
+    
     const [username, setUsername] = useState("");
     const [localError, setLocalError] = useState(null);
     const [message, setMessage] = useState("...");
@@ -24,22 +26,20 @@ const UserSettings = () => {
     useAutoClear(localError, setLocalError, 4000);
     useAutoClear("...", setMessage, 8000, "...");
 
-    /* --- LOADING  --- */
-    if (loading) return <LoadingMessage message="Loading User Info ..." height="5vh"/>            
-
     /* --- UPDATE USERNAME  --- */
-    useEffect(() => {
-        if (user?.username) setUsername(user?.username || "")
-    }, [user]);    
+    useEffect(() => {if (user?.username) setUsername(user?.username || "")}, [user]);    
+
+    /* --- LOADING  --- */
+    if (loading) return <LoadingMessage message="Loading User Info ..." height="5vh"/>    
     
-    const updateUsername = async (username, id) => {        
+    const updateUsername = async (username) => {
         if (!user) return;
         try {
-            await postCall('updateUsername', username, id)
+            await putCall('updateUsername', username)
             setUser(prev => ({ ...prev, username }))
             setMessage("Username Updated")
         } catch (err) {
-            console.error(err);
+            setLocalError(err.message || "Failed to update username");
         }
     };
 
@@ -75,7 +75,7 @@ const UserSettings = () => {
                         onChangeText={setUsername}
                         isForm={false}
                     />                    
-                    <button className={styles.updateButton} onClick={() => updateUsername(username, user?.id)}>↺</button>                    
+                    <button className={styles.updateButton} onClick={() => updateUsername(username)}>↺</button>                    
                 </div>
                 
         {/* Premium */}

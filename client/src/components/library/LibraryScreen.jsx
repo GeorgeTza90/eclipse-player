@@ -14,7 +14,7 @@ const LibraryScreen = () => {
     const { priv_u } = useAuth();
     const isMobile = useIsMobile();    
 
-    const showLoader = useMinimumLoading(loading, 2000);
+    const showLoader = useMinimumLoading(loading, 1500);
     if (showLoader) return <Loader text="Loading Library" />;
 
     /* --- EXTENTION --- */

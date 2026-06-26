@@ -16,8 +16,8 @@ export const authRepository = {
     },
 
     async findUserByEmailNoPassword(email: string): Promise<User | null> {
-        const [row] = await db.query<User[]>("SELECT id, username, email, premium, private FROM users WHERE email = ?", [email]);
-        return row[0] ?? null;
+        const [rows] = await db.query<User[]>("SELECT id, username, email, premium, private FROM users WHERE email = ?", [email]);
+        return rows[0] ?? null;
     },
 
     async findUserPassword(userId: number): Promise<User | null> {

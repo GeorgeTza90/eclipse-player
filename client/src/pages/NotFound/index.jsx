@@ -16,7 +16,7 @@ const NotFound = () => {
 
     return (<>
         <div id="heading" style={{ display: "flex", justifyContent: "center" }}>
-            <img src="/assets/images/logo.png" style={{ position: 'absolute', width: 180, top: isMobile ? 10 : 55, zIndex: "5" }} />
+            <img src="/assets/images/logo.png" style={{ position: 'absolute', width: 180, top: isMobile ? 10 : 55, zIndex: "99" }} />
             <Circle size={isMobile ? 400 : 1000} top={-isMobile ? -320 : -880} intensity={intensity*0.7} color2="#0b0b0bff" color1="#1f1e1eff" />
             <Circle size={isMobile ? 230 : 300} top={isMobile ? 550 : 800} intensity={intensity*1} heightOffset={6} color2="#0e0e0eff" color1="#1b1a1aff" />
             <Circle size={isMobile ? 385 : 600} top={isMobile ? 110 : 150} intensity={intensity*0.8} heightOffset={8} />

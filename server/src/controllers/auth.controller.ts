@@ -39,7 +39,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 export const googleLogin = asyncHandler(async (req: Request, res: Response) => {
     const { accessToken, platform } = req.body;
     const { user, token } = await authService.googleLogin(accessToken, platform);
-    setAuthCookie(res, token);
+    if (platform === "web") setAuthCookie(res, token);
     res.json({ user, token });
 });
 
@@ -83,7 +83,7 @@ export const resetPassword = asyncHandler(async (req: Request, res: Response) =>
 // -----------------------------
 // Update Username
 // -----------------------------
-export const updateUsername = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+export const updateUsername = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {    
     const userId = req.user.id;    
     const { newUsername } = req.body;
     const username = await authService.updateUsername(userId, newUsername);

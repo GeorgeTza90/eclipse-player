@@ -28,8 +28,7 @@ const UserPlaylists = () => {
     if (showLoader) return <Loader text="Loading Playlists" size="small"/> 
     if (error.playlists) return <LoadingMessage message="Error loading playlists" height="14vh"/>;    
 
-    //--- PRESS PLAYLIST ---//
-    // const handlePlaylistPress = (playlist) => navigate(`/library/PlaylistDetail?id=${playlist.id}&title=${encodeURIComponent(playlist.title)}`);
+    //--- PRESS PLAYLIST ---//    
     const handlePlaylistPress = (playlist) => navigate(`/library/PlaylistDetail`, {state: playlist});
 
     return (

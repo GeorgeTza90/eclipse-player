@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useToast } from "../../../contexts/ToastContextWeb";
-import { usePostManager } from "../../../hooks/useCallManager";
+import { usePutManager } from "../../../hooks/useCallManager";
 import styles from "./addPresetModal.module.css";
 
 const UpdatePresetModal = ({ visible, onClose, onCreated, presetNew, newEQ }) => {
-    const { loading, call } = usePostManager();
+    const { loading, call } = usePutManager();
     const { showToast } = useToast();
     const [id, setId] = useState(null);
     const [title, setTitle] = useState("");

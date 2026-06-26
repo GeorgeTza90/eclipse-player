@@ -8,9 +8,11 @@ export async function loginUser(email, password) {
         body: JSON.stringify({ email, password }),
         credentials: "include"
     });
-    const data = await res.json();    
-    if (!res.ok) throw new Error("Login Failed");
-    return data;
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Login Failed")
+    }    
+    return res.json();
 }
 
 export async function registerUser(username, email, password) {
@@ -20,9 +22,11 @@ export async function registerUser(username, email, password) {
         body: JSON.stringify({ username, email, password }),
         credentials: "include"
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error("Register Failed");
-    return data;
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Register Failed")
+    }    
+    return res.json();
 }
 
 export async function googleLogin(accessToken, platform) {  
@@ -32,7 +36,10 @@ export async function googleLogin(accessToken, platform) {
         body: JSON.stringify({ accessToken, platform }),
         credentials: "include"
     });
-    if (!res.ok) throw new Error("Google login failed");
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Google login failed")
+    }     
     return res.json();
 }
 
@@ -43,9 +50,11 @@ export async function forgotPassword(email) {
         body: JSON.stringify({ email }),
         credentials: "include"
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error("Failed to send reset email");
-    return data;
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Failed to send reset email")
+    }    
+    return res.json();
 }
 
 export async function resetPassword(token, newPassword) {
@@ -55,21 +64,11 @@ export async function resetPassword(token, newPassword) {
         body: JSON.stringify({ token, newPassword }),
         credentials: "include"
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error("Reset password failed");
-    return data;
-}
-
-export async function updateUsername(newUsername, userID) {    
-    const res = await fetch(`${API_URL}/api/auth/update-username`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newUsername, userID }),
-        credentials: "include"
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error("Username update failed");
-    return data;
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Reset password failed")
+    }    
+    return res.json();
 }
 
 // -------------------- Playlists --------------------
@@ -80,21 +79,11 @@ export async function createPlaylist(title, description) {
         body: JSON.stringify({ title, description }),
         credentials: "include"
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error("Failed to create playlist");
-    return data;
-}
-
-export async function updatePlaylist(id, title, description) {
-    const res = await fetch(`${API_URL}/api/playlists/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description }),
-        credentials: "include"
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error("Failed to update playlist");
-    return data;
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Failed to create playlist")
+    }    
+    return res.json();
 }
 
 export async function addSongToPlaylist(id, songId) {    
@@ -104,22 +93,11 @@ export async function addSongToPlaylist(id, songId) {
         body: JSON.stringify({ songId }),
         credentials: "include"
     });    
-    const data = await res.json();
-    console.log(data.error);
-    if (!res.ok) throw new Error(data.error || "Failed to add song");
-    return data;
-}
-
-export async function moveSongInPlaylist(id, songId, newOrder) {    
-    const res = await fetch(`${API_URL}/api/playlists/${id}/songs/${songId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newOrder }),
-        credentials: "include"
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error("Failed to move song");
-    return data;
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Failed to add song")
+    }
+    return res.json();
 }
 
 // -------------------- Presets --------------------
@@ -130,19 +108,9 @@ export async function createPreset(title, preset) {
         body: JSON.stringify({ title, preset }),
         credentials: "include"
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error("Failed to create preset");
-    return data;
-}
-
-export async function updatePreset(id, title, preset) {   
-    const res = await fetch(`${API_URL}/api/presets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({title, preset }),
-        credentials: "include"
-    });
-    const data = await res.json();    
-    if (!res.ok) throw new Error("Failed to update preset");
-    return data;    
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.error || "Failed to create preset")
+    }    
+    return res.json();
 }

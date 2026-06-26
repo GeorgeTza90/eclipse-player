@@ -5,7 +5,7 @@ import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { useAlbumDuration } from "../../hooks/useFormatTime";
-import { useFetchManager, usePostManager } from "../../hooks/useCallManager";
+import { useFetchManager, usePostManager, usePutManager } from "../../hooks/useCallManager";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { groupArtistsByRole } from "../../utils/groupArtistsByRole";
 import PlaylistSongItem from "./PlaylistSongItem";
@@ -29,7 +29,7 @@ const PlaylistDetail = () => {
     // const description = playlist.description;
     
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
-    const { call: postCall } = usePostManager();
+    const { call: putCall } = usePutManager();
     const songs = fetchState.playlistSongs || [];
     const loading = fetchLoading.playlistSongs;
 
@@ -62,7 +62,7 @@ const PlaylistDetail = () => {
         if (!id) return;
 
         try {
-            await postCall("moveSongInPlaylist", id, movedSong.playlistSongId, destination.index);
+            await putCall("moveSongInPlaylist", id, movedSong.playlistSongId, destination.index);
         } catch (err) {
             alert(err.message || "Failed to move song. Order reverted.");
             fetchCall("playlistSongs", id);
@@ -81,10 +81,7 @@ const PlaylistDetail = () => {
             <div>
                 <div className={styles.titleDiv}>
                     <h2>{title}</h2>
-                    <button 
-                        className={styles.updateButton}
-                        onClick={() => setModalVisible(true)}
-                    />
+                    <button  className={styles.updateButton} onClick={() => setModalVisible(true)}/>
                 </div>                
                 {description && (<h2 className={styles.description}>{description}</h2>)}
                 <p className={styles.artistInfo}>{songs.length} songs • {useAlbumDuration(songs)}</p>

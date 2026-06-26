@@ -8,7 +8,7 @@ const LibraryContext = createContext();
 
 export const LibraryProvider = ({ children }) => {
     const { call: fetchCall } = useFetchManager();
-    const { user } = useAuth();
+    const { user, priv_u } = useAuth();
 
     const [originalSongs, setOriginalSongs] = useState([]);
     const [originalPrivateSongs, setOriginalPrivateSongs] = useState([]);
@@ -32,7 +32,7 @@ export const LibraryProvider = ({ children }) => {
     useEffect(() => setBool("library_vinylMode", vinyl), [vinyl])
 
     /* --- SONGS CATEGORIZER --- */
-    const privateAlbums = useMemo(() => byYear(privateSongs, "album"), [songs]);
+    const privateAlbums = useMemo(() => byYear(privateSongs, "album"), [privateSongs]);
     const singlesEps = useMemo(() => byYear(songs, "single", "ep"), [songs]);
     const albums = useMemo(() => byYear(songs, "album"), [songs]);        
 
@@ -41,16 +41,18 @@ export const LibraryProvider = ({ children }) => {
         (async () => {
             try {                
                 const [songsData, artistsData] = await Promise.all([ fetchCall("songs"), fetchCall("artists")]);
-                const privateSongsData = user ? await fetchCall("privateSongs").catch(() => {}) : [];
+                const privateSongsData = priv_u
+                    ? await fetchCall("privateSongs").catch(() => [])
+                    : [];
                 setLibraryData(songsData, artistsData, privateSongsData);
                 setJSON("library/songs", songsData);
                 setJSON("library/artists", artistsData);
-                setJSON("library/songs_private/private", privateSongsData);
+                setJSON("library/private_songs", privateSongsData);
             } catch (err) {
                 console.log(err)
                 const songsData = getJSON("library/songs", []);
                 const artistsData = getJSON("library/artists", []);
-                const privateSongsData = getJSON("library/songs/private", []);
+                const privateSongsData = getJSON("library/private_songs", []);
                 setLibraryData(songsData, artistsData, privateSongsData);
             } finally {
                 setLoading(false);
