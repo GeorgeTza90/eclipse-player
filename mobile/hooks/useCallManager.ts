@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
-import { fetchArtist, fetchPlaylistSongs, fetchSongs, fetchSongById, fetchUserPlaylists, fetchPrivateSongs, fetchArtists, fetchCurrentUser } from "../services/getService";
-import { addSongToPlaylist, createPlaylist, forgotPassword, loginUser, googleLogin, logoutUser, registerUser, resetPassword } from "../services/postService";
-import { updateUsername, moveSongInPlaylist, updatePlaylist } from "../services/putService";
+import { fetchArtist, fetchPlaylistSongs, fetchSongs, fetchSongById, fetchUserPlaylists, fetchPrivateSongs, fetchArtists, fetchCurrentUser } from "../services/GetService";
+import { addSongToPlaylist, createPlaylist, forgotPassword, loginUser, googleLogin, logoutUser, registerUser, resetPassword } from "../services/PostService";
+import { updateUsername, moveSongInPlaylist, updatePlaylist } from "../services/PutService";
 import { deletePlaylist, deleteSongFromPlaylist } from "../services/DeleteService";
 import { HookMap, StateType, LoadingType, ErrorType } from "@/types/callManager";
 
