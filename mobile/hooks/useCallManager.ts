@@ -1,31 +1,35 @@
 import { useCallback, useState } from "react";
-import { fetchArtist, fetchPlaylistSongs, fetchSongs, fetchSongById, fetchUserPlaylists, fetchPrivateSongs, fetchArtists, fetchCurrentUser, logoutUser } from "../services/api";
-import { addSongToPlaylist, createPlaylist, forgotPassword, loginUser, googleLogin, moveSongInPlaylist, registerUser, resetPassword, updatePlaylist } from "../services/api";
-import { deletePlaylist, deleteSongFromPlaylist } from "../services/api";
+import { fetchArtist, fetchPlaylistSongs, fetchSongs, fetchSongById, fetchUserPlaylists, fetchPrivateSongs, fetchArtists, fetchCurrentUser } from "../services/getService";
+import { addSongToPlaylist, createPlaylist, forgotPassword, loginUser, googleLogin, logoutUser, registerUser, resetPassword } from "../services/postService";
+import { updateUsername, moveSongInPlaylist, updatePlaylist } from "../services/putService";
+import { deletePlaylist, deleteSongFromPlaylist } from "../services/DeleteService";
 import { HookMap, StateType, LoadingType, ErrorType } from "@/types/callManager";
 
 const fetchHooks = {
+    user: fetchCurrentUser,
     songs: fetchSongs,
     songsById: fetchSongById,
     privateSongs: fetchPrivateSongs,
     artists: fetchArtists,
-    artist: fetchArtist,    
+    artist: fetchArtist,
     playlists: fetchUserPlaylists,
     playlistSongs: fetchPlaylistSongs,
-    user: fetchCurrentUser,
-    logout: logoutUser,    
 } satisfies HookMap;
 
 const postHooks = {
-    registerUser, loginUser, googleLogin, forgotPassword, resetPassword, logoutUser,
-    createPlaylist, updatePlaylist, addSongToPlaylist, moveSongInPlaylist,    
+    loginUser, registerUser, googleLogin, logoutUser,
+    forgotPassword, resetPassword, createPlaylist, addSongToPlaylist,
+} satisfies HookMap;
+
+const putHooks = {
+    updateUsername, updatePlaylist, moveSongInPlaylist,
 } satisfies HookMap;
 
 const deleteHooks = {
     deletePlaylist, deleteSongFromPlaylist,
 } satisfies HookMap;
 
-function useCallManager<T extends HookMap>(hooksMap: T) {    
+export function useCallManager<T extends HookMap>(hooksMap: T) {    
     const [state, setState] = useState<StateType<T>>({});
     const [loading, setLoading] = useState<LoadingType<T>>({});
     const [error, setError] = useState<ErrorType<T>>({});
@@ -34,7 +38,7 @@ function useCallManager<T extends HookMap>(hooksMap: T) {
         setLoading(prev => ({ ...prev, [key]: true }));
         setError(prev => ({ ...prev, [key]: null }));
 
-        try {
+        try {           
             const data = await hooksMap[key](...args);
             setState(prev => ({ ...prev, [key]: data }));
             return data;
@@ -51,4 +55,5 @@ function useCallManager<T extends HookMap>(hooksMap: T) {
 
 export const useFetchManager = () => useCallManager(fetchHooks);
 export const usePostManager = () => useCallManager(postHooks);
+export const usePutManager = () => useCallManager(putHooks);
 export const useDeleteManager = () => useCallManager(deleteHooks);

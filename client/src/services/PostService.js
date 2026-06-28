@@ -1,4 +1,5 @@
 import { API_URL } from "../config";
+import { errorChecker } from "../utils/errorChecker";
 
 // -------------------- Auth --------------------
 export async function loginUser(email, password) {
@@ -8,10 +9,7 @@ export async function loginUser(email, password) {
         body: JSON.stringify({ email, password }),
         credentials: "include"
     });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Login Failed")
-    }    
+    await errorChecker(res, "Login Failed");
     return res.json();
 }
 
@@ -22,25 +20,35 @@ export async function registerUser(username, email, password) {
         body: JSON.stringify({ username, email, password }),
         credentials: "include"
     });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Register Failed")
-    }    
+    await errorChecker(res, "Register Failed");
     return res.json();
 }
 
-export async function googleLogin(accessToken, platform) {  
+export async function googleLogin(accessToken, platform) {
     const res = await fetch(`${API_URL}/api/auth/google-login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ accessToken, platform }),
         credentials: "include"
     });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Google login failed")
-    }     
+    await errorChecker(res, "Google login failed");
     return res.json();
+}
+
+export async function logoutUser() {
+    const res = await fetch(`${API_URL}/api/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+    });
+    if (!res.ok) {
+        const errText = await res.text().catch(() => "Logout failed");
+        throw new Error(errText || "Logout failed");
+    }
+    try {
+        return await res.json();
+    } catch {
+        return null;
+    }
 }
 
 export async function forgotPassword(email) {
@@ -50,10 +58,7 @@ export async function forgotPassword(email) {
         body: JSON.stringify({ email }),
         credentials: "include"
     });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to send reset email")
-    }    
+    await errorChecker(res, "Failed to send reset email");
     return res.json();
 }
 
@@ -64,10 +69,7 @@ export async function resetPassword(token, newPassword) {
         body: JSON.stringify({ token, newPassword }),
         credentials: "include"
     });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Reset password failed")
-    }    
+    await errorChecker(res, "Reset password failed");
     return res.json();
 }
 
@@ -79,38 +81,29 @@ export async function createPlaylist(title, description) {
         body: JSON.stringify({ title, description }),
         credentials: "include"
     });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to create playlist")
-    }    
+    await errorChecker(res, "Failed to create playlist");
     return res.json();
 }
 
-export async function addSongToPlaylist(id, songId) {    
+export async function addSongToPlaylist(id, songId) {
     const res = await fetch(`${API_URL}/api/playlists/${id}/songs`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ songId }),
         credentials: "include"
-    });    
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to add song")
-    }
+    });
+    await errorChecker(res, "Failed to add song");
     return res.json();
 }
 
 // -------------------- Presets --------------------
-export async function createPreset(title, preset) {    
+export async function createPreset(title, preset) {
     const res = await fetch(`${API_URL}/api/presets`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, preset }),
         credentials: "include"
     });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to create preset")
-    }    
+    await errorChecker(res, "Failed to create preset");
     return res.json();
 }

@@ -1,71 +1,5 @@
 import { API_URL } from "../config";
-
-// -------------------- Songs --------------------
-export async function fetchSongs() {
-    const res = await fetch(`${API_URL}/api/songs`, { credentials: "include" });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to fetch songs");
-    }
-    return res.json(); 
-}
-
-export async function fetchSongById(songId) {
-    const res = await fetch(`${API_URL}/api/songs/${songId}`, { credentials: "include" });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to fetch song");
-    }
-    return res.json();
-}
-
-export async function fetchPrivateSongs() {
-    const res = await fetch(`${API_URL}/api/songs/private`, { credentials: "include" });    
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to fetch private songs");
-    }
-    return res.json();
-}
-
-// -------------------- Artists --------------------
-export async function fetchArtists() {
-    const res = await fetch(`${API_URL}/api/artists`, { credentials: "include" });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to fetch artists");
-    }
-    return res.json();
-}
-
-export async function fetchArtist(artistName) {    
-    if (!artistName) throw new Error("Artist name is required");
-    const res = await fetch(`${API_URL}/api/artists/${encodeURIComponent(artistName)}`, { credentials: "include" });    
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to fetch artist");
-    }
-    return res.json();
-}
-
-// -------------------- Playlists --------------------
-export async function fetchUserPlaylists() {
-    const res = await fetch(`${API_URL}/api/playlists`, { credentials: "include" });
-    if (!res.ok) throw new Error("Failed to fetch playlists");
-        
-    const playlists = await res.json();
-    return playlists;
-}
-
-export async function fetchPlaylistSongs(id) {
-    if (!id) throw new Error("Playlist ID is required");    
-    const res = await fetch(`${API_URL}/api/playlists/${id}/songs`, { credentials: "include" });
-    if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error("Failed to fetch playlist songs");
-    }
-    return res.json();
-}
+import { errorChecker } from "../utils/errorChecker";
 
 // -------------------- Auth --------------------
 export async function fetchCurrentUser() {
@@ -73,32 +7,62 @@ export async function fetchCurrentUser() {
     if (!res.ok) {
         if (res.status === 401) return null;
         throw new Error(`Failed to fetch user: ${res.status}`);
-      }
+    }
     return res.json();
 }
 
-export async function logoutUser() {
-    const res = await fetch(`${API_URL}/api/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-    });
-
-    if (!res.ok) {
-        const errText = await res.text().catch(() => "Logout failed");
-        throw new Error(errText || "Logout failed");
-    }
-    
-    try {
-        return await res.json();
-    } catch {
-        return null;
-    }
+// -------------------- Songs --------------------
+export async function fetchSongs() {
+    const res = await fetch(`${API_URL}/api/songs`, { credentials: "include" });
+    await errorChecker(res, "Failed to fetch songs");
+    return res.json();
 }
+
+export async function fetchSongById(songId) {
+    const res = await fetch(`${API_URL}/api/songs/${songId}`, { credentials: "include" });
+    await errorChecker(res, "Failed to fetch song");
+    return res.json();
+}
+
+export async function fetchPrivateSongs() {
+    const res = await fetch(`${API_URL}/api/songs/private`, { credentials: "include" });
+    await errorChecker(res, "Failed to fetch private songs");
+    return res.json();
+}
+
+// -------------------- Artists --------------------
+export async function fetchArtists() {
+    const res = await fetch(`${API_URL}/api/artists`, { credentials: "include" });
+    await errorChecker(res, "Failed to fetch artists");
+    return res.json();
+}
+
+export async function fetchArtist(artistName) {
+    if (!artistName) throw new Error("Artist name is required");
+    const res = await fetch(`${API_URL}/api/artists/${encodeURIComponent(artistName)}`, { credentials: "include" });
+    await errorChecker(res, "Failed to fetch artist");
+    return res.json();
+}
+
+// -------------------- Playlists --------------------
+export async function fetchUserPlaylists() {
+    const res = await fetch(`${API_URL}/api/playlists`, { credentials: "include" });
+    await errorChecker(res, "Failed to fetch playlists");
+    return res.json();
+}
+
+export async function fetchPlaylistSongs(id) {
+    if (!id) throw new Error("Playlist ID is required");
+    const res = await fetch(`${API_URL}/api/playlists/${id}/songs`, { credentials: "include" });
+    await errorChecker(res, "Failed to fetch playlist songs");
+    return res.json();
+}
+
+
 
 // -------------------- Presets --------------------
 export async function fetchUserPresets() {
     const res = await fetch(`${API_URL}/api/presets`, { credentials: "include" });
-    if (!res.ok) throw new Error("Failed to fetch presets");
-    const presets = await res.json();  
-    return presets;
+    await errorChecker(res, "Failed to fetch presets");
+    return res.json();
 }

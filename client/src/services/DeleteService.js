@@ -1,4 +1,5 @@
 import { API_URL } from "../config";
+import { errorChecker } from "../utils/errorChecker";
 
 // -------------------- Playlists --------------------
 export async function deletePlaylist(id) {
@@ -6,10 +7,7 @@ export async function deletePlaylist(id) {
         method: "DELETE",
         credentials: "include"
     });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to delete playlist");
-    }    
+    await errorChecker(res, "Failed to delete playlist");
     return res.json();
 }
 
@@ -18,22 +16,16 @@ export async function deleteSongFromPlaylist(playlistId, songId) {
         method: "DELETE",
         credentials: "include"
     });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to delete song");
-    }    
+    await errorChecker(res, "Failed to delete song");
     return res.json();
 }
 
 // -------------------- Presets --------------------
-export async function deleteUserPreset(id) {    
+export async function deleteUserPreset(id) {
     const res = await fetch(`${API_URL}/api/presets/${id}`, {
         method: "DELETE",
         credentials: "include"
     });
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Failed to delete preset");
-    }    
+    await errorChecker(res, "Failed to delete preset");
     return res.json();
 }
