@@ -2,7 +2,7 @@
 Eclipse Player is a cross-platform music streaming application designed as a scalable full-stack system, supporting real users and advanced feature sets beyond a typical media player. 
 Mobile App is still on Development, so feel free to be a Tester.
 
-### eclipse_player_v1.2.8.apk
+### eclipse_player_v1.2.9.apk
 The last stable version of Eclipse Player Mobile App.
 
 ### Join Discord Server
