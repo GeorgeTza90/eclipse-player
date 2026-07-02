@@ -17,12 +17,12 @@ const Settings = () => {
             {!isMobile && user && !barMode && (<MiniPlayer />)}
             <div> 
 
-        {/* User Settings */}
+            {/* User Settings */}
                 <h3 className={styles.text3}>User Settings</h3>
                 <UserSettings />
                 <br/><br/>
 
-        {/* Mini Player Settings */}
+            {/* Mini Player Settings */}
                 <h3 className={styles.text3}>Mini Player Settings</h3>
                 <MiniPlayerSettings />                                     
                 <br/><br/>
