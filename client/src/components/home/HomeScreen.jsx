@@ -41,19 +41,19 @@ const HomeScreen = () => {
             )}
 
         {/* Teasers */}        
-                <div className={styles.teaserDiv}>
-                    <Teaser 
-                        link={`/library/CollectionDetail/${encodeURIComponent("No Gods In Heaven")}`} 
-                        source={"/assets/vids/Video Teaser 2.mp4"}
-                        video={true}
-                    />
-                    <Teaser
-                        link = {`${API_URL}/api/download/apk?version=${CURRENT_APK_VERSION}`}
-                        source={"/assets/images/App_Teaser_1.jpg"}
-                        download
-                        video={false}
-                    />
-                </div>
+            <div className={styles.teaserDiv}>
+                <Teaser 
+                    link={`/library/CollectionDetail/${encodeURIComponent("No Gods In Heaven")}`} 
+                    source={"/assets/vids/Video Teaser 2.mp4"}
+                    video={true}
+                />
+                <Teaser
+                    link = {`${API_URL}/api/download/apk?version=${CURRENT_APK_VERSION}`}
+                    source={"/assets/images/App_Teaser_1.jpg"}
+                    download
+                    video={false}
+                />
+            </div>
         </div>
     );
 }
