@@ -3,9 +3,9 @@ import { useAudio } from "../../contexts/AudioContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import AudioPlayer from "../../components/player/AudioPlayer";
-import Equalizer from "../../components/player/Equalizer";
-import Lyrics from "../../components/player/Lyrics";
-import Playlist from "../../components/player/Playlist";
+import Equalizer from "../../components/player/extentions/Equalizer";
+import Lyrics from "../../components/player/extentions/Lyrics";
+import Playlist from "../../components/player/extentions/Playlist";
 import Circle from "../../components/ui/circles/Circle";
 
 const Player = () => {

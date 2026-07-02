@@ -3,13 +3,14 @@ import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/index";
 import Player from "../pages/Player/index";
 import Library from "../pages/Library/index";
-import CollectionDetail from "../components/library/CollectionDetail";
-import PrivateCollectionDetail from "../components/library/PrivateCollectionDetail";
-import PlaylistDetail from "../components/library/PlaylistDetail";
-import ResetPassword from "../components/home/ResetPassword";
-import ArtistDetail from "../components/library/ArtistDetail";
+import CollectionDetail from "../components/library/details/CollectionDetail";
+import PrivateCollectionDetail from "../components/library/details/PrivateCollectionDetail";
+import PlaylistDetail from "../components/library/details/PlaylistDetail";
+import ResetPassword from "../components/home/auth/ResetPassword";
+import ArtistDetail from "../components/library/details/ArtistDetail";
+import Settings from "../components/home/settings/Settings";
 import NotFound from "../pages/NotFound/index";
-import UserSettings from "../components/home/UserSettings";
+
 
 const AppRouter = () => {
     return (
@@ -17,7 +18,7 @@ const AppRouter = () => {
             <Route element={<MainLayout />}>
 
                 <Route path="/" element={<Home />} />
-                <Route path="/user-settings" element={<UserSettings />} />
+                <Route path="/user-settings" element={<Settings />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
 
                 <Route path="/player" element={<Player />} />

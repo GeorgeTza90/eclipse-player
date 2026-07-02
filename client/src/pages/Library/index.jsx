@@ -4,7 +4,7 @@ import { useAudio } from "../../contexts/AudioContextWeb";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import LibraryScreen from "../../components/library/LibraryScreen";
-import MiniPlayer from "../../components/player/MiniPlayer";
+import MiniPlayer from "../../components/player/mini/MiniPlayer";
 import Circle from "../../components/ui/circles/Circle";
 
 const Library = () => {

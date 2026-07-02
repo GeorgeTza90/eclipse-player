@@ -1,38 +1,29 @@
+import { useState } from "react";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import { useLibrary } from "../../contexts/LibraryContextWeb";
 import { useAuth } from "../../contexts/AuthContextWeb";
-import { useMinimumLoading } from "../../hooks/useMinimumLoading.";
-import LibraryGroupItem from "./LibraryGroupItem";
-import VinylGroupItem from "./VinylGroupItem";
-import SearchForm from "./SearchForm";
+import { useMinimumLoading } from "../../hooks/useMinimumLoading";
+import LibraryGroupItem from "./collections/LibraryGroupItem";
+import VinylGroupItem from "./collections/VinylGroupItem";
+import LibraryExtentionButton from "../ui/buttons/LibraryExtentionButton";
 import Loader from "../ui/loaders/Loader";
+import LibrarySearchForm from "../ui/inputs/LibrarySearchForm";
 import styles from "./libraryScreen.module.css";
-import { useIsMobile } from "../../hooks/useIsMobile";
-import { useState } from "react";
 
 const LibraryScreen = () => {
-    const { privateAlbums, singlesEps, albums, artists, loading, vinyl, setVinyl } = useLibrary();
+    const { privateAlbums, singlesEps, albums, artists, loading, vinyl } = useLibrary();
     const { priv_u } = useAuth();
     const isMobile = useIsMobile();    
 
     const showLoader = useMinimumLoading(loading, 1500);
-    if (showLoader) return <Loader text="Loading Library" />;
-
-    /* --- EXTENTION --- */
-    const handleExtention = (key) => setVinyl(key);
-    const extentionHoverStyle = { left: `${vinyl === false ? 0 : vinyl === true ? 50 : 66}%` };    
+    if (showLoader) return <Loader text="Loading Library" />;    
 
     return (
         <div className={styles.container}>
     {/* --- MODE CONTROL --- */}
             <div className={styles.formContainer}>
-                <SearchForm />
-                {!isMobile && (
-                    <div className={styles.extentionButton} style={{ position: "relative" }}>
-                        <div style={extentionHoverStyle} className={styles.extentionHoverStyle} />
-                        <button onClick={() => handleExtention(false)} className={styles.extentionButtonsStyle}>Card</button>
-                        <button onClick={() => handleExtention(true)} className={styles.extentionButtonsStyle}>Vinyl</button>
-                    </div>
-                )}
+                <LibrarySearchForm />
+                {!isMobile && <LibraryExtentionButton />}
             </div>
 
             <div className={styles.libraryContainer}>                

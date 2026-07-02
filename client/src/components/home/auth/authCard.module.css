@@ -1,0 +1,45 @@
+.authContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 21rem;
+    margin-bottom: 16rem;
+    position: relative;    
+}
+
+.formWrapper {
+    position: absolute;
+    top: -220px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.authButtonsDiv {
+    max-width: 280px;
+    margin-bottom: 1rem;
+}
+
+.messageText {
+    color: rgb(215, 255, 209);    
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .authContainer {
+        margin-top: 18.5rem;
+        margin-bottom: 7rem;
+    }
+
+    .formWrapper {
+        top: -250px;
+    }
+
+    .authButtonsDiv {
+        max-width: 241.5px;
+        margin-bottom: 1rem;
+    }
+}

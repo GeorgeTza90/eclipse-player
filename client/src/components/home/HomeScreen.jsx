@@ -1,23 +1,25 @@
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContextWeb';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContextWeb";
 import { API_URL } from "../../config";
-import { useIsMobile } from '../../hooks/useIsMobile';
-import { useMinimumLoading } from '../../hooks/useMinimumLoading.';
-import MiniPlayerSettings from "./MiniPlayerSettings";
-import AuthCard from './AuthCard';
-import UserPlaylists from './UserPlaylists';
-import AuthButton from '../ui/buttons/AuthButton';
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useMinimumLoading } from "../../hooks/useMinimumLoading";
+import { CURRENT_APK_VERSION } from "../../config";
+import MiniPlayerSettings from "./settings/MiniPlayerSettings";
+import AuthCard from "./auth/AuthCard";
+import UserPlaylists from "./playlists/UserPlaylists";
+import AuthButton from "../ui/buttons/AuthButton";
 import SettingsButton from "../ui/buttons/SettingsButton";
-import Teaser from '../ui/teasers/Teaser';
+import Teaser from "../ui/teasers/Teaser";
+import Loader from "../ui/loaders/Loader";
 import styles from "./homeScreen.module.css";
 
 const HomeScreen = () => {
-    const { user, logout, loading } = useAuth();
+    const { user, logout, authLoading } = useAuth();
     const isMobile = useIsMobile();
     const navigate = useNavigate();
     
-    const showLoader = useMinimumLoading(loading, 2000);
-    if (showLoader) return <Loader text="Checking login status"/>;
+    const showLoader = useMinimumLoading(authLoading, 1500);
+    if (showLoader) return <Loader text="Checking login status"/>;    
 
     return (
         <div className={styles.container}>
@@ -46,7 +48,7 @@ const HomeScreen = () => {
                         video={true}
                     />
                     <Teaser
-                        link = {`${API_URL}/api/download/apk?version=1.2.9`}
+                        link = {`${API_URL}/api/download/apk?version=${CURRENT_APK_VERSION}`}
                         source={"/assets/images/App_Teaser_1.jpg"}
                         download
                         video={false}

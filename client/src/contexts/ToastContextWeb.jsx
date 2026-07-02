@@ -1,10 +1,12 @@
 import { createContext, useContext, useState, useCallback, useRef, useEffect } from "react";
+import { useIsMobile } from "../hooks/useIsMobile";
 
 const ToastContext = createContext();
 
 export const ToastProvider = ({ children }) => {
     const [toasts, setToasts] = useState([]);
     const timeoutsRef = useRef([]);
+    const isMobile = useIsMobile();
 
     const showToast = useCallback((message, type = "info", duration = 5000) => {
         const id = Date.now();        
@@ -34,11 +36,12 @@ export const ToastProvider = ({ children }) => {
                 zIndex: 9999,
                 display: "flex",
                 flexDirection: "column",
-                gap: "10px",                
+                gap: "10px",
+                fontSize: isMobile ? "0.8rem" : "",
             }}>
                 {toasts.map((t) => (
                     <div key={t.id} style={{
-                        padding: "12px 20px",
+                        padding: isMobile ? "8px 10px" : "12px 20px",
                         borderRadius: 6,
                         color: "#fff",
                         fontWeight: "bold",

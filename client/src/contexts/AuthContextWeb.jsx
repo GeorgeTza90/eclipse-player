@@ -8,9 +8,10 @@ export const AuthProvider = ({ children }) => {
     const { loading: postLoading, call: postCall } = usePostManager();
 
     const [user, setUser] = useState(null);
-    const [authLoading, setAuthLoading] = useState(true);
-    const priv_u = Boolean(user?.private);
+    const [authLoading, setAuthLoading] = useState(true);    
     const loading = postLoading?.user;
+
+    const priv_u = Boolean(user?.private);
 
     /* --- USER UPDATE --- */
     useEffect(() => {
@@ -41,7 +42,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, loading, priv_u, login, logout }}>
+        <AuthContext.Provider value={{ user, setUser, loading, authLoading, priv_u, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
