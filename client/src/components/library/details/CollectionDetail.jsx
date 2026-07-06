@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContextWeb";
 import { useAudio } from "../../../contexts/AudioContextWeb";
 import { useLibrary } from "../../../contexts/LibraryContextWeb";
@@ -14,32 +14,32 @@ import hexToRgba from "../../../utils/hexToRgba";
 import Loader from "../../ui/loaders/Loader";
 import ArtistButton from "../../ui/buttons/ArtistButton";
 import BackButton from "../../ui/buttons/BackButton";
-import LoadingMessage from "../../ui/loaders/LoadingMessage";
 import styles from "./collectionDetail.module.css";
 
-
 const CollectionDetail = () => {
-    const { user } = useAuth();
-    const location = useLocation();    
-    const { songs, loading } = useLibrary();    
-    const { playSong, currentSong } = useAudio();
+    const { user } = useAuth();    
+    const { songs } = useLibrary();    
+    const { playSong } = useAudio();
     const { showImageToast, ImageToastUI } = useImageToast();
-    const { barMode, setPlayerPage } = useMiniPlayer();
+    const { barMode } = useMiniPlayer();
     const isMobile = useIsMobile();
     const navigate = useNavigate();       
 
     const { album } = useParams();
     const albumSongs = useMemo(() => songs.filter(s => s.album === album) ,[songs, album]);    
+    const durationString = useAlbumDuration(albumSongs);
     
     /* --- LOADING --- */
-    if (!albumSongs || albumSongs.length === 0) return (<div className={styles.loadingContainer}><Loader text={"Loading Collection"}/></div>)
-        
+    if (!albumSongs || albumSongs.length === 0) return (<div className={styles.loadingContainer}><Loader text={"Loading Collection"}/></div>);
     const albumInfo = albumSongs[0];
-    const durationString = useAlbumDuration(albumSongs);
+    
     const { mainArtists } = groupArtistsByRole(albumInfo.artists);    
 
     /* --- PRESS SONG --- */
-    const handlePressSong = (song) => { playSong(song, albumSongs, album).then( navigate("/player")); };    
+    const handlePressSong = async (song) => {
+        await playSong(song, albumSongs, album);
+        navigate("/player");
+    };    
 
     /* --- STYLES --- */
     const headerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.1)}, #55555500 )` }
@@ -74,7 +74,7 @@ const CollectionDetail = () => {
         {/* Tracks */}
                 <div>
                     {albumSongs.map((item, index) => (
-                        <TrackItem key={item.id} track={item} index={index} onPress={handlePressSong} user={user} />
+                        <TrackItem key={item.id} track={item} index={index} onPress={handlePressSong} user={user} isPrivate={false}/>
                     ))}
                     
                     <BackButton navTo={`/library`} />

@@ -21,19 +21,19 @@ const ArtistDetail = () => {
     const { state, loading, error, call } = useFetchManager();
     const { name } = useParams();
 
-    const artistName = name ?  decodeURIComponent(name) : null;    
-    const artist = state.artist;    
+    const artistName = name ? decodeURIComponent(name) : null;
+    const artist = state.artist;
 
     const isMobile = useIsMobile();
     const width = useWidth();
-    const { barMode, setPlayerPage } = useMiniPlayer();
-    const { user } = useAuth();       
+    const { barMode } = useMiniPlayer();
+    const { user } = useAuth();
     const { songs, vinyl } = useLibrary();
-    const navigate = useNavigate();   
+    const navigate = useNavigate();
 
     const [groupsKind, setGroupKind] = useState("Singles & EPs");
-    
-    /* --- SONGS FILTERING --- */    
+
+    /* --- SONGS FILTERING --- */
     const artistSongs = artist ? songs.filter(s => s.artists?.some(a => a.name === artist.name)) : [];
     const singlesEps = byYear(artistSongs, "single", "ep");
     const albums = byYear(artistSongs, "album");
@@ -43,27 +43,29 @@ const ArtistDetail = () => {
     }, [singlesEps, albums]);
 
     /* --- LOAD ARTIST --- */
-    useEffect(() => { if (!artistName) return; call("artist", artistName).catch(() => navigate("/library")); }, [artistName, call, navigate]);        
-    
-    const showLoader = useMinimumLoading(loading.artist && artistSongs.length === 0, 500);
-    if (showLoader) return (
-        <div style={{ display: "flex", justifyContent: "center"}}>
-            <Loader text={"Loading artist"} />
-        </div>
-    );
+    useEffect(() => {
+        if (!artistName) return;
+        call("artist", artistName).catch(() => navigate("/library"));
+    }, [artistName, call, navigate]);
+
+    const showLoader = useMinimumLoading(loading.artist || !artist, 500);
+
+    if (showLoader) return (<div style={{ display: "flex", justifyContent: "center" }}><Loader text={"Loading artist"} /></div>);
     if (artistSongs.length === 0) return <p style={{ color: "#fff", padding: "10px" }}>No songs for this artist.</p>;
     if (error.artist) return <p style={{ color: "#fff", padding: "10px" }}>Error loading artist.</p>;
-    if (!artist) return null;    
+    if (!artist) return null;
 
-    /* --- STYLES --- */    
     const backgroundPhoto = { maxWidth: width };
 
     return (
         <div className={styles.container}>
             {!isMobile && user && !barMode && (<MiniPlayer />)}
-            {artist.photos?.length > 0 && (<img src={artist.photos[0]} alt="" className={styles.backgroundPhoto} style={backgroundPhoto}/>)}
-    {/* Info */}
-            <div className={styles.header}>                
+            {artist.photos?.length > 0 && (
+                <img src={artist.photos[0]} alt="" className={styles.backgroundPhoto} style={backgroundPhoto} />
+            )}
+
+            {/* Info */}
+            <div className={styles.header}>
                 {(artist.image_url && !isMobile) && (
                     <img src={artist.image_url} alt={artist.name} className={styles.Image} />
                 )}
@@ -78,18 +80,18 @@ const ArtistDetail = () => {
                 </div>
             </div>
 
-    {/* Songs */}
+            {/* Songs */}
             {artistSongs.length > 0 && (
                 <div className={styles.songsContainer}>
                     {singlesEps.length > 0 && (
-                        <AlbumSwitchButton 
+                        <AlbumSwitchButton
                             groupsKind={groupsKind}
                             type={"Singles & EPs"}
                             onClick={() => setGroupKind("Singles & EPs")}
                         />
                     )}
                     {albums.length > 0 && (
-                        <AlbumSwitchButton 
+                        <AlbumSwitchButton
                             groupsKind={groupsKind}
                             type={"Albums"}
                             onClick={() => setGroupKind("Albums")}
@@ -97,20 +99,19 @@ const ArtistDetail = () => {
                     )}
                     <>
                         {(vinyl && !isMobile) ? (
-                            <VinylGroupItem  type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
+                            <VinylGroupItem type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
                         ) : (
-                            <LibraryGroupItem  type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
+                            <LibraryGroupItem type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
                         )}
                     </>
-                    
                 </div>
-           )}
+            )}
 
-    {/* Back Button */}
-            <BackButton navTo={`/library`} />
-            <br/><br/><br/>
+            {/* Back Button */}
+            <BackButton navTo={"/library"} />
+            <br /><br /><br />
         </div>
     );
-}
+};
 
 export default ArtistDetail;
