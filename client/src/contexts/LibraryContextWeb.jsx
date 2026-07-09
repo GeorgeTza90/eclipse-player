@@ -1,8 +1,11 @@
 import { createContext, useState, useEffect, useContext, useMemo } from "react";
+import { useAuth } from "./AuthContextWeb";
+import { useLibraryFetch } from "./library/useLibraryFetch";
+import { useLibraryPersistence } from "./library/useLibraryPersistence";
+import { useLibraryCategories } from "./library/useLibraryCategories";
 import { useFetchManager } from "../hooks/useCallManager";
 import { setJSON, getJSON, getBool, setBool } from "../utils/localStorageManager";
 import { byYear } from "../utils/songsCetegorizer";
-import { useAuth } from "./AuthContextWeb";
 
 const LibraryContext = createContext();
 
@@ -19,6 +22,16 @@ export const LibraryProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [vinyl, setVinyl] = useState(() => getBool("library_vinylMode", false));
 
+    useLibraryFetch({
+        fetchCall, user, priv_u,
+        setSongs, setArtists, setPrivateSongs, setLoading,
+        setOriginalSongs, setOriginalArtists, setOriginalPrivateSongs,        
+    });
+
+    useLibraryPersistence(vinyl);
+
+    const { privateAlbums, singlesEps, albums} = useLibraryCategories({ songs, privateSongs });
+
     const setLibraryData = (songsData, artistsData, privateSongsData) => {
         setSongs(songsData);
         setArtists(artistsData);
@@ -27,38 +40,6 @@ export const LibraryProvider = ({ children }) => {
         setOriginalArtists(artistsData);
         setOriginalPrivateSongs(privateSongsData);
     };
-
-    /* --- LOCAL STORAGE --- */
-    useEffect(() => setBool("library_vinylMode", vinyl), [vinyl])
-
-    /* --- SONGS CATEGORIZER --- */
-    const privateAlbums = useMemo(() => byYear(privateSongs, "album"), [privateSongs]);
-    const singlesEps = useMemo(() => byYear(songs, "single", "ep"), [songs]);
-    const albums = useMemo(() => byYear(songs, "album"), [songs]);        
-
-    /* --- FETCH SONGS --- */
-    useEffect(() => {
-        (async () => {
-            try {                
-                const [songsData, artistsData] = await Promise.all([ fetchCall("songs"), fetchCall("artists")]);
-                const privateSongsData = priv_u
-                    ? await fetchCall("privateSongs").catch(() => [])
-                    : [];
-                setLibraryData(songsData, artistsData, privateSongsData);
-                setJSON("library/songs", songsData);
-                setJSON("library/artists", artistsData);
-                setJSON("library/private_songs", privateSongsData);
-            } catch (err) {
-                console.log(err)
-                const songsData = getJSON("library/songs", []);
-                const artistsData = getJSON("library/artists", []);
-                const privateSongsData = getJSON("library/private_songs", []);
-                setLibraryData(songsData, artistsData, privateSongsData);
-            } finally {
-                setLoading(false);
-            }
-        })();
-    }, [user]); 
 
     return (
         <LibraryContext.Provider

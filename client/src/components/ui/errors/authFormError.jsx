@@ -1,13 +1,7 @@
-const AuthFormError = ({message}) => {
+import { useStylesError } from "../../../hooks/useStylesError";
 
-    const errorText = {
-        color: "rgb(255, 52, 52)",
-        padding: "0.4rem 0.6rem",
-        margin: "0rem",
-        borderRadius: "0.5rem",
-        backgroundColor: "#04001197",
-        fontSize: "14px",
-    }
+const AuthFormError = ({message}) => {
+    const { errorText } = useStylesError();
 
     return(
         <p style={errorText}>

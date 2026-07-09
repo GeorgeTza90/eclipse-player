@@ -1,4 +1,5 @@
 import { useMiniPlayer } from "../../../contexts/MiniPlayerContextWeb";
+import { useStylesCircle } from "../../../hooks/useStylesCircle";
 
 const Circle = ({
   size = 200,
@@ -11,8 +12,14 @@ const Circle = ({
   heightOffset = 8,
   zIndex = 0
 }) => {
+    
     const { goRGB, coloredGlow } = useMiniPlayer();
     const gradientColors = colors ?? [color1, color2];
+    
+    const { circleRGB, circleColored } = useStylesCircle(
+        size, top, zIndex, intensity, heightOffset, shadowColor,
+        goRGB, coloredGlow, gradientColors
+    );
 
     function hexToRgba(hex, alpha) {
         const r = parseInt(hex.slice(1, 3), 16);
@@ -23,41 +30,9 @@ const Circle = ({
 
     return (<>
         {goRGB && coloredGlow && (
-            <div
-                style={{
-                    position: "fixed",
-                    width: size + 10,
-                    height: size + 10,
-                    borderRadius: "50%",
-                    top,                    
-                    zIndex: zIndex,
-                    opacity: `${intensity / 60 + 0.05}`,
-                    background: "conic-gradient(red, orange, yellow, green, cyan, blue, violet, red)",
-                    animation: "spin 2.5s linear infinite",
-                    WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",
-                    mask: "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",
-                }}
-            />
-            )}           
-        <div
-            style={{
-                position: "fixed",
-                width: size,
-                height: size,
-                borderRadius: "50%",
-                overflow: "hidden",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                top,
-                boxShadow: goRGB && coloredGlow
-                    ? ""
-                    : `0px ${heightOffset}px ${intensity}px ${hexToRgba(shadowColor, Math.min(intensity / 30, 1))}`,
-                background: `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`,
-                zIndex: zIndex,
-                transition: "0.5s",
-            }}
-        />
+            <div style={circleRGB}/>
+        )}
+        <div style={circleColored}/>
     </>);
 }
 

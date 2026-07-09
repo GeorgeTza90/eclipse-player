@@ -1,19 +1,9 @@
 import { useEffect, useState } from "react";
+import { useStylesLoader } from "../../../hooks/useStylesLoader";
 
 const LoadingMessage = ({ message = "Loading Collection ...", height = "50vh" }) => {
     const [visible, setVisible] = useState(true);
-
-    const styleDiv = {
-        height: height,
-        flexDirection: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    }
-
-    const styleP = {
-        opacity: visible ? 1 : 0,
-        marginTop: 5
-    }
+    const { styleDiv, styleP } = useStylesLoader(height, visible);
 
     useEffect(() => {
         const interval = setInterval(() => {

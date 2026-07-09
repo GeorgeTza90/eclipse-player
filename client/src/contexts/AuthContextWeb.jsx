@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useFetchManager, usePostManager } from "../hooks/useCallManager";
+import { useAuthUser } from "./auth/useAuthUser";
+import { useAuthActions } from "./auth/useAuthActions";
 
 const AuthContext = createContext(undefined);
 
@@ -12,34 +14,10 @@ export const AuthProvider = ({ children }) => {
     const loading = postLoading?.user;
 
     const priv_u = Boolean(user?.private);
-
-    /* --- USER UPDATE --- */
-    useEffect(() => {
-        const initAuth = async () => {
-            try { 
-                const currentUser = await fetchCall("user");
-                setUser(currentUser);
-            } catch (err) {                
-                setUser(null);
-            } finally {
-                setAuthLoading(false);
-            }
-        };
-        initAuth();
-    }, [fetchCall]);
     
-    /* --- LOG ACTIONS --- */
-    const login = (userData) => setUser(userData);
-
-    const logout = async () => {
-        try {
-            await postCall("logoutUser");
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setUser(null);
-        }
-    };
+    useAuthUser({ fetchCall, setUser, setAuthLoading });
+    
+    const { login, logout } = useAuthActions({ postCall, setUser});
 
     return (
         <AuthContext.Provider value={{ user, setUser, loading, authLoading, priv_u, login, logout }}>

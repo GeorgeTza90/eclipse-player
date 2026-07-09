@@ -4,7 +4,7 @@ import PlaylistsongItem from "./PlaylistSongItem";
 import styles from "./playlist.module.css"
 
 const Playlist = ({ name = "Playlist" }) => {
-    const { library, currentSong, playSong } = useAudio();
+    const { playlist, currentSong, playSong } = useAudio();
     const [currentName, setCurrentName] = useState(name);       
 
     useEffect(() => setCurrentName(name), [name])
@@ -13,9 +13,9 @@ const Playlist = ({ name = "Playlist" }) => {
         <div className={styles.container}>
             <h3 className={styles.heading}>{currentName} - Playlist</h3>
             <div className={styles.list}>
-                {library.map((item) => (
+                {playlist.map((item) => (
                     <span key={item.id}>
-                        <PlaylistsongItem item={item} currentSong={currentSong} onClick={() => playSong(item, library)}/>
+                        <PlaylistsongItem item={item} currentSong={currentSong} onClick={() => playSong(item, playlist)}/>
                     </span>
                 ))}
             </div>

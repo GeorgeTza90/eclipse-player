@@ -1,19 +1,9 @@
 import { useEffect, useState } from "react";
+import { useStylesError } from "../../../hooks/useStylesError";
 
 const ErrorMessage = ({ message = "Loading Collection ...", height = "50vh" }) => {
     const [visible, setVisible] = useState(true);
-
-    const styleDiv = {
-        height: height,
-        flexDirection: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    }
-
-    const styleP = {
-        opacity: visible ? 1 : 0,
-        marginTop: 5
-    }
+    const { styleDiv, styleP } = useStylesError(height, visible);
 
     useEffect(() => {
         const interval = setInterval(() => {

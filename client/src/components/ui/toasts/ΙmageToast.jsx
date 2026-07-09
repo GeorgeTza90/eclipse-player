@@ -1,44 +1,14 @@
 import { useState } from "react";
+import { useStylesToast } from "../../../hooks/useStylesToast";
 
 export const useImageToast = () => {
     const [toastImage, setToastImage] = useState(null);
     const [visible, setVisible] = useState(false);
+    const { overlayStyle, imageWrapperStyle, imageStyle } = useStylesToast();
 
     const showImageToast = (imageUrl) => {
         setToastImage(imageUrl);
         setVisible(true);    
-    };
-
-    const overlayStyle = {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        background: "rgba(0, 0, 0, 0.43)",
-        backdropFilter: "blur(2px)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",        
-        cursor: "pointer",
-        zIndex: 9999,    
-    };
-
-    const imageWrapperStyle = {
-        borderRadius: "0.2rem",
-        overflow: "hidden",
-        boxShadow: `
-            0 0 20px rgba(0,0,0,0.8),
-            0 0 40px rgba(0,0,0,0.6),
-            0 0 80px rgba(0,0,0,0.4)
-        `,
-    };
-
-    const imageStyle = {
-        maxWidth: "75vw",
-        maxHeight: "75vh",
-        objectFit: "contain",
-        display: "block",        
     };
 
     const ImageToastUI = toastImage && visible && (
