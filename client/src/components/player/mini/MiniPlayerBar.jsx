@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMiniPlayer } from "../../../contexts/MiniPlayerContextWeb";
 import { useAudio } from "../../../contexts/AudioContextWeb";
+import { useAuth } from "../../../contexts/AuthContextWeb";
 import { formatTime } from "../../../hooks/useFormatTime";
 import PlayButton from "../../ui/buttons/PlayButton";
 import VolButton from "../../ui/buttons/VolButton";
@@ -10,7 +11,8 @@ import styles from "./miniPlayerBar.module.css";
 
 const MiniPlayerBar = ({handleImageToast}) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
-    const { showImage, showMiniPlayer, showTimeBar, showVolumeBar, coloredGlow, goRGB } = useMiniPlayer();       
+    const { showImage, showMiniPlayer, showTimeBar, showVolumeBar, coloredGlow, goRGB } = useMiniPlayer();
+    const { user } = useAuth();
 
     if (!currentSong) return null;
    
@@ -110,7 +112,7 @@ const MiniPlayerBar = ({handleImageToast}) => {
 
     {/* Link Button */}
                     <Link to="/player" className={styles.playerButton} />
-                    <Link to="/user-settings" className={styles.settingsButton} />
+                    {user && <Link to="/user-settings" className={styles.settingsButton} />}
                 </div>
             </div>
         }
