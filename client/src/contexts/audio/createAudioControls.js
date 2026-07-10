@@ -1,9 +1,11 @@
 import { EQ_BANDS } from "../../utils/defaultEQ";
 import { setJSON } from "../../utils/localStorageManager";
+import { LOUDNESS_PRESETS } from "../../utils/loudnessPresets";
 
-export const useAudioControls = ({
-    audioEngineRef, eqEngineRef,
-    playlist, currentSongIndex,
+export const createAudioControls = ({
+    audioEngineRef, eqEngineRef, loudnessEngineRef, 
+    currentSong, normalization, loudnessPreset,
+    playlist, currentSongIndex, EQGain,
     setPlaylist, setPlaylistName, setCurrentSong, setCurrentSongIndex,
     setPositionRealtime, setIsPlaying, setEQGain,
 }) => {
@@ -28,6 +30,16 @@ export const useAudioControls = ({
         if (!engine.audio) return;
 
         await eqEngineRef.current.unlock();
+
+        if (!eqEngineRef.current.initialized) {
+            const loudnessGainNode = loudnessEngineRef.current.init(eqEngineRef.current.ctx);
+            eqEngineRef.current.init(engine.audio, EQGain, loudnessGainNode);
+            eqEngineRef.current.initialized = true;
+
+            if (normalization) {
+                loudnessEngineRef.current.applyForSong(currentSong, LOUDNESS_PRESETS[loudnessPreset]);
+            }
+        }
 
         if (engine.isPaused) {
             engine.play()?.catch(console.warn);

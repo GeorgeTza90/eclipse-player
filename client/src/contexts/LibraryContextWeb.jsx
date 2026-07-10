@@ -1,11 +1,10 @@
-import { createContext, useState, useEffect, useContext, useMemo } from "react";
+import { createContext, useState, useContext } from "react";
 import { useAuth } from "./AuthContextWeb";
 import { useLibraryFetch } from "./library/useLibraryFetch";
 import { useLibraryPersistence } from "./library/useLibraryPersistence";
 import { useLibraryCategories } from "./library/useLibraryCategories";
 import { useFetchManager } from "../hooks/useCallManager";
-import { setJSON, getJSON, getBool, setBool } from "../utils/localStorageManager";
-import { byYear } from "../utils/songsCetegorizer";
+import { getBool } from "../utils/localStorageManager";
 
 const LibraryContext = createContext();
 
@@ -31,15 +30,6 @@ export const LibraryProvider = ({ children }) => {
     useLibraryPersistence(vinyl);
 
     const { privateAlbums, singlesEps, albums} = useLibraryCategories({ songs, privateSongs });
-
-    const setLibraryData = (songsData, artistsData, privateSongsData) => {
-        setSongs(songsData);
-        setArtists(artistsData);
-        setPrivateSongs(privateSongsData);
-        setOriginalSongs(songsData);
-        setOriginalArtists(artistsData);
-        setOriginalPrivateSongs(privateSongsData);
-    };
 
     return (
         <LibraryContext.Provider

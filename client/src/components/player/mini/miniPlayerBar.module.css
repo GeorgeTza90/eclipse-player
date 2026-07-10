@@ -16,7 +16,7 @@
     align-items: center;
     gap: 0.8rem;    
     margin-left: -2.2rem;
-    width: 14rem;
+    min-width: 12rem;
 }
 
 .image {
@@ -37,7 +37,7 @@
 .tickerContainer {
     overflow: hidden;
     white-space: nowrap;
-    max-width: 10rem;
+    max-width: 8rem;
 }
 
 .tittleTicker {

@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useFetchManager, usePostManager } from "../hooks/useCallManager";
 import { useAuthUser } from "./auth/useAuthUser";
-import { useAuthActions } from "./auth/useAuthActions";
+import { useAuthSession } from "./auth/useAuthSession";
 
 const AuthContext = createContext(undefined);
 
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     
     useAuthUser({ fetchCall, setUser, setAuthLoading });
     
-    const { login, logout } = useAuthActions({ postCall, setUser});
+    const { login, logout } = useAuthSession({ postCall, setUser});
 
     return (
         <AuthContext.Provider value={{ user, setUser, loading, authLoading, priv_u, login, logout }}>

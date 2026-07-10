@@ -32,7 +32,7 @@ export function useStylesToast(type = "info") {
         animation: "slideIn 0.3s ease-out",
     });
 
-    const toastStyle = (type) = {
+    const toastStyle = (type) => ({
         position: "fixed",
         bottom: "20px",
         right: "20px",
@@ -48,7 +48,7 @@ export function useStylesToast(type = "info") {
             type === "success" ? "#2ecc71" :
                 type === "error" ? "#e74c3c" :
                     "#3498db",
-    };
+    });
 
     const closeButtonStyle = {
         background: "none",

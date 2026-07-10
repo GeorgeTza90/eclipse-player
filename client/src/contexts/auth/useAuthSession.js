@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-export const useAuthActions = ({ postCall, setUser }) => {
+export const useAuthSession = ({ postCall, setUser }) => {
     const login = useCallback((userData) =>  setUser(userData), [setUser]);
 
     const logout = useCallback(async () => {

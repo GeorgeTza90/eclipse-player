@@ -4,6 +4,7 @@ import { useIsMobile } from '../../../hooks/useIsMobile';
 import MiniPlayer from "../../player/mini/MiniPlayer";
 import UserSettings from "./UserSettings";
 import MiniPlayerSettings from "./MiniPlayerSettings";
+import AudioPlayerSettings from "./AudioPlayerSettings";
 import BackButton from "../../ui/buttons/BackButton";
 import styles from "./settings.module.css";
 
@@ -15,19 +16,24 @@ const Settings = () => {
     return (
         <div className={styles.container}>
             {!isMobile && user && !barMode && (<MiniPlayer />)}
-            <div> 
-
-            {/* User Settings */}
+            <div>
+    {/* User Settings */}
                 <h3 className={styles.text3}>User Settings</h3>
                 <UserSettings />
-                <br/><br/>
+                <br/>
 
-            {/* Mini Player Settings */}
+    {/* Audio Player Settings */}
+                <h3 className={styles.text3}>Audio Player Settings</h3>
+                <AudioPlayerSettings />
+                <br/>
+
+    {/* Mini Player Settings */}
                 <h3 className={styles.text3}>Mini Player Settings</h3>
-                <MiniPlayerSettings />                                     
-                <br/><br/>
-
+                <MiniPlayerSettings />
+                {!isMobile && <><br/><br/></>}
+    
                 <BackButton navTo={"/"}/>
+                {isMobile && <><br/><br/><br/></>}
             </div>            
         </div>
     );

@@ -4,7 +4,7 @@ import { API_URL } from "../../config";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { useMinimumLoading } from "../../hooks/useMinimumLoading";
 import { CURRENT_APK_VERSION } from "../../config";
-import MiniPlayerSettings from "./settings/MiniPlayerSettings";
+import MiniPlayerSettings from "./settings/AudioPlayerSettings";
 import AuthCard from "./auth/AuthCard";
 import UserPlaylists from "./playlists/UserPlaylists";
 import AuthButton from "../ui/buttons/AuthButton";

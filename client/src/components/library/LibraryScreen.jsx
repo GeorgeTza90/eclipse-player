@@ -13,10 +13,10 @@ import styles from "./libraryScreen.module.css";
 const LibraryScreen = () => {
     const { privateAlbums, singlesEps, albums, artists, loading, vinyl } = useLibrary();
     const { priv_u } = useAuth();
-    const isMobile = useIsMobile();    
-
+    const isMobile = useIsMobile();
+    
     const showLoader = useMinimumLoading(loading, 1500);
-    if (showLoader) return <Loader text="Loading Library" />;    
+    if (showLoader) return <Loader text="Loading Library" />;
 
     return (
         <div className={styles.container}>

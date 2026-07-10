@@ -44,9 +44,9 @@ const MiniPlayerBar = ({handleImageToast}) => {
     return (<>          
         {showMiniPlayer &&
             <div>
-                {goRGB && <div style={rgbStyleBG} className={styles.rgbStyleBG} />}                
+                {goRGB && <div style={rgbStyleBG} className={styles.rgbStyleBG} />}                    
+                <div className={styles.container}>
     {/* Info */}
-                <div className={styles.container}>                    
                     <div className={styles.infoRow}>
                         {currentSong?.image && 
                             <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={() => handleImageToast(currentSong?.imageHQ)} />}                                

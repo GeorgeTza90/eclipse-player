@@ -23,7 +23,7 @@ export const ToastProvider = ({ children }) => {
         timeoutsRef.current.set(id, timeout);
     }, []);
 
-    const closeToast = (id) => {
+    const closeToast = useCallback((id) => {
         const timeout = timeoutsRef.current.get(id);
 
         if (timeout) {
@@ -32,7 +32,8 @@ export const ToastProvider = ({ children }) => {
         }
 
         setToasts(prev => prev.filter(t => t.id !== id));
-    };
+    }, []);
+    
 
     useEffect(() => {
         return () => timeoutsRef.current.forEach(clearTimeout);

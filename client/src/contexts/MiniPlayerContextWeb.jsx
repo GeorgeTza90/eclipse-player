@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import { getBool, getJSON, setBool, setJSON } from "../utils/localStorageManager";
+import { createContext, useState, useContext } from "react";
+import { getBool, getJSON } from "../utils/localStorageManager";
 import { useMiniPlayerPersistence } from "./miniPlayer/useMiniPlayerPersistence";
 import { useMiniPlayerDrag } from "./miniPlayer/useMiniPlayerDrag";
 
