@@ -1,6 +1,6 @@
 export const LOUDNESS_PRESETS = {
-    quiet: -14,
-    normal: -10,
+    quiet: -16,
+    normal: -12,
     loud: -8,    
 };
 
