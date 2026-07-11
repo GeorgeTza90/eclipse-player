@@ -15,14 +15,12 @@ const MiniPlayer = () => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { pos, onMouseDown, onMouseMove, onMouseUp, showImage, showMiniPlayer, showTimeBar, showVolumeBar, transparency, showGlow, coloredGlow, goRGB } = useMiniPlayer();
     const { showImageToast, ImageToastUI } = useImageToast();    
-    const { user } = useAuth();
-
-    if (!currentSong) return null;
+    const { user } = useAuth();    
         
     const [intensity, setIntensity] = useState(30);
     const [circleParams, setCircleParams] = useState({size: 290, left: -100, top: -40})
     const [sliderPosition, setSliderPosition] = useState(null);
-    const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");    
+    const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");        
     
     const progress = duration ? (sliderPosition / duration) * 100 : 0;
 
@@ -37,6 +35,8 @@ const MiniPlayer = () => {
     useEffect(() => { setIntensity(volume * 30); }, [volume]);
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
     useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);
+
+    if (!currentSong) return null;
 
     /* --- STYLES  --- */
     const miniPlayerDiv = { left: pos.x, top: pos.y, opacity: transparency ? 0.7 : 1 };

@@ -56,6 +56,7 @@ export const createAudioControls = ({
     };
 
     const next = () => {
+        if (!playlist.length) return;
         setCurrentSongIndex(i => {
             const nextI = (i + 1) % playlist.length;
             setCurrentSong(playlist[nextI]);

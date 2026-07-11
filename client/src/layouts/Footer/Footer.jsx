@@ -6,9 +6,11 @@ import { useImageToast } from '../../components/ui/toasts/ΙmageToast';
 import MiniPlayerBar from '../../components/player/mini/MiniPlayerBar';
 import hexToRgba from '../../utils/hexToRgba';
 import styles from "./footer.module.css"
+import { useAuth } from '../../contexts/AuthContextWeb';
 
 const Footer = () => {
     const { currentSong, volume } = useAudio();
+    const { user } = useAuth();
     const { coloredGlow, showGlow, goRGB } = useMiniPlayer();
     const { barMode, playerPage, showMiniPlayer } = useMiniPlayer();    
     const { ImageToastUI, showImageToast } = useImageToast();
@@ -27,7 +29,7 @@ const Footer = () => {
 
     return (<>
         {/* Desktop */}
-        {(!barMode || !showMiniPlayer || playerPage) &&
+        {(!barMode || !showMiniPlayer || playerPage || !user) &&
             <div className={styles.footer} >                
                 <a href="/player" className={styles.trademark}>&copy;{new Date().getFullYear()} Eclipse Player</a>
                 <label className={styles.labeled}>by George Tzachristas</label>
@@ -36,7 +38,7 @@ const Footer = () => {
         }   
 
         {/* Mini Player Bar */}
-        {barMode && showMiniPlayer && !playerPage  &&
+        {barMode && showMiniPlayer && !playerPage  && user &&
             <>                
                 {ImageToastUI}
                 <div className={styles.player} style={MBstyle}>                    

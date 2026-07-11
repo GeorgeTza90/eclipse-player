@@ -5,22 +5,18 @@ export class LoudnessEngine {
 
     init(audioCtx) {
         if (!audioCtx) throw new Error("LoudnessEngine: missing AudioContext");
-
         if (!this.gainNode) {
             this.gainNode =audioCtx.createGain();
             this.gainNode.gain.value = 1;
         }
-
         return this.gainNode;
     }
 
     computeGain(integratedLufs, truePeak, targetLufs) {
         if (integratedLufs == null || truePeak == null ) return 1;
-
         const desiredGainDb = targetLufs - integratedLufs;
         const maxSafeGainDb = -truePeak;
         const appliedGainDb = Math.min(desiredGainDb, maxSafeGainDb);
-
         return Math.pow( 10, appliedGainDb / 20);
     }
 

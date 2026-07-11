@@ -5,6 +5,7 @@ import { LibraryProvider } from "../contexts/LibraryContextWeb";
 import { AuthProvider } from "../contexts/AuthContextWeb";
 import { ToastProvider } from "../contexts/ToastContextWeb";
 import { MiniPlayerProvider } from "../contexts/MiniPlayerContextWeb";
+import PrivacyGuard from "../contexts/guards/PrivacyGuard";
 
 const App = () => {
     return (
@@ -13,6 +14,7 @@ const App = () => {
                 <LibraryProvider>
                     <AudioProvider>
                         <MiniPlayerProvider>
+                            <PrivacyGuard />
                             <Router>
                                 <AppRouter />
                             </Router>

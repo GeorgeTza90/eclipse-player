@@ -66,7 +66,6 @@ const Equalizer = ({ color }) => {
 
     return (
         <div className={styles.divContainer}>
-
     {/* Equalizer */}
             <h3 className={styles.heading}>Graphic EQ</h3>
             <div className={styles.EQcontainer}>

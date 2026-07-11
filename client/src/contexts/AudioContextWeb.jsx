@@ -56,7 +56,7 @@ export const AudioProvider = ({ children }) => {
         playSong, togglePlay, stop, next, previous, seekTo, updateEQGain, resetEQ
     } = createAudioControls({
         audioEngineRef, eqEngineRef, loudnessEngineRef, EQGain, playlist, currentSongIndex,
-        currentSong, normalization, loudnessPreset,   // 👈 πρόσθεσε αυτά
+        currentSong, normalization, loudnessPreset,
         setPlaylist, setPlaylistName, setCurrentSong, setCurrentSongIndex,
         setPositionRealtime, setIsPlaying, setEQGain,
     });
@@ -66,11 +66,11 @@ export const AudioProvider = ({ children }) => {
     return (
         <AudioContext.Provider
             value={{
-                currentSong, playlist, playlistName, volume,
+                currentSong, playlist, playlistName, volume, setCurrentSong,
                 EQGain, isPlaying, duration, position: positionRealtime,
                 normalization, setNormalization, loudnessPreset, setLoudnessPreset,
                 playSong, togglePlay, stop, next, previous, setVolume: setVolumeState,
-                seekTo, setPlaylist, resetEQ, setEQGain: updateEQGain,
+                seekTo, setPlaylist, setPlaylistName, resetEQ, setEQGain: updateEQGain,
             }}
         >
             {children}

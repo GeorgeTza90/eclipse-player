@@ -4,12 +4,12 @@ import { useAudio } from "../../contexts/AudioContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
 import { formatTime } from "../../hooks/useFormatTime";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import { groupArtistsByRole } from "../../utils/groupArtistsByRole";
 import { useImageToast } from "../ui/toasts/ΙmageToast";
 import PlayButton from "../ui/buttons/PlayButton";
 import ArtistButton from "../ui/buttons/ArtistButton";
 import Circle from "../ui/circles/Circle";
 import styles from "./audioPlayer.module.css";
-import { groupArtistsByRole } from "../../utils/groupArtistsByRole";
 
 const AudioPlayer = ({ onToggleExtention }) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();  
@@ -21,7 +21,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
     const [sliderPosition, setSliderPosition] = useState(null);
     const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
     
-    const { mainArtists, featArtists } = groupArtistsByRole(currentSong.artists);
+    const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
 
     const progress = duration ? (position / duration) * 100 : 0;
     const isMobile = useIsMobile();
@@ -32,7 +32,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
     /* --- UI UPDATE --- */
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
     useEffect(() => setIntensity(volume * 30), [volume]);  
-    useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);
+    useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);   
 
     /* --- STYLES --- */
     const sliderStyle = {
@@ -49,7 +49,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
     const extentionHoverStyle = { left: `${extention === "Playlist" ? 0 : extention === "Lyrics" ? 33.5 : 66}%` }
 
     return (<>
-        <div className={styles.container}>            
+        <div className={styles.container}>
     {/* Circles */}
             <Circle size={isMobile ? 400 : 600} top={isMobile ? 110 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor} />
             <Circle size={isMobile ? 230 : 300} top={isMobile ? 550 : 800} intensity={intensity * 0.5} heightOffset={6} shadowColor={shadowColor} color2="#0e0e0eff" color1="#1b1a1aff" />

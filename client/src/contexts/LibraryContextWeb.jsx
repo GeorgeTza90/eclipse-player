@@ -4,13 +4,13 @@ import { useLibraryFetch } from "./library/useLibraryFetch";
 import { useLibraryPersistence } from "./library/useLibraryPersistence";
 import { useLibraryCategories } from "./library/useLibraryCategories";
 import { useFetchManager } from "../hooks/useCallManager";
-import { getBool } from "../utils/localStorageManager";
+import { getBool, removeJSON } from "../utils/localStorageManager";
 
 const LibraryContext = createContext();
 
 export const LibraryProvider = ({ children }) => {
     const { call: fetchCall } = useFetchManager();
-    const { user, priv_u } = useAuth();
+    const { user, priv_u } = useAuth();    
 
     const [originalSongs, setOriginalSongs] = useState([]);
     const [originalPrivateSongs, setOriginalPrivateSongs] = useState([]);
@@ -29,7 +29,7 @@ export const LibraryProvider = ({ children }) => {
 
     useLibraryPersistence(vinyl);
 
-    const { privateAlbums, singlesEps, albums} = useLibraryCategories({ songs, privateSongs });
+    const { privateAlbums, singlesEps, albums} = useLibraryCategories({ songs, privateSongs });        
 
     return (
         <LibraryContext.Provider

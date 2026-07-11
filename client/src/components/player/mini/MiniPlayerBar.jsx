@@ -12,9 +12,7 @@ import styles from "./miniPlayerBar.module.css";
 const MiniPlayerBar = ({handleImageToast}) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { showImage, showMiniPlayer, showTimeBar, showVolumeBar, coloredGlow, goRGB } = useMiniPlayer();
-    const { user } = useAuth();
-
-    if (!currentSong) return null;
+    const { user } = useAuth();    
    
     const [intensity, setIntensity] = useState(30);
     const [sliderPosition, setSliderPosition] = useState(null);
@@ -26,6 +24,8 @@ const MiniPlayerBar = ({handleImageToast}) => {
     useEffect(() => { setIntensity(volume * 30); }, [volume]);
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
     useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);    
+
+    if (!currentSong) return null;
 
     /* --- STYLES  --- */
     const sliderStyle = {
