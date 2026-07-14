@@ -1,7 +1,8 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
+import React, { createContext, useState, useContext, ReactNode } from "react";
 import { User, AuthContextType } from "@/types/auth";
-import { getJSON, setJSON, removeItem } from "@/utils/localStorageManager";
 import { useFetchManager, usePostManager } from "@/hooks/useCallManager";
+import { useAuthUser } from "./auth/useAuthUser";
+import { useAuthSession } from "./auth/useAuthSession";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -9,47 +10,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { loading: fetchLoading, call: fetchCall } = useFetchManager();
     const { call: postCall } = usePostManager();
     const loading: boolean = fetchLoading?.user || false;
-    const [priv_u, setPriv_u] = useState(false); 
-    const [user, setUser] = useState<User | null>(null);  
+    const [user, setUser] = useState<User | null>(null);
 
-    /* --- USER UPDATE --- */
-    useEffect(() => {
-        const initAuth = async () => {
-            try {
-                const storedUser = await getJSON<User | null>("user", null);
-                const currentUser = (await fetchCall("user")) as User | null;
+    const priv_u = Boolean(user?.private);
 
-                if (currentUser) {
-                    setUser(currentUser);
-                    await setJSON("user", currentUser);
-                } else if (storedUser) {
-                    setUser(storedUser);
-                } else {
-                    setUser(null);
-                }
-            } catch {
-                setUser(null);
-            }
-        };
-
-        initAuth();
-    }, []);
-
-    /* --- LOG ACTIONS --- */
-    const loginWithUser = async (user: User) => {
-        if (!user) return;
-        setUser(user);
-        await setJSON("user", user);
-    };
-
-    const logout = async () => {
-        try { await postCall("logoutUser"); } catch {}
-        setUser(null);
-        await removeItem("user");
-    };
-
-    /* --- PRIVATE USER CHECK --- */
-    useEffect(() => { if (user?.private) {setPriv_u(true)} else {setPriv_u(false)} }, [user]);
+    useAuthUser({ fetchCall, setUser });
+    const { loginWithUser, logout } = useAuthSession({ postCall, setUser });
 
     return (
         <AuthContext.Provider value={{ user, loading, priv_u, loginWithUser, logout }}>

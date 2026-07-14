@@ -35,7 +35,7 @@ export const deletePlaylist = asyncHandler(async (req: AuthenticatedRequest, res
 });
 
 // -----------------------------
-// GET PLAYLIST SONGS
+// SONGS CRUD
 // -----------------------------
 export const getPlaylistSongs = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {    
     const userId = req.user.id;    
@@ -44,9 +44,6 @@ export const getPlaylistSongs = asyncHandler(async (req: AuthenticatedRequest, r
     res.json(rows);    
 });
 
-// -----------------------------
-// ADD SONG TO PLAYLISTS
-// -----------------------------
 export const addSongToPlaylist = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {    
     const userId = req.user.id;
     const playlistId = Number(req.params.id);
@@ -55,9 +52,6 @@ export const addSongToPlaylist = asyncHandler(async (req: AuthenticatedRequest, 
     res.status(201).json({ message: "Song added to playlist" });    
 });
 
-// -----------------------------
-// MOVE SONG IN PLAYLISTS
-// -----------------------------
 export const moveSongInPlaylist = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     const userId = req.user.id;
     const playlistId = Number(req.params.id);
@@ -67,9 +61,6 @@ export const moveSongInPlaylist = asyncHandler(async (req: AuthenticatedRequest,
     res.json({ message: "Song order updated" });
 });
 
-// -----------------------------
-// DELETE SONG FROM PLAYLISTS
-// -----------------------------
 export const deleteSongFromPlaylist = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     const userId = req.user.id;
     const playlistId = Number(req.params.id);

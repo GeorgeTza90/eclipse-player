@@ -1,3 +1,5 @@
+import { Animated } from "react-native";
+
 export type ToastType = "info" | "success" | "error";
 
 export interface Toast {
@@ -7,4 +9,9 @@ export interface Toast {
 
 export interface ToastContextType {
     showToast: (message: string, type?: ToastType) => void;
+}
+
+export interface ToastContainerProps {
+    toast: Toast | null;
+    opacity: Animated.Value;
 }

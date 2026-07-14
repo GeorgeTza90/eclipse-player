@@ -15,6 +15,23 @@ export async function setJSON(key: string, value: unknown) {
     } catch { }
 }
 
+export async function getBool(key: string, fallback = false): Promise<boolean> {
+    try {
+        const v = await AsyncStorage.getItem(key);
+        if (v === "true") return true;
+        if (v === "false") return false;
+        return fallback;
+    } catch {
+        return fallback;
+    }
+}
+
+export async function setBool(key: string, value: boolean) {
+    try {
+        await AsyncStorage.setItem(key, value ? "true" : "false");
+    } catch { }
+}
+
 export async function removeItem(key: string) {
     try {
         await AsyncStorage.removeItem(key);

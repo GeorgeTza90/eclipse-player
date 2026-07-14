@@ -1,5 +1,11 @@
 import { SongArtist } from "./cards";
 
+export interface SongLoudness {
+    integratedLufs: number;
+    truePeak: number;
+    lufsRange?: number;
+}
+
 export type Song = {
     id: string;
     title: string;
@@ -14,8 +20,9 @@ export type Song = {
     duration: number;
     averageColor?: string;
     playlistId?: string;
-    feature?: string
-    lyrics?: string
+    feature?: string;
+    lyrics?: string;
+    loudness?: SongLoudness;
 };
 
 export interface PlaylistSong extends Song {
@@ -36,7 +43,7 @@ export interface SongRowProps {
 export type TrackItemProps = {
     item: Song;
     index: number;
-    user: any;    
+    user: any;
     onPressSong: (song: Song) => void;
 };
 

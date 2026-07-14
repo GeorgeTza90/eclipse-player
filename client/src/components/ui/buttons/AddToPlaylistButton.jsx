@@ -34,7 +34,7 @@ const AddToPlaylistButton = ({ song }) => {
             showToast(`Added "${song.title}" to playlist`, "success");
             setModalVisible(false);
         } catch (err) {
-            const msg = err.message?.includes("SONG_ALREADY_IN_PLAYLIST")
+            const msg = err.message?.includes("Song already in playlist")
                 ? `"${song.title}" is already in this playlist`
                 : "Could not add song to playlist";            
             showToast(msg, "error");
