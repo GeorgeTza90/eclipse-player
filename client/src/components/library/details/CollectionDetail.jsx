@@ -38,6 +38,7 @@ const CollectionDetail = () => {
     /* --- PRESS SONG --- */
     const handlePressSong = async (song) => {
         await playSong(song, albumSongs, album);
+        console.log(song, albumSongs, album);
         navigate("/player");
     };    
 

@@ -1,153 +1,154 @@
 .divContainer{
-  height: 15rem;
-  position: absolute;
-  top: 37rem;    
-  display: grid;  
+    width: 100%;    
+    max-width: 600px;
+    margin: 6.5rem auto 0 auto;
+    position: absolute;    
+    top: 32rem;
 }
 
 .EQcontainer {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  position: relative;
-  height: 100%;
-  background-color: #00000050;
-  border-radius: 2rem;  
-  padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    height: 100%;
+    background-color: #00000050;
+    border-radius: 2rem;  
+    padding: 0.5rem;
 }
 
 .heading {
-  color: #fff;
-  font-size: 1rem;
-  font-weight: bold;
-  margin-top: 2.5rem;
-  text-align: center;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 2.5rem;
+    text-align: center;
 }
 
 .sliderWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 2.4rem;
-  height: 4rem;
-  margin-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 2.4rem;
+    height: 4rem;
+    margin-top: 3.5rem;
 }
 
 .verticalSlider {  
-  width: 8rem;
-  transform: rotate(-90deg);
-  margin-bottom: 4rem;  
-  cursor: pointer;
-  background: #555;
-  border-radius: 5px;
-  touch-action: none;
+    width: 8rem;
+    transform: rotate(-90deg);
+    margin-bottom: 4rem;  
+    cursor: pointer;
+    background: #555;
+    border-radius: 5px;
+    touch-action: none;
 }
 
 .verticalSlider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  background: #fff;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid #333;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #333;
 }
 
 .verticalSlider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: #fff;
-  border-radius: 50%;
-  cursor: grab;
-  border: 2px solid #333;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: grab;
+    border: 2px solid #333;
 }
 
 .label {
-  font-size: 0.7rem;  
-  color: #ffffff97;  
+    font-size: 0.7rem;  
+    color: #ffffff97;  
 }
 
 .buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 4rem;
 }
 
 .presetButton, .inActiveButton, .presetButtonActive {
-  padding: 0.2rem 0.5rem;
-  text-decoration: double;
-  font-size: 0.9rem;
-  border-radius: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    text-decoration: double;
+    font-size: 0.9rem;
+    border-radius: 0.5rem;
 }
 
 .presetButton{  
-  background-color: #333;
-  border-color: #3333334a;
-  color: #fff;
-  cursor: pointer;
+    background-color: #333;
+    border-color: #3333334a;
+    color: #fff;
+    cursor: pointer;
 }
 
 .presetButtonActive {
-  background-color: #909090;
-  border-color: #000000b4;
-  color: #000000;
-  cursor: pointer;
-  font-weight: bold;
-  box-shadow: 0.2px 0.2px 10px hsl(0, 0%, 0%);
+    background-color: #909090;
+    border-color: #000000b4;
+    color: #000000;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0.2px 0.2px 10px hsl(0, 0%, 0%);
 }
 
 .inActiveButton {  
-  background-color: #33333339;  
-  color: #ffffff53;
-  cursor:none;
-  border: none;
+    background-color: #33333339;  
+    color: #ffffff53;
+    cursor:none;
+    border: none;
 }
 
 .linesDiv {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  z-index: 0;
-  opacity: 0.18;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 0;
+    opacity: 0.18;
 }
 
 .linesDiv .line {
-  border: none;
-  height: 0.1rem;
-  background-color: #ffffff77;
-  margin: 0;
+    border: none;
+    height: 0.1rem;
+    background-color: #ffffff77;
+    margin: 0;
 }
 
 .info {
-  display: grid;  
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem;  
+    display: grid;  
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;  
 }
 
 .infoText {      
-  font-size: 0.8rem;
-  color: #ffffff3a;
+    font-size: 0.8rem;
+    color: #ffffff3a;
 }
 
 .presetsContainer {
-  background-color: #00000029;
-  border-radius: 1rem;
-  padding: 0.3rem 0;
-  margin-top: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;  
-  height: 21rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  box-sizing: border-box;
+    background-color: #00000029;
+    border-radius: 1rem;
+    padding: 0.3rem 0;
+    margin-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;  
+    height: 21rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 .presetsContainer::-webkit-scrollbar {
@@ -164,100 +165,100 @@
 }
 
 .presetsDiv {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;
-  margin: 0.25rem auto;
-  background-color: #181818b1;
-  height: 2.2rem;
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  box-sizing: border-box;    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0.25rem auto;
+    background-color: #181818b1;
+    height: 2.2rem;
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+    box-sizing: border-box;    
 }
 
 .presetsDiv:hover {
-  background-color: #3d3d3db1;
+    background-color: #3d3d3db1;
 }
 
 .preset {
-  font-size: 0.75rem;
-  color: #b0b0b0c7;
-  width: 26rem;
-  cursor: pointer;
-  padding: 1rem 0rem;
-  transition: 0.3s ease;
+    font-size: 0.75rem;
+    color: #b0b0b0c7;
+    width: 26rem;
+    cursor: pointer;
+    padding: 1rem 0rem;
+    transition: 0.3s ease;
 }
 
 .preset:hover {
-  font-size: 0.8rem;
-  color: #cececef2;
-  padding: 0.5rem 0rem;
-  transition: 0.3s ease;
+    font-size: 0.8rem;
+    color: #cececef2;
+    padding: 0.5rem 0rem;
+    transition: 0.3s ease;
 }
 
 .presetUpdate {
-  margin-top: 0.2rem;
-  margin-left: 1rem;
-  padding: 0.4rem;
-  font-size: 1rem;  
-  background-color: #33333300;
-  border-color: #33333300;
-  cursor: pointer;
-  z-index: 3;
-  color: #c2c2c28d;
-  transition: 0.5s ease;
+    margin-top: 0.2rem;
+    margin-left: 1rem;
+    padding: 0.4rem;
+    font-size: 1rem;  
+    background-color: #33333300;
+    border-color: #33333300;
+    cursor: pointer;
+    z-index: 3;
+    color: #c2c2c28d;
+    transition: 0.5s ease;
 }
 
 .presetUpdate:hover {
-  color: #ffffffe7;
-  background-color: #0f0f0fe5;
-  border-radius: 1rem;
-  font-size: 1.3rem;
-  padding: 0.2rem 0.6rem;
-  transition: 0.5s ease;
+    color: #ffffffe7;
+    background-color: #0f0f0fe5;
+    border-radius: 1rem;
+    font-size: 1.3rem;
+    padding: 0.2rem 0.6rem;
+    transition: 0.5s ease;
 }
 
 .presetDelete {
-  margin-top: 0.2rem;
-  margin-left: 1rem;
-  padding: 0.4rem;
-  font-size: 0.75rem;  
-  background-color: #33333300;
-  border-color: #33333300;
-  cursor: pointer;
-  z-index: 3;
-  color: #ff000094;
-  transition: 0.5s ease;
+    margin-top: 0.2rem;
+    margin-left: 1rem;
+    padding: 0.4rem;
+    font-size: 0.75rem;  
+    background-color: #33333300;
+    border-color: #33333300;
+    cursor: pointer;
+    z-index: 3;
+    color: #ff000094;
+    transition: 0.5s ease;
 }
 
 .presetDelete:hover {
-  color: #ff0000e7;
-  background-color: #0f0f0fe5;
-  border-radius: 1rem;
-  font-size: 1.2rem;
-  padding: 0.2rem 0.6rem;
-  margin-left: 0.3rem;
-  transition: 0.5s ease;
+    color: #ff0000e7;
+    background-color: #0f0f0fe5;
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    padding: 0.2rem 0.6rem;
+    margin-left: 0.3rem;
+    transition: 0.5s ease;
 }
 
 .notLoggedIn {
-  display: column;
-  font-size: 1rem;
-  margin-top: 5rem;
-  margin-left: 14.5rem;
-  color: #a1a1a1a6;
+    display: column;
+    font-size: 1rem;
+    margin-top: 5rem;
+    margin-left: 13.5rem;
+    color: #a1a1a1a6;
 }
 
 .SignInButton {
-  font-size: 1rem;
-  border-radius: 0.8rem;
-  padding: 0.4rem 1rem;
-  color: #c2c2c2;
-  background-color: #22222238;
-  margin-bottom: 1rem;
-  margin-left: 2.5rem;
-  cursor: pointer;
+    font-size: 1rem;
+    border-radius: 0.8rem;
+    padding: 0.4rem 1rem;
+    color: #c2c2c2;
+    background-color: #22222238;
+    margin-bottom: 1rem;
+    margin-left: 2.5rem;
+    cursor: pointer;
 }
 
 .SignInButton:hover {
@@ -265,83 +266,82 @@
 }
 
 @media (max-height: 1191px) {
-  .presetsContainer {        
-    height: 12.8rem;
-  }
+    .presetsContainer {        
+        height: 12.8rem;
+    }
 }
 
 @media (max-height: 1050px) {
-  .presetsContainer {        
-    height: 5rem;
-  }
+    .presetsContainer {        
+        height: 5rem;
+    }
 }
 
 @media (max-height: 990px) {
-  .presetsContainer {        
-    height: 5rem;
-  }
+    .presetsContainer {        
+        height: 5rem;
+    }
 }
 
 /* MOBILE */
 @media (max-width: 768px) {
-  .divContainer{    
-    top: 29rem;
+    .divContainer{    
+        top: 20rem;    
+    }
+
+    .EQcontainer {
+        height: 10rem;
+        margin-top: 1rem;    
+    }
+
+    .heading {
+        font-size: 1rem;
+    }
     
-  }
+    .verticalSlider {  
+        width: 7rem;
+    }
 
-  .EQcontainer {
-    height: 10rem;
-    margin-top: -1rem;    
-  }
+    .linesDiv {    
+        height: 70%;
+        opacity: 0.12;
+        border-radius: 1rem;
+        margin-top: 1rem;
+    }
 
-  .heading {
-    font-size: 1rem;
-  }
-  
-  .verticalSlider {  
-    width: 7rem;
-  }
+    .label {
+        font-size: 0.7rem;    
+        color: #ffffff97;  
+    }
 
-  .linesDiv {    
-    height: 70%;
-    opacity: 0.12;
-    border-radius: 1rem;
-    margin-top: 1rem;
-  }
+    .buttons {  
+        gap: 1rem;
+        margin-top: 1rem;
+    }
 
-  .label {
-    font-size: 0.7rem;    
-    color: #ffffff97;  
-  }
+    .presetsContainer {        
+        height: 10.2rem;
+        max-width: 20rem;
+    }
+    .preset {
+        max-width: 10rem;
+    }
 
-  .buttons {  
-    gap: 1rem;
-    margin-top: 1rem;
-  }
+    .notLoggedIn {
+        display: column;
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+        margin-left: 5.5rem;
+        color: #a1a1a1a6;
+    }
 
-  .presetsContainer {        
-    height: 10.2rem;
-    max-width: 20rem;
-  }
-  .preset {
-    max-width: 10rem;
-  }
-
-  .notLoggedIn {
-    display: column;
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
-    margin-left: 5.5rem;
-    color: #a1a1a1a6;
-  }
-
-  .SignInButton {
-    font-size: 0.8rem;
-    border-radius: 0.8rem;
-    padding: 0.4rem 1rem;
-    color: #c2c2c2;
-    background-color: #33333300;
-    margin-bottom: 0.5rem;
-    margin-left: 2.5rem;
-  }
+    .SignInButton {
+        font-size: 0.8rem;
+        border-radius: 0.8rem;
+        padding: 0.4rem 1rem;
+        color: #c2c2c2;
+        background-color: #33333300;
+        margin-bottom: 5rem;
+        margin-left: 2.5rem;
+    }
 }

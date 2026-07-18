@@ -12,7 +12,7 @@ import Circle from "../ui/circles/Circle";
 import styles from "./audioPlayer.module.css";
 
 const AudioPlayer = ({ onToggleExtention }) => {
-    const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();  
+    const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { coloredGlow, goRGB } = useMiniPlayer();
     const { showImageToast, ImageToastUI } = useImageToast();    
     

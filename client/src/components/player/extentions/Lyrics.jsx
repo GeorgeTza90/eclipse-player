@@ -2,7 +2,7 @@ import { useLyricsToast } from "../../ui/toasts/LyricsToast";
 import styles from "./lyrics.module.css";
 
 const Lyrics = ({ currentSong, onClick }) => {
-    const { showLyricsToast, LyricsToastUI } = useLyricsToast(currentSong.lyrics);
+    const { showLyricsToast, LyricsToastUI } = useLyricsToast(currentSong?.lyrics);
 
     return (<>
         <div className={styles.container}>

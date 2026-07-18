@@ -10,7 +10,6 @@ import AddPresetModal from "../../ui/modals/AddPresetModal";
 import UpdatePresetModal from "../../ui/modals/UpdatePresetModal";
 import styles from "./equalizer.module.css";
 
-
 const Equalizer = ({ color }) => {
     const isMobile = useIsMobile();
     const navigate = useNavigate();

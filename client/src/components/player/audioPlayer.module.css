@@ -1,7 +1,7 @@
 .container {
     display: flex;
     justify-content: center;
-    z-index: 0;
+    z-index: 0;    
 }
 
 .playerContent {
@@ -146,7 +146,7 @@
     text-decoration: double;
     font-weight: bolder;
     border-radius: 1rem;
-    padding: 0.4rem 0rem;
+    padding: 0.4rem 0rem;    
     box-shadow: #252525 1fr 1fr;
     background-color: #33333375;
     color: #ffffff9d;

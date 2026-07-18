@@ -1,9 +1,9 @@
 .container {
     width: 100%;    
     max-width: 600px;
-    margin: 120px auto 0 auto;
+    margin: 8rem auto 0 auto;
     position: absolute;    
-    top: 31rem;    
+    top: 32rem;
 }
 
 .heading {
@@ -88,6 +88,28 @@
     object-fit: cover;
 }
 
+.notLoggedIn {
+  display: column;
+  font-size: 1rem;
+  margin-top: 12rem;
+  margin-left: 13.5rem;
+  color: #a1a1a1a6;
+}
+
+.SignInButton {
+  font-size: 1rem;
+  border-radius: 0.8rem;
+  padding: 0.4rem 1rem;
+  color: #c2c2c2;
+  background-color: #22222238;
+  margin-bottom: 1rem;
+  margin-left: 2.5rem;
+  cursor: pointer;
+}
+
+.SignInButton:hover {
+  background-color: #c2c2c23c;
+}
 
 /* MOBILE */
 @media (max-width: 768px) {
@@ -145,6 +167,24 @@
     .trackFeature {
         font-size: 0.75rem;
         color: #ffffffc5;
+    }
+
+    .notLoggedIn {
+        display: column;
+        font-size: 1rem;
+        margin-top: 5rem;
+        margin-left: 6rem;        
+    }
+
+    .SignInButton {
+        font-size: 1rem;
+        border-radius: 0.8rem;
+        padding: 0.4rem 1rem;
+        color: #c2c2c2;
+        background-color: #22222238;
+        margin-bottom: 1rem;
+        margin-left: 2.5rem;
+        cursor: pointer;
     }
 }
 
