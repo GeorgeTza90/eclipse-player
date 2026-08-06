@@ -189,6 +189,12 @@
 }
 
 /* RESPONSIVE */
+@media (max-height: 1310px) {
+    .list {
+        max-height: 500px;
+    }
+}
+
 @media (max-height: 1220px) {
     .list {
         max-height: 450px;
