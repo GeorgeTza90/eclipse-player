@@ -6,7 +6,7 @@ export const useAudioPlayer = ({
     audioEngineRef, isInitialLoadRef, nextRef,
     setDuration, setPositionRealtime, setIsPlaying,
 }) => {
-    const lastSavedPosRef = useRef(-1);
+    const lastSavedPosRef = useRef(-1);    
 
     useEffect(() => {
         if (!currentSong) return;
@@ -26,7 +26,7 @@ export const useAudioPlayer = ({
                 setPositionRealtime(pos);
 
                 const flooredPos = Math.floor(pos);
-                if (flooredPos !== lastSavedPosRef) {
+                if (flooredPos !== lastSavedPosRef.current) {
                     setJSON("positionRealtime", pos);                    
                     lastSavedPosRef.current = flooredPos;                    
                 }                
