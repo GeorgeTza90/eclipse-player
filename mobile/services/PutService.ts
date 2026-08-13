@@ -1,5 +1,5 @@
-import { Playlist } from "@/types/playlists";
 import { apiFetch } from "@/utils/apiFetch";
+import { Playlist } from "@/types/playlists";
 
 // -------------------- Auth --------------------
 export const updateUsername = async (newUsername: string) => {

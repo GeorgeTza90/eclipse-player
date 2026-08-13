@@ -1,8 +1,8 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
-import { User, AuthContextType } from "@/types/auth";
 import { useFetchManager, usePostManager } from "@/hooks/useCallManager";
 import { useAuthUser } from "./auth/useAuthUser";
 import { useAuthSession } from "./auth/useAuthSession";
+import { User, AuthContextType } from "@/types/auth";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { loginWithUser, logout } = useAuthSession({ postCall, setUser });
 
     return (
-        <AuthContext.Provider value={{ user, loading, priv_u, loginWithUser, logout }}>
+        <AuthContext.Provider value={{ user, setUser, loading, priv_u, loginWithUser, logout }}>
             {children}
         </AuthContext.Provider>
     );

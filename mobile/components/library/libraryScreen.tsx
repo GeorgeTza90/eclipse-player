@@ -1,9 +1,9 @@
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import { useLibrary } from "@/contexts/LibraryContext";
-import LibraryGroupItem from "./LibraryGroupItem";
+import { useAuth } from "@/contexts/AuthContext";
+import LibraryGroupItem from "./items/LibraryGroupItem";
 import SearchForm from "../ui/forms/SearchForm";
 import Loader from "../ui/loaders/Loader";
-import { useAuth } from "@/contexts/AuthContext";
 
 const { width } = Dimensions.get("window");
 
@@ -23,7 +23,3 @@ export default function LibraryScreen() {
         </ScrollView>
     );
 }
-
-const styles = StyleSheet.create({  
-    loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
-});

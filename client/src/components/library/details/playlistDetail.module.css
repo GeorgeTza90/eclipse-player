@@ -84,10 +84,23 @@
     object-fit: contain;
 }
 
+.stateNotes{
+    color:#99d994;
+    margin-left: 2rem;
+    animation: flash 1s linear infinite;
+    align-items: center;
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
+}
+
+@keyframes flash {
+    to {
+        color: #333;
+    }    
 }
 
 .loadingText,
@@ -129,5 +142,10 @@
         width: 36px;
         height: 36px;
         animation: spin 1s linear infinite;
+    }
+
+    .stateNotes{        
+        margin-left: 1rem;
+        font-size: small;        
     }
 }

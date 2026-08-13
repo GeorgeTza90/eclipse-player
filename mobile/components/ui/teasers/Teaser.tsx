@@ -1,13 +1,9 @@
-import { View, StyleSheet, Dimensions, Pressable } from "react-native";
+import { useRouter } from "expo-router";
 import { VideoView, useVideoPlayer } from "expo-video";
-import { Href, useRouter } from "expo-router";
+import { View, StyleSheet, Dimensions, Pressable } from "react-native";
+import { TeaserParamProps } from "@/types/teaser";
 
-type TeaserProps = {
-    link: Href;
-    source: any;
-}
-
-export default function Teaser({link, source}: TeaserProps) {
+export default function Teaser({link, source}: TeaserParamProps) {
     const router = useRouter();    
 
     const player = useVideoPlayer(source, (player) => {

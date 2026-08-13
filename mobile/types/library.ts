@@ -38,3 +38,9 @@ export interface UseLibraryCategoriesProps {
     songs: Song[];
     privateSongs: Song[];
 }
+
+export type LibraryGroupItemProps = {
+    type: "Singles & EPs" | "Albums" | "Artists" | "Private";
+    group: Song[] | Artist[];
+    title?: boolean;
+};

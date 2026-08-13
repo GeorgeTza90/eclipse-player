@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { usePostManager } from "./useCallManager";
-import { registerUser, googleLogin } from "@/services/api"; // ✅ πρόσθεσε googleLogin
 
 export default function useAuthActions() {
     const { loginWithUser } = useAuth();

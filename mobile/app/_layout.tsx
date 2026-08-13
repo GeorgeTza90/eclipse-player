@@ -5,35 +5,33 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { AudioProvider } from "@/contexts/AudioContext";
 import { LibraryProvider } from "@/contexts/LibraryContext";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import { ToastProvider } from "@/contexts/ToastContext";
-
+import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+    const colorScheme = useColorScheme();
 
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    return (
+        <GestureHandlerRootView style={{ flex: 1 }}>
 
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <AuthProvider>
-          <ToastProvider>        
-            <LibraryProvider>
-              <AudioProvider>
+            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                <AuthProvider>
+                    <ToastProvider>        
+                        <LibraryProvider>
+                            <AudioProvider>
 
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="(tabs)" />
-                  <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-                </Stack>
-                <StatusBar style="auto" />
+                                <Stack screenOptions={{ headerShown: false }}>
+                                    <Stack.Screen name="(tabs)" />
+                                    <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+                                </Stack>
+                                <StatusBar style="auto" />
 
-              </AudioProvider>
-            </LibraryProvider>   
-          </ToastProvider>        
-        </AuthProvider>  
-      </ThemeProvider>
-      
-    </GestureHandlerRootView>
-
-  );
+                            </AudioProvider>
+                        </LibraryProvider>   
+                    </ToastProvider>        
+                </AuthProvider>  
+            </ThemeProvider>
+          
+        </GestureHandlerRootView>
+    );
 }

@@ -8,10 +8,7 @@ export const ToastContainer = ({ toast, opacity }: ToastContainerProps) => {
         <Animated.View
             style={[
                 styles.toast,
-                {
-                    backgroundColor: getBackgroundColor(toast.type),
-                    opacity,
-                },
+                { backgroundColor: getBackgroundColor(toast.type), opacity,},
             ]}
         >
             <Text style={styles.text}>

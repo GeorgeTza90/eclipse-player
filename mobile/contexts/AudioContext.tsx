@@ -15,6 +15,7 @@ const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export const AudioProvider = ({ children }: { children: ReactNode }) => {
     const [library, setLibrary] = useState<Song[]>([]);
+    const [colored, setColored] = useState(true);
     const [playlistName, setPlaylistName] = useState("");
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const [currentSong, setCurrentSong] = useState<Song | null>(null);
@@ -26,6 +27,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     const [normalization, setNormalization] = useState(true);
     const [loudnessPreset, setLoudnessPreset] = useState<LoudnessPresetKey>(DEFAULT_LOUDNESS_PRESET);
 
+    const shadowColor = (colored && currentSong?.averageColor) || "#bebebe";
     const loudnessGain = useLoudnessNormalization({ currentSong, loudnessPreset, normalization });
 
     const player = useExpoAudioPlayer(currentSong?.url);
@@ -104,8 +106,8 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     return (
         <AudioContext.Provider
             value={{
-                currentSong, isPlaying, library, playlistName, duration, position, volume,
-                normalization, setNormalization, loudnessPreset, setLoudnessPreset,
+                currentSong, isPlaying, library, playlistName, duration, position, volume, shadowColor,
+                normalization, loudnessPreset, colored, setColored, setNormalization, setLoudnessPreset,
                 playSong, togglePlay, stop, next, previous, setVolume, seekTo, setLibrary,
             }}
         >

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Text, Modal, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { usePostManager } from "@/hooks/useCallManager";
+import { usePutManager } from "@/hooks/useCallManager";
 import { useToast } from "@/contexts/ToastContext";
 import { EditPlaylistModalProps } from "@/types/playlists";
 
@@ -8,8 +8,8 @@ export default function EditPlaylistModal({ visible, onClose, onUpdated, current
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
-    const { showToast } = useToast();
-    const { call: postCall } = usePostManager();
+    const { showToast } = useToast();    
+    const { call: putCall } = usePutManager();
 
     /* ---------------- SYNC WHEN OPEN ---------------- */
     useEffect(() => {
@@ -27,15 +27,8 @@ export default function EditPlaylistModal({ visible, onClose, onUpdated, current
         }
 
         try {
-            await postCall(
-                "updatePlaylist",
-                currentId,
-                title,
-                description
-            );
-
+            await putCall( "updatePlaylist", currentId, title, description );
             showToast("Playlist updated successfully", "success");
-
             onUpdated?.(title, description);
             onClose?.();
         } catch (err: any) {
@@ -65,17 +58,11 @@ export default function EditPlaylistModal({ visible, onClose, onUpdated, current
                         style={styles.input}
                     />
 
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={handleUpdate}
-                    >
+                    <TouchableOpacity style={styles.button} onPress={handleUpdate}>
                         <Text style={styles.buttonText}>Update</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={[styles.button, styles.cancel]}
-                        onPress={onClose}
-                    >
+                    <TouchableOpacity style={[styles.button, styles.cancel]} onPress={onClose}>
                         <Text style={styles.buttonText}>Cancel</Text>
                     </TouchableOpacity>
 
@@ -86,37 +73,10 @@ export default function EditPlaylistModal({ visible, onClose, onUpdated, current
 }
 
 const styles = StyleSheet.create({
-    overlay: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.5)"
-    },
-    modal: {
-        width: "80%",
-        backgroundColor: "#333",
-        padding: 20,
-        borderRadius: 8
-    },
-    input: {
-        backgroundColor: "#222",
-        color: "#fff",
-        padding: 10,
-        marginBottom: 10,
-        borderRadius: 4
-    },
-    button: {
-        padding: 12,
-        backgroundColor: "#555",
-        borderRadius: 6,
-        alignItems: "center",
-        marginBottom: 10
-    },
-    cancel: {
-        backgroundColor: "#777"
-    },
-    buttonText: {
-        color: "#fff",
-        fontWeight: "bold"
-    }
+    overlay: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.5)" },
+    modal: { width: "80%", backgroundColor: "#333", padding: 20, borderRadius: 8 },
+    input: { backgroundColor: "#222", color: "#fff", padding: 10, marginBottom: 10, borderRadius: 4 },
+    button: { padding: 12, backgroundColor: "#555", borderRadius: 6, alignItems: "center", marginBottom: 10 },
+    cancel: { backgroundColor: "#777" },
+    buttonText: { color: "#fff", fontWeight: "bold" }
 });

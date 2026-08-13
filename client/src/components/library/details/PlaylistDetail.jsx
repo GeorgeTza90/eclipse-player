@@ -16,7 +16,7 @@ import styles from "./playlistDetail.module.css";
 
 const PlaylistDetail = () => {
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
-    const { call: putCall } = usePutManager();
+    const { call: putCall, loading: putLoading } = usePutManager();
     const location = useLocation();
     const navigate = useNavigate();
     const isMobile = useIsMobile();
@@ -32,12 +32,12 @@ const PlaylistDetail = () => {
     const [localSongs, setLocalSongs] = useState([]);
 
     const albumDuration = useAlbumDuration(localSongs);
-    const loading = fetchLoading.playlistSongs;
+    const songsLoading = fetchLoading.playlistSongs;
+    const dragLoading = putLoading.moveSongInPlaylist;
 
     /* --- GUARD --- */
-    if (!playlist) { navigate("/"); return null; }
-
-    const id = playlist.id;
+    const id = playlist?.id;
+    if (!playlist) { navigate("/"); return null; }   
 
     /* --- LOAD PLAYLIST SONGS --- */
     useEffect(() => {
@@ -91,12 +91,13 @@ const PlaylistDetail = () => {
                 <div className={styles.titleDiv}>
                     <h2>{title}</h2>
                     <button className={styles.updateButton} onClick={() => setModalVisible(true)} />
+                    {dragLoading && (<h4 className={styles.stateNotes}>Reordering Songs ...</h4>)}
                 </div>
                 {description && <h2 className={styles.description}>{description}</h2>}
                 <p className={styles.artistInfo}>{localSongs.length} songs • {albumDuration}</p>
             </div>
 
-            {loading ? (
+            {songsLoading ? (
                 <div className={styles.centered}>
                     <Loader text={"Loading songs"} size={"small"} />
                 </div>
@@ -106,7 +107,7 @@ const PlaylistDetail = () => {
                 </div>
             ) : (
                 <DragDropContext onDragEnd={handleDragEnd}>
-                    <Droppable droppableId="playlist">
+                    <Droppable droppableId="playlist" isDropDisabled={dragLoading}>
                         {(provided) => (
                             <div ref={provided.innerRef} {...provided.droppableProps} className={styles.songList}>
                                 {localSongs.map((song, index) => (

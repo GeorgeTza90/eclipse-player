@@ -1,15 +1,23 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@/contexts/AuthContext';
-import AuthCard from './AuthCard';
-import UserPlaylists from './UserPlaylists';
+import { useMinimumLoading } from '@/hooks/useMinimumLoading';
+import AuthCard from './auth/AuthCard';
+import UserPlaylists from './playlists/UserPlaylists';
 import AuthButton from '../ui/buttons/authButtons';
 import Teaser from '../ui/teasers/Teaser';
+import Loader from '../ui/loaders/Loader';
+
+import SettingsButton from '../ui/buttons/SettingsButton';
 
 export default function Home() {    
-    const { user, logout, loading } = useAuth();     
+    const { user, logout, loading } = useAuth();
 
-    if (loading) return null;
+    const handlePressSettings = (): void => router.push(`/home/Settings`);
+
+    const showLoader = useMinimumLoading(loading, 1500);
+    if (showLoader) return <Loader text="Checking login status"/>;
 
     return (
         <SafeAreaView style={styles.container}>
@@ -19,7 +27,12 @@ export default function Home() {
             {user && (
                 <View style={styles.userSection}>                    
                     <Text style={styles.text}>Welcome, {user.username}!</Text>
-                    <AuthButton title="Logout" loading={false} onPress={logout}/>
+                    <View style={styles.userOptions}>
+                        <AuthButton title="Logout" loading={false} onPress={logout} width="70%"/>
+                        <SettingsButton title="Settings" loading={false} onPress={() => handlePressSettings()} />
+                    </View>
+                    
+                    
                     <Text style={styles.text2}>Your Playlists</Text>                    
                     <View style={styles.playlistsWrapper}>
                         <UserPlaylists />
@@ -40,6 +53,7 @@ export default function Home() {
 const styles = StyleSheet.create({
     container: { flex: 1 },
     userSection: { flex: 1, paddingHorizontal: 20 },
+    userOptions: {flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center"},
     text: { color: "#fff", fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
     text2: { color: "#fff", fontSize: 18, fontWeight: 'bold', marginBottom: 10, marginTop: 25 },
     playlistsWrapper: { flex: 1 },

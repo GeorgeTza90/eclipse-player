@@ -22,21 +22,21 @@ export const useLyricsToast = (lyrics: string) => {
             animationType="fade"
             statusBarTranslucent
         >
-            <Pressable style={styles.overlay} onPress={hide}>
-                <View style={styles.lyricsWrapper}>                  
-                    
+            <View style={styles.overlay}>
+                {/* Backdrop is its own layer, sits behind content */}
+                <Pressable style={StyleSheet.absoluteFill} onPress={hide} />
+
+                {/* Content sits on top, untouched by backdrop's press handler */}
+                <View style={styles.lyricsWrapper} pointerEvents="box-none">
                     {toastLyrics && (
-                        <ScrollView
-                            style={{ width: "100%" }}
-                            contentContainerStyle={{ padding: 16 }}
-                        >
+                        <ScrollView style={{ width: "100%" }} contentContainerStyle={{ padding: 16 }}>
                             <Text style={styles.lyrics}>
                                 {toastLyrics}
                             </Text>
                         </ScrollView>
                     )}
                 </View>
-            </Pressable>
+            </View>
         </Modal>
     );
 
@@ -44,7 +44,7 @@ export const useLyricsToast = (lyrics: string) => {
 };
 
 const styles = StyleSheet.create({
-    overlay: { flex: 1, backgroundColor: "rgba(0, 0, 0, 0.83)", justifyContent: "center", alignItems: "center" },
+    overlay: { zIndex: 999, flex: 1, backgroundColor: "rgba(0, 0, 0, 0.83)", justifyContent: "center", alignItems: "center" },
     lyricsWrapper: { width: "100%", height: "70%", borderRadius: 6 },
     lyrics: { color: "#fff", textAlign: "center", fontSize: 16, lineHeight: 22 },
     loader: { position: "absolute", zIndex: 10 },

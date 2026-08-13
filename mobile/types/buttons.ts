@@ -1,4 +1,6 @@
 import { Song } from "@/types/songs";
+import { DimensionValue } from "react-native";
+import { LoudnessPresetKey } from "@/utils/loudnessPresets";
 
 export type Buttons = {
     text?: string;
@@ -10,6 +12,7 @@ export type AuthButtonProps = {
     loading: boolean;
     isLogin?: boolean;
     title?: string;
+    width?: DimensionValue;
     onPress: () => void;
 };
 
@@ -30,4 +33,19 @@ export interface AddToPlaylistButtonProps {
 
 export interface AddPlaylistButtonProps {
     onPress: () => void;
+};
+
+export type LoudnessPresetButtonProps = {
+    heading: string;
+    value: LoudnessPresetKey;
+    onChange: (preset: LoudnessPresetKey) => void;
+    disabled?: boolean;
+};
+
+export type ToggleButtonProps = {
+    heading: string;
+    isBarMode?: boolean;
+    value: boolean;
+    onChange: (value: boolean) => void;
+    inActive?: boolean;
 };

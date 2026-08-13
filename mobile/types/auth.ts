@@ -1,4 +1,5 @@
 import { useFetchManager, usePostManager } from "@/hooks/useCallManager";
+import { Dispatch, SetStateAction } from "react";
 
 export type User = {
       id: number;
@@ -9,8 +10,9 @@ export type User = {
 };
 
 export type AuthContextType = {
-    user: User | null; 
-    priv_u: Boolean 
+    user: User | null;
+    setUser: Dispatch<SetStateAction<User | null>>;
+    priv_u: Boolean; 
     loading: boolean;  
     loginWithUser: (user: User) => Promise<void>;
     logout: () => Promise<void>;

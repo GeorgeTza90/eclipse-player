@@ -1,15 +1,21 @@
 import { Pressable, Text, StyleSheet } from "react-native";
 import { AuthButtonProps } from "@/types/buttons";
 
-export default function AuthButton({ loading, isLogin, title, onPress }: AuthButtonProps) {
+export default function AuthButton({ loading, isLogin, title, width, onPress }: AuthButtonProps) {
+    const buttonText = title || (loading ? "Loading..." : isLogin ? "Login" : "Register");
+
     return (
         <Pressable
             onPress={onPress}
-            style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}
+            disabled={loading}
+            style={({ pressed }) => [
+                styles.button,
+                { width, height: 40, marginRight: 15 },
+                pressed && { opacity: 0.7 },
+                loading && { opacity: 0.5 },
+            ]}
         >
-            <Text style={styles.buttonText}>
-                {title || (loading ? "Loading..." : isLogin ? "Login" : "Register")}
-            </Text>
+            <Text style={styles.buttonText}>{buttonText}</Text>
         </Pressable>
     );
 }

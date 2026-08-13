@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TouchableOpacity, Text, Modal, View, FlatList, StyleSheet } from "react-native";
-import { useFetchManager, usePostManager } from "../../../hooks/useCallManager";
+import { useFetchManager, usePostManager } from "@/hooks/useCallManager";
 import { AddToPlaylistButtonProps } from "@/types/buttons";
 import { useToast } from "@/contexts/ToastContext";
 

@@ -5,9 +5,9 @@ import { useRouter } from "expo-router";
 import { useAudio } from "@/contexts/AudioContext";
 import { formatTimeSeconds } from "@/hooks/useFormatTime";
 import { AudioPlayerProps } from "@/types/audio";
-import PlayButton from "../ui/buttons/PlayButtons";
 import { useImageToast } from "../ui/toasts/ImageToast";
 import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
+import PlayButton from "../ui/buttons/PlayButtons";
 import Slider from "@react-native-community/slider";
 import Circle from "../ui/circles/Circle";
 
@@ -15,7 +15,7 @@ const { width } = Dimensions.get("window");
 
 export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
     const {
-        currentSong, isPlaying, position, duration, volume,
+        currentSong, isPlaying, position, duration, volume, shadowColor,
         togglePlay, stop, next, previous, setVolume, seekTo,
     } = useAudio();
 
@@ -23,7 +23,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
     const [intensity, setIntensity] = useState(30);
     const [sliderPosition, setSliderPosition] = useState<number>(0);
     const [activeExtention, setActiveExtention] = useState<"Playlist" | "Lyrics">("Playlist");
-    const shadowColor = currentSong?.averageColor ?? "#bebebe";
+
     const volMin = 0.000001;
     const router = useRouter();
 

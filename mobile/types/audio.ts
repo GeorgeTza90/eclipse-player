@@ -15,8 +15,11 @@ export interface AudioContextType {
     position: number;
     volume: number;
     normalization: boolean;
-    setNormalization: (val: boolean) => void;
     loudnessPreset: LoudnessPresetKey;
+    colored: boolean;
+    shadowColor: string;
+    setColored: (val: boolean) => void;
+    setNormalization: (val: boolean) => void;
     setLoudnessPreset: (preset: LoudnessPresetKey) => void;
     playSong: (song: Song, playlist?: Song[], name?: string) => void;
     togglePlay: () => void;

@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { apiFetch } from "@/utils/apiFetch";
 import { Playlist } from "@/types/playlists";
 import { User } from "@/types/auth";
-import { apiFetch } from "@/utils/apiFetch";
 
 // -------------------- Auth --------------------
 export const loginUser = async (email: string, password: string) => {   

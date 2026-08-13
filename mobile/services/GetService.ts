@@ -1,7 +1,7 @@
+import { apiFetch } from "@/utils/apiFetch";
 import { Song, PlaylistSong } from "@/types/songs";
 import { Playlist } from "@/types/playlists";
 import { User } from "@/types/auth";
-import { apiFetch } from "@/utils/apiFetch";
 
 // -------------------- Auth --------------------
 export const fetchCurrentUser = () => apiFetch<User | null>("/api/auth/me");
