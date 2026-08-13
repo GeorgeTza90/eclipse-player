@@ -14,7 +14,7 @@ body {
 
 body {
     max-height: 100vh;
-    background-image: url(/assets/body1.jpg);
+    background-image: url(/assets/images/body1.jpg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
