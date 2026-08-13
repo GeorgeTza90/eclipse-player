@@ -27,4 +27,4 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     circleContainer: { position: 'absolute', alignItems: "center", top: -455, left: -10, right: 0, bottom: 0, zIndex: 0 },
     logo: { width: width, height: width / 3, alignSelf: 'center', marginTop: -70 },
-  });
+});
