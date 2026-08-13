@@ -2,7 +2,7 @@ import path from "path";
 import { ensurefileName } from "../guards/downloads.guard.js";
 
 const APKS = {    
-    "0.3.1": "eclipse_player_v0.3.1.apk",
+    "0.3.2": "eclipse_player_v0.3.2.apk",
 } as const;
 
 export const apkService = {
