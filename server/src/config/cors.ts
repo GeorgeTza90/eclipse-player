@@ -8,7 +8,7 @@ export const corsMiddleware = cors({
     origin: (origin, cb) => {
         if (!origin) return cb(null, true);
         if (allowedOrigins.includes(origin)) return cb(null, true);
-        return cb(new AppError("CORS blocked", 403), false);
+        return cb(new AppError("CORS_BLOCKED", 403), false);
     },
     credentials: true,
 });

@@ -4,6 +4,7 @@ export const errorMap = {
     INVALID_CREDENTIALS: { status: 401, message: "Invalid credentials" },
     INVALID_REQUEST: { status: 400, message: "Invalid request" },
     NOT_FOUND: { status: 404, message: "Route not found" },
+    CORS_BLOCKED: { status: 403, message: "CORS blocked" },
     //--- TOKEN ---//
     INVALID_RESET_TOKEN: { status: 400, message: "Invalid or expired token" },
     INVALID_GOOGLE_TOKEN: { status: 401, message: "Invalid Google token" },

@@ -15,7 +15,7 @@ export const getPresets = asyncHandler(async (req: AuthenticatedRequest, res: Re
 export const createPresets = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     const userId = req.user.id;
     const { title, preset } = req.body;
-    await presetsService.createPresets(userId, title, preset ? JSON.stringify(preset) : undefined);
+    await presetsService.createPresets(userId, title, JSON.stringify(preset));
     res.json({ message: "Preset created successfully" });
 });
 
@@ -23,7 +23,7 @@ export const updatePresets = asyncHandler(async (req: AuthenticatedRequest, res:
     const userId = req.user.id;
     const { id } = req.params;
     const { title, preset } = req.body;
-    await presetsService.updatePresets(Number(id), userId, title, preset ? JSON.stringify(preset) : undefined);
+    await presetsService.updatePresets(Number(id), userId, title, JSON.stringify(preset));
     res.json({ message: "Preset updated successfully" });
 });
 
