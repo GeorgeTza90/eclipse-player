@@ -17,7 +17,7 @@ export const presetsRepository = {
         await db.query<ResultSetHeader>("INSERT INTO eq_presets (user_id, title, preset) VALUES (?, ?, ?)", [userId, title, preset]);
     },
 
-    async update(id: number, userId: number, title?: string, preset?: string) {
+    async update(id: number, userId: number, title: string, preset: string) {
         return db.query<ResultSetHeader>("UPDATE eq_presets SET title = ?, preset = ? WHERE id = ? AND user_id = ?", [title, preset, id, userId]);
     },
 

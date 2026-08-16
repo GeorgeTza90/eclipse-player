@@ -17,7 +17,7 @@ const UserSettings = () => {
 
     /* --- AUTO-CLEAR  --- */
     useAutoClear(localError, setLocalError, 4000);
-    useAutoClear("...", setMessage, 6000, "...");
+    useAutoClear(message, setMessage, 6000, "...");
 
     /* --- UPDATE USERNAME  --- */
     useEffect(() => {if (user?.username) setUsername(user?.username || "")}, [user]);

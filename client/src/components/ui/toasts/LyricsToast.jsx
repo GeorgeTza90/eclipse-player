@@ -17,10 +17,10 @@ export const useLyricsToast = (lyrics) => {
         <div style={overlayStyle} onClick={() => setVisible(false)}>
             <div style={lyricsWrapperStyle}>
                 {lyrics ? (
-                        <p style={lyricsStyle}>{lyrics}</p>
+                    <p style={lyricsStyle}>{lyrics}</p>
                 ) : (
-                    !lyrics ? (<p lyrics={lyricsStyle}>No Lyrics Loaded</p>) : (<p className={styles.lyrics}>No Lyrics Yet</p>)                    
-                )}                
+                    <p style={lyricsStyle}>No Lyrics Loaded</p>
+                )}
             </div><br/><br/><br/><br/>
         </div>
     );

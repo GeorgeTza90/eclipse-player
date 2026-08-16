@@ -7,7 +7,7 @@ import { useFetchManager } from "../../../hooks/useCallManager";
 import { useMinimumLoading } from "../../../hooks/useMinimumLoading";
 import { useIsMobile } from "../../../hooks/useIsMobile";
 import { useWidth } from "../../../hooks/useScreen";
-import { byYear } from "../../../utils/songsCetegorizer";
+import { byYear } from "../../../utils/songsCategorizer";
 import LibraryGroupItem from "../collections/LibraryGroupItem";
 import VinylGroupItem from "../collections/VinylGroupItem";
 import MiniPlayer from "../../player/mini/MiniPlayer";

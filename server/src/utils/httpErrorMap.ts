@@ -1,13 +1,9 @@
-type ErrorMap = Record<
-    string,
-    { status: number; message: string }
->;
-
-export const errorMap: ErrorMap = {
+export const errorMap = {
     //--- GENERAL CREDENTIALS ---//
     VALIDATION_ERROR: { status: 400, message: "Invalid input" },
     INVALID_CREDENTIALS: { status: 401, message: "Invalid credentials" },
     INVALID_REQUEST: { status: 400, message: "Invalid request" },
+    NOT_FOUND: { status: 404, message: "Route not found" },
     //--- TOKEN ---//
     INVALID_RESET_TOKEN: { status: 400, message: "Invalid or expired token" },
     INVALID_GOOGLE_TOKEN: { status: 401, message: "Invalid Google token" },
@@ -37,4 +33,6 @@ export const errorMap: ErrorMap = {
     SONG_ALREADY_IN_PLAYLIST: { status: 400, message: "Song already in playlist"},
     //--- PRESETS ---//
     PRESET_NOT_FOUND: { status: 404, message: "Preset not found"},
-};
+} as const;
+
+export type ErrorCode = keyof typeof errorMap;

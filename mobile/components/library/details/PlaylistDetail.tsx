@@ -6,7 +6,7 @@ import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flat
 import { useFetchManager, usePutManager } from "@/hooks/useCallManager";
 import { useAudio } from "@/contexts/AudioContext";
 import { useToast } from "@/contexts/ToastContext";
-import { useAlbumDuration } from "@/hooks/useFormatTime";
+import { useAlbumDuration } from "@/utils/formatTime";
 import { Song, PlaylistSong } from "@/types/songs";
 import SongRow from "../items/PlaylistSongItem";
 import EditPlaylistModal from "../../ui/modals/EditPlaylistModal";

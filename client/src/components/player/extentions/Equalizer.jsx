@@ -9,6 +9,7 @@ import { EQ_BANDS } from "../../../utils/defaultEQ";
 import AddPresetModal from "../../ui/modals/AddPresetModal";
 import UpdatePresetModal from "../../ui/modals/UpdatePresetModal";
 import styles from "./equalizer.module.css";
+import { logger } from "../../../utils/logger";
 
 const Equalizer = ({ color }) => {
     const isMobile = useIsMobile();
@@ -35,11 +36,11 @@ const Equalizer = ({ color }) => {
 
     /* --- LOAD USER PRESETS --- */
     const loadPresets = async () => {user && await fetchCall("userPresets");}
-    
+
     useEffect(() => {
         const fetchPresets = async () => await loadPresets();
         fetchPresets();
-    }, []);
+    }, [user]);
     
     useEffect(() => {
         if (fetchState.userPresets) {
@@ -59,7 +60,7 @@ const Equalizer = ({ color }) => {
             await deleteCall("deleteUserPreset", id);
             setPresets(prev => prev.filter(p => p.id !== id));
         } catch (err) {
-            console.error("Failed to delete preset:", err);
+            logger.error("Failed to delete preset:", err);
         }
     };
 

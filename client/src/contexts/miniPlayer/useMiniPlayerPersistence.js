@@ -1,18 +1,25 @@
 import { useEffect } from "react";
-import { setBool } from "../../utils/localStorageManager";
+import { setBool, getBool } from "../../utils/localStorageManager";
 
-export const useMiniPlayerPersistence = ({
-    showImage, showMiniPlayer, showTimeBar, showVolumeBar, showGlow,
-    transparency, barMode, playerPage, coloredGlow, goRGB,
-}) => {
-    useEffect(() => setBool("miniPlayer_showImage", showImage), [showImage]);
-    useEffect(() => setBool("miniPlayer_showMiniPlayer", showMiniPlayer), [showMiniPlayer]);
-    useEffect(() => setBool("miniPlayer_showTimeBar", showTimeBar), [showTimeBar]);
-    useEffect(() => setBool("miniPlayer_showVolumeBar", showVolumeBar), [showVolumeBar]);
-    useEffect(() => setBool("miniPlayer_showGlow", showGlow), [showGlow]);
-    useEffect(() => setBool("miniPlayer_transparency", transparency), [transparency]);
-    useEffect(() => setBool("miniPlayer_barMode", barMode), [barMode]);
-    useEffect(() => setBool("miniPlayer_playerPage", playerPage), [playerPage]);
-    useEffect(() => setBool("player_coloredGlow", coloredGlow), [coloredGlow]);
-    useEffect(() => setBool("player_goRGB", goRGB), [goRGB]);
+const PERSISTED_KEYS = {
+    showImage: "miniPlayer_showImage",
+    showMiniPlayer: "miniPlayer_showMiniPlayer",
+    showTimeBar: "miniPlayer_showTimeBar",
+    showVolumeBar: "miniPlayer_showVolumeBar",
+    showGlow: "miniPlayer_showGlow",
+    transparency: "miniPlayer_transparency",
+    barMode: "miniPlayer_barMode",
+    playerPage: "miniPlayer_playerPage",
+    coloredGlow: "player_coloredGlow",
+    goRGB: "player_goRGB",
+};
+
+export const useMiniPlayerPersistence = (values) => {
+    useEffect(() => {
+        for (const [key, storageKey] of Object.entries(PERSISTED_KEYS)) {
+            const newValue = values[key];
+            const currentValue = getBool(storageKey, newValue);
+            if (currentValue !== newValue) setBool(storageKey, values[key]);
+        }
+    }, Object.values(values));
 };

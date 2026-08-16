@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAudio } from "../../../contexts/AudioContextWeb";
+import { useAuth } from "../../../contexts/AuthContextWeb";
 import PlaylistsongItem from "./PlaylistSongItem";
 import styles from "./playlist.module.css"
-import { useNavigate } from "react-router-dom";
 
 const Playlist = ({ name = "Playlist" }) => {
-    const { playlist, currentSong, playSong } = useAudio("No Gods In Heaven");
+    const { playlist, currentSong, playSong } = useAudio();
+    const { user } = useAuth();
     const [currentName, setCurrentName] = useState(name);
     const navigate = useNavigate();
 
@@ -21,7 +23,7 @@ const Playlist = ({ name = "Playlist" }) => {
                     </span>
                 ))}
             </div>
-            {!currentSong &&
+            {!user &&
                 <div className={styles.notLoggedIn}>
                     <button className={styles.SignInButton} onClick={() => navigate("/")}>Sign In</button><br/>
                         to create your playlist

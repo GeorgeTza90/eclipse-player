@@ -4,10 +4,11 @@ import { useAudio } from "../../../contexts/AudioContextWeb";
 import { useMiniPlayer } from "../../../contexts/MiniPlayerContextWeb";
 import { useAuth } from "../../../contexts/AuthContextWeb";
 import { useIsMobile } from "../../../hooks/useIsMobile";
-import { useAlbumDuration } from "../../../hooks/useFormatTime";
+import { useAlbumDuration } from "../../../utils/formatTime";
 import { useFetchManager, usePutManager } from "../../../hooks/useCallManager";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import PlaylistSongItem from "./items/PlaylistSongItem";
+import EmptyPlaylistItem from "./items/EmptyPlaylistItem";
 import MiniPlayer from "../../player/mini/MiniPlayer";
 import EditPlaylistModal from "../../ui/modals/EditPlaylistModal";
 import BackButton from "../../ui/buttons/BackButton";
@@ -25,6 +26,7 @@ const PlaylistDetail = () => {
     const { user } = useAuth();
 
     const playlist = location.state;
+    const id = playlist?.id;
 
     const [modalVisible, setModalVisible] = useState(false);
     const [title, setTitle] = useState(playlist?.title || "");
@@ -34,10 +36,6 @@ const PlaylistDetail = () => {
     const albumDuration = useAlbumDuration(localSongs);
     const songsLoading = fetchLoading.playlistSongs;
     const dragLoading = putLoading.moveSongInPlaylist;
-
-    /* --- GUARD --- */
-    const id = playlist?.id;
-    if (!playlist) { navigate("/"); return null; }   
 
     /* --- LOAD PLAYLIST SONGS --- */
     useEffect(() => {
@@ -49,6 +47,14 @@ const PlaylistDetail = () => {
     useEffect(() => {
         if (fetchState.playlistSongs) setLocalSongs(fetchState.playlistSongs);
     }, [fetchState.playlistSongs]);
+
+    if (!playlist) {
+        return (
+            <div className={styles.container}>
+                <EmptyPlaylistItem message="No playlist selected." navigateTo="/" buttonMessage="Back" />
+            </div>
+        );
+    }
 
     /* --- SONG PLAY --- */
     const handlePlay = async (song) => {
@@ -102,9 +108,7 @@ const PlaylistDetail = () => {
                     <Loader text={"Loading songs"} size={"small"} />
                 </div>
             ) : localSongs.length === 0 ? (
-                <div className={styles.centered}>
-                    <p className={styles.noSongs}>No songs in this playlist yet.</p>
-                </div>
+                <EmptyPlaylistItem message="No songs in this playlist yet." />
             ) : (
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="playlist" isDropDisabled={dragLoading}>

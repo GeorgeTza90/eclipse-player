@@ -5,7 +5,7 @@ const LibraryExtentionButton = ({}) => {
     const { vinyl, setVinyl } = useLibrary();
     
     const handleExtention = (key) => setVinyl(key);
-    const extentionHoverStyle = { left: `${vinyl === false ? 0 : vinyl === true ? 50 : 66}%` };    
+    const extentionHoverStyle = { left: `${vinyl ? 50 : 0}%` };
 
     return(
         <div className={styles.extentionButton} style={{ position: "relative" }}>

@@ -1,13 +1,13 @@
 import styles from "./searchInput.module.css"
 
-const SearchInput = ({ placeholder, searchKey, onChange }) => {
+const SearchInput = ({ placeholder, value, onChange }) => {
     return (
         <div className={styles.container}>
             <input
                 type="text"
                 className={styles.input}
                 placeholder={placeholder}
-                value={searchKey}
+                value={value}
                 onChange={onChange}
             />
         </div>

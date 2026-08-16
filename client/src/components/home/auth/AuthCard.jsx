@@ -133,14 +133,14 @@ const AuthCard = () => {
                     <GoogleButton
                         onClick={onGoogleLogin}
                         isLogin={isLogin}
-                        loading={loading.registerUser || loading.loginUser}
+                        loading={loading.registerUser || loading.loginUser || loading.googleLogin}
                         disabled={loading.googleLogin}
                     />
 
                     <AuthButton
-                        loading={loading.registerUser || loading.loginUser}
+                        onClick={onSubmit}
                         isLogin={isLogin}
-                        onClick={onSubmit}                    
+                        loading={loading.registerUser || loading.loginUser || loading.googleLogin}
                     />
                 </div>                
 

@@ -1,3 +1,5 @@
+import { logger } from "./logger";
+
 /* ---------------- GET ---------------- */
 export function getBool(key, fallback = false) {
     try {
@@ -23,18 +25,24 @@ export function getJSON(key, fallback = null) {
 export function setJSON(key, value) {
     try {
         localStorage.setItem(key, JSON.stringify(value));    
-    } catch {}    
+    } catch (err) {
+        logger.warn("localStorage write failed", { key, error: err.message });
+    }
 }
 
 export function setBool(key, value) {
     try {
         localStorage.setItem(key, value ? "true" : "false");
-    } catch {}    
+    } catch (err) {
+        logger.warn("localStorage write failed", { key, error: err.message });
+    }
 }
 
 /* ---------------- REMOVE ---------------- */
 export function removeJSON(key) {
     try {
         localStorage.removeItem(key);    
-    } catch {}    
+    } catch (err) {
+        logger.warn("localStorage write failed", { key, error: err.message });
+    }
 }

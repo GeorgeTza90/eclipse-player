@@ -2,21 +2,21 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMiniPlayer } from '../../contexts/MiniPlayerContextWeb';
 import { useAudio } from '../../contexts/AudioContextWeb';
-import { useImageToast } from '../../components/ui/toasts/ΙmageToast';
+import { useAuth } from '../../contexts/AuthContextWeb';
+import { useShadowColor } from '../../hooks/useShadowColor';
+import { useImageToast } from '../../components/ui/toasts/ImageToast';
 import MiniPlayerBar from '../../components/player/mini/MiniPlayerBar';
 import hexToRgba from '../../utils/hexToRgba';
-import styles from "./footer.module.css"
-import { useAuth } from '../../contexts/AuthContextWeb';
+import styles from "./footer.module.css";
 
 const Footer = () => {
     const { currentSong, volume } = useAudio();
     const { user } = useAuth();
     const { coloredGlow, showGlow, goRGB } = useMiniPlayer();
     const { barMode, playerPage, showMiniPlayer } = useMiniPlayer();    
-    const { ImageToastUI, showImageToast } = useImageToast();
-    const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
+    const { ImageToastUI, showImageToast } = useImageToast();    
 
-    useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe00"); else setShadowColor(currentSong?.averageColor ?? "#bebebe"); }, [coloredGlow, currentSong]);    
+    const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe00")
 
     const MBstyle = {
         background: goRGB

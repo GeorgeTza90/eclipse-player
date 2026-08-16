@@ -100,13 +100,6 @@
     box-shadow: 0.2px 0.2px 10px hsl(0, 0%, 0%);
 }
 
-.inActiveButton {  
-    background-color: #33333339;  
-    color: #ffffff53;
-    cursor:none;
-    border: none;
-}
-
 .linesDiv {
     position: absolute;
     width: 100%;

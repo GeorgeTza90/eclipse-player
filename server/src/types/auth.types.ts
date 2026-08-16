@@ -10,15 +10,6 @@ export interface User extends RowDataPacket {
     google_id: string;
 }
 
-export interface User extends RowDataPacket {
-    id: number;
-    username: string;
-    email: string;
-    premium: boolean;
-    private: boolean;
-    google_id: string;
-}
-
 export interface JwtUser {
     id: number;
 }

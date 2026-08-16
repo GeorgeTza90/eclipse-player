@@ -10,7 +10,7 @@ export function useStylesError(height, visible) {
 
     const styleDiv = {
         height: height,
-        flexDirection: "flex",
+        display: "flex",
         justifyContent: "center",
         alignItems: "center",
     }
@@ -20,7 +20,5 @@ export function useStylesError(height, visible) {
         marginTop: 5
     }
     
-    return {
-       errorText, styleDiv, styleP, 
-    };
+    return { errorText, styleDiv, styleP };
 };

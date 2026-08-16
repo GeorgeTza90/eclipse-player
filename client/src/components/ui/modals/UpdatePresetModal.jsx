@@ -38,19 +38,19 @@ const UpdatePresetModal = ({ visible, onClose, onCreated, presetNew, newEQ }) =>
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className={styles.input}
-                    disabled={loading["updatePreset"]}
+                    disabled={loading.updatePreset}
                 />
                 <button
                     className={styles.modalButton}
                     onClick={handleUpdate}
-                    disabled={loading["updatePreset"]}
+                    disabled={loading.updatePreset}
                 >
-                    {loading["updatePreset"] ? "Updating..." : "Update"}
+                    {loading.updatePreset ? "Updating..." : "Update"}
                 </button>
                 <button
                     className={`${styles.modalButton} ${styles.modalCancel}`}
                     onClick={onClose}
-                    disabled={loading["updatePreset"]}
+                    disabled={loading.updatePreset}
                 >
                     Cancel
                 </button>

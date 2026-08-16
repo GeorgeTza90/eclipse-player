@@ -25,24 +25,29 @@ const LibraryGroupItem = ({ type, group }) => {
     return (
         <div className={styles.container} style={containerStyle}>
             <h2 className={styles.categoryTitle}>{type}</h2>
-            <div className={styles.horizontalScroll} style={horizontalScrollStyle}>
-                {group.map((item) => (                    
-                    <CollectionCard
-                        key={isArtist ? item.name : item.id}
-                        item={item}
-                        type={isPrivate ? "private" : (isArtist ? "artist" : "song")}
-                        onClick={() =>
-                            navigate(
-                                isPrivate 
-                                    ? `/library/PrivateCollectionDetail/${encodeURIComponent(item.album)}`
-                                    : isArtist
-                                        ? `/library/ArtistInfo/${encodeURIComponent(item.name)}`
-                                        : `/library/CollectionDetail/${encodeURIComponent(item.album)}`
-                            )
-                        }
-                    />
-                ))}
-            </div>
+            {group.length === 0 ? (
+                <p className={styles.emptyText}>No items yet</p>
+            ) : (
+                <div className={styles.horizontalScroll} style={horizontalScrollStyle}>
+                    {group.map((item) => (                    
+                        <CollectionCard
+                            key={isArtist ? item.name : item.id}
+                            item={item}
+                            type={isPrivate ? "private" : (isArtist ? "artist" : "song")}
+                            onClick={() =>
+                                navigate(
+                                    isPrivate 
+                                        ? `/library/PrivateCollectionDetail/${encodeURIComponent(item.album)}`
+                                        : isArtist
+                                            ? `/library/ArtistInfo/${encodeURIComponent(item.name)}`
+                                            : `/library/CollectionDetail/${encodeURIComponent(item.album)}`
+                                )
+                            }
+                        />
+                    ))}
+                </div>
+            )}
+            
         </div>
     );
 }

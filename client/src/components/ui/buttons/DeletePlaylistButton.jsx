@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { useDeleteManager } from "../../../hooks/useCallManager";
 import { useToast } from "../../../contexts/ToastContextWeb";
+import { logger } from "../../../utils/logger";
 import ConfirmModal from "../modals/ConfirmModal";
 import styles from "./deletePlaylistButton.module.css";
 
 const DeletePlaylistButton = ({ playlistId, onDeleted }) => {  
     const { showToast } = useToast();
-    const [loading, setLoading] = useState(false);
     const [confirmVisible, setConfirmVisible] = useState(false);
 
-    const { call: deleteCall } = useDeleteManager();
+    const { loading: deleteLoading, call: deleteCall } = useDeleteManager();
+    const loading = deleteLoading?.deletePlaylist;
 
     const handleDeleteClick = (e) => {
         e.stopPropagation();
@@ -27,10 +28,8 @@ const DeletePlaylistButton = ({ playlistId, onDeleted }) => {
             showToast("Playlist deleted successfully", "success");
             onDeleted?.();
         } catch (err) {
-            console.error(err);
+            logger.error("Failed to delete playlist", { error: err.message });
             showToast(err.message || "Failed to delete playlist", "error");
-        } finally {
-            setLoading(false);
         }
     };
 

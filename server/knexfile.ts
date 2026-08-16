@@ -1,39 +1,32 @@
 import 'dotenv/config';
 import { Knex } from 'knex';
+import { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_PORT } from './src/config/env.js';
 
 const config: { [key: string]: Knex.Config } = {
   development: {
     client: 'mysql2',
     connection: {
-      host: process.env.MYSQL_HOST,
-      user: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASSWORD,
-      database: process.env.MYSQL_DATABASE,
-      port: process.env.MYSQL_PORT ? Number(process.env.MYSQL_PORT) : 3306,
+      host: MYSQL_HOST,
+      user: MYSQL_USER,
+      password: MYSQL_PASSWORD,
+      database: MYSQL_DATABASE,
+      port: MYSQL_PORT,
     },
-    migrations: {
-      directory: './db/migrations',
-    },
-    seeds: {
-      directory: './db/seeds',
-    },
+    migrations: { directory: './db/migrations' },
+    seeds: { directory: './db/seeds' },
   },
 
   production: {
     client: 'mysql2',
     connection: {
-      host: process.env.MYSQL_HOST,
-      user: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASSWORD,
-      database: process.env.MYSQL_DATABASE,
-      port: process.env.MYSQL_PORT ? Number(process.env.MYSQL_PORT) : 3306,
+      host: MYSQL_HOST,
+      user: MYSQL_USER,
+      password: MYSQL_PASSWORD,
+      database: MYSQL_DATABASE,
+      port: MYSQL_PORT,
     },
-    migrations: {
-      directory: './db/migrations',
-    },
-    seeds: {
-      directory: './db/seeds',
-    },
+    migrations: { directory: './db/migrations' },
+    seeds: { directory: './db/seeds' },
   },
 };
 

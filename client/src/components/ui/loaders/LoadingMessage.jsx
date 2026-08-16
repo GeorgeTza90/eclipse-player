@@ -3,7 +3,7 @@ import { useStylesLoader } from "../../../hooks/useStylesLoader";
 
 const LoadingMessage = ({ message = "Loading Collection ...", height = "50vh" }) => {
     const [visible, setVisible] = useState(true);
-    const { styleDiv, styleP } = useStylesLoader(height, visible);
+    const { styleDiv, styleP } = useStylesLoader(false, "small", height, visible);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -14,7 +14,6 @@ const LoadingMessage = ({ message = "Loading Collection ...", height = "50vh" })
 
     return (
         <div style={styleDiv}>
-            <div className="spinner" />
             <p style={styleP}>{message}</p>
         </div>
     );

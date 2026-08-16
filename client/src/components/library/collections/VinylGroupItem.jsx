@@ -41,30 +41,34 @@ const VinylGroupItem = ({ type, group }) => {
     return (
         <div className={styles.container} style={containerStyle}>
             <h2 className={styles.categoryTitle}>{type}</h2>
-            <div className={styles.horizontalScroll}>
-                {pages.map((page, pageIndex) => (
-                    <div className={styles.page} key={pageIndex}>
-                        {Array.from({ length: rows }).map((_, rowIndex) => {
-                            const start = rowIndex * itemsPerRow;
-                            const rowItems = page.slice(start, start + itemsPerRow);
+            {group.length === 0 ? (
+                <p className={styles.emptyText}>No items yet</p>
+            ) : (
+                <div className={styles.horizontalScroll}>
+                    {pages.map((page, pageIndex) => (
+                        <div className={styles.page} key={pageIndex}>
+                            {Array.from({ length: rows }).map((_, rowIndex) => {
+                                const start = rowIndex * itemsPerRow;
+                                const rowItems = page.slice(start, start + itemsPerRow);
 
-                            return (
-                                <div className={styles.row} key={rowIndex}>
-                                    {rowItems.map((item) => (
-                                        <VinylCardSlot
-                                            key={isArtist ? item.name : item.id}
-                                            item={item}
-                                            type={getType()}
-                                            onNavigate={() => handleNavigate(item)}
-                                            className={styles.cardWrapper}
-                                        />
-                                    ))}
-                                </div>
-                            );
-                        })}
-                    </div>
-                ))}
-            </div>
+                                return (
+                                    <div className={styles.row} key={rowIndex}>
+                                        {rowItems.map((item) => (
+                                            <VinylCardSlot
+                                                key={isArtist ? item.name : item.id}
+                                                item={item}
+                                                type={getType()}
+                                                onNavigate={() => handleNavigate(item)}
+                                                className={styles.cardWrapper}
+                                            />
+                                        ))}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ))}
+                </div>
+            )}            
         </div>
     );
 };

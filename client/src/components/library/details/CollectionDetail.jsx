@@ -4,9 +4,9 @@ import { useAuth } from "../../../contexts/AuthContextWeb";
 import { useAudio } from "../../../contexts/AudioContextWeb";
 import { useLibrary } from "../../../contexts/LibraryContextWeb";
 import { useMiniPlayer } from "../../../contexts/MiniPlayerContextWeb";
-import { useAlbumDuration } from "../../../hooks/useFormatTime";
+import { useAlbumDuration } from "../../../utils/formatTime";
 import { useIsMobile } from "../../../hooks/useIsMobile";
-import { useImageToast } from "../../ui/toasts/ΙmageToast";
+import { useImageToast } from "../../ui/toasts/ImageToast";
 import { groupArtistsByRole } from "../../../utils/groupArtistsByRole";
 import TrackItem from "./items/TrackItem";
 import MiniPlayer from "../../player/mini/MiniPlayer";
@@ -37,8 +37,7 @@ const CollectionDetail = () => {
 
     /* --- PRESS SONG --- */
     const handlePressSong = async (song) => {
-        await playSong(song, albumSongs, album);
-        console.log(song, albumSongs, album);
+        await playSong(song, albumSongs, album);        
         navigate("/player");
     };    
 

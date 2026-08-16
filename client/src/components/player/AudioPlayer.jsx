@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAudio } from "../../contexts/AudioContextWeb";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
-import { formatTime } from "../../hooks/useFormatTime";
+import { useShadowColor } from "../../hooks/useShadowColor";
+import { formatTime } from "../../utils/formatTime";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { groupArtistsByRole } from "../../utils/groupArtistsByRole";
-import { useImageToast } from "../ui/toasts/ΙmageToast";
+import { useImageToast } from "../ui/toasts/ImageToast";
 import PlayButton from "../ui/buttons/PlayButton";
 import ArtistButton from "../ui/buttons/ArtistButton";
 import Circle from "../ui/circles/Circle";
@@ -19,8 +20,8 @@ const AudioPlayer = ({ onToggleExtention }) => {
     const [extention, setExtention] = useState("Playlist");
     const [intensity, setIntensity] = useState(30);  
     const [sliderPosition, setSliderPosition] = useState(null);
-    const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
     
+    const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
 
     const progress = duration ? (position / duration) * 100 : 0;
@@ -31,8 +32,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
 
     /* --- UI UPDATE --- */
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
-    useEffect(() => setIntensity(volume * 30), [volume]);  
-    useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);   
+    useEffect(() => setIntensity(volume * 30), [volume]);      
 
     /* --- STYLES --- */
     const sliderStyle = {

@@ -147,7 +147,6 @@
     font-weight: bolder;
     border-radius: 1rem;
     padding: 0.4rem 0rem;    
-    box-shadow: #252525 1fr 1fr;
     background-color: #33333375;
     color: #ffffff9d;
     border-color: #16161671;
@@ -169,8 +168,7 @@
     width: 5rem;
     background-color: #49444400;
     cursor: pointer;
-    border-radius: 1rem;
-    box-shadow: #000000 1fr 1fr;
+    border-radius: 1rem;    
     color: #fff;
     border-color: #33333300;
     z-index: 2;

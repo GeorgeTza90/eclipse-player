@@ -7,8 +7,7 @@ const ArtistButton = ({ artist, size = "1rem", marginTop = "0.28rem" }) => {
     const buttonStyle = { fontSize: size, marginTop: marginTop }
     
     return ( 
-        <button
-            key={artist.name}
+        <button            
             style={buttonStyle}
             className={styles.artirtButton}
             onClick={() => artist && navigate(`/library/ArtistInfo/${encodeURIComponent(artist)}`)}

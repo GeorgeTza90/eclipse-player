@@ -40,15 +40,8 @@ export async function logoutUser() {
         method: "POST",
         credentials: "include",
     });
-    if (!res.ok) {
-        const errText = await res.text().catch(() => "Logout failed");
-        throw new Error(errText || "Logout failed");
-    }
-    try {
-        return await res.json();
-    } catch {
-        return null;
-    }
+    await errorChecker(res, "Logout failed");
+    return res.json();
 }
 
 export async function forgotPassword(email) {

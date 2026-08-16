@@ -56,7 +56,7 @@ export function useStylesLoader(goRGB = true, size, height, visible) {
 
     const styleDiv = {
         height: height,
-        flexDirection: "flex",
+        display: "flex",
         justifyContent: "center",
         alignItems: "center",
     }

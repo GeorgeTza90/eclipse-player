@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { useMiniPlayer } from "../../../contexts/MiniPlayerContextWeb";
 import { useAudio } from "../../../contexts/AudioContextWeb";
 import { useAuth } from "../../../contexts/AuthContextWeb";
-import { formatTime } from "../../../hooks/useFormatTime";
+import { useShadowColor } from "../../../hooks/useShadowColor";
+import { formatTime } from "../../../utils/formatTime";
 import PlayButton from "../../ui/buttons/PlayButton";
 import VolButton from "../../ui/buttons/VolButton";
 import ArtistButton from "../../ui/buttons/ArtistButton";
@@ -16,15 +17,14 @@ const MiniPlayerBar = ({handleImageToast}) => {
    
     const [intensity, setIntensity] = useState(30);
     const [sliderPosition, setSliderPosition] = useState(null);
-    const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
-    
+
+    const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const progress = duration ? (sliderPosition / duration) * 100 : 0;
    
     /* --- UI UPDATE  --- */
     useEffect(() => { setIntensity(volume * 30); }, [volume]);
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
-    useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);    
-
+    
     if (!currentSong) return null;
 
     /* --- STYLES  --- */

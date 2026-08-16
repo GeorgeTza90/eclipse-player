@@ -20,7 +20,6 @@ export const useLibraryFetch = ({
 
     useEffect(() => {
         const loadLibrary = async () => {
-
             try {
                 const [songsData, artistsData] = await Promise.all([
                     fetchCall("songs"),
@@ -38,7 +37,7 @@ export const useLibraryFetch = ({
             } catch (err) {
                 const songsData = getJSON("library/songs", []);
                 const artistsData = getJSON("library/artists", []);
-                const privateSongsData = getJSON("library/private_songs", []);
+                const privateSongsData = priv_u ? getJSON("library/private_songs", []) : [];
 
                 setLibraryData(songsData, artistsData, privateSongsData);
             } finally {

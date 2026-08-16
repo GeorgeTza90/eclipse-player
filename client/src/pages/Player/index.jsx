@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAudio } from "../../contexts/AudioContextWeb";
-import { useIsMobile } from "../../hooks/useIsMobile";
 import { useMiniPlayer } from "../../contexts/MiniPlayerContextWeb";
+import { useShadowColor } from "../../hooks/useShadowColor";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import AudioPlayer from "../../components/player/AudioPlayer";
 import Equalizer from "../../components/player/extentions/Equalizer";
 import Lyrics from "../../components/player/extentions/Lyrics";
@@ -10,15 +11,13 @@ import Circle from "../../components/ui/circles/Circle";
 
 const Player = () => {
     const isMobile = useIsMobile();
-    const { playlistName, currentSong, volume } = useAudio("No Gods In Heaven");
+    const { playlistName, currentSong, volume } = useAudio();
     const { setPlayerPage, coloredGlow } = useMiniPlayer();    
     const [extention, setExtention] = useState("Playlist");
-    const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");
-
+    const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const handleExtention = (key) => setExtention(key);
 
-    useEffect(() => setPlayerPage(true), []);    
-    useEffect(() => {  if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow]);
+    useEffect(() => setPlayerPage(true), []);   
 
     return (<>
         <div id="heading" style={{ display: "flex", justifyContent: "center" }}>

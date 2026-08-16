@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Animated } from "
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useAudio } from "@/contexts/AudioContext";
-import { formatTimeSeconds } from "@/hooks/useFormatTime";
+import { formatTimeSeconds } from "@/utils/formatTime";
 import { AudioPlayerProps } from "@/types/audio";
 import { useImageToast } from "../ui/toasts/ImageToast";
 import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
@@ -48,7 +48,7 @@ export default function AudioPlayer({ onToggleExtention }: AudioPlayerProps) {
         }).start();
     };
 
-    const handlePressArtist = (artist: string) => router.push(`/library/ArtistInfo?artist=${encodeURIComponent(artist)}`);    
+    const handlePressArtist = (artist: string) => router.push(`/library/ArtistDetail?artist=${encodeURIComponent(artist)}`);    
     
     return (
         <View style={styles.container}>

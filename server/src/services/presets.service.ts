@@ -7,11 +7,11 @@ export const presetsService = {
         return await presetsRepository.findByUserId(userId);
     },
 
-    async createPresets(userId: number, title: string, preset?: string) {
-        await presetsRepository.create(userId, title, preset ?? "[]");
+    async createPresets(userId: number, title: string, preset: string) {
+        await presetsRepository.create(userId, title, preset);
     },
 
-    async updatePresets(id: number, userId: number, title?: string, preset?: string) {
+    async updatePresets(id: number, userId: number, title: string, preset: string) {
         const [result] = await presetsRepository.update(id, userId, title, preset);
         ensurePresetExists(result);
         return result;

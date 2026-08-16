@@ -106,16 +106,6 @@ export const playlistsRepository = {
         return lastOrder;
     },
 
-    async findAllSongArtists(): Promise<SongArtists[]> {
-        const [rows] = await db.query<SongArtists[]>("SELECT * FROM song_artists");
-        return rows;
-    },
-
-    async findAllArtists(): Promise<Artist[]> {
-        const [rows] = await db.query<Artist[]>("SELECT * FROM artists");
-        return rows;
-    },
-
     async findSongArtistsForSongs(songIds: number[]): Promise<SongArtists[]> {
         if (songIds.length === 0) return [];
         const [rows] = await db.query<SongArtists[]>("SELECT * FROM song_artists WHERE song_id IN (?)", [songIds]);

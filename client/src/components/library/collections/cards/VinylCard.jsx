@@ -5,7 +5,7 @@ import { useIsMobile } from "../../../../hooks/useIsMobile";
 import PlayButton from "../../../ui/buttons/PlayButton";
 import styles from "./vinylCard.module.css"
 
-const CollectionCard = ({ item, onClick, type }) => {
+const VinylCard = ({ item, onClick, type }) => {
     const { playSong, currentSong, isPlaying, togglePlay, stop } = useAudio();    
     const [ hover, setHover ] = useState(false);
     const { songs, privateSongs } = useLibrary();
@@ -38,4 +38,4 @@ const CollectionCard = ({ item, onClick, type }) => {
     </>);
 }
 
-export default CollectionCard;
+export default VinylCard;

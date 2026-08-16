@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { logger } from "../../utils/logger";
 
 export const useAuthSession = ({ postCall, setUser }) => {
     const login = useCallback((userData) =>  setUser(userData), [setUser]);
@@ -6,8 +7,8 @@ export const useAuthSession = ({ postCall, setUser }) => {
     const logout = useCallback(async () => {
         try {
             await postCall("logoutUser");
-        } catch (err) {
-            console.error(err);
+        } catch (err) {            
+            logger.error("Logout request failed", { error: err.message });
         } finally {
             setUser(null);
         }

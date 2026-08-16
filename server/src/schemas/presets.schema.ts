@@ -13,6 +13,6 @@ export const updatePresetSchema = z.object({
     preset: presetSchema,
 });
 
-export const deletePresetSchema = z.object({
+export const presetIdSchema = z.object({
     id: z.coerce.number(),
 });

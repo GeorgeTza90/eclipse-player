@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { byYear } from "../../utils/songsCetegorizer";
+import { byYear } from "../../utils/songsCategorizer";
 
 export const useLibraryCategories = ({ songs, privateSongs }) => {
     const privateAlbums = useMemo(() => byYear(privateSongs, "album"),[privateSongs]);

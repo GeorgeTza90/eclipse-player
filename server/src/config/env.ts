@@ -4,6 +4,12 @@ function requireEnv(name: string): string {
     return value;
 }
 
+function requireEnvNumber(name: string): number {
+    const value = Number(requireEnv(name));
+    if (Number.isNaN(value)) throw new Error(`Invalid number for ${name} env variable`);
+    return value;
+}
+
 export const JWT_SECRET = requireEnv("JWT_SECRET");
 export const FRONTEND_URL = requireEnv("FRONTEND_URL");
 export const DUMMY_HASH = requireEnv("DUMMY_HASH");
@@ -15,4 +21,4 @@ export const MYSQL_HOST = requireEnv("MYSQL_HOST");
 export const MYSQL_USER = requireEnv("MYSQL_USER");
 export const MYSQL_PASSWORD = requireEnv("MYSQL_PASSWORD");
 export const MYSQL_DATABASE = requireEnv("MYSQL_DATABASE");
-export const MYSQL_PORT = requireEnv("MYSQL_PORT");
+export const MYSQL_PORT = requireEnvNumber("MYSQL_PORT");

@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { useAudio } from "../../../contexts/AudioContextWeb";
 import { useAuth } from "../../../contexts/AuthContextWeb";
 import { useMiniPlayer } from "../../../contexts/MiniPlayerContextWeb";
-import { formatTime } from "../../../hooks/useFormatTime";
-import { useImageToast } from "../../ui/toasts/ΙmageToast";
+import { useShadowColor } from "../../../hooks/useShadowColor";
+import { formatTime } from "../../../utils/formatTime";
+import { useImageToast } from "../../ui/toasts/ImageToast";
 import PlayButton from "../../ui/buttons/PlayButton";
 import VolButton from "../../ui/buttons/VolButton";
 import ArtistButton from "../../ui/buttons/ArtistButton";
@@ -19,9 +20,9 @@ const MiniPlayer = () => {
         
     const [intensity, setIntensity] = useState(30);
     const [circleParams, setCircleParams] = useState({size: 290, left: -100, top: -40})
-    const [sliderPosition, setSliderPosition] = useState(null);
-    const [shadowColor, setShadowColor] = useState(currentSong?.averageColor ?? "#bebebe");        
+    const [sliderPosition, setSliderPosition] = useState(null);    
     
+    const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const progress = duration ? (sliderPosition / duration) * 100 : 0;
 
     /* --- UI UPDATE  --- */
@@ -33,8 +34,7 @@ const MiniPlayer = () => {
     }, [showVolumeBar, showTimeBar, showImage]);    
     
     useEffect(() => { setIntensity(volume * 30); }, [volume]);
-    useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
-    useEffect(() => { if (!coloredGlow) setShadowColor("#bebebe"); else setShadowColor(currentSong?.averageColor); }, [coloredGlow, currentSong]);
+    useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);        
 
     if (!currentSong) return null;
 
@@ -131,8 +131,8 @@ const MiniPlayer = () => {
                     }
 
     {/* Link Button */}                    
-                        {user && <Link to="/player" className={!showVolumeBar || !showTimeBar ? styles.smallPlayerButton : styles.playerButton} />}
-                        <Link to="/user-settings" className={!showVolumeBar || !showTimeBar ? styles.smallSettingsButton : styles.settingsButton} />                   
+                        <Link to="/player" className={!showVolumeBar || !showTimeBar ? styles.smallPlayerButton : styles.playerButton} />
+                        {user && <Link to="/user-settings" className={!showVolumeBar || !showTimeBar ? styles.smallSettingsButton : styles.settingsButton} />}
                 </div>
             </div>
         }

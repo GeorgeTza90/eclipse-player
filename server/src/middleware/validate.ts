@@ -1,39 +1,26 @@
 import { z } from "zod";
-import type { Request, RequestHandler, Response, NextFunction } from "express";
+import type { Request, RequestHandler, NextFunction } from "express";
+import { AppError } from "../errors/AppError.js";
 
-export const validateBody = <T extends z.ZodType>(schema: T) =>
-    (req: Request, res: Response, next: NextFunction) => {
-        const result = schema.safeParse(req.body);
+const validate = <T extends z.ZodType>(
+    schema: T,
+    source: "body" | "params"
+): RequestHandler =>
+    (req: Request, _res, next: NextFunction) => {
+        const result = schema.safeParse(req[source]);
 
         if (!result.success) {
-            return res.status(400).json({
-                error: "VALIDATION_ERROR",
+            return next(new AppError("VALIDATION_ERROR", 400, {
                 issues: result.error.issues.map((i) => ({
                     path: i.path,
                     message: i.message,
                 })),
-            });
+            }));
         }
 
-        req.body = result.data;
+        req[source] = result.data as any;
         next();
     };
 
-export const validateParams = <T extends z.ZodType>(schema: T): RequestHandler =>
-    (req: Request, res: Response, next: NextFunction) => {
-        const result = schema.safeParse(req.params);
-
-        if (!result.success) {
-            return res.status(400).json({
-                error: "VALIDATION_ERROR",
-                issues: result.error.issues.map((i) => ({
-                    path: i.path,
-                    message: i.message,
-                })),
-            });
-        }
-
-        req.params = result.data as any;
-        next();
-    };
-  
+export const validateBody = <T extends z.ZodType>(schema: T) => validate(schema, "body");
+export const validateParams = <T extends z.ZodType>(schema: T) => validate(schema, "params");

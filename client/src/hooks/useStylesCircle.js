@@ -1,26 +1,11 @@
 import { useIsMobile } from "./useIsMobile";
+import hexToRgba from "../utils/hexToRgba";
 
 export function useStylesCircle(
-    size,
-    top,
-    zIndex,
-    intensity,
-    heightOffset,
-    shadowColor,
-    goRGB,
-    coloredGlow,
-    gradientColors,
-    left
+    size, top, zIndex, intensity, heightOffset, shadowColor,
+    goRGB, coloredGlow, gradientColors, left
 ) {
     const isMobile = useIsMobile();
-
-    function hexToRgba(hex, alpha) {
-        const r = parseInt(hex.slice(1, 3), 16);
-        const g = parseInt(hex.slice(3, 5), 16);
-        const b = parseInt(hex.slice(5, 7), 16);
-
-        return `rgba(${r},${g},${b},${alpha})`;
-    }
 
     const circleRGB = {
         position: "fixed",
@@ -37,7 +22,6 @@ export function useStylesCircle(
         mask:
             "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",
     };
-
 
     const circleColored = {
         position: "fixed",
@@ -58,12 +42,10 @@ export function useStylesCircle(
                         Math.min(intensity / 30, 1)
                     )
                 }`,
-        background:
-            `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`,
+        background: `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`,
         zIndex,
         transition: "0.5s",
     };
-
 
     const miniCircleRGB = {
         left: left - 2,
@@ -77,14 +59,11 @@ export function useStylesCircle(
         alignItems: "center",
         justifyContent: "center",
         opacity: intensity / 24 + 0.05,
-        background:
-            "conic-gradient(red, orange, yellow, green, cyan, blue, violet, red)",
+        background: "conic-gradient(red, orange, yellow, green, cyan, blue, violet, red)",
         animation: "spin 2.5s linear infinite",
-        WebkitMask:
-            "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",
+        WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",
         zIndex: -10,
     };
-
 
     const miniCircleColored = {
         left,
@@ -106,17 +85,10 @@ export function useStylesCircle(
                         Math.min(intensity / 30, 1)
                     )
                 }`,
-        background:
-            `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`,
+        background: `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`,
         zIndex: -10,
         transition: "0.5s",
     };
 
-
-    return {
-        circleRGB,
-        circleColored,
-        miniCircleRGB,
-        miniCircleColored
-    };
+    return { circleRGB, circleColored, miniCircleRGB, miniCircleColored };
 };

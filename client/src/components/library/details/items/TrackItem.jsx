@@ -5,7 +5,7 @@ import styles from "./trackItem.module.css";
 const TrackItem = ({ track, index, onPress, user, isPrivate }) => {
     const minutes = Math.floor(track.duration / 60);
     const seconds = ("0" + (track.duration % 60)).slice(-2);    
-    const { featArtists } = !isPrivate ? groupArtistsByRole(track.artists) : [];
+    const { featArtists } = groupArtistsByRole(track.artists);
 
     return (
         <div onClick={() => onPress(track)} className={styles.track}>

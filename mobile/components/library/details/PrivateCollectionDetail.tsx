@@ -4,7 +4,7 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAudio } from "@/contexts/AudioContext";
 import { useLibrary } from "@/contexts/LibraryContext";
-import { useAlbumDuration } from "@/hooks/useFormatTime";
+import { useAlbumDuration } from "@/utils/formatTime";
 import { Song } from "@/types/songs";
 import { useImageToast } from "../../ui/toasts/ImageToast";
 import PrivateTrackItem from "../items/PrivateTrackItem";
