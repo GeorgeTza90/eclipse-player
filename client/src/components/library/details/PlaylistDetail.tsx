@@ -14,9 +14,9 @@ import MiniPlayer from "@/components/player/mini/MiniPlayer";
 import EditPlaylistModal from "@/components/ui/modals/EditPlaylistModal";
 import BackButton from "@/components/ui/buttons/BackButton";
 import Loader from "@/components/ui/loaders/Loader";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 import type { Song } from "@/types/songs.types";
 import styles from "./playlistDetail.module.css";
-import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const PlaylistDetail = () => {
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
@@ -79,8 +79,8 @@ const PlaylistDetail = () => {
         reorderedSongs.splice(destination.index, 0, movedSong);
         setLocalSongs(reorderedSongs);
 
-        try {
-            await putCall("moveSongInPlaylist", id, movedSong.playlistId, destination.index);
+        try {            
+            await putCall("moveSongInPlaylist", id, movedSong.playlistSongId, destination.index);
         } catch (err) {            
             alert(getErrorMessage(err, "Failed to move song. Order reverted."));
             fetchCall("playlistSongs", id);

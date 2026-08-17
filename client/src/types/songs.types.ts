@@ -23,6 +23,7 @@ export interface Song {
     playlistId?: string;
     feature?: string;
     lyrics?: string;
+    playlistSongId?: number;
 }
 
 export interface SongArtists{
