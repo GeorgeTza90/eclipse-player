@@ -1,0 +1,37 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAudio } from "@/contexts/AudioContextWeb";
+import { useAuth } from "@/contexts/AuthContextWeb.tsx";
+import { PlaylistProps } from "@/types/playlists.types.ts";
+import PlaylistsongItem from "./PlaylistSongItem";
+import styles from "./playlist.module.css"
+
+
+const Playlist = ({ name = "Playlist" }: PlaylistProps) => {
+    const { playlist, currentSong, playSong } = useAudio();
+    const { user } = useAuth();
+    const [currentName, setCurrentName] = useState(name);
+    const navigate = useNavigate();
+
+    useEffect(() => setCurrentName(name), [name]);
+
+    return (
+        <div className={styles.container}>
+            <h3 className={styles.heading}>{currentName} - Playlist</h3>
+            <div className={styles.list}>                
+                {playlist && playlist.map((item) => (
+                    <span key={item.id}>
+                        <PlaylistsongItem item={item} currentSong={currentSong} onClick={() => playSong(item, playlist)}/>
+                    </span>
+                ))}
+            </div>
+            {!user &&
+                <div className={styles.notLoggedIn}>
+                    <button className={styles.SignInButton} onClick={() => navigate("/")}>Sign In</button><br/>
+                        to create your playlist
+                </div>}
+        </div>
+    );
+}
+
+export default Playlist;

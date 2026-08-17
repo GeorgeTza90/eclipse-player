@@ -1,0 +1,31 @@
+import { API_URL } from "../config";
+import { errorChecker } from "@/utils/errorChecker";
+
+// -------------------- Playlists --------------------
+export async function deletePlaylist(id: number) {
+    const res = await fetch(`${API_URL}/api/playlists/${id}`, {
+        method: "DELETE",
+        credentials: "include"
+    });
+    await errorChecker(res, "Failed to delete playlist");
+    return res.json();
+}
+
+export async function deleteSongFromPlaylist(playlistId: number, songId: number) {
+    const res = await fetch(`${API_URL}/api/playlists/${playlistId}/songs/${songId}`, {
+        method: "DELETE",
+        credentials: "include"
+    });
+    await errorChecker(res, "Failed to delete song");
+    return res.json();
+}
+
+// -------------------- Presets --------------------
+export async function deleteUserPreset(id: number) {
+    const res = await fetch(`${API_URL}/api/presets/${id}`, {
+        method: "DELETE",
+        credentials: "include"
+    });
+    await errorChecker(res, "Failed to delete preset");
+    return res.json();
+}

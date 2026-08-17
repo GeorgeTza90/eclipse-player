@@ -90,6 +90,10 @@
     margin-left: 0.5rem;    
 }
 
+.collectionSectionDiv {
+    margin-left: -10rem;
+}
+
 .groupsKindButton {
     cursor: pointer;
     background-color: #333;
@@ -149,6 +153,10 @@
         padding: 2px;
         margin-left: 0rem;
         margin-bottom: -5rem;
+    }
+
+    .collectionSectionDiv {
+        margin-left: 0rem;
     }
 
     .artistName {
