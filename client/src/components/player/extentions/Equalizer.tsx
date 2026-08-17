@@ -10,6 +10,9 @@ import { logger } from "@/utils/logger";
 import type { EQGains, EqualizerProps } from "@/types/eq.types";
 import AddPresetModal from "@/components/ui/modals/AddPresetModal";
 import UpdatePresetModal from "@/components/ui/modals/UpdatePresetModal";
+import { getErrorMessage } from "@/utils/getErrorMessage";
+import type { Presets } from "@/types/eq.types";
+import type { Preset } from "@/types/modal.types";
 import styles from "./equalizer.module.css";
 
 const Equalizer = ({ color }: EqualizerProps) => {
@@ -22,8 +25,8 @@ const Equalizer = ({ color }: EqualizerProps) => {
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
     const { loading: deleteLoading, call: deleteCall } = useDeleteManager();
 
-    const [presets, setPresets] = useState([]);
-    const [presetToUpdate, setPresetToUpdate] = useState(null);
+    const [presets, setPresets] = useState<Presets[] | []>([]);
+    const [presetToUpdate, setPresetToUpdate] = useState<Presets>();
     const [modalVisible, setModalVisible] = useState(false);
     const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
     const [showPresetList, setShowPresetList] = useState(false);
@@ -45,7 +48,7 @@ const Equalizer = ({ color }: EqualizerProps) => {
     
     useEffect(() => {
         if (fetchState.userPresets) {
-            const parsed = fetchState.userPresets.map(p => ({ ...p, preset: typeof p.preset === "string" ? JSON.parse(p.preset) : p.preset }));
+            const parsed = fetchState.userPresets.map((p: Presets) => ({ ...p, preset: typeof p.preset === "string" ? JSON.parse(p.preset) : p.preset }));
             setPresets(parsed);        }
     }, [fetchState.userPresets]);
     
@@ -59,9 +62,9 @@ const Equalizer = ({ color }: EqualizerProps) => {
     const handleDeletePreset = async (id: number) => {
         try {
             await deleteCall("deleteUserPreset", id);
-            setPresets(prev => prev.filter(p => p.id !== id));
-        } catch (err) {
-            logger.error("Failed to delete preset:", err);
+            setPresets(prev => prev.filter(p => p.id !== id));            
+        } catch (err) {            
+            logger.error(getErrorMessage(err, "Failed to delete preset"));
         }
     };
 
@@ -109,11 +112,12 @@ const Equalizer = ({ color }: EqualizerProps) => {
                             ) : (
                                 presets.map(item => (
                                     <div key={item.id} className={styles.presetsDiv}>
-                                        <div className={styles.preset} onClick={() => handleUpdateEQ(item.preset)}>
+                                        <div className={styles.preset} onClick={() => item.preset && handleUpdateEQ(item.preset)}>
                                             {item.title}
                                         </div>
                                         <div>
-                                            <button className={styles.presetUpdate} onClick={() => { setPresetToUpdate(item); setModalUpdateVisible(true); }}>↺</button>
+                                            <button 
+                                                className={styles.presetUpdate} onClick={() => { setPresetToUpdate(item); setModalUpdateVisible(true); }}>↺</button>
                                             <button className={styles.presetDelete} onClick={() => handleDeletePreset(item.id)} disabled={deleteLoading["deleteUserPreset"]}>X</button>
                                         </div>
                                     </div>
@@ -131,7 +135,7 @@ const Equalizer = ({ color }: EqualizerProps) => {
 
     {/* Modales */}
             <AddPresetModal visible={modalVisible} onClose={() => setModalVisible(false)} onCreated={loadPresets} eqGains={EQGain} />
-            <UpdatePresetModal visible={modalUpdateVisible} onClose={() => setModalUpdateVisible(false)} onCreated={loadPresets} presetNew={presetToUpdate} newEQ={EQGain} />
+            {presetToUpdate && <UpdatePresetModal visible={modalUpdateVisible} onClose={() => setModalUpdateVisible(false)} onCreated={loadPresets} presetNew={presetToUpdate} newEQ={EQGain} />}
         </div>
     );
 }

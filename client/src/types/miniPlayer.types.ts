@@ -1,5 +1,9 @@
 import type { Dispatch, SetStateAction } from "react";
 
+export interface MiniPlayerBarProps {
+    handleImageToast: (imageUrl: string) => void;
+}
+
 export interface MiniPlayerPosition {
     x: number;
     y: number;

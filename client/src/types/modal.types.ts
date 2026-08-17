@@ -1,4 +1,4 @@
-import type { EQGains } from "./eq.types";
+import type { EQGains, Presets } from "./eq.types";
 
 export interface AddPlaylistModalProps {
     visible: boolean;
@@ -38,6 +38,6 @@ export interface UpdatePresetModalProps {
     visible: boolean;
     onClose: () => void;
     onCreated?: () => void;
-    presetNew: Preset | null;
+    presetNew: Presets;
     newEQ: EQGains;
 }

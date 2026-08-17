@@ -3,32 +3,20 @@ import { getJSON, setJSON } from "@/utils/localStorageManager";
 import type { AudioPlayerProps } from "@/types/audio.types";
 
 export const useAudioPlayer = ({
-    currentSong,
-    volume,
-    audioEngineRef,
-    isInitialLoadRef,
-    nextRef,
-    setDuration,
-    setPositionRealtime,
-    setIsPlaying,
+    currentSong, volume, audioEngineRef, isInitialLoadRef, nextRef,
+    setDuration, setPositionRealtime, setIsPlaying,
 }: AudioPlayerProps): void => {
     const lastSavedPosRef = useRef<number>(-1);
-
-    // Load μόνο όταν αλλάζει τραγούδι
+    
     useEffect(() => {
         if (!currentSong) return;
 
         const engine = audioEngineRef.current;
         if (!engine) return;
 
-        const savedPosition = isInitialLoadRef.current
-            ? getJSON<number>("positionRealtime", 0)
-            : 0;
+        const savedPosition = isInitialLoadRef.current ? getJSON<number>("positionRealtime", 0) : 0;
 
-        engine.load(currentSong.url, {
-            volume,
-            startPosition: savedPosition,
-        });
+        engine.load(currentSong.url, { volume, startPosition: savedPosition });
 
         engine.attachListeners({
             onLoaded: () => setDuration(engine.duration),
@@ -58,16 +46,10 @@ export const useAudioPlayer = ({
 
         return () => engine.detachListeners();
     }, [
-        currentSong,
-        audioEngineRef,
-        isInitialLoadRef,
-        nextRef,
-        setDuration,
-        setPositionRealtime,
-        setIsPlaying,
+        currentSong, audioEngineRef, isInitialLoadRef, nextRef,
+        setDuration, setPositionRealtime, setIsPlaying,
     ]);
-
-    // Volume αλλάζει ανεξάρτητα από το τραγούδι
+    
     useEffect(() => {
         audioEngineRef.current?.setVolume(volume);
     }, [volume, audioEngineRef]);

@@ -7,6 +7,7 @@ import ErrorMessage from "@/components/ui/errors/ErrorMessage"
 import AddPlaylistModal from "@/components/ui/modals/AddPlaylistModal";
 import AddPlaylistButton from "@/components/ui/buttons/AddPlaylistButton";
 import Loader from "@/components/ui/loaders/Loader";
+import type { Playlist } from "@/types/playlists.types";
 import styles from "./userPlaylists.module.css";
 
 const UserPlaylists = () => {
@@ -29,12 +30,12 @@ const UserPlaylists = () => {
     if (error.playlists) return <ErrorMessage message="Error loading playlists" height="14vh"/>;    
 
     //--- PRESS PLAYLIST ---//    
-    const handlePlaylistPress = (playlist) => navigate(`/library/PlaylistDetail`, {state: playlist});
+    const handlePlaylistPress = (playlist: Playlist) => navigate(`/library/PlaylistDetail`, {state: playlist});
 
     return (
         <div className={styles.container}>
             <div className={styles.playlistsContainer}>
-                {playlists.map((pl) => (
+                {playlists.map((pl: Playlist) => (
                     <PlaylistItem
                         key={pl.id}
                         playlist={pl}

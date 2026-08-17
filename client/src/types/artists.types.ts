@@ -13,7 +13,9 @@ export interface Artist {
     description: string;
     media?: ArtistMedia;
     image_url: string;
-    photos?: string[];
+    photos: string[];
+    roles: string[];
+    album: string;
 }
 
 export interface ArtistRole {

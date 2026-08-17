@@ -8,7 +8,7 @@ const ToastContainer = ({ toasts, closeToast }: ToastContainerProps) => {
     return (
         <>
             <div style={wrapper}>
-                {toasts.map(toast => (
+                {toasts && toasts.map(toast => (
                     <ToastItem key={toast.id} toast={toast} onClose={closeToast} />
                 ))}
             </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useStylesToast } from "@/hooks/useStylesToast";
 
 export const useImageToast = () => {
-    const [toastImage, setToastImage] = useState(null);
+    const [toastImage, setToastImage] = useState<string | null>(null);
     const [visible, setVisible] = useState(false);
     const { overlayStyle, imageWrapperStyle, imageStyle } = useStylesToast();
 

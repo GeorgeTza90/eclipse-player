@@ -3,9 +3,12 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import { useWidth } from "@/hooks/useScreen";
 import { getGridConfig } from "@/utils/sizeSwitch";
 import CollectionCard from "./cards/CollectionCard";
+import type { GroupItemProps } from "@/types/library.types";
+import type { Song } from "@/types/songs.types";
+import type { Artist } from "@/types/artists.types";
 import styles from "./libraryGroupItem.module.css";
 
-const LibraryGroupItem = ({ type, group }) => {
+const LibraryGroupItem = ({ type, group }: GroupItemProps) => {
     const navigate = useNavigate();
 
     const isArtist = type === "Artists";
@@ -13,7 +16,7 @@ const LibraryGroupItem = ({ type, group }) => {
     
     const width = useWidth();
     const isMobile = useIsMobile();
-    const {columns, rows} = getGridConfig(width);
+    const { columns } = getGridConfig(width);
 
     /* --- STYLES --- */
     const containerStyle = {marginLeft: isMobile ? `${width/1000}rem` : `${width/100}rem`  }
@@ -29,18 +32,18 @@ const LibraryGroupItem = ({ type, group }) => {
                 <p className={styles.emptyText}>No items yet</p>
             ) : (
                 <div className={styles.horizontalScroll} style={horizontalScrollStyle}>
-                    {group.map((item) => (                    
+                    {group.map((item) => (
                         <CollectionCard
-                            key={isArtist ? item.name : item.id}
+                            key={item.id}
                             item={item}
                             type={isPrivate ? "private" : (isArtist ? "artist" : "song")}
                             onClick={() =>
                                 navigate(
                                     isPrivate 
-                                        ? `/library/PrivateCollectionDetail/${encodeURIComponent(item.album)}`
+                                        ? `/library/PrivateCollectionDetail/${encodeURIComponent((item as Song).album)}`
                                         : isArtist
-                                            ? `/library/ArtistInfo/${encodeURIComponent(item.name)}`
-                                            : `/library/CollectionDetail/${encodeURIComponent(item.album)}`
+                                            ? `/library/ArtistInfo/${encodeURIComponent((item as Artist).name)}`
+                                            : `/library/CollectionDetail/${encodeURIComponent((item as Song).album)}`
                                 )
                             }
                         />

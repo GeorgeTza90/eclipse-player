@@ -8,3 +8,11 @@ export interface EQBand {
 }
 
 export type EQGains = Record<string, number>;
+
+export interface Presets {
+    id: number;
+    user_id: number;
+    title: string;
+    preset?: EQGains;
+    created_at: Date;
+}

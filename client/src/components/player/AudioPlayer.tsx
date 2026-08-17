@@ -11,15 +11,16 @@ import PlayButton from "@/components/ui/buttons/PlayButton";
 import ArtistButton from "@/components/ui/buttons/ArtistButton";
 import Circle from "@/components/ui/circles/Circle";
 import styles from "./audioPlayer.module.css";
+import { AudioPlayerProps } from "@/types/player.types";
 
-const AudioPlayer = ({ onToggleExtention }) => {
+const AudioPlayer = ({ onToggleExtention }: AudioPlayerProps) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { coloredGlow, goRGB } = useMiniPlayer();
     const { showImageToast, ImageToastUI } = useImageToast();    
     
     const [extention, setExtention] = useState("Playlist");
     const [intensity, setIntensity] = useState(30);  
-    const [sliderPosition, setSliderPosition] = useState(null);
+    const [sliderPosition, setSliderPosition] = useState<number | null>(null);
     
     const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
@@ -60,7 +61,7 @@ const AudioPlayer = ({ onToggleExtention }) => {
             <div className={styles.playerContent}>
     {/* Info */}
                 <div className={styles.infoRow}>
-                    {currentSong?.image && <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={() => showImageToast(currentSong.imageHQ)} />}
+                    {currentSong?.image && <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={() => currentSong.imageHQ && showImageToast(currentSong.imageHQ)} />}
                     <div>
                         <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
                         {featArtists.length > 0 && (

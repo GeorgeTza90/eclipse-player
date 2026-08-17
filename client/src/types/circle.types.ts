@@ -8,7 +8,7 @@ export interface CircleStyleProps {
     shadowColor:string;
     goRGB: boolean;
     coloredGlow: boolean;
-    gradientColors?: string[];    
+    gradientColors: string[];    
 }
 
 export interface CircleProps {

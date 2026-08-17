@@ -8,14 +8,15 @@ import Equalizer from "@/components/player/extentions/Equalizer";
 import Lyrics from "@/components/player/extentions/Lyrics";
 import Playlist from "@/components/player/extentions/Playlist";
 import Circle from "@/components/ui/circles/Circle";
+import type { Extention } from "@/types/player.types";
 
 const Player = () => {
     const isMobile = useIsMobile();
     const { playlistName, currentSong, volume } = useAudio();
     const { setPlayerPage, coloredGlow } = useMiniPlayer();    
-    const [extention, setExtention] = useState("Playlist");
+    const [extention, setExtention] = useState<Extention>("Playlist");
     const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
-    const handleExtention = (key) => setExtention(key);
+    const handleExtention = (key: Extention) => setExtention(key);
 
     useEffect(() => setPlayerPage(true), []);   
 
@@ -27,7 +28,7 @@ const Player = () => {
             <AudioPlayer onToggleExtention={handleExtention} />
 
             {extention === "Playlist" && <Playlist name={playlistName} />}
-            {extention === "Lyrics" && <Lyrics currentSong={currentSong} />}
+            {extention === "Lyrics" && currentSong && <Lyrics currentSong={currentSong} />}
             {extention === "Equalizer" && <Equalizer color={shadowColor}/>}            
         </div>
     </>);

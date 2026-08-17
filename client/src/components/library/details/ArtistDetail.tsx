@@ -23,7 +23,7 @@ const ArtistDetail = () => {
     const { name } = useParams();
 
     const artistName = name ? decodeURIComponent(name) : null;
-    const artist: Artist = state.artist;    
+    const artist: Artist = state.artist;
 
     const isMobile = useIsMobile();
     const width = useWidth();

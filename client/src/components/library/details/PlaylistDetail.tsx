@@ -7,13 +7,16 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import { useAlbumDuration } from "@/utils/formatTime.ts";
 import { useFetchManager, usePutManager } from "@/hooks/useCallManager";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import type { DropResult } from "@hello-pangea/dnd";
 import PlaylistSongItem from "./items/PlaylistSongItem";
 import EmptyPlaylistItem from "./items/EmptyPlaylistItem";
 import MiniPlayer from "@/components/player/mini/MiniPlayer";
 import EditPlaylistModal from "@/components/ui/modals/EditPlaylistModal";
 import BackButton from "@/components/ui/buttons/BackButton";
 import Loader from "@/components/ui/loaders/Loader";
+import type { Song } from "@/types/songs.types";
 import styles from "./playlistDetail.module.css";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const PlaylistDetail = () => {
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
@@ -31,7 +34,7 @@ const PlaylistDetail = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [title, setTitle] = useState(playlist?.title || "");
     const [description, setDescription] = useState(playlist?.description || "");
-    const [localSongs, setLocalSongs] = useState([]);
+    const [localSongs, setLocalSongs] = useState<Song[]>([]);
 
     const albumDuration = useAlbumDuration(localSongs);
     const songsLoading = fetchLoading.playlistSongs;
@@ -57,7 +60,7 @@ const PlaylistDetail = () => {
     }
 
     /* --- SONG PLAY --- */
-    const handlePlay = async (song) => {
+    const handlePlay = async (song: Song) => {
         try {
             await playSong(song, localSongs, title);
             navigate("/player");
@@ -67,7 +70,7 @@ const PlaylistDetail = () => {
     };
 
     /* --- DRAG/DROP --- */
-    const handleDragEnd = async (result) => {
+    const handleDragEnd = async (result: DropResult) => {
         const { source, destination } = result;
         if (!destination) return;
 
@@ -77,14 +80,14 @@ const PlaylistDetail = () => {
         setLocalSongs(reorderedSongs);
 
         try {
-            await putCall("moveSongInPlaylist", id, movedSong.playlistSongId, destination.index);
-        } catch (err) {
-            alert(err.message || "Failed to move song. Order reverted.");
+            await putCall("moveSongInPlaylist", id, movedSong.playlistId, destination.index);
+        } catch (err) {            
+            alert(getErrorMessage(err, "Failed to move song. Order reverted."));
             fetchCall("playlistSongs", id);
         }
     };
 
-    const handlePlaylistUpdate = (newTitle, newDescription) => {
+    const handlePlaylistUpdate = (newTitle: string, newDescription: string) => {
         setTitle(newTitle);
         setDescription(newDescription);
     };
@@ -124,7 +127,7 @@ const PlaylistDetail = () => {
                                                     onPlay={handlePlay}
                                                     onDelete={async (songId) => {
                                                         await fetchCall("playlistSongs", id);
-                                                        setLocalSongs(prev => prev.filter(s => s.id !== songId));
+                                                        setLocalSongs(prev => prev.filter(s => s.id !== String(songId)));
                                                     }}
                                                     playlistId={id}
                                                 />

@@ -9,14 +9,15 @@ import PlayButton from "@/components/ui/buttons/PlayButton";
 import VolButton from "@/components/ui/buttons/VolButton";
 import ArtistButton from "@/components/ui/buttons/ArtistButton";
 import styles from "./miniPlayerBar.module.css";
+import { MiniPlayerBarProps } from "@/types/miniPlayer.types";
 
-const MiniPlayerBar = ({handleImageToast}) => {
+const MiniPlayerBar = ({handleImageToast}: MiniPlayerBarProps) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { showImage, showMiniPlayer, showTimeBar, showVolumeBar, coloredGlow, goRGB } = useMiniPlayer();
     const { user } = useAuth();    
    
     const [intensity, setIntensity] = useState(30);
-    const [sliderPosition, setSliderPosition] = useState(null);
+    const [sliderPosition, setSliderPosition] = useState(0);
 
     const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const progress = duration ? (sliderPosition / duration) * 100 : 0;
@@ -49,7 +50,7 @@ const MiniPlayerBar = ({handleImageToast}) => {
     {/* Info */}
                     <div className={styles.infoRow}>
                         {currentSong?.image && 
-                            <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={() => handleImageToast(currentSong?.imageHQ)} />}                                
+                            <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={() => currentSong.imageHQ && handleImageToast(currentSong?.imageHQ)} />}                                
                         <div>
                             <div className={styles.tickerContainer}>
                                 <h3 className={currentSong.title.length < 20 ? `${styles.title}` : `${styles.tittleTicker}`}>{currentSong?.title || "Song Title"}</h3>

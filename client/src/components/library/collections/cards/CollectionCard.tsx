@@ -5,20 +5,23 @@ import { useLibrary } from "@/contexts/LibraryContextWeb";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
 import PlayButton from "@/components/ui/buttons/PlayButton";
-import styles from "./collectionCard.module.css"
+import type{ CardProps } from "@/types/library.types";
+import type { Song } from "@/types/songs.types";
+import type { Artist } from "@/types/artists.types";
+import styles from "./collectionCard.module.css";
 
 
-const CollectionCard = ({ item, onClick, type }) => {
+const CollectionCard = ({ item, onClick, type }: CardProps) => {
     const { playSong, currentSong, isPlaying, togglePlay, stop } = useAudio();
     const [ hover, setHover ] = useState(false);
     const { songs, privateSongs } = useLibrary();
     const isMobile = useIsMobile();    
     
-    const { mainArtists } = groupArtistsByRole(item.artists);    
+    const { mainArtists } = groupArtistsByRole((item as Song).artists);    
     const artists = mainArtists?.join(", ") || null;
 
     /* --- INSTANT PLAY LOGIC --- */
-    const handlePlayClick = (item) => {        
+    const handlePlayClick = (item: Song) => {        
         const albumSongs = type === "private" ? privateSongs.filter(s => s.album === item.album) : songs.filter(s => s.album === item.album);
         if (currentSong?.album === item.album) { togglePlay(); return; }
         if (isPlaying) stop();
@@ -35,38 +38,38 @@ const CollectionCard = ({ item, onClick, type }) => {
 
     return (<>
     {/* SONG */}
-        {(type === "song" || type === "private") && (            
+        {(type === "song" || type === "private") && (
             <div className={styles.trackContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-                <div className={styles.glowDiv}></div>
-                {item.image && (
+                <div className={styles.glowDiv}></div>                
+                {(item as Song).image && (
                     <>
-                        <img src={encodeURI(item.image)} alt={item.album} className={styles.albumImage} style={AlbumImageStyle}/>
+                        <img src={encodeURI((item as Song).image)} alt={(item as Song).album} className={styles.albumImage} style={AlbumImageStyle}/>
                         <div style={playButtonStyle} className={styles.playButton} >
                             {!isMobile && (
                                 <PlayButton
-                                    type = {currentSong?.album===item.album && isPlaying ? "pause" : "play"}
-                                    onClick = {(e) => { e.stopPropagation(); handlePlayClick(item); }}
+                                    type = {currentSong?.album===(item as Song).album && isPlaying ? "pause" : "play"}
+                                    onClick = {(e) => { e.stopPropagation(); handlePlayClick((item as Song)); }}
                                 />    
                             )}                                
                         </div>                            
                     </>
                 )}
                 <div className={styles.trackInfo}>
-                    <p className={styles.trackTitle} style={TextStyle}>{item.album}</p>
-                    <p className={styles.trackArtist}>{artists ? artists : item.artist}</p>
-                    <p className={styles.trackYear} style={trackYearStyle} > {hover ? "" : item.year}</p>
+                    <p className={styles.trackTitle} style={TextStyle}>{(item as Song).album}</p>
+                    <p className={styles.trackArtist}>{artists ? artists : (item as Song).artist}</p>
+                    <p className={styles.trackYear} style={trackYearStyle} > {hover ? "" : (item as Song).year}</p>
                 </div>
             </div>
         )}
 
     {/* ARTIST */}
-        {(type === "artist" && item.roles.includes("main")) && (
+        {(type === "artist" && (item as Artist).roles.includes("main")) && (
             <div className={styles.artistContainer} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-                {item.image_url && (
-                    <img src={encodeURI(item.image_url)} alt={item.album} className={styles.artistImage} style={ArtistImageStyle} />
+                {(item as Artist).image_url && (
+                    <img src={encodeURI((item as Artist).image_url)} alt={(item as Artist).album} className={styles.artistImage} style={ArtistImageStyle} />
                 )}
                 <div className={styles.artistInfo}>
-                    <p className={styles.trackTitle} style={artistNameStyle}>{item.name}</p>
+                    <p className={styles.trackTitle} style={artistNameStyle}>{(item as Artist).name}</p>
                 </div>
             </div>
         )}        

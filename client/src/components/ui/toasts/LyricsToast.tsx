@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useStylesToast } from "@/hooks/useStylesToast";
 
 export const useLyricsToast = (lyrics: string | null) => {
-    const [toastLyrics, setToastLyrics] = useState(null);
+    const [toastLyrics, setToastLyrics] = useState<string>("");
     const [visible, setVisible] = useState(false);    
     const { overlayStyle, lyricsWrapperStyle, lyricsStyle } = useStylesToast();
 
     const showLyricsToast = () => {
-        setToastLyrics(lyrics);
+        setToastLyrics(lyrics ?? "");
         setVisible(true);    
     };    
 

@@ -50,3 +50,14 @@ export interface LibraryFetchProps {
 export interface LibraryPersistenceProps {
     vinyl: boolean;
 }
+
+export interface GroupItemProps {
+    type: string;
+    group: Song[] | Artist[]
+}
+
+export interface CardProps {
+    item: Song | Artist;
+    onClick: () => void;
+    type: "private" | "artist" | "song";
+}

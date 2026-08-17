@@ -1,8 +1,9 @@
 import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
 import DeleteSongButton from "@/components/ui/buttons/DeleteSongButton";
+import type { PlayerPlaylistSongItemProps } from "@/types/playlists.types";
 import styles from "./playlistSongItem.module.css";
 
-const PlaylistSongItem = ({ item, index, playlistId, onPlay, onDelete }) => {
+const PlaylistSongItem = ({ item, index, playlistId, onPlay, onDelete }: PlayerPlaylistSongItemProps) => {
     const { mainArtists, featArtists } = groupArtistsByRole(item.artists);
 
     const mins = Math.floor(item.duration / 60);
@@ -11,7 +12,7 @@ const PlaylistSongItem = ({ item, index, playlistId, onPlay, onDelete }) => {
 
     return (
         <div className={styles.songRow}>
-            <span className={styles.songIndex}>{index + 1}.</span>
+            <span className={styles.songIndex}>{index && index + 1}.</span>
             {item.image && (
                 <img src={item.image} alt={item.title} className={styles.songImage} onClick={() => onPlay(item)} />
             )}

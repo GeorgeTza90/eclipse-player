@@ -17,7 +17,7 @@ export interface GeneralButtonProps {
 }
 
 export interface PlayButtonProps {
-    type?: string;
+    type: "play" | "pause" | "stop" | "previous" | "next";
     onClick?: (event:MouseEvent<HTMLButtonElement>) => void;
     size?: string | number;
 }

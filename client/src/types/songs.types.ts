@@ -13,7 +13,7 @@ export interface Song {
     artists?: ArtistRole[];
     album: string;
     year: number;
-    image: string;
+    image: string;    
     url: string;
     type: string;
     duration: number;

@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { logger } from "@/utils/logger";
-import type { AuthSessionProps } from "@/types/auth.types";
+import type { AuthSessionProps, User } from "@/types/auth.types";
 
 export const useAuthSession = ({ postCall, setUser }: AuthSessionProps) => {
-    const login = useCallback((userData) => setUser(userData), [setUser]);
+    const login = useCallback((userData: User) => setUser(userData), [setUser]);
 
     const logout = useCallback(async (): Promise<void> => {
         try {

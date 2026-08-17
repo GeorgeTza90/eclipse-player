@@ -5,6 +5,7 @@ import { useAutoClear } from "@/hooks/useAutoClear";
 import LoadingMessage from "@/components/ui/loaders/LoadingMessage";
 import FormInput from "@/components/ui/inputs/FormInput";
 import styles from "./userSettings.module.css";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const UserSettings = () => {
     const { call: postCall } = usePostManager();
@@ -12,12 +13,12 @@ const UserSettings = () => {
     const { user, setUser, authLoading } = useAuth();    
 
     const [username, setUsername] = useState("");
-    const [localError, setLocalError] = useState(null);
+    const [localError, setLocalError] = useState<string>("");
     const [message, setMessage] = useState("...");
 
     /* --- AUTO-CLEAR  --- */
-    useAutoClear(localError, setLocalError, 4000);
-    useAutoClear(message, setMessage, 6000, "...");
+    useAutoClear(localError, setLocalError, "", 4000);
+    useAutoClear(message, setMessage, "...", 6000);
 
     /* --- UPDATE USERNAME  --- */
     useEffect(() => {if (user?.username) setUsername(user?.username || "")}, [user]);
@@ -25,20 +26,23 @@ const UserSettings = () => {
     /* --- LOADING  --- */
     if (authLoading) return <LoadingMessage message="Loading User Info ..." height="5vh"/>
 
-    const updateUsername = async (username) => {
+    const updateUsername = async (username: string) => {
         if (!user) return;
         try {
             await putCall('updateUsername', username)
-            setUser(prev => ({ ...prev, username }))
-            setMessage("Username Updated")
+            setUser(prev => {
+                if (!prev) return prev;
+                return { ...prev, username}
+            });
+            setMessage("Username Updated");
         } catch (err) {
-            setLocalError(err.message || "Failed to update username");
+            setLocalError(getErrorMessage(err, "Failed to update username"));
         }
     };
     
     const getPremium = () => setMessage("Premium service is not available yet");
 
-    const handleForgotPassword = async (email) => {        
+    const handleForgotPassword = async (email: string) => {        
         if (!user) return;
         try {
             await postCall("forgotPassword", email);
@@ -75,7 +79,7 @@ const UserSettings = () => {
                     Email: 
                     <p className={styles.premiumInfo}>{user?.email}</p>                    
                 </div>                
-                <button className={styles.switchButton} type="button" onClick={() => handleForgotPassword(user?.email)}>Change Password</button>
+                <button className={styles.switchButton} type="button" onClick={() => {if (user) handleForgotPassword(user?.email);}}>Change Password</button>
                 <p className={styles.message}>{message}</p>              
                 
     </>);

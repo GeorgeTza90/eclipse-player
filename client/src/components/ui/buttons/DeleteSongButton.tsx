@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDeleteManager } from "../../../hooks/useCallManager";
 import { useToast } from "../../../contexts/ToastContextWeb";
 import ConfirmModal from "../modals/ConfirmModal";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 import type { DeleteButtonProps } from "@/types/button.types";
 import styles from "./deleteSongButton.module.css";
 
@@ -11,7 +12,7 @@ const DeleteSongButton = ({ playlistId, songId, onDeleted }: DeleteButtonProps) 
     const {loading: deleteLoading, call: deleteCall} = useDeleteManager();
     const loading = deleteLoading?.deleteSongFromPlaylist;
 
-    const handleDeleteClick = (e) => {
+    const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         setConfirmVisible(true);
     };
@@ -27,7 +28,7 @@ const DeleteSongButton = ({ playlistId, songId, onDeleted }: DeleteButtonProps) 
             showToast("Song removed from playlist", "success");
             onDeleted?.();
         } catch (err) {            
-            showToast(err?.message || "Failed to delete song", "error");
+            showToast(getErrorMessage(err, "Failed to delete song"), "error");
         }
     };
 

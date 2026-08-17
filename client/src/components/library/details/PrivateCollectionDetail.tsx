@@ -12,6 +12,7 @@ import hexToRgba from "@/utils/hexToRgba";
 import BackButton from "@/components/ui/buttons/BackButton";
 import Loader from "@/components/ui/loaders/Loader";
 import MiniPlayer from "@/components/player/mini/MiniPlayer";
+import type { Song } from "@/types/songs.types";
 import styles from "./collectionDetail.module.css";
 
 const PrivateCollectionDetail = () => {
@@ -33,7 +34,7 @@ const PrivateCollectionDetail = () => {
     const albumInfo = albumSongs[0];
 
     /* --- PRESS SONG --- */
-    const handlePressSong = async (song) => {
+    const handlePressSong = async (song: Song) => {
         await playSong(song, albumSongs, album);
         navigate("/player");
     };    
@@ -49,7 +50,7 @@ const PrivateCollectionDetail = () => {
     {/* Info */}
             <div className={styles.header} style={headerStyle}>
                 {albumInfo.image && (
-                    <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => showImageToast(albumInfo.imageHQ)} />
+                    <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => albumInfo.imageHQ && showImageToast(albumInfo.imageHQ)} />
                 )}
                 {ImageToastUI}
                 <div className={styles.headerInfo}>

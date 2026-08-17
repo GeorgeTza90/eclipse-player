@@ -14,6 +14,7 @@ import Loader from "@/components/ui/loaders/Loader";
 import ArtistButton from "@/components/ui/buttons/ArtistButton";
 import BackButton from "@/components/ui/buttons/BackButton";
 import TrackItem from "./items/TrackItem";
+import type { Song } from "@/types/songs.types";
 import styles from "./collectionDetail.module.css";
 
 const CollectionDetail = () => {
@@ -31,12 +32,12 @@ const CollectionDetail = () => {
     
     /* --- LOADING --- */
     if (!albumSongs || albumSongs.length === 0) return (<div className={styles.loadingContainer}><Loader text={"Loading Collection"}/></div>);
-    const albumInfo = albumSongs[0];
+    const albumInfo: Song = albumSongs[0]; 
     
     const { mainArtists } = groupArtistsByRole(albumInfo.artists);    
 
     /* --- PRESS SONG --- */
-    const handlePressSong = async (song) => {
+    const handlePressSong = async (song: Song) => {
         await playSong(song, albumSongs, album);        
         navigate("/player");
     };    
@@ -53,7 +54,7 @@ const CollectionDetail = () => {
         {/* Info */}
                 <div className={styles.header} style={headerStyle}>
                     {albumInfo.image && (
-                        <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => showImageToast(albumInfo.imageHQ)} />
+                        <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => {if (albumInfo.imageHQ) showImageToast(albumInfo.imageHQ)}} />
                     )}
                     {ImageToastUI}
                     <div className={styles.headerInfo}>

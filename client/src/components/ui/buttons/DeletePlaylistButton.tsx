@@ -5,6 +5,7 @@ import { logger } from "@/utils/logger";
 import ConfirmModal from "@/components/ui/modals/ConfirmModal";
 import type { DeleteButtonProps } from "@/types/button.types";
 import styles from "./deletePlaylistButton.module.css";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const DeletePlaylistButton = ({ playlistId, onDeleted }: DeleteButtonProps) => {    
     const { showToast } = useToast();
@@ -29,8 +30,8 @@ const DeletePlaylistButton = ({ playlistId, onDeleted }: DeleteButtonProps) => {
             showToast("Playlist deleted successfully", "success");
             onDeleted?.();
         } catch (err) {
-            logger.error("Failed to delete playlist", { error: err.message });
-            showToast(err.message || "Failed to delete playlist", "error");
+            logger.error("Failed to delete playlist", { error: getErrorMessage(err, "Failed to delete playlist")});            
+            showToast(getErrorMessage(err, "Failed to delete playlist"), "error")
         }
     };
 

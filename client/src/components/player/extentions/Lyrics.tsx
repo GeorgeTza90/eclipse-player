@@ -2,8 +2,8 @@ import { LyricsProps } from "@/types/player.types";
 import { useLyricsToast } from "@/components/ui/toasts/LyricsToast";
 import styles from "./lyrics.module.css";
 
-const Lyrics = ({ currentSong, onClick }: LyricsProps) => {
-    const { showLyricsToast, LyricsToastUI } = useLyricsToast(currentSong?.lyrics);
+const Lyrics = ({ currentSong }: LyricsProps) => {     
+    const { showLyricsToast, LyricsToastUI } = useLyricsToast(currentSong.lyrics ?? "No Lyrics Yet");
 
     return (<>
         <div className={styles.container}>

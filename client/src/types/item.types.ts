@@ -5,6 +5,6 @@ export interface TrackItemProps {
     track: Song;
     index: number;
     onPress: (track: Song) => void;
-    user: User;
+    user: User | null;
     isPrivate: boolean;
 }

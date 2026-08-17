@@ -20,7 +20,7 @@ const MiniPlayer = () => {
         
     const [intensity, setIntensity] = useState(30);
     const [circleParams, setCircleParams] = useState({size: 290, left: -100, top: -40})
-    const [sliderPosition, setSliderPosition] = useState(null);    
+    const [sliderPosition, setSliderPosition] = useState(0);    
     
     const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const progress = duration ? (sliderPosition / duration) * 100 : 0;
@@ -68,7 +68,7 @@ const MiniPlayer = () => {
                 <div>
                     <div className={styles.infoRow}>
                         {currentSong?.image && showImage &&
-                            <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={(e) => { e.stopPropagation(); showImageToast(currentSong.imageHQ) }} />}                            
+                            <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={(e) => { e.stopPropagation(); currentSong.imageHQ && showImageToast(currentSong.imageHQ) }} />}                            
                         <div>
                             <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
                             {currentSong.feature && (

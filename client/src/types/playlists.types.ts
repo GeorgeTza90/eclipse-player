@@ -32,3 +32,11 @@ export interface PlaylistSongItemProps {
     currentSong: Song | null;
     onClick: MouseEventHandler<HTMLDivElement>;
 }
+
+export interface PlayerPlaylistSongItemProps {
+    item: Song;
+    index: number;
+    playlistId: number;
+    onPlay: (item: Song) => void;
+    onDelete: (id: number) => void;    
+}

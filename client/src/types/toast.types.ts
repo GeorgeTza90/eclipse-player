@@ -15,9 +15,14 @@ export interface ToastProps {
     duration?: number;
 }
 
+export interface ToastItemProps {    
+    toast: Toast;    
+    onClose: (id: string) => void;
+}
+
 export interface ToastContainerProps {
-    toasts: Toast[];
-    closeToast: (id: string) => void;
+    toasts: Toast[];    
+    closeToast: (id: string) => void;    
 }
 
 export interface ToastProviderProps {
