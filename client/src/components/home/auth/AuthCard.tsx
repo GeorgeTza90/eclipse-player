@@ -14,6 +14,7 @@ import FormInput from "@/components/ui/inputs/FormInput";
 import styles from "./authCard.module.css";
 import AuthSwitchButton from "@/components/ui/buttons/AuthSwitchButton";
 import { GoogleTokenResponse } from "@/types/google.types";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const AuthCard = () => {
     const { loading, error, call } = usePostManager();
@@ -26,16 +27,16 @@ const AuthCard = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [username, setUsername] = useState("");
     const [isLogin, setIsLogin] = useState(true);
-    const [localError, setLocalError] = useState(null);
-    const [message, setMessage] = useState("");
+    const [localError, setLocalError] = useState<string>("");
+    const [message, setMessage] = useState<string>("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);        
     
     const currentError = isLogin ? error.loginUser : error.registerUser;
     const shadowColor = "#bebebe";
 
-    useAutoClear(localError, setLocalError, 4000);
-    useAutoClear(message, setMessage, 8000);    
+    useAutoClear(localError, setLocalError, "", 4000);
+    useAutoClear(message, setMessage, "", 8000);    
     
     const onSubmit = async () => {
         const mode = isLogin;
@@ -48,8 +49,8 @@ const AuthCard = () => {
                 data = await call("registerUser", username, email, password);                
             }
             login(data.user);
-        } catch (err) {            
-            setLocalError(err.message || "Something went wrong");
+        } catch (err) {
+            setLocalError(getErrorMessage(err, "Something went wrong"));            
         }
     };
     
@@ -62,7 +63,7 @@ const AuthCard = () => {
                     const data = await call("googleLogin", response.access_token, "web");
                     login(data.user);
                 } catch (err) {                    
-                    setLocalError(err.message || "Google login failed");
+                    setLocalError(getErrorMessage(err, "Google login failed"));
                 }
             },
         });
@@ -81,7 +82,7 @@ const AuthCard = () => {
 
     const switchMode = () => {
         setIsLogin(!isLogin);
-        setLocalError(null);
+        setLocalError("");
     }
 
     return (

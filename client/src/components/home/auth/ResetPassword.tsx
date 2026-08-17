@@ -8,6 +8,7 @@ import Circle from "@/components/ui/circles/Circle";
 import PasswordInput from "@/components/ui/inputs/PasswordInput";
 import AuthButton from "@/components/ui/buttons/AuthButton";
 import styles from "./resetPassword.module.css";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const ResetPasswordCard = () => {
     const { loading, error, call } = usePostManager();
@@ -26,7 +27,7 @@ const ResetPasswordCard = () => {
     const shadowColor = "#bebebe";
     const token = searchParams.get("token");
 
-    useAutoClear(localError, setLocalError, 4000);
+    useAutoClear(localError, setLocalError, "", 4000);
 
     if (!token) return (
         <div className={styles.authContainer}>
@@ -47,8 +48,8 @@ const ResetPasswordCard = () => {
                 setMessage(res.message);
                 navigate("/");
             }
-        } catch (err) {
-            setLocalError(err.message || "Failed to reset password. Try again later.");
+        } catch (err) {            
+            setLocalError(getErrorMessage(err, "Failed to reset password. Try again later."))
         }
     };
 
