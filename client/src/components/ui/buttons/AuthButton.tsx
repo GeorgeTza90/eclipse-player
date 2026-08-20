@@ -1,4 +1,4 @@
-import type { GeneralButtonProps } from "@/types/button.types";
+import type { GeneralButtonProps } from "@/types/ui.types";
 import styles from "./authButton.module.css";
 
 const AuthButton = ({ loading, isLogin,title, onClick, width = "100%" }: GeneralButtonProps) => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStylesLoader } from "@/hooks/useStylesLoader";
-import type { LoadingMessageProps } from "@/types/loader.types";
+import type { LoadingMessageProps } from "@/types/ui.types";
 
 const LoadingMessage = ({ message = "Loading Collection ...", height = "50vh" }: LoadingMessageProps) => {
     const [visible, setVisible] = useState(true);

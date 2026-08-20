@@ -1,4 +1,4 @@
-import type { LoudnessButtonProps } from "@/types/button.types";
+import type { LoudnessButtonProps } from "@/types/ui.types";
 import type { LoudnessPreset } from "@/types/audio.types";
 import styles from "./loudnessPresetButton.module.css";
 

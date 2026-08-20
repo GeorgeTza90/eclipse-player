@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { getBool, getJSON } from "@/utils/localStorageManager";
 import { useMiniPlayerPersistence } from "./miniPlayer/useMiniPlayerPersistence";
 import { useMiniPlayerDrag } from "./miniPlayer/useMiniPlayerDrag";
-import type { MiniPlayerContextValue, MiniPlayerPosition, MiniPlayerProviderProps, MiniPlayerRelativePosition } from "@/types/miniPlayer.types";
+import type { MiniPlayerContextValue, MiniPlayerPosition, MiniPlayerProviderProps, MiniPlayerRelativePosition } from "@/types/player.types";
 
 const MiniPlayerContext = createContext<MiniPlayerContextValue | undefined>(undefined);
 

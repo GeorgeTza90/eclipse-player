@@ -2,7 +2,7 @@ import { EQ_BANDS } from "@/utils/defaultEQ";
 import { setJSON } from "@/utils/localStorageManager";
 import { LOUDNESS_PRESETS } from "@/utils/loudnessPresets";
 import type { Song } from "@/types/songs.types";
-import type { EQGains } from "@/types/eq.types";
+import type { EQGains } from "@/types/player.types";
 import type { CreateAudioControlsParams } from "@/types/audio.types";
 
 export const createAudioControls = ({

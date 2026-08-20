@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useFetchManager, usePostManager } from "@/hooks/useCallManager";
 import { useToast } from "@/contexts/ToastContextWeb";
-import type { PlaylistButtonProps } from "@/types/button.types";
+import type { PlaylistButtonProps } from "@/types/ui.types";
 import styles from "./addToPlaylistButton.module.css";
 import { Playlist } from "@/types/playlists.types";
 import { getErrorMessage } from "@/utils/getErrorMessage";

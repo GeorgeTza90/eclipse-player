@@ -1,5 +1,5 @@
 import { useAudio } from "@/contexts/AudioContextWeb";
-import type { PlayButtonProps } from "@/types/button.types";
+import type { PlayButtonProps } from "@/types/ui.types";
 import styles from "./playButton.module.css"
 
 const icons = {

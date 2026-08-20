@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useToast } from "@/contexts/ToastContextWeb";
 import { usePutManager } from "@/hooks/useCallManager";
-import type { EditPlaylistModalProps } from "@/types/modal.types";
+import type { EditPlaylistModalProps } from "@/types/ui.types";
 import styles from "./addPlaylistModal.module.css";
 
 const EditPlaylistModal = ({ visible, onClose, onUpdated, currentTitle, currentDescription, playlistId }: EditPlaylistModalProps) => {

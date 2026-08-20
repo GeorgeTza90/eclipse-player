@@ -1,4 +1,4 @@
-import type { GeneralButtonProps } from "@/types/button.types";
+import type { GeneralButtonProps } from "@/types/ui.types";
 import styles from "./addPlaylistButton.module.css"
 
 const AddPlaylistButton = ({onClick}: GeneralButtonProps) => {

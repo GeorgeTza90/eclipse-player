@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useStylesToast } from "@/hooks/useStylesToast";
-import type { ToastProps } from "@/types/toast.types";
+import type { ToastProps } from "@/types/ui.types";
 
 const Toast = ({ message, type = "info", onClose, duration = 3000 }: ToastProps) => {
     const { toastStyle } = useStylesToast();

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { getJSON, setJSON } from "@/utils/localStorageManager";
+import { useToast } from "@/contexts/ToastContextWeb";
 import type { AudioPlayerProps } from "@/types/audio.types";
 
 export const useAudioPlayer = ({
@@ -7,6 +8,7 @@ export const useAudioPlayer = ({
     setDuration, setPositionRealtime, setIsPlaying,
 }: AudioPlayerProps): void => {
     const lastSavedPosRef = useRef<number>(-1);
+    const { showToast } = useToast();
     
     useEffect(() => {
         if (!currentSong) return;
@@ -36,6 +38,11 @@ export const useAudioPlayer = ({
             onEnded: () => nextRef.current?.(),
             onPlay: () => setIsPlaying(true),
             onPause: () => setIsPlaying(false),
+            onError: () => {
+                setIsPlaying(false);
+                showToast(`Failed to play "${currentSong.title}"`, "error");
+                nextRef.current?.();
+            },
         });
 
         if (!isInitialLoadRef.current) {
@@ -47,7 +54,7 @@ export const useAudioPlayer = ({
         return () => engine.detachListeners();
     }, [
         currentSong, audioEngineRef, isInitialLoadRef, nextRef,
-        setDuration, setPositionRealtime, setIsPlaying,
+        setDuration, setPositionRealtime, setIsPlaying, showToast,
     ]);
     
     useEffect(() => {

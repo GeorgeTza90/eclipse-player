@@ -1,4 +1,4 @@
-import type { SearchInputProps } from "@/types/input.types";
+import type { SearchInputProps } from "@/types/ui.types";
 import styles from "./searchInput.module.css";
 
 const SearchInput = ({ placeholder, value, onChange }: SearchInputProps) => {

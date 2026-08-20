@@ -1,4 +1,4 @@
-import type { GeneralButtonProps } from "@/types/button.types";
+import type { GeneralButtonProps } from "@/types/ui.types";
 import styles from "./albumSwitchButton.module.css";
 
 const AlbumSwitchButton = ({ groupsKind, type, onClick }: GeneralButtonProps) => {

@@ -9,7 +9,7 @@ import PlayButton from "@/components/ui/buttons/PlayButton";
 import VolButton from "@/components/ui/buttons/VolButton";
 import ArtistButton from "@/components/ui/buttons/ArtistButton";
 import styles from "./miniPlayerBar.module.css";
-import { MiniPlayerBarProps } from "@/types/miniPlayer.types";
+import { MiniPlayerBarProps } from "@/types/player.types";
 
 const MiniPlayerBar = ({handleImageToast}: MiniPlayerBarProps) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();

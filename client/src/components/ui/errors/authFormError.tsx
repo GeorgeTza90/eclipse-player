@@ -1,5 +1,5 @@
 import { useStylesError } from "@/hooks/useStylesError";
-import type { AuthFormErrorProps } from "@/types/error.types";
+import type { AuthFormErrorProps } from "@/types/ui.types";
 
 const AuthFormError = ({ message }: AuthFormErrorProps) => {
     const { errorText } = useStylesError();

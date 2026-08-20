@@ -1,4 +1,4 @@
-import type { ToggleButtonProps } from "../../../types/button.types";
+import type { ToggleButtonProps } from "@/types/ui.types";
 import styles from "./ToggleButton.module.css";
 
 const ToggleButton = ({ 

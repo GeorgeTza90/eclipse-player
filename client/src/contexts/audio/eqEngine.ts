@@ -1,5 +1,5 @@
 import { EQ_BANDS } from "@/utils/defaultEQ";
-import type { EQGains } from "@/types/eq.types";
+import type { EQGains } from "@/types/player.types";
 
 export class EQEngine {
     ctx: AudioContext | null;

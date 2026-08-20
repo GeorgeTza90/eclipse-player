@@ -1,4 +1,4 @@
-import type { ConfirmModalProps } from "@/types/modal.types";
+import type { ConfirmModalProps } from "@/types/ui.types";
 import styles from "./confirmModal.module.css";
 
 const ConfirmModal = ({ message, onConfirm, onCancel }: ConfirmModalProps) => {

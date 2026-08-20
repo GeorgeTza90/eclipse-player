@@ -91,9 +91,17 @@
     width: 23.5rem;
 }
 
+.sliderStyle:hover {
+    cursor: pointer;
+}
+
 .volumeSliderStyle {    
     height: 5px;
     width: 14rem;
+}
+
+.volumeSliderStyle:hover {    
+    cursor: pointer;
 }
 
 .sliderRGBStyle, .slidervolumeRGBStyle {

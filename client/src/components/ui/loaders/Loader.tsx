@@ -1,6 +1,6 @@
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useStylesLoader } from "@/hooks/useStylesLoader";
-import type { LoaderProps } from "@/types/loader.types";
+import type { LoaderProps } from "@/types/ui.types";
 
 export const Loader = ({ text, size }: LoaderProps) => {
     const { goRGB } = useMiniPlayer();

@@ -1,6 +1,6 @@
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useStylesCircle } from "@/hooks/useStylesCircle";
-import type { CircleProps } from "@/types/circle.types";
+import type { CircleProps } from "@/types/ui.types";
 
 const Circle = ({
     size = 200,

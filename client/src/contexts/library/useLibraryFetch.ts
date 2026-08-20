@@ -38,4 +38,12 @@ export const useLibraryFetch = ({
 
         loadLibrary();
     }, [fetchCall, priv_u]);
+
+    useEffect(() => {
+        if (!priv_u) {
+            localStorage.removeItem("library/private_songs");
+            setPrivateSongs([]);
+            setOriginalPrivateSongs([]);
+        }
+    }, [priv_u]);
 };

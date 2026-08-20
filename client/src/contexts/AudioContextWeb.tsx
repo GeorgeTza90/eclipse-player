@@ -10,7 +10,7 @@ import { DEFAULT_EQ } from "@/utils/defaultEQ";
 import { getBool, getJSON } from "@/utils/localStorageManager";
 import { DEFAULT_LOUDNESS_PRESET } from "@/utils/loudnessPresets";
 import type { Song } from "@/types/songs.types";
-import type { EQGains } from "@/types/eq.types";
+import type { EQGains } from "@/types/player.types";
 import type { LoudnessPresetKey } from "@/utils/loudnessPresets";
 import type { AudioContextValue, AudioProviderProps } from "@/types/audio.types";
 

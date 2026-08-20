@@ -3,9 +3,9 @@ import { useDeleteManager } from "@/hooks/useCallManager";
 import { useToast } from "@/contexts/ToastContextWeb";
 import { logger } from "@/utils/logger";
 import ConfirmModal from "@/components/ui/modals/ConfirmModal";
-import type { DeleteButtonProps } from "@/types/button.types";
-import styles from "./deletePlaylistButton.module.css";
 import { getErrorMessage } from "@/utils/getErrorMessage";
+import type { DeleteButtonProps } from "@/types/ui.types";
+import styles from "./deletePlaylistButton.module.css";
 
 const DeletePlaylistButton = ({ playlistId, onDeleted }: DeleteButtonProps) => {    
     const { showToast } = useToast();

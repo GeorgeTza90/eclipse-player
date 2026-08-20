@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { TeaserProps } from "@/types/teaser.types";
+import type { TeaserProps } from "@/types/ui.types";
 import styles from "./teaser.module.css";
 
 const Teaser = ({ link, source, download, video }: TeaserProps) => {

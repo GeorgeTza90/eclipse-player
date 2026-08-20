@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useLibrary } from "@/contexts/LibraryContextWeb";
-import { VinylCardProps } from "@/types/vinyl.types";
+import { VinylCardProps } from "@/types/library.types";
 import styles from "./vinylCard.module.css";
 
-const VinylCard = ({ item, onClick, type }: VinylCardProps) => {    
+const VinylCard = ({ item, onClick }: VinylCardProps) => {    
     const [hover, setHover] = useState(false);    
 
     /* --- STYLES --- */

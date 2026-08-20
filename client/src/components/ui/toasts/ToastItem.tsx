@@ -1,5 +1,5 @@
 import { useStylesToast } from "@/hooks/useStylesToast";
-import { ToastItemProps } from "@/types/toast.types";
+import { ToastItemProps } from "@/types/ui.types";
 
 const ToastItem = ({ toast, onClose }: ToastItemProps) => {    
     const { toastItemStyle, closeButtonStyle } = useStylesToast(toast.type);

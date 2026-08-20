@@ -1,5 +1,5 @@
 import { Eye, EyeOff } from "lucide-react";
-import type { PasswordInputProps } from "@/types/input.types";
+import type { PasswordInputProps } from "@/types/ui.types";
 import styles from "./passwordInput.module.css";
 
 const PasswordInput = ({ value, show, placeholder, onChangeText, setShow }: PasswordInputProps) => {

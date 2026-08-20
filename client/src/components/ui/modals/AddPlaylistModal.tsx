@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useToast } from "@/contexts/ToastContextWeb";
 import { usePostManager } from "@/hooks/useCallManager";
-import type { AddPlaylistModalProps } from "@/types/modal.types";
+import type { AddPlaylistModalProps } from "@/types/ui.types";
 import styles from "./addPlaylistModal.module.css";
 
 const AddPlaylistModal = ({ visible, onClose, onCreated }: AddPlaylistModalProps) => {

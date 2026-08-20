@@ -3,7 +3,7 @@ import { useDeleteManager } from "../../../hooks/useCallManager";
 import { useToast } from "../../../contexts/ToastContextWeb";
 import ConfirmModal from "../modals/ConfirmModal";
 import { getErrorMessage } from "@/utils/getErrorMessage";
-import type { DeleteButtonProps } from "@/types/button.types";
+import type { DeleteButtonProps } from "@/types/ui.types";
 import styles from "./deleteSongButton.module.css";
 
 const DeleteSongButton = ({ playlistId, songId, onDeleted }: DeleteButtonProps) => {    

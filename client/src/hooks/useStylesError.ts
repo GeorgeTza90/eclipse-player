@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { ErrorStyleProps } from "@/types/error.types";
+import { ErrorStyleProps } from "@/types/ui.types";
 
 export function useStylesError({
     height,

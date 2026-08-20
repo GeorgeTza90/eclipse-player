@@ -1,4 +1,4 @@
-import type { FormInputProps } from "@/types/input.types";
+import type { FormInputProps } from "@/types/ui.types";
 import styles from "./formInput.module.css";
 
 const FormInput = ({ type, name, placeholder, value, onChangeText, isForm = true }: FormInputProps) => {

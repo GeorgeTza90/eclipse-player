@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLibrary } from "@/contexts/LibraryContextWeb";
 import SearchInput from "./SearchInput";
 
@@ -33,7 +33,7 @@ const LibrarySearchForm = () => {
         <SearchInput
             placeholder="Wanna Search?"
             value={searchKey}
-            onChange={(e) => setSearchKey(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchKey(e.target.value)}
         />
     );
 };

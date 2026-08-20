@@ -1,4 +1,4 @@
-import type { EQBand, EQGains } from "@/types/eq.types";
+import type { EQBand, EQGains } from "@/types/player.types";
 
 export const EQ_BANDS: EQBand[] = [
     { label: "25", value: 25 },

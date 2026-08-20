@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import hexToRgba from "@/utils/hexToRgba";
-import { CircleStyleProps } from "@/types/circle.types";
+import { CircleStyleProps } from "@/types/ui.types";
 
 export function useStylesCircle(
     {size, top, zIndex, intensity, heightOffset, shadowColor,

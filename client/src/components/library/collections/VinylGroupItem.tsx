@@ -4,7 +4,7 @@ import { useWidth } from "@/hooks/useScreen";
 import { getGridConfig } from "@/utils/sizeSwitch";
 import { useVinylPagination } from "@/hooks/useVinylPagination";
 import type { Song } from "@/types/songs.types";
-import type { VinylGroupItemProps } from "@/types/vinyl.types";
+import type { VinylGroupItemProps } from "@/types/library.types";
 import VinylCardSlot from "./cards/VinylCardSlot";
 import styles from "./vinylGroupItem.module.css";
 

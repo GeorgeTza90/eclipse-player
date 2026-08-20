@@ -1,6 +1,6 @@
 import ToastItem from "./ToastItem";
 import { useStylesToast } from "@/hooks/useStylesToast";
-import type { ToastContainerProps } from "@/types/toast.types";
+import type { ToastContainerProps } from "@/types/ui.types";
 
 const ToastContainer = ({ toasts, closeToast }: ToastContainerProps) => {
     const { wrapper } = useStylesToast();

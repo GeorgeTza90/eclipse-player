@@ -7,12 +7,10 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import { useFetchManager, useDeleteManager } from "@/hooks/useCallManager";
 import { EQ_BANDS } from "@/utils/defaultEQ";
 import { logger } from "@/utils/logger";
-import type { EQGains, EqualizerProps } from "@/types/eq.types";
 import AddPresetModal from "@/components/ui/modals/AddPresetModal";
 import UpdatePresetModal from "@/components/ui/modals/UpdatePresetModal";
 import { getErrorMessage } from "@/utils/getErrorMessage";
-import type { Presets } from "@/types/eq.types";
-import type { Preset } from "@/types/modal.types";
+import type { EQGains, EqualizerProps, Presets } from "@/types/player.types";
 import styles from "./equalizer.module.css";
 
 const Equalizer = ({ color }: EqualizerProps) => {

@@ -3,7 +3,7 @@ import type { Song } from "./songs.types";
 import type { AudioEngine } from "@/contexts/audio/audioEngine";
 import type { EQEngine } from "@/contexts/audio/eqEngine";
 import type { LoudnessEngine } from "@/contexts/audio/loudnessEngine";
-import type { EQGains } from "./eq.types";
+import type { EQGains } from "@/types/player.types";
 import type { LoudnessPresetKey } from "@/utils/loudnessPresets";
 
 export interface AudioEngineLoadOptions {

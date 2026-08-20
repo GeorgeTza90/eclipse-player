@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useToast } from "@/contexts/ToastContextWeb";
 import { usePutManager } from "@/hooks/useCallManager";
-import type { UpdatePresetModalProps } from "@/types/modal.types";
-import type { EQGains } from "@/types/eq.types";
+import type { UpdatePresetModalProps } from "@/types/ui.types";
+import type { EQGains } from "@/types/player.types";
 import styles from "./addPresetModal.module.css";
 
 const UpdatePresetModal = ({ visible, onClose, onCreated, presetNew, newEQ }: UpdatePresetModalProps) => {

@@ -1,4 +1,4 @@
-import type { GeneralButtonProps } from "@/types/button.types";
+import type { GeneralButtonProps } from "@/types/ui.types";
 import styles from "./googleButton.module.css";
 
 const GoogleButton = ({ loading, isLogin, title, onClick, disabled }: GeneralButtonProps) => {

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { setJSON } from "@/utils/localStorageManager";
-import type { MiniPlayerDragEvent, MiniPlayerDragProps } from "@/types/miniPlayer.types";
+import type { MiniPlayerDragEvent, MiniPlayerDragProps } from "@/types/player.types";
 
 export const useMiniPlayerDrag = ({ pos, setPos, dragging, setDragging, rel, setRel }: MiniPlayerDragProps) => {
     const posRef = useRef(pos);

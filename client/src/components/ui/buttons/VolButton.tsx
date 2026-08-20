@@ -1,4 +1,4 @@
-import type { GeneralButtonProps } from "@/types/button.types";
+import type { GeneralButtonProps } from "@/types/ui.types";
 import styles from "./volButton.module.css"
 
 const VolButton = ({ type, onClick, active }: GeneralButtonProps) => {

@@ -1,5 +1,5 @@
 import { logger } from "@/utils/logger";
-import type { MediaLinkProps } from "@/types/links.types";
+import type { MediaLinkProps } from "@/types/ui.types";
 import styles from "./mediaLink.module.css";
 
 const MediaLink = ({ platform, link }: MediaLinkProps) => {

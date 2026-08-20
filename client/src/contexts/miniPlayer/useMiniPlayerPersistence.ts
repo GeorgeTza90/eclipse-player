@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { getBool, setBool } from "@/utils/localStorageManager";
-import type { MiniPlayerPersistenceValues } from "@/types/miniPlayer.types";
+import type { MiniPlayerPersistenceValues } from "@/types/player.types";
 
 const PERSISTED_KEYS: Record<keyof MiniPlayerPersistenceValues, string> = {
     showImage: "miniPlayer_showImage",

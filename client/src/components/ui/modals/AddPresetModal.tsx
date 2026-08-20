@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useToast } from "@/contexts/ToastContextWeb";
 import { usePostManager } from "@/hooks/useCallManager";
-import type { AddPresetModalProps } from "@/types/modal.types";
+import type { AddPresetModalProps } from "@/types/ui.types";
 import styles from "./addPresetModal.module.css";
 
 const AddPresetModal = ({ visible, onClose, onCreated, eqGains }: AddPresetModalProps) => {

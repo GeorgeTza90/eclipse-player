@@ -25,6 +25,32 @@ export class AudioEngine {
         return this.audio;
     }
 
+        attachListeners({ onLoaded, onTimeUpdate, onEnded, onPlay, onPause, onError }: {
+        onLoaded?: () => void;
+        onTimeUpdate?: () => void;
+        onEnded?: () => void;
+        onPlay?: () => void;
+        onPause?: () => void;
+        onError?: () => void;
+    }): void {
+        this.detachListeners();
+
+        this._listeners = {
+            loadedmetadata: onLoaded,
+            timeupdate: onTimeUpdate,
+            ended: onEnded,
+            play: onPlay,
+            pause: onPause,
+            error: onError,
+        };
+
+        Object.entries(this._listeners).forEach(([event, handler]) => {
+            if (handler && this.audio) {
+                this.audio.addEventListener(event, handler);
+            }
+        });
+    }
+
     load(url: string, { volume = 1, startPosition = 0 }: AudioEngineLoadOptions = {}): HTMLAudioElement {
         const element = this.ensureElement(url);
         element.volume = volume;
@@ -42,29 +68,7 @@ export class AudioEngine {
         return element;
     }
 
-    attachListeners({ onLoaded, onTimeUpdate, onEnded, onPlay, onPause }: {
-        onLoaded?: () => void;
-        onTimeUpdate?: () => void;
-        onEnded?: () => void;
-        onPlay?: () => void;
-        onPause?: () => void;
-    }): void {
-        this.detachListeners();
 
-        this._listeners = {
-            loadedmetadata: onLoaded,
-            timeupdate: onTimeUpdate,
-            ended: onEnded,
-            play: onPlay,
-            pause: onPause,
-        };
-
-        Object.entries(this._listeners).forEach(([event, handler]) => {
-            if (handler && this.audio) {
-                this.audio.addEventListener(event, handler);
-            }
-        });
-    }
 
     detachListeners(): void {
         if (!this.audio) return;

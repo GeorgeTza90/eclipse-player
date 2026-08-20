@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import type { CSSProperties } from "react";
 import { useAudio } from "@/contexts/AudioContextWeb";
 import { useLibrary } from "@/contexts/LibraryContextWeb";
@@ -48,7 +48,7 @@ const CollectionCard = ({ item, onClick, type }: CardProps) => {
                             {!isMobile && (
                                 <PlayButton
                                     type = {currentSong?.album===(item as Song).album && isPlaying ? "pause" : "play"}
-                                    onClick = {(e) => { e.stopPropagation(); handlePlayClick((item as Song)); }}
+                                    onClick = {(e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); handlePlayClick((item as Song)); }}
                                 />    
                             )}                                
                         </div>                            

@@ -1,5 +1,5 @@
 import { useIsMobile } from "./useIsMobile";
-import type { ToastType } from "@/types/toast.types";
+import type { ToastType } from "@/types/ui.types";
 import type { CSSProperties } from "react";
 
 export function useStylesToast(type: ToastType = "info") {

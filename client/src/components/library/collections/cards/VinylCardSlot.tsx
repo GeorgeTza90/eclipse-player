@@ -1,5 +1,5 @@
 import VinylCard from "./VinylCard";
-import { VinylCardSlotProps } from "@/types/vinyl.types";
+import { VinylCardSlotProps } from "@/types/library.types";
 
 const VinylCardSlot = ({ item, type, onNavigate, className }: VinylCardSlotProps) => {
     return (

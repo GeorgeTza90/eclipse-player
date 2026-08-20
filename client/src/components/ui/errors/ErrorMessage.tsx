@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStylesError } from "@/hooks/useStylesError";
-import type { ErrorMessageProps } from "@/types/error.types";
+import type { ErrorMessageProps } from "@/types/ui.types";
 
 const ErrorMessage = ({ message = "Something went wrong.", height = "50vh" }: ErrorMessageProps) => {
     const [visible, setVisible] = useState(true);
