@@ -32,7 +32,7 @@ const Equalizer = ({ color }: EqualizerProps) => {
     /* --- SET FREQ --- */
     const frequencies = useMemo(() => (
         isMobile
-            ? EQ_BANDS.filter(b => [63, 100, 250, 630, 1600, 4000, 10000, 16000, 20000].includes(b.value))
+            ? EQ_BANDS.filter(b => [63, 100, 250, 630, 1600, 4000, 10000, 16000].includes(b.value))
             : EQ_BANDS
     ), [isMobile]);
 
@@ -72,7 +72,7 @@ const Equalizer = ({ color }: EqualizerProps) => {
             <h3 className={styles.heading}>Graphic EQ</h3>
             <div className={styles.EQcontainer}>
                 <div className={styles.linesDiv}>
-                    {Array(isMobile ? 12 : 16).fill(0).map((_, i) => (
+                    {Array(isMobile ? 10 : 16).fill(0).map((_, i) => (
                         <hr key={i} className={styles.line} />
                     ))}
                 </div>
@@ -114,8 +114,7 @@ const Equalizer = ({ color }: EqualizerProps) => {
                                             {item.title}
                                         </div>
                                         <div>
-                                            <button 
-                                                className={styles.presetUpdate} onClick={() => { setPresetToUpdate(item); setModalUpdateVisible(true); }}>↺</button>
+                                            <button className={styles.presetUpdate} onClick={() => { setPresetToUpdate(item); setModalUpdateVisible(true); }}>↺</button>
                                             <button className={styles.presetDelete} onClick={() => handleDeletePreset(item.id)} disabled={deleteLoading["deleteUserPreset"]}>X</button>
                                         </div>
                                     </div>
