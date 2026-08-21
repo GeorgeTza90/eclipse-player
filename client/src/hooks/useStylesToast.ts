@@ -93,7 +93,7 @@ export function useStylesToast(type: ToastType = "info") {
         wordBreak: "break-word",
         overflowWrap: "anywhere",
         fontSize: "0.9rem",
-        lineHeight: "2rem",
+        lineHeight: "1.6rem",
         marginBottom: "0.2rem",
         color: "#fff",
     };

@@ -1,6 +1,7 @@
 .container {
     margin-top: 2rem;
     margin-bottom: 5rem;
+    max-width: 95%;
 }
 
 .text {
