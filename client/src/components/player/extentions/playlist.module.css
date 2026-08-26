@@ -172,7 +172,7 @@
     .notLoggedIn {
         display: column;
         font-size: 1rem;
-        margin-top: 5rem;
+        margin-top: -4rem;
         margin-left: 6rem;        
     }
 
