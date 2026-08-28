@@ -1,5 +1,5 @@
-import { songsRepository } from "../repositories/songs.repository.js";
-import { ensureUserAuthorized, ensureUserExists } from "../guards/songs.guard.js";
+import { songsRepository } from "@/repositories/songs.repository.js";
+import { ensureUserAuthorized, ensureUserExists } from "@/guards/songs.guard.js";
 
 // -------------------- SERVICE --------------------
 export const songsService = {

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { verifyToken } from "../middleware/authMiddleware.js";
-import { createRateLimiter } from "../middleware/rateLimiter.js";
-import { validateBody } from "../middleware/validate.js";
-import { createPlaySchema } from "../validation/plays.schema.js";
-import { recordPlay, getMyStats } from "../controllers/plays.controller.js";
+import { verifyToken } from "@/middleware/authMiddleware.js";
+import { createRateLimiter } from "@/middleware/rateLimiter.js";
+import { validateBody } from "@/middleware/validate.js";
+import { createPlaySchema } from "@/validation/plays.schema.js";
+import { recordPlay, getMyStats } from "@/controllers/plays.controller.js";
 
 const router = Router();
 

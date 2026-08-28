@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { getSongs, getPrivateSongs } from "../controllers/songs.controller.js";
-import { verifyToken } from "../middleware/authMiddleware.js";
-import { createRateLimiter } from "../middleware/rateLimiter.js";
+import { getSongs, getPrivateSongs } from "@/controllers/songs.controller.js";
+import { verifyToken } from "@/middleware/authMiddleware.js";
+import { createRateLimiter } from "@/middleware/rateLimiter.js";
 
 const router = Router();
 

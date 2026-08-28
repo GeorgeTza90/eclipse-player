@@ -1,4 +1,3 @@
-// types/plays.types.ts
 import { RowDataPacket } from "mysql2";
 
 export interface Play extends RowDataPacket {

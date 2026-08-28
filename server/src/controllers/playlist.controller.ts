@@ -1,7 +1,7 @@
 import { Response } from "express";
-import { AuthenticatedRequest} from "../types/auth.types.js";
-import { playlistsService } from "../services/playlists.service.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { AuthenticatedRequest} from "@/types/auth.types.js";
+import { playlistsService } from "@/services/playlists.service.js";
+import { asyncHandler } from "@/utils/asyncHandler.js";
 
 // -----------------------------
 // PLAYLISTS CRUD

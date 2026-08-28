@@ -1,5 +1,5 @@
-import db from "../db/db.js";
-import { Presets } from "../types/presets.types.js";
+import db from "@/db/db.js";
+import { Presets } from "@/types/presets.types.js";
 import { ResultSetHeader } from "mysql2";
 
 export const presetsRepository = {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { AuthenticatedRequest } from "../types/auth.types.js";
-import { songsService } from "../services/songs.service.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { AuthenticatedRequest } from "@/types/auth.types.js";
+import { songsService } from "@/services/songs.service.js";
+import { asyncHandler } from "@/utils/asyncHandler.js";
 
 // -----------------------------
 // GET SONGS

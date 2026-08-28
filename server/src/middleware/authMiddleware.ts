@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { logger } from "../utils/logger.js";
-import { AuthenticatedRequest } from "../types/auth.types.js";
-import { JWT_SECRET } from "../config/env.js";
+import { logger } from "@/utils/logger.js";
+import { AuthenticatedRequest } from "@/types/auth.types.js";
+import { JWT_SECRET } from "@/config/env.js";
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction): void => {
     const authHeader = req.headers.authorization;

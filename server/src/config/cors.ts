@@ -1,5 +1,5 @@
 import cors from "cors";
-import { AppError } from "../errors/AppError.js";
+import { AppError } from "@/errors/AppError.js";
 import { CLIENT_ORIGINS } from "./env.js";
 
 const allowedOrigins = CLIENT_ORIGINS.split(",").map(o => o.trim());

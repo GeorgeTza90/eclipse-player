@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { errorMap, type ErrorCode } from "../utils/httpErrorMap.js";
-import { AppError } from "../errors/AppError.js";
-import { logger } from "../utils/logger.js";
+import { errorMap, type ErrorCode } from "@/utils/httpErrorMap.js";
+import { AppError } from "@/errors/AppError.js";
+import { logger } from "@/utils/logger.js";
 
 function isErrorCode(message: string): message is ErrorCode {
     return message in errorMap;

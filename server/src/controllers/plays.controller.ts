@@ -1,8 +1,7 @@
-// controllers/plays.controller.ts
 import { Response } from "express";
-import { AuthenticatedRequest } from "../types/auth.types.js";
-import { playsService } from "../services/plays.service.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { AuthenticatedRequest } from "@/types/auth.types.js";
+import { playsService } from "@/services/plays.service.js";
+import { asyncHandler } from "@/utils/asyncHandler.js";
 
 export const recordPlay = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     const userId = req.user.id;

@@ -1,5 +1,5 @@
 import path from "path";
-import { ensureFileName } from "../guards/downloads.guard.js";
+import { ensureFileName } from "@/guards/downloads.guard.js";
 
 const APKS = {    
     "0.3.2": "eclipse_player_v0.3.2.apk",

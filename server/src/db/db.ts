@@ -1,6 +1,6 @@
 import mysql from "mysql2/promise";
-import { logger } from "../utils/logger.js";
-import { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_PORT } from "../config/env.js";
+import { logger } from "@/utils/logger.js";
+import { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_PORT } from "@/config/env.js";
 
 const db = mysql.createPool({
     host: MYSQL_HOST,

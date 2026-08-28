@@ -1,18 +1,18 @@
 import bcrypt from "bcrypt";
 import axios from "axios";
 import { randomBytes, createHash } from "crypto";
-import { AppError } from "../errors/AppError.js";
-import { authRepository } from "../repositories/auth.repository.js";
-import { signToken } from "../utils/authTokens.js";
-import { FRONTEND_URL, DUMMY_HASH } from "../config/env.js";
-import { resetEmailHtml } from "../templates/resetPassword.email.js";
-import sendEmail from "../utils/sendEmail.js";
+import { AppError } from "@/errors/AppError.js";
+import { authRepository } from "@/repositories/auth.repository.js";
+import { signToken } from "@/utils/authTokens.js";
+import { FRONTEND_URL, DUMMY_HASH } from "@/config/env.js";
+import { resetEmailHtml } from "@/templates/resetPassword.email.js";
+import sendEmail from "@/utils/sendEmail.js";
 import {
     ensureUsername, ensureEmail, ensurePassword, ensureUserExists, ensurePlatform,
     ensureGoogleEmail, ensurePasswordLength, ensureUserPassword, ensurePasswordMatch,
     ensureCredentialsMatch, ensureToken, ensureRequest, ensurePasswordDontMatch,
     ensureUsernameLength, ensureEmailUniqueConstraint, ensureResult
-} from "../guards/auth.guard.js";
+} from "@/guards/auth.guard.js";
 
 export const authService = {
     async register(username?: string, email?: string, password?: string) {

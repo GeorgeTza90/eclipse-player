@@ -1,6 +1,6 @@
 import { ResultSetHeader } from "mysql2";
-import { Playlist, PlaylistSong } from "../types/playlists.types.js";
-import { Ensure } from "../utils/ensure.js";
+import { Playlist, PlaylistSong } from "@/types/playlists.types.js";
+import { Ensure } from "@/utils/ensure.js";
 
 export function ensurePlaylistExists(playlist: Playlist[]) {
     Ensure.that(playlist.length > 0, "PLAYLIST_NOT_FOUND", 404);

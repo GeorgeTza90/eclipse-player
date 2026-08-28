@@ -1,6 +1,6 @@
 import { ResultSetHeader } from "mysql2";
-import { PasswordResetTypes, User } from "../types/auth.types.js";
-import { Ensure } from "../utils/ensure.js";
+import { PasswordResetTypes, User } from "@/types/auth.types.js";
+import { Ensure } from "@/utils/ensure.js";
 
 export function ensureUserExists(user: User | null): asserts user is User {
     Ensure.exists(user, "USER_NOT_FOUND", 404);

@@ -1,6 +1,6 @@
-import db from "../db/db.js";
+import db from "@/db/db.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { Play } from "../types/plays.types.js";
+import { Play } from "@/types/plays.types.js";
 
 export const playsRepository = {
     async createPlay(

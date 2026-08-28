@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { apkService } from "../services/download.service.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { apkService } from "@/services/download.service.js";
+import { asyncHandler } from "@/utils/asyncHandler.js";
 
 // -----------------------------
 // Download APK

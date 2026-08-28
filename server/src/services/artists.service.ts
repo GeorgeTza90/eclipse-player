@@ -1,5 +1,5 @@
-import { artistsRepository } from "../repositories/artists.repository.js";
-import { ensureArtistExists } from "../guards/artists.guard.js";
+import { artistsRepository } from "@/repositories/artists.repository.js";
+import { ensureArtistExists } from "@/guards/artists.guard.js";
 
 // -------------------- SERVICE --------------------
 export const artistsService = {

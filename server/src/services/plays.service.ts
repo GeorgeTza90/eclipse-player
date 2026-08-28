@@ -1,6 +1,5 @@
-// services/plays.service.ts
-import { playsRepository } from "../repositories/plays.repository.js";
-import { ensurePlayCreated } from "../guards/plays.guard.js";
+import { playsRepository } from "@/repositories/plays.repository.js";
+import { ensurePlayCreated } from "@/guards/plays.guard.js";
 
 const PLAY_THRESHOLD_SECONDS = 30;
 const PLAY_THRESHOLD_PERCENTAGE = 0.5;

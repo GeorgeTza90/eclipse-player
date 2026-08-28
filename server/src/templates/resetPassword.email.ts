@@ -1,4 +1,4 @@
-import { escapeHtml } from "../utils/escapeHtml.js";
+import { escapeHtml } from "@/utils/escapeHtml.js";
 
 export function resetEmailHtml(username: string, resetLink: string, minEXP: number) {
     const html = `

@@ -1,5 +1,5 @@
-import { AppError } from "../errors/AppError.js";
-import type { ErrorCode } from "./httpErrorMap.js";
+import { AppError } from "@/errors/AppError.js";
+import type { ErrorCode } from "@/utils/httpErrorMap.js";
 
 export class Ensure {
     static that(

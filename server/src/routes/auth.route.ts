@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { register, login, logout, googleLogin, forgotPassword, resetPassword, changePassword, updateUsername, me } from '../controllers/auth.controller.js';
-import { verifyToken } from '../middleware/authMiddleware.js';
-import { createRateLimiter } from '../middleware/rateLimiter.js';
-import { validateBody } from "../middleware/validate.js";
-import { loginSchema, googleLoginSchema, registerSchema, changePasswordSchema, resetPasswordSchema, updateUsernameSchema, forgotPasswordSchema } from "../validation/auth.schema.js";
+import { register, login, logout, googleLogin, forgotPassword, resetPassword, changePassword, updateUsername, me } from '@/controllers/auth.controller.js';
+import { verifyToken } from '@/middleware/authMiddleware.js';
+import { createRateLimiter } from '@/middleware/rateLimiter.js';
+import { validateBody } from "@/middleware/validate.js";
+import { loginSchema, googleLoginSchema, registerSchema, changePasswordSchema, resetPasswordSchema, updateUsernameSchema, forgotPasswordSchema } from "@/validation/auth.schema.js";
 
 const router = Router();
 

@@ -1,4 +1,4 @@
-import type { ErrorCode } from "../utils/httpErrorMap.js";
+import type { ErrorCode } from "@/utils/httpErrorMap.js";
 
 export class AppError extends Error {
     statusCode: number;

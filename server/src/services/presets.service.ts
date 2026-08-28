@@ -1,5 +1,5 @@
-import { presetsRepository } from "../repositories/presets.repository.js";
-import { ensurePresetExists } from "../guards/presets.guard.js";
+import { presetsRepository } from "@/repositories/presets.repository.js";
+import { ensurePresetExists } from "@/guards/presets.guard.js";
 
 // -------------------- SERVICE --------------------
 export const presetsService = {

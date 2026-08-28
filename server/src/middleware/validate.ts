@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { Request, RequestHandler, NextFunction } from "express";
-import { AppError } from "../errors/AppError.js";
+import { AppError } from "@/errors/AppError.js";
 
 const validate = <T extends z.ZodType>(
     schema: T,

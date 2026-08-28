@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { getAllArtists, getArtist } from '../controllers/artists.controller.js';
-import { validateParams } from '../middleware/validate.js';
-import { getArtistSchema } from '../validation/artists.schema.js';
-import { createRateLimiter } from '../middleware/rateLimiter.js';
+import { getAllArtists, getArtist } from '@/controllers/artists.controller.js';
+import { validateParams } from '@/middleware/validate.js';
+import { getArtistSchema } from '@/validation/artists.schema.js';
+import { createRateLimiter } from '@/middleware/rateLimiter.js';
 
 const router = Router()
 

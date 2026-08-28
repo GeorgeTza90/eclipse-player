@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { artistsService } from "../services/artists.service.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { artistsService } from "@/services/artists.service.js";
+import { asyncHandler } from "@/utils/asyncHandler.js";
 
 // -----------------------------
 // Artists GET ALL

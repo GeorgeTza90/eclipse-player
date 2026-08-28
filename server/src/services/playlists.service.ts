@@ -1,8 +1,8 @@
-import { playlistsRepository } from "../repositories/playlists.repository.js";
+import { playlistsRepository } from "@/repositories/playlists.repository.js";
 import { 
     ensurePlaylistExists, ensurePlaylistUpdated, ensureSongExists,
     ensureSongIndexExists, ensureSongNotExists, ensureValidOrder 
-} from "../guards/playlists.guard.js";
+} from "@/guards/playlists.guard.js";
 
 // -------------------- SERVICE --------------------
 export const playlistsService = {
