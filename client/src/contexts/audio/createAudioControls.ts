@@ -11,6 +11,9 @@ export const createAudioControls = ({
 }: CreateAudioControlsParams) => {
 
     const playSong = async (song: Song, newPlaylist?: Song[], name: string = "", startPosition: number = 0): Promise<void> => {
+        // Unlocking here (on a user gesture) lets useAudioPlayer's effect
+        // wire up the EQ/Loudness graph as soon as currentSong changes,
+        // instead of waiting for a Player-local button press.
         await eqEngineRef.current?.unlock();
 
         if (newPlaylist) {
@@ -33,7 +36,7 @@ export const createAudioControls = ({
         if (!audioElement) return;
 
         await eqEngineRef.current?.unlock();
-
+        
         if (eqEngineRef.current && !eqEngineRef.current.initialized) {
             const ctx = eqEngineRef.current.ctx;
 
@@ -91,7 +94,7 @@ export const createAudioControls = ({
 
     const resetEQ = (): void => {
         const resetValues: EQGains = {};
-        EQ_BANDS.forEach((band) => resetValues[band.label] = 0 );
+        EQ_BANDS.forEach((band) => resetValues[band.label] = 0);
         eqEngineRef.current?.reset();
         setEQGain(resetValues);
     };

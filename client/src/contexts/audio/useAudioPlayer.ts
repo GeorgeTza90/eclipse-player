@@ -1,15 +1,24 @@
 import { useEffect, useRef } from "react";
 import { getJSON, setJSON } from "@/utils/localStorageManager";
 import { useToast } from "@/contexts/ToastContextWeb";
+import { useLatestRef } from "@/hooks/useLatestRef";
+import { LOUDNESS_PRESETS } from "@/utils/loudnessPresets";
 import type { AudioPlayerProps } from "@/types/audio.types";
 
 export const useAudioPlayer = ({
-    currentSong, volume, audioEngineRef, isInitialLoadRef, nextRef,
+    currentSong, volume, audioEngineRef, eqEngineRef, loudnessEngineRef,
+    EQGain, normalization, loudnessPreset,
+    isInitialLoadRef, nextRef,
     setDuration, setPositionRealtime, setIsPlaying,
 }: AudioPlayerProps): void => {
     const lastSavedPosRef = useRef<number>(-1);
     const { showToast } = useToast();
     
+    const EQGainRef = useLatestRef(EQGain);
+    const volumeRef = useLatestRef(volume);
+    const normalizationRef = useLatestRef(normalization);
+    const loudnessPresetRef = useLatestRef(loudnessPreset);
+
     useEffect(() => {
         if (!currentSong) return;
 
@@ -18,7 +27,19 @@ export const useAudioPlayer = ({
 
         const savedPosition = isInitialLoadRef.current ? getJSON<number>("positionRealtime", 0) : 0;
 
-        engine.load(currentSong.url, { volume, startPosition: savedPosition });
+        const audioElement = engine.load(currentSong.url, { volume: volumeRef.current, startPosition: savedPosition });
+
+        const eq = eqEngineRef.current;
+        const loudness = loudnessEngineRef.current;
+
+        if (eq && loudness && eq.ctx && !eq.initialized) {
+            const loudnessGainNode = loudness.init(eq.ctx);
+            eq.init(audioElement, EQGainRef.current, loudnessGainNode);
+
+            if (normalizationRef.current) {
+                loudness.applyForSong(currentSong, LOUDNESS_PRESETS[loudnessPresetRef.current]);
+            }
+        }
 
         engine.attachListeners({
             onLoaded: () => setDuration(engine.duration),
@@ -53,10 +74,12 @@ export const useAudioPlayer = ({
 
         return () => engine.detachListeners();
     }, [
-        currentSong, audioEngineRef, isInitialLoadRef, nextRef,
+        currentSong, audioEngineRef, eqEngineRef, loudnessEngineRef,
+        isInitialLoadRef, nextRef,
         setDuration, setPositionRealtime, setIsPlaying, showToast,
+        EQGainRef, volumeRef, normalizationRef, loudnessPresetRef,
     ]);
-    
+
     useEffect(() => {
         audioEngineRef.current?.setVolume(volume);
     }, [volume, audioEngineRef]);

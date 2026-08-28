@@ -25,7 +25,7 @@ export class AudioEngine {
         return this.audio;
     }
 
-        attachListeners({ onLoaded, onTimeUpdate, onEnded, onPlay, onPause, onError }: {
+    attachListeners({ onLoaded, onTimeUpdate, onEnded, onPlay, onPause, onError }: {
         onLoaded?: () => void;
         onTimeUpdate?: () => void;
         onEnded?: () => void;

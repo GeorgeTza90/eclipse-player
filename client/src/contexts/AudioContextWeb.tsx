@@ -51,9 +51,11 @@ export const AudioProvider = ({ children }: AudioProviderProps) => {
     });
 
     useAudioPlayer({
-        currentSong, volume, audioEngineRef, eqEngineRef, loudnessEngineRef, isInitialLoadRef, nextRef, 
+        currentSong, volume, audioEngineRef, eqEngineRef, loudnessEngineRef,
+        EQGain, normalization, loudnessPreset,
+        isInitialLoadRef, nextRef, 
         setDuration, setPositionRealtime, setIsPlaying,
-    } as Parameters<typeof useAudioPlayer>[0]);
+    });
 
     const {
         playSong, togglePlay, stop, next, previous, seekTo, updateEQGain, resetEQ

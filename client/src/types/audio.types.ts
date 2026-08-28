@@ -15,6 +15,11 @@ export interface AudioPlayerProps {
     currentSong: Song | null;
     volume: number;
     audioEngineRef: React.RefObject<AudioEngine | null>;
+    eqEngineRef: React.RefObject<EQEngine | null>;
+    loudnessEngineRef: React.RefObject<LoudnessEngine | null>;
+    EQGain: EQGains;
+    normalization: boolean;
+    loudnessPreset: LoudnessPresetKey;
     isInitialLoadRef: React.RefObject<boolean>;
     nextRef: React.RefObject<(() => void) | null>;
     setDuration: React.Dispatch<React.SetStateAction<number>>;

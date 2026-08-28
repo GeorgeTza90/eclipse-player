@@ -7,7 +7,7 @@ const MiniPlayerSettings = () => {
     const {
         showImage, setShowImage,  showMiniPlayer, setShowMiniPlayer, showTimeBar, setShowTimeBar,
         showVolumeBar, setShowVolumeBar, transparency, setTransparency, showGlow, setShowGlow,
-        barMode, setBarMode, setPos,
+        barMode, setBarMode, setPos, goRGB,
     } = useMiniPlayer();
     
     const isMobile = useIsMobile();
@@ -23,7 +23,7 @@ const MiniPlayerSettings = () => {
                 <ToggleButton heading={"Song's Image"} isBarMode={barMode} value={showImage} onChange={setShowImage} inActive={!barMode ? false : true} />                
                 <ToggleButton heading={"Time Bar"} isBarMode={barMode} value={showTimeBar} onChange={setShowTimeBar} inActive={!barMode ? false : true} />                
                 <ToggleButton heading={"Bar Mode"} isBarMode={false} value={barMode} onChange={setBarMode} />                                
-                <ToggleButton heading={"Show Glow"} isBarMode={false} value={showGlow} onChange={setShowGlow} />                                
+                <ToggleButton heading={"Show Glow"} isBarMode={false} value={showGlow} onChange={setShowGlow} inActive={!goRGB ? false : true }/>                                
                 <ToggleButton heading={"Volume Bar"} isBarMode={barMode} value={showVolumeBar} onChange={setShowVolumeBar} inActive={!barMode ? false : true} />                
                 <ToggleButton heading={"Transparent"} isBarMode={barMode} value={transparency} onChange={setTransparency} inActive={!barMode ? false : true} />                                
                                 
