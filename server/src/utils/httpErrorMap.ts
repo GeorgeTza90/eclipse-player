@@ -34,6 +34,8 @@ export const errorMap = {
     SONG_ALREADY_IN_PLAYLIST: { status: 400, message: "Song already in playlist"},
     //--- PRESETS ---//
     PRESET_NOT_FOUND: { status: 404, message: "Preset not found"},
+    //--- PLAYS ---//
+    PLAY_NOT_FOUND: { status: 404, message: "Play record not found" },
 } as const;
 
 export type ErrorCode = keyof typeof errorMap;
