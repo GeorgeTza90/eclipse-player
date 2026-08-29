@@ -17,6 +17,13 @@
     margin-top: 2rem;
 }
 
+.userDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
 .teaserDiv {
     display: flex;
     flex-direction: column;
@@ -28,6 +35,10 @@
     .container {        
         margin-top: 2rem;
         margin-bottom: 0rem;
+    }
+
+    .userDiv {
+        max-width: 10rem;
     }
 
     .teaserDiv {

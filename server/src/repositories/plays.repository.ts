@@ -1,6 +1,7 @@
 import db from "@/db/db.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { Play } from "@/types/plays.types.js";
+import { Song } from "@/types/songs.types.js";
 
 export const playsRepository = {
     async createPlay(
@@ -33,6 +34,60 @@ export const playsRepository = {
              LIMIT ?`,
             [userId, sinceDate, limit]
         );
+        return rows;
+    },
+
+    async findTotalListeningTime(userId: number, sinceDate: Date) {
+        const [rows] = await db.query<RowDataPacket[]>(
+            `SELECT COALESCE(SUM(duration_listened_seconds), 0) AS totalSeconds
+            FROM plays
+            WHERE user_id = ? AND completed = TRUE AND played_at >= ?`,
+            [userId, sinceDate]
+        );
+        return rows[0].totalSeconds as number;
+    },
+
+    async findMonthlyHistory(userId: number, monthsBack: number) {
+        const [rows] = await db.query<RowDataPacket[]>(
+            `SELECT
+                DATE_FORMAT(played_at, '%Y-%m') AS month,
+                COUNT(*) AS playCount,
+                SUM(duration_listened_seconds) AS totalSeconds
+            FROM plays
+            WHERE user_id = ? AND completed = TRUE
+            AND played_at >= DATE_SUB(NOW(), INTERVAL ? MONTH)
+            GROUP BY month
+            ORDER BY month DESC`,
+            [userId, monthsBack]
+        );
+        return rows;
+    },
+
+    async findHistory(userId: number, sinceDate: Date | null, groupFormat: string) {
+        const params: (number | Date)[] = [userId];
+        let dateFilter = "";
+
+        if (sinceDate) {
+            dateFilter = "AND played_at >= ?";
+            params.push(sinceDate);
+        }
+
+        const [rows] = await db.query<RowDataPacket[]>(
+            `SELECT
+                DATE_FORMAT(played_at, '${groupFormat}') AS bucket,
+                COUNT(*) AS playCount,
+                SUM(duration_listened_seconds) AS totalSeconds
+            FROM plays
+            WHERE user_id = ? ${dateFilter} AND completed = TRUE
+            GROUP BY bucket
+            ORDER BY bucket ASC`,
+            params
+        );
+        return rows;
+    },
+
+    async findSongById(songId: number): Promise<Song[]> {
+        const [rows] = await db.query<Song[]>("SELECT * FROM songs WHERE id = ? LIMIT 1", [songId]);
         return rows;
     },
 };

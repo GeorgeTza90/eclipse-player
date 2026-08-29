@@ -4,7 +4,7 @@ import { AppError } from "@/errors/AppError.js";
 
 const validate = <T extends z.ZodType>(
     schema: T,
-    source: "body" | "params"
+    source: "body" | "params" | "query"
 ): RequestHandler =>
     (req: Request, _res, next: NextFunction) => {
         const result = schema.safeParse(req[source]);
@@ -18,9 +18,15 @@ const validate = <T extends z.ZodType>(
             }));
         }
 
-        req[source] = result.data as any;
+        if (source === "query") {
+            Object.assign(req.query, result.data);
+        } else {
+            req[source] = result.data as any;
+        }
+
         next();
     };
 
 export const validateBody = <T extends z.ZodType>(schema: T) => validate(schema, "body");
 export const validateParams = <T extends z.ZodType>(schema: T) => validate(schema, "params");
+export const validateQuery = <T extends z.ZodType>(schema: T) => validate(schema, "query");

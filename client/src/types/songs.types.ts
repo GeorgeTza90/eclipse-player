@@ -24,6 +24,7 @@ export interface Song {
     feature?: string;
     lyrics?: string;
     playlistSongId?: number;
+    isPrivate?: boolean;
 }
 
 export interface SongArtists{

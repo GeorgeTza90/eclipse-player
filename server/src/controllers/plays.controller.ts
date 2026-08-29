@@ -13,9 +13,8 @@ export const recordPlay = asyncHandler(async (req: AuthenticatedRequest, res: Re
 
 export const getMyStats = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     const userId = req.user.id;
-    const sinceDate = new Date();
-    sinceDate.setMonth(sinceDate.getMonth() - 1);
+    const { range } = req.query as { range: "7d" | "1m" | "3m" | "all" };
 
-    const stats = await playsService.getUserStats(userId, sinceDate);
+    const stats = await playsService.getFullStats(userId, range);
     res.json(stats);
 });

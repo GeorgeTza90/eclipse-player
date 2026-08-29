@@ -1,4 +1,4 @@
-.authButton, .settingsButton {
+.authButton, .logOutButton, .settingsButton, .statsButton {
     background-color: #2f2d2dff;
     color: #c5c5c5;
     font-size: 14px;
@@ -18,12 +18,18 @@
     max-width: 18rem;
 }
 
-.settingsButton{    
-    height: 2rem;
-    margin-left: 1rem;  
+.logOutButton {
+    height: 32px;
+    max-width: 20rem;
 }
 
-.authButton:hover, .settingsButton:hover {
+.settingsButton, .statsButton {    
+    height: 32px;
+    margin-left: 1rem;
+    opacity: 0.7;
+}
+
+.authButton:hover, .logOutButton:hover, .settingsButton:hover, .statsButton:hover {
     background-color: rgba(108, 108, 108, 0.91);
     color: #ffffff;
     opacity: 0.7;
@@ -42,9 +48,12 @@
 }
 
 @media (max-width: 768px) {
-    .authButton, .settingsButton {
-        font-size: 13.5px;
-        width: 90%;
+    .authButton, .logOutButton, .settingsButton, .statsButton {
+        font-size: 13.5px;        
         height: 30px;
+    }
+
+    .logOutButton {        
+        max-width: 12rem;
     }
 }

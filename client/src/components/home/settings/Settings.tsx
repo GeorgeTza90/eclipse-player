@@ -16,19 +16,19 @@ const Settings = () => {
     return (
         <div className={styles.container}>
             {!isMobile && user && !barMode && (<MiniPlayer />)}
-            <div>
+            <div className={styles.SettingsDiv}>
     {/* User Settings */}
-                <h3 className={styles.text3}>User Settings</h3>
+                <h3>User Settings</h3>
                 <UserSettings />
                 <br/>
 
     {/* Audio Player Settings */}
-                <h3 className={styles.text3}>Audio Player Settings</h3>
+                <h3>Audio Player Settings</h3>
                 <AudioPlayerSettings />
                 <br/>
 
     {/* Mini Player Settings */}
-                <h3 className={styles.text3}>Mini Player Settings</h3>
+                <h3>Mini Player Settings</h3>
                 <MiniPlayerSettings />
                 {!isMobile && <><br/><br/></>}
     

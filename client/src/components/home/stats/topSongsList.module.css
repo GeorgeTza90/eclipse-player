@@ -1,0 +1,29 @@
+.section {
+    margin-top: 1rem;
+}
+
+.topSongsList, .monthlyList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.topSongItem, .monthlyItem {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    color: #f7f7f7;
+    font-size: 0.85rem;
+    padding: 0.3rem 0;
+}
+
+.rank {
+    color: #bef7e5;
+    font-weight: bold;
+    min-width: 1.2rem;
+}
+
+.playCount {
+    color: #9e9e9e;
+    margin-left: auto;
+}

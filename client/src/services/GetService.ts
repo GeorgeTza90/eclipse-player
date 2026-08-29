@@ -1,3 +1,4 @@
+import { StatsRange } from "@/types/stats.types";
 import { API_URL } from "../config";
 import { errorChecker } from "@/utils/errorChecker";
 
@@ -58,11 +59,16 @@ export async function fetchPlaylistSongs(id: number) {
     return res.json();
 }
 
-
-
 // -------------------- Presets --------------------
 export async function fetchUserPresets() {
     const res = await fetch(`${API_URL}/api/presets`, { credentials: "include" });
     await errorChecker(res, "Failed to fetch presets");
+    return res.json();
+}
+
+// -------------------- Plays --------------------
+export async function fetchPlayStats(range: StatsRange = "1m") {
+    const res = await fetch(`${API_URL}/api/plays/stats?range=${range}`, { credentials: "include" });
+    await errorChecker(res, "Failed to fetch play stats");
     return res.json();
 }

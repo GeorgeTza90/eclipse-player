@@ -100,3 +100,15 @@ export async function createPreset(title: string, preset: [string]) {
     await errorChecker(res, "Failed to create preset");
     return res.json();
 }
+
+// -------------------- Plays --------------------
+export async function recordPlay(songId: number, durationListenedSeconds: number, songDurationSeconds: number) {
+    const res = await fetch(`${API_URL}/api/plays`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ songId, durationListenedSeconds, songDurationSeconds }),
+        credentials: "include"
+    });
+    await errorChecker(res, "Failed to record play");
+    return res.json();
+}

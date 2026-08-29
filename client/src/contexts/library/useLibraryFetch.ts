@@ -4,6 +4,9 @@ import type { Artist } from "@/types/artists.types";
 import type { Song } from "@/types/songs.types";
 import type { LibraryFetchProps } from "@/types/library.types";
 
+const tagPrivate = (songs: Song[]): Song[] =>
+    songs.map((song) => ({ ...song, isPrivate: true }));
+
 export const useLibraryFetch = ({
     fetchCall, priv_u, setSongs, setArtists, setPrivateSongs, 
     setOriginalSongs, setOriginalArtists, setOriginalPrivateSongs, setLoading,
@@ -21,7 +24,8 @@ export const useLibraryFetch = ({
         const loadLibrary = async (): Promise<void> => {
             try {
                 const [songsData, artistsData] = await Promise.all([ fetchCall("songs"), fetchCall("artists") ]);
-                const privateSongsData: Song[] = priv_u ? await fetchCall("privateSongs").catch(() => []) : [];
+                const rawPrivateSongsData: Song[] = priv_u ? await fetchCall("privateSongs").catch(() => []) : [];
+                const privateSongsData = tagPrivate(rawPrivateSongsData);
                 setLibraryData(songsData, artistsData, privateSongsData);
                 setJSON("library/songs", songsData);
                 setJSON("library/artists", artistsData);
@@ -29,7 +33,7 @@ export const useLibraryFetch = ({
             } catch {
                 const songsData = getJSON<Song[]>("library/songs", []);
                 const artistsData = getJSON<Artist[]>("library/artists", []);
-                const privateSongsData = priv_u ? getJSON<Song[]>("library/private_songs", []) : [];
+                const privateSongsData = priv_u ? tagPrivate(getJSON<Song[]>("library/private_songs", [])) : [];
                 setLibraryData(songsData, artistsData, privateSongsData);
             } finally {
                 setLoading(false);

@@ -3,27 +3,33 @@ import { getJSON, setJSON } from "@/utils/localStorageManager";
 import { useToast } from "@/contexts/ToastContextWeb";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { LOUDNESS_PRESETS } from "@/utils/loudnessPresets";
+import { recordPlay } from "@/services/PostService";
 import type { AudioPlayerProps } from "@/types/audio.types";
+
+const PLAY_THRESHOLD_SECONDS = 30;
+const PLAY_THRESHOLD_PERCENTAGE = 0.5;
 
 export const useAudioPlayer = ({
     currentSong, volume, audioEngineRef, eqEngineRef, loudnessEngineRef,
-    EQGain, normalization, loudnessPreset,
-    isInitialLoadRef, nextRef,
+    EQGain, normalization, loudnessPreset, isInitialLoadRef, nextRef,
     setDuration, setPositionRealtime, setIsPlaying,
 }: AudioPlayerProps): void => {
     const lastSavedPosRef = useRef<number>(-1);
+    const playRecordedRef = useRef<boolean>(false);
     const { showToast } = useToast();
-    
+
     const EQGainRef = useLatestRef(EQGain);
     const volumeRef = useLatestRef(volume);
     const normalizationRef = useLatestRef(normalization);
     const loudnessPresetRef = useLatestRef(loudnessPreset);
 
     useEffect(() => {
-        if (!currentSong) return;
+        if (!currentSong) return;        
 
         const engine = audioEngineRef.current;
         if (!engine) return;
+
+        playRecordedRef.current = false;
 
         const savedPosition = isInitialLoadRef.current ? getJSON<number>("positionRealtime", 0) : 0;
 
@@ -32,7 +38,7 @@ export const useAudioPlayer = ({
         const eq = eqEngineRef.current;
         const loudness = loudnessEngineRef.current;
 
-        if (eq && loudness && eq.ctx && !eq.initialized) {
+        if (eq && loudness && eq.ctx && !eq.initialized) {            
             const loudnessGainNode = loudness.init(eq.ctx);
             eq.init(audioElement, EQGainRef.current, loudnessGainNode);
 
@@ -54,11 +60,22 @@ export const useAudioPlayer = ({
                     setJSON("positionRealtime", pos);
                     lastSavedPosRef.current = flooredPos;
                 }
+
+                if (!playRecordedRef.current && engine.duration > 0 && !currentSong.isPrivate) {
+                    const threshold = Math.min(PLAY_THRESHOLD_SECONDS, engine.duration * PLAY_THRESHOLD_PERCENTAGE);
+
+                    if (pos >= threshold) {
+                        playRecordedRef.current = true;
+                        recordPlay(Number(currentSong.id), Math.floor(pos), Math.floor(engine.duration))
+                            .catch(console.warn);
+                    }
+                }
             },
 
             onEnded: () => nextRef.current?.(),
             onPlay: () => setIsPlaying(true),
             onPause: () => setIsPlaying(false),
+            
             onError: () => {
                 setIsPlaying(false);
                 showToast(`Failed to play "${currentSong.title}"`, "error");

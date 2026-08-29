@@ -8,9 +8,11 @@ import AuthCard from "./auth/AuthCard";
 import UserPlaylists from "./playlists/UserPlaylists";
 import AuthButton from "@/components/ui/buttons/AuthButton";
 import SettingsButton from "@/components/ui/buttons/SettingsButton";
+import StatsButton from "../ui/buttons/StatsButton";
 import Teaser from "@/components/ui/teasers/Teaser";
 import Loader from "@/components/ui/loaders/Loader";
 import styles from "./homeScreen.module.css";
+import LogOutButton from "../ui/buttons/LogOutButton";
 
 const HomeScreen = () => {
     const { user, logout, authLoading } = useAuth();
@@ -30,8 +32,9 @@ const HomeScreen = () => {
                 <div className={styles.UserDiv}>
                     {/* Auth */}
                     <h2 className={styles.text}>Welcome, {user.username}!</h2>
-                    <AuthButton title="Logout" loading={false} onClick={logout} width={isMobile ? '80%' : '90%'}/>
+                    <LogOutButton title="Logout" loading={false} onClick={logout} width={isMobile ? '80%' : '90%'}/>
                     <SettingsButton title="Settings" loading={false} onClick={() => navigate("/user-settings")}width={isMobile ? '10%' : '5%'}/>
+                    <StatsButton title="Stats" loading={false} onClick={() => navigate("/user-stats")}width={isMobile ? '10%' : '5%'}/>
 
                     {/* Playlists */}
                     <h3 className={styles.text2}>Your Playlists</h3>
