@@ -7,9 +7,7 @@ import ListSongItem from "./ListSongItem";
 
 const TopSongsList = ({ topSongs }: TopSongsListProps) => {
     const { playlist: existingPlaylist, playSong } = useAudio();
-    const { songs } = useLibrary();
-
-    console.log("");
+    const { songs } = useLibrary();    
 
     const handlePlaySong = (songId: number) => {
         const song = getSongData(songId, songs);
