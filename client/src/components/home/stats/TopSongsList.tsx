@@ -3,7 +3,7 @@ import { TopSongsListProps } from "@/types/stats.types";
 import { useAudio } from "@/contexts/AudioContextWeb";
 import { useLibrary } from "@/contexts/LibraryContextWeb";
 import styles from "./topSongsList.module.css";
-import ListSongItem from "./listSongItem";
+import ListSongItem from "./ListSongItem";
 
 const TopSongsList = ({ topSongs }: TopSongsListProps) => {
     const { playlist: existingPlaylist, playSong } = useAudio();
