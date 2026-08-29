@@ -9,6 +9,8 @@ const TopSongsList = ({ topSongs }: TopSongsListProps) => {
     const { playlist: existingPlaylist, playSong } = useAudio();
     const { songs } = useLibrary();
 
+    console.log("");
+
     const handlePlaySong = (songId: number) => {
         const song = getSongData(songId, songs);
         const newPlaylist = song ? [song] : existingPlaylist;
