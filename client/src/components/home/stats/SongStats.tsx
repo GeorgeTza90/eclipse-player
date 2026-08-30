@@ -1,35 +1,68 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
+import { useAudio } from "@/contexts/AudioContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
+import { useLibrary } from "@/contexts/LibraryContextWeb";
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { fetchPlayStats } from "@/services/GetService";
-import { RANGE_OPTIONS } from "@/utils/rangeOption";
+import { fetchSongStats } from "@/services/GetService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { formatDuration } from "@/utils/formatTime";
-import Loader from "@/components/ui/loaders/Loader";
+import { getSongData } from "@/utils/getSong";
+import { RANGE_OPTIONS } from "@/utils/rangeOption";
 import MiniPlayer from "@/components/player/mini/MiniPlayer";
 import BackButton from "@/components/ui/buttons/BackButton";
-import { PlayStats, StatsRange } from "@/types/stats.types";
-import TopSongsList from "./TopSongsList";
+import Loader from "@/components/ui/loaders/Loader";
 import HistoryChart from "./HistoryChart";
+import ListSongItem from "./ListSongItem";
+import { HistoryBucket, StatsRange } from "@/types/stats.types";
+import { Song } from "@/types/songs.types";
 import styles from "./stats.module.css";
 
-const Stats = () => {
+const SongStats = () => {
+    const [searchParams] = useSearchParams();
+    const songId = Number(searchParams.get("songId"));
+    const rangePreset = searchParams.get("range") as StatsRange;
+
+    const { playlist: existingPlaylist, playSong } = useAudio();
+    const { songs } = useLibrary();
     const { barMode } = useMiniPlayer();
     const { user } = useAuth();
     const isMobile = useIsMobile();
 
-    const [range, setRange] = useState<StatsRange>("1m");
-    const [stats, setStats] = useState<PlayStats | null>(null);
+    const [range, setRange] = useState<StatsRange>(rangePreset ?? "1m");
+    const [song, setSong] = useState<Song | null>();
+    const [stats, setStats] = useState<HistoryBucket[] | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [localError, setLocalError] = useState<string>("");
+    const [totalPlaytime, setTotalPlaytime] = useState<number>(0);
+
+    const handlePlaySong = (songId: number) => {
+        const song = getSongData(songId, songs);
+        const newPlaylist = song ? [song] : existingPlaylist;
+        song && playSong(song, newPlaylist);
+    };
 
     useEffect(() => {
-        const loadStats = async () => {
+        let total = 0;
+        stats?.forEach((s) => total += Number(s.totalSeconds));
+        setTotalPlaytime(total);
+    }, [stats]);
+
+    useEffect(() => {
+        const loadStats = async () => {            
+            if (Number.isNaN(songId)) {
+                setLocalError("Missing song ID");
+                setLoading(false);
+                return
+            }
             setLoading(true);
-            try {
-                const data = await fetchPlayStats(range);
-                setStats(data);
+
+            try {                
+                const statsData = await fetchSongStats(songId, range);
+                const songData = await getSongData(songId, songs);
+                setStats(statsData);
+                setSong(songData);
             } catch (err) {
                 setLocalError(getErrorMessage(err, "Failed to load listening stats"));
             } finally {
@@ -37,7 +70,7 @@ const Stats = () => {
             }
         };
         loadStats();
-    }, [range]);   
+    }, [songId, range]);
 
     return (
         <div className={styles.container}>
@@ -58,34 +91,32 @@ const Stats = () => {
                         </button>
                     ))}
                 </div>
-                
-                {loading && <Loader text="Loading Listening Stats ..." size="5vh" />}
+
+                {loading && <Loader text="Loading Listening Stats ..." size="1rem" />}
 
                 {!loading && localError && (
                     <p className={styles.message}>{localError}</p>
                 )}
 
-                {!loading && !localError && stats && stats.topSongs.length === 0 && (
+                {!loading && !localError && !stats && (
                     <p className={styles.emptyState}>No listening history yet — play something!</p>
                 )}
 
-                {!loading && !localError && stats && stats.topSongs.length > 0 && (
-                    <div className={styles.statsContainer}>
+                {!loading && !localError && stats && (
+                    <div className={styles.statsContainer}><br/>
+
+                        {song && <ListSongItem song={song} onClick={() => handlePlaySong(Number(song.id))}/>}<br/>
+
                         {/* Total listening time */}
                         <div className={styles.userInfo}>
                             Total Listening Time:
-                            <p className={styles.statValue}>{formatDuration(stats.totalSeconds)}</p>
+                            <p className={styles.statValue}>{formatDuration(totalPlaytime)}</p>
                         </div><br/>
-
-                        {/* Top songs */}
-                        <h3>Top Songs</h3>
-                        <TopSongsList topSongs={stats.topSongs}/>
-                        <br/><br/>
 
                         {/* History chart */}
                         <div className={styles.section}>
                             <h3>Listening History</h3>
-                            <HistoryChart history={stats.history} range={range} />
+                            <HistoryChart history={stats} range={range} />
                         </div>
                     </div>
                 )}<br/><br/><br/>
@@ -97,4 +128,4 @@ const Stats = () => {
     );
 }
 
-export default Stats;
+export default SongStats;

@@ -10,6 +10,7 @@ import ResetPassword from "@/components/home/auth/ResetPassword";
 import ArtistDetail from "@/components/library/details/ArtistDetail";
 import Settings from "@/components/home/settings/Settings";
 import Stats from "@/components/home/stats/Stats";
+import SongStats from "@/components/home/stats/SongStats";
 import NotFound from "@/pages/NotFound/index";
 
 const AppRouter = () => {
@@ -20,6 +21,7 @@ const AppRouter = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/user-settings" element={<Settings />} />
                 <Route path="/user-stats" element={<Stats />} />
+                <Route path="/stats/song" element={<SongStats />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
 
                 <Route path="/player" element={<Player />} />

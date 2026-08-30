@@ -13,10 +13,8 @@ const formatBucketLabel = (bucket: string, range: StatsRange): string => {
         const date = new Date(Number(year), Number(month) - 1);
         return date.toLocaleDateString("en-US", { month: "short", year: "2-digit" });
     }
-    if (range === "3m") {
-        return bucket.replace(/^\d{4}-/, "W"); // "2026-34" -> "W34"
-    }
-    // 7d / 1m -> daily "YYYY-MM-DD"
+    if (range === "3m") return bucket.replace(/^\d{4}-/, "W");
+    
     const date = new Date(bucket);
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 };

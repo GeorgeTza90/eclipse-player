@@ -226,6 +226,11 @@ export interface AuthFormErrorProps {
     message: string | null;
 }
 export interface ErrorMessageProps {
-    message: string
-    height: string | number
+    message: string;
+    height: string | number;
+}
+
+export interface SongStatsButtonProps {
+    song: Song;
+    onClick?: () => void;
 }

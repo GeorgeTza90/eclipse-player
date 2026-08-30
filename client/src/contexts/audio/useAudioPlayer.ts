@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { getJSON, setJSON } from "@/utils/localStorageManager";
+import { getJSON, setJSON, getBool } from "@/utils/localStorageManager";
 import { useToast } from "@/contexts/ToastContextWeb";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { LOUDNESS_PRESETS } from "@/utils/loudnessPresets";
@@ -24,12 +24,15 @@ export const useAudioPlayer = ({
     const loudnessPresetRef = useLatestRef(loudnessPreset);
 
     useEffect(() => {
-        if (!currentSong) return;        
+        if (!currentSong) return;
 
         const engine = audioEngineRef.current;
         if (!engine) return;
 
-        playRecordedRef.current = false;
+        // Αν είναι πραγματικό restore (reload), κράτα το ήδη-καταγεγραμμένο play flag.
+        // Αν είναι πραγματική αλλαγή τραγουδιού, reset σε false.
+        playRecordedRef.current = isInitialLoadRef.current ? getBool("playRecorded", false) : false;
+        setJSON("playRecorded", playRecordedRef.current);
 
         const savedPosition = isInitialLoadRef.current ? getJSON<number>("positionRealtime", 0) : 0;
 
@@ -38,7 +41,7 @@ export const useAudioPlayer = ({
         const eq = eqEngineRef.current;
         const loudness = loudnessEngineRef.current;
 
-        if (eq && loudness && eq.ctx && !eq.initialized) {            
+        if (eq && loudness && eq.ctx && !eq.initialized) {
             const loudnessGainNode = loudness.init(eq.ctx);
             eq.init(audioElement, EQGainRef.current, loudnessGainNode);
 
@@ -66,6 +69,7 @@ export const useAudioPlayer = ({
 
                     if (pos >= threshold) {
                         playRecordedRef.current = true;
+                        setJSON("playRecorded", true);
                         recordPlay(Number(currentSong.id), Math.floor(pos), Math.floor(engine.duration))
                             .catch(console.warn);
                     }
@@ -75,7 +79,6 @@ export const useAudioPlayer = ({
             onEnded: () => nextRef.current?.(),
             onPlay: () => setIsPlaying(true),
             onPause: () => setIsPlaying(false),
-            
             onError: () => {
                 setIsPlaying(false);
                 showToast(`Failed to play "${currentSong.title}"`, "error");

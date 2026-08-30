@@ -6,7 +6,7 @@ const PLAY_THRESHOLD_PERCENTAGE = 0.5;
 const RANGE_CONFIG: Record<string, { days: number | null; groupFormat: string }> = {
     "7d":  { days: 7,   groupFormat: "%Y-%m-%d" },
     "1m":  { days: 30,  groupFormat: "%Y-%m-%d" },
-    "3m":  { days: 90,  groupFormat: "%x-%v" },   // ISO year-week
+    "3m":  { days: 90,  groupFormat: "%x-%v" },
     "all": { days: null, groupFormat: "%Y-%m" },
 };
 
@@ -59,4 +59,12 @@ export const playsService = {
     async getUserStats(userId: number, sinceDate: Date, limit = 10) {
         return playsRepository.findTopSongsForUser(userId, sinceDate, limit);
     },
+
+    async getSongStats(songId: number, range: string) {             
+        const config = RANGE_CONFIG[range] ?? RANGE_CONFIG["1m"];
+        const sinceDate = resolveSinceDate(config.days);
+        
+        const songHistory = await playsRepository.findSongHistory(songId, sinceDate, config.groupFormat);
+        return songHistory;        
+    }
 };

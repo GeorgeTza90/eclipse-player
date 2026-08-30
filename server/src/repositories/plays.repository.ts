@@ -90,4 +90,27 @@ export const playsRepository = {
         const [rows] = await db.query<Song[]>("SELECT * FROM songs WHERE id = ? LIMIT 1", [songId]);
         return rows;
     },
+
+    async findSongHistory(userId: number, sinceDate: Date | null, groupFormat: string) {
+        const params: (number | Date)[] = [userId];
+        let dateFilter = "";
+
+        if (sinceDate) {
+            dateFilter = "AND played_at >= ?";
+            params.push(sinceDate);
+        }
+
+        const [rows] = await db.query<RowDataPacket[]>(
+            `SELECT
+                DATE_FORMAT(played_at, '${groupFormat}') AS bucket,
+                COUNT(*) AS playCount,
+                SUM(duration_listened_seconds) AS totalSeconds
+            FROM plays
+            WHERE song_id = ? ${dateFilter} AND completed = TRUE
+            GROUP BY bucket
+            ORDER BY bucket ASC`,
+            params
+        );
+        return rows;
+    }
 };

@@ -6,7 +6,6 @@ import { useMinimumLoading } from "@/hooks/useMinimumLoading";
 import { CURRENT_APK_VERSION } from "@/config";
 import AuthCard from "./auth/AuthCard";
 import UserPlaylists from "./playlists/UserPlaylists";
-import AuthButton from "@/components/ui/buttons/AuthButton";
 import SettingsButton from "@/components/ui/buttons/SettingsButton";
 import StatsButton from "../ui/buttons/StatsButton";
 import Teaser from "@/components/ui/teasers/Teaser";

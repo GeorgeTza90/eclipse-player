@@ -72,3 +72,9 @@ export async function fetchPlayStats(range: StatsRange = "1m") {
     await errorChecker(res, "Failed to fetch play stats");
     return res.json();
 }
+
+export async function fetchSongStats(songId: number, range: StatsRange = "1m") {
+    const res = await fetch(`${API_URL}/api/plays/stats/song?songId=${songId}&range=${range}`, { credentials: "include" });
+    await errorChecker(res, "Failed to fetch song stats");
+    return res.json();
+}
