@@ -58,7 +58,8 @@ const Stats = () => {
                         </button>
                     ))}
                 </div>
-                
+
+        {/* Loaders */}        
                 {loading && <Loader text="Loading Listening Stats ..." size="5vh" />}
 
                 {!loading && localError && (
@@ -71,18 +72,19 @@ const Stats = () => {
 
                 {!loading && !localError && stats && stats.topSongs.length > 0 && (
                     <div className={styles.statsContainer}>
-                        {/* Total listening time */}
+        {/* Total listening time */}
                         <div className={styles.userInfo}>
                             Total Listening Time:
                             <p className={styles.statValue}>{formatDuration(stats.totalSeconds)}</p>
-                        </div><br/>
+                        </div>
 
-                        {/* Top songs */}
+        {/* Top songs */}
                         <h3>Top Songs</h3>
-                        <TopSongsList topSongs={stats.topSongs}/>
-                        <br/><br/>
+                        <div>
+                            <TopSongsList topSongs={stats.topSongs}/>
+                        </div><br/><br/>
 
-                        {/* History chart */}
+        {/* History chart */}
                         <div className={styles.section}>
                             <h3>Listening History</h3>
                             <HistoryChart history={stats.history} range={range} />

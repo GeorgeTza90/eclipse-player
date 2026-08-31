@@ -15,3 +15,7 @@ export const statsBySongSchema = z.object({
     songId: z.coerce.number().int().positive(),
     range: z.enum(["7d", "1m", "3m", "all"]).default("1m"),
 });
+
+export const songPlayCountSchema = z.object({
+    songId: z.coerce.number().int().positive(),
+});

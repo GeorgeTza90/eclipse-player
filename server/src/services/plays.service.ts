@@ -1,29 +1,12 @@
 import { playsRepository } from "@/repositories/plays.repository.js";
-import { ensureSongExists, ensurePlayCreated } from "@/guards/plays.guard.js";
-
-const PLAY_THRESHOLD_SECONDS = 30;
-const PLAY_THRESHOLD_PERCENTAGE = 0.5;
-const RANGE_CONFIG: Record<string, { days: number | null; groupFormat: string }> = {
-    "7d":  { days: 7,   groupFormat: "%Y-%m-%d" },
-    "1m":  { days: 30,  groupFormat: "%Y-%m-%d" },
-    "3m":  { days: 90,  groupFormat: "%x-%v" },
-    "all": { days: null, groupFormat: "%Y-%m" },
-};
-
-function resolveSinceDate(days: number | null): Date | null {
-    if (days === null) return null;
-    const d = new Date();
-    d.setDate(d.getDate() - days);
-    return d;
-}
+import { ensurePlayCreated } from "@/guards/plays.guard.js";
+import { ensureUserAuthorized } from "@/guards/auth.guard.js";
+import { ensureSongExists } from "@/guards/songs.guard.js";
+import { resolveSinceDate } from "@/utils/helpers.js";
+import { PLAY_THRESHOLD_PERCENTAGE, PLAY_THRESHOLD_SECONDS, RANGE_CONFIG } from "@/utils/generalConfigs.js";
 
 export const playsService = {
-    async recordPlay(
-        userId: number,
-        songId: number,
-        durationListenedSeconds: number,
-        songDurationSeconds: number
-    ) {
+    async recordPlay(userId: number, songId: number, durationListenedSeconds: number, songDurationSeconds: number) {
         const song = await playsRepository.findSongById(songId);
         ensureSongExists(song);
 
@@ -60,11 +43,18 @@ export const playsService = {
         return playsRepository.findTopSongsForUser(userId, sinceDate, limit);
     },
 
-    async getSongStats(songId: number, range: string) {             
+    async getSongStats(songId: number, range: string, userId: number) {             
+        const user = await playsRepository.findUserPrivateFlag(userId);
+        ensureUserAuthorized(user);
+        
         const config = RANGE_CONFIG[range] ?? RANGE_CONFIG["1m"];
         const sinceDate = resolveSinceDate(config.days);
-        
+                
         const songHistory = await playsRepository.findSongHistory(songId, sinceDate, config.groupFormat);
         return songHistory;        
-    }
+    },
+
+    async getSongPlayCount(songId: number) {
+        return playsRepository.countPlaysFotSong(songId);
+    },
 };

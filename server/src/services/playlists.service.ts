@@ -1,7 +1,7 @@
 import { playlistsRepository } from "@/repositories/playlists.repository.js";
 import { 
-    ensurePlaylistExists, ensurePlaylistUpdated, ensureSongExists,
-    ensureSongIndexExists, ensureSongNotExists, ensureValidOrder 
+    ensurePlaylistExists, ensurePlaylistUpdated, ensureSongExistsInPlaylist,
+    ensureSongIndexExistsInPlaylist, ensureSongNotExistsInPlaylist, ensureValidPlaylistOrder 
 } from "@/guards/playlists.guard.js";
 
 // -------------------- SERVICE --------------------
@@ -62,7 +62,7 @@ export const playlistsService = {
         ensurePlaylistExists(playlist);
 
         const existingSong = await playlistsRepository.findPlaylistSong(playlistId, songId);
-        ensureSongNotExists(existingSong);
+        ensureSongNotExistsInPlaylist(existingSong);
 
         const lastOrder = await playlistsRepository.findMaxOrder(playlistId);
         const playlistOrder = (lastOrder?.[0]?.maxOrder ?? 0) + 1;
@@ -75,10 +75,10 @@ export const playlistsService = {
         ensurePlaylistExists(playlist);
 
         const songs = await playlistsRepository.findPlaylistSongsInOrder(playlistId);
-        ensureValidOrder(newOrder, songs.length);
+        ensureValidPlaylistOrder(newOrder, songs.length);
 
         const index = songs.findIndex(s => s.id === songId);
-        ensureSongIndexExists(index);
+        ensureSongIndexExistsInPlaylist(index);
 
         const [movedSong] = songs.splice(index, 1);        
         songs.splice(newOrder, 0, movedSong);
@@ -91,7 +91,7 @@ export const playlistsService = {
         ensurePlaylistExists(playlist);
         
         const existingSong = await playlistsRepository.findPlaylistSong(playlistId, songId);
-        ensureSongExists(existingSong);
+        ensureSongExistsInPlaylist(existingSong);
         
         return playlistsRepository.deleteSongInPlaylist(playlistId, songId);
     },

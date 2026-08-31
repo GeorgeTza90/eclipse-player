@@ -5,7 +5,7 @@ import { useAudio } from "@/contexts/AudioContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { useLibrary } from "@/contexts/LibraryContextWeb";
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { fetchSongStats } from "@/services/GetService";
+import { fetchSongStats, fetchSongTotalPlays } from "@/services/GetService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { formatDuration } from "@/utils/formatTime";
 import { getSongData } from "@/utils/getSong";
@@ -33,9 +33,10 @@ const SongStats = () => {
     const [range, setRange] = useState<StatsRange>(rangePreset ?? "1m");
     const [song, setSong] = useState<Song | null>();
     const [stats, setStats] = useState<HistoryBucket[] | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [localError, setLocalError] = useState<string>("");
+    const [totalPlays, setTotalPlays] = useState<number>(0);
     const [totalPlaytime, setTotalPlaytime] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [localError, setLocalError] = useState<string>("");    
 
     const handlePlaySong = (songId: number) => {
         const song = getSongData(songId, songs);
@@ -50,36 +51,42 @@ const SongStats = () => {
     }, [stats]);
 
     useEffect(() => {
-        const loadStats = async () => {            
+        const loadStats = async () => {
             if (Number.isNaN(songId)) {
                 setLocalError("Missing song ID");
                 setLoading(false);
-                return
+                return;
             }
+
             setLoading(true);
 
-            try {                
-                const statsData = await fetchSongStats(songId, range);
-                const songData = await getSongData(songId, songs);
+            try {
+                const [statsData, totalPlays] = await Promise.all([fetchSongStats(songId, range), fetchSongTotalPlays(songId)]);
                 setStats(statsData);
-                setSong(songData);
+                setTotalPlays(totalPlays);
             } catch (err) {
                 setLocalError(getErrorMessage(err, "Failed to load listening stats"));
             } finally {
                 setLoading(false);
             }
         };
+
         loadStats();
     }, [songId, range]);
+
+    useEffect(() => {        
+        const songData = getSongData(songId, songs);
+        setSong(songData);        
+    }, [songId, songs]);
 
     return (
         <div className={styles.container}>
             {!isMobile && user && !barMode && (<MiniPlayer />)}
             <div>
-                {/* User Stats */}
-                <h3 className={styles.text3}>Your Statistics</h3>
+        {/* User Stats */}
+                <h3 className={styles.text3}>{song?.title} - Statistics</h3>
 
-                {/* Range selector */}
+        {/* Range selector */}
                 <div className={styles.rangeSelector}>
                     {RANGE_OPTIONS.map((opt) => (
                         <button
@@ -91,7 +98,7 @@ const SongStats = () => {
                         </button>
                     ))}
                 </div>
-
+        {/* Loaders */}
                 {loading && <Loader text="Loading Listening Stats ..." size="1rem" />}
 
                 {!loading && localError && (
@@ -105,15 +112,24 @@ const SongStats = () => {
                 {!loading && !localError && stats && (
                     <div className={styles.statsContainer}><br/>
 
+        {/* Song Info */}
                         {song && <ListSongItem song={song} onClick={() => handlePlaySong(Number(song.id))}/>}<br/>
 
-                        {/* Total listening time */}
-                        <div className={styles.userInfo}>
-                            Total Listening Time:
-                            <p className={styles.statValue}>{formatDuration(totalPlaytime)}</p>
+        {/* Total listening time */}
+                        <div className={styles.songInfo}>
+                            <div className={styles.songInfoDiv}>
+                                Total Listening Time:
+                                <p className={styles.statValue}>{formatDuration(totalPlaytime)}</p>
+                            </div>
+                            
+                            <div className={styles.songInfoDiv}>
+                                Total Plays:
+                                <p className={styles.statValue}>{totalPlays}</p>    
+                            </div>
+                            
                         </div><br/>
 
-                        {/* History chart */}
+        {/* History chart */}
                         <div className={styles.section}>
                             <h3>Listening History</h3>
                             <HistoryChart history={stats} range={range} />

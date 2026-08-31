@@ -1,3 +1,11 @@
-.chartContainer {
-    margin-top: 0.5rem;
+.chartContainer {    
+    margin-top: 0.5rem;    
+}
+
+@media (max-width: 768px) {
+    .chartContainer {  
+        margin-left: -2rem;      
+        max-width: 100%;
+    }
+    
 }

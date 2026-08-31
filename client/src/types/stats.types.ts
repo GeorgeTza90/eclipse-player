@@ -41,5 +41,10 @@ export interface HistoryBucket {
     totalSeconds: number;
 }
 
+export interface HistoryChartProps {
+    history: HistoryBucket[];
+    range: StatsRange;
+}
+
 
 
