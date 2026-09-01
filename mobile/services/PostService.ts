@@ -63,3 +63,11 @@ export const addSongToPlaylist = (playlistId: number, songId: number) =>
         method: "POST",
         body: JSON.stringify({ songId }),
     });
+
+// -------------------- Plays --------------------
+export const recordPlay = (songId: number, durationListenedSeconds: number, songDurationSeconds: number) =>
+    apiFetch<any>(`/api/plays`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ songId, durationListenedSeconds, songDurationSeconds }),        
+    });

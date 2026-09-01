@@ -8,7 +8,8 @@ export class AudioEngine {
     private player: AudioPlayer | null = null;
     private intervalId: ReturnType<typeof setInterval> | null = null;
     private listeners: AudioEngineListeners = {};
-    private hasFiredEnded = false;
+    private hasFiredEnded = false;    
+    private hasFiredPlayRecorded = false;
     private wasPlaying = false;
 
     attach(player: AudioPlayer, listeners: AudioEngineListeners = {}) {
@@ -17,6 +18,7 @@ export class AudioEngine {
         this.player = player;
         this.listeners = listeners;
         this.hasFiredEnded = false;
+        this.hasFiredPlayRecorded = false;
         this.wasPlaying = player.playing;
 
         this.intervalId = setInterval(() => this.poll(), POLL_INTERVAL_MS);
@@ -31,6 +33,14 @@ export class AudioEngine {
         if (playing !== this.wasPlaying) {
             this.wasPlaying = playing;
             this.listeners.onPlayingChange?.(playing);
+        }
+
+        if (!this.hasFiredPlayRecorded && duration > 0) {
+            const threshold = Math.min(30, duration * 0.5);
+            if (currentTime >= threshold) {
+                this.hasFiredPlayRecorded = true;
+                this.listeners.onPlayThresholdReached?.(currentTime, duration);
+            }
         }
 
         const reachedEnd = duration > 0 && currentTime >= duration - END_THRESHOLD_SECONDS && !playing;

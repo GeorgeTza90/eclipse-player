@@ -59,7 +59,7 @@ const Stats = () => {
                     ))}
                 </div>
 
-        {/* Loaders */}        
+        {/* Loaders & Errors */}
                 {loading && <Loader text="Loading Listening Stats ..." size="5vh" />}
 
                 {!loading && localError && (
@@ -72,6 +72,7 @@ const Stats = () => {
 
                 {!loading && !localError && stats && stats.topSongs.length > 0 && (
                     <div className={styles.statsContainer}>
+                        
         {/* Total listening time */}
                         <div className={styles.userInfo}>
                             Total Listening Time:

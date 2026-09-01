@@ -85,5 +85,6 @@ export type AudioPlayerProps = {
 export interface AudioEngineListeners {
     onTimeUpdate?: (time: number, duration: number) => void;
     onPlayingChange?: (playing: boolean) => void;
+    onPlayThresholdReached?: (time: number, duration: number) => void;
     onEnded?: () => void;
 }

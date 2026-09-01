@@ -98,9 +98,9 @@ const SongStats = () => {
                         </button>
                     ))}
                 </div>
-        {/* Loaders */}
+        {/* Loaders & Errors */}
                 {loading && <Loader text="Loading Listening Stats ..." size="1rem" />}
-
+        
                 {!loading && localError && (
                     <p className={styles.message}>{localError}</p>
                 )}

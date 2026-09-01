@@ -23,6 +23,7 @@ export type Song = {
     feature?: string;
     lyrics?: string;
     loudness?: SongLoudness;
+    isPrivate?: boolean;
 };
 
 export interface PlaylistSong extends Song {

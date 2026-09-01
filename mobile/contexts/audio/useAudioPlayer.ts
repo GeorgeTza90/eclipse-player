@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { UseAudioPlayerProps } from "@/types/audio";
+import { recordPlay } from "@/services/PostService";
 
 export function useAudioPlayer({
     player, currentSong, volume, loudnessGain, shouldAutoplay,
@@ -18,6 +19,11 @@ export function useAudioPlayer({
                 setDuration(duration);
             },
             onPlayingChange: (playing) => setIsPlaying(playing),
+            onPlayThresholdReached: (time, duration) => {
+                if (currentSong.isPrivate) return;
+                recordPlay(Number(currentSong.id), Math.floor(time), Math.floor(duration))
+                    .catch(console.warn);
+            },
             onEnded: () => nextRef.current?.(),
         });
 

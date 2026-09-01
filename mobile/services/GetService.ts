@@ -2,6 +2,7 @@ import { apiFetch } from "@/utils/apiFetch";
 import { Song, PlaylistSong } from "@/types/songs";
 import { Playlist } from "@/types/playlists";
 import { User } from "@/types/auth";
+import { HistoryBucket, PlayStats, StatsRange } from "@/types/stats";
 
 // -------------------- Auth --------------------
 export const fetchCurrentUser = () => apiFetch<User | null>("/api/auth/me");
@@ -28,3 +29,13 @@ export const fetchPlaylistSongs = (playlistId: number) => {
     if (!playlistId) throw new Error("Playlist ID is required");
     return apiFetch<PlaylistSong[]>(`/api/playlists/${playlistId}/songs`);
 };
+
+// -------------------- Plays --------------------
+export const fetchPlayStats = (range: StatsRange = "1m") =>
+    apiFetch<PlayStats>(`/api/plays/stats?range=${range}`);
+
+export const fetchSongStats = (songId: number, range: StatsRange = "1m") =>
+    apiFetch<HistoryBucket[]>(`/api/plays/stats/song?songId=${songId}&range=${range}`);
+
+export const fetchSongTotalPlays = (songId: number) =>
+    apiFetch<any>(`/api/plays/stats/song/plays?songId=${songId}`);

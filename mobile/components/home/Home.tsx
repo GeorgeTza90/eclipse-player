@@ -5,16 +5,17 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useMinimumLoading } from '@/hooks/useMinimumLoading';
 import AuthCard from './auth/AuthCard';
 import UserPlaylists from './playlists/UserPlaylists';
-import AuthButton from '../ui/buttons/authButtons';
+import AuthButton from '../ui/buttons/AuthButtons';
 import Teaser from '../ui/teasers/Teaser';
 import Loader from '../ui/loaders/Loader';
-
 import SettingsButton from '../ui/buttons/SettingsButton';
+import StatsButton from '../ui/buttons/StatsButton';
 
 export default function Home() {    
     const { user, logout, loading } = useAuth();
 
     const handlePressSettings = (): void => router.push(`/home/Settings`);
+    const handlePressStats = ():void => router.push(`/home/Stats`);
 
     const showLoader = useMinimumLoading(loading, 1500);
     if (showLoader) return <Loader text="Checking login status"/>;
@@ -28,8 +29,9 @@ export default function Home() {
                 <View style={styles.userSection}>                    
                     <Text style={styles.text}>Welcome, {user.username}!</Text>
                     <View style={styles.userOptions}>
-                        <AuthButton title="Logout" loading={false} onPress={logout} width="70%"/>
+                        <AuthButton title="Logout" loading={false} onPress={logout} width="55%"/>
                         <SettingsButton title="Settings" loading={false} onPress={() => handlePressSettings()} />
+                        <StatsButton title="Settings" loading={false} onPress={() => handlePressStats()} />
                     </View>
                     
                     

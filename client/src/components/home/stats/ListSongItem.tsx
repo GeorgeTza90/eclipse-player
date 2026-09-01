@@ -13,6 +13,7 @@ const ListSongItem = ({song, onClick}: ListSongItemProps) => {
                 {song.image && (
                     <img src={song.image} alt={song.title} className={styles.songImage} />
                 )}
+
                 <div className={styles.songText}>
                     <span className={styles.title}>{song.title}<br />
                         {featArtists.length > 0 && (
@@ -21,9 +22,8 @@ const ListSongItem = ({song, onClick}: ListSongItemProps) => {
                             </span>
                         )}
                     </span>
-                    <p className={styles.artist}>
-                        {mainArtists.join(", ")}
-                    </p>
+                    
+                    <p className={styles.artist}>{mainArtists.join(", ")}</p>
                 </div>
             </div>
         </div>

@@ -24,3 +24,15 @@ export function useAlbumDuration(songs: Song[] ) {
     return durationString;
 }
 
+export const formatDuration = (seconds: number): string => {    
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    return `${minutes}m`;
+};
+
+export const formatMonth = (monthStr: string): string => {
+    const [year, month] = monthStr.split("-");
+    const date = new Date(Number(year), Number(month) - 1);
+    return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+};
