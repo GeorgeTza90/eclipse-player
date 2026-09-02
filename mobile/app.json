@@ -53,8 +53,7 @@
       "expo-asset",
       "expo-web-browser",
       "expo-secure-store",
-      "expo-video",
-      "react-native-audio-api"
+      "expo-video"      
     ],
     "experiments": {
       "typedRoutes": true,
