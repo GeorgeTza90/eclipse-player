@@ -7,7 +7,7 @@ import * as Google from 'expo-auth-session/providers/google';
 import validateAndSubmitAuth from '@/utils/validateAndSubmitAuth';
 import useAuthActions from '@/hooks/useAuthActions';
 import Circle from '../../ui/circles/Circle';
-import AuthButton from '../../ui/buttons/AuthButtons';
+import AuthButton from '../../ui/buttons/AuthButton';
 import PasswordInput from '../../ui/inputs/PasswordInput';
 import FormInput from '../../ui/inputs/FormInput';
 import GoogleAuthButton from '../../ui/buttons/GoogleAuthButtons';
