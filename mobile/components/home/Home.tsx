@@ -5,11 +5,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useMinimumLoading } from '@/hooks/useMinimumLoading';
 import AuthCard from './auth/AuthCard';
 import UserPlaylists from './playlists/UserPlaylists';
-import AuthButton from '../ui/buttons/AuthButtons';
-import Teaser from '../ui/teasers/Teaser';
-import Loader from '../ui/loaders/Loader';
-import SettingsButton from '../ui/buttons/SettingsButton';
-import StatsButton from '../ui/buttons/StatsButton';
+import AuthButton from '@/components/ui/buttons/AuthButtons';
+import Teaser from '@/components/ui/teasers/Teaser';
+import Loader from '@/components/ui/loaders/Loader';
+import SettingsButton from '@/components/ui/buttons/SettingsButton';
+import StatsButton from '@/components/ui/buttons/StatsButton';
 
 export default function Home() {    
     const { user, logout, loading } = useAuth();
