@@ -1,0 +1,21 @@
+.button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 2px;
+    background-color: transparent;
+    color: #8b4646;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    border: 1px solid #8b4646;
+    transition: opacity 0.2s ease;
+}
+
+.button:hover {
+    opacity: 0.7;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

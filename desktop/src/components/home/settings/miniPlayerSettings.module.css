@@ -1,0 +1,114 @@
+.container {
+    margin-left: 1rem;
+    display: grid;
+    grid-template-columns: repeat(6, 10rem);
+    align-items: center;
+    line-height: 0.2rem;
+    margin-left: 1rem;
+}
+
+.container2 {
+    margin-left: 1rem;
+    display: grid;
+    grid-template-columns: repeat(4, 10rem);
+    align-items: center;
+    line-height: 0.2rem;
+    margin-left: 1rem;
+}
+
+.text1 {
+    font-weight: lighter;
+    color: #9e9e9e;
+    transition: 0.5s ease;
+}
+
+.text2 {
+    font-weight: lighter;
+    color: #9e9e9e45;
+    transition: 0.5s ease;
+}
+
+.infoText {
+    color: #aaa;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+}
+
+.addButton {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #555;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+}
+
+.addButton:hover {
+    opacity: 0.8;
+}
+
+.playlistsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 12rem);
+}
+
+.resetMPPositionInActive {
+    width: 40px;
+    height: 22px;
+    border-radius: 30px;    
+    position: relative;
+    background-color: #2020204a;
+    border: 1px solid rgba(126, 126, 126, 0.385);
+    transition: 0.5s ease;
+}
+
+.resetMPPosition {
+    width: 40px;
+    height: 22px;
+    border-radius: 30px;    
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    transition: 0.5s ease;
+    background-color: #202020;
+    border: 1px solid rgb(126, 126, 126)
+}
+
+.resetMPPosition:hover {
+    background-color: #858585;
+    border: 1px solid rgb(255, 255, 255)
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin-left: 1rem;
+        display: grid;
+        grid-template-columns: repeat(2, 10rem);
+        align-items: center;
+        line-height: 0.5rem;
+    }
+
+    .container2 {
+        margin-left: 1rem;
+        display: grid;
+        grid-template-columns: repeat(2, 10rem);
+        align-items: center;
+        line-height: 0.5rem;
+    }
+        
+    .notAvailable {
+        font-size: 0.8rem;
+        color: #949494;      
+    }
+
+    .infoText {
+        color: #aaa;
+        font-size: 6px;
+        margin-bottom: 10px;
+    }
+}

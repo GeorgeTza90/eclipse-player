@@ -1,0 +1,33 @@
+.statsButton {
+    border-radius: 6px;
+    padding: 0.5rem;
+    text-align: center;
+    color: #e7ffee75;
+    font-weight: bold;
+    font-size: 1.2rem;    
+    cursor: pointer;
+    background-color: #55555500;
+    border: none;
+    margin-right: 0.15rem;
+    z-index: 999; 
+    opacity: 0.5;
+}
+
+.statsButton:hover {
+    opacity: 0.9;
+    color: #f1fff5;
+    background-color: #55555597;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.475);
+}
+
+.icon {    
+    height: 1rem;
+    width: 1rem;
+    opacity: 90%;
+}
+
+@media (max-width: 768px) {
+    .statsButton {
+
+    }
+}

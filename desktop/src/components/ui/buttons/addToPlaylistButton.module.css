@@ -1,0 +1,77 @@
+.button {
+    border-radius: 6px;
+    padding: 0.5rem;
+    text-align: center;
+    color: #e7ffee75;
+    font-weight: bold;
+    font-size: 1.2rem;    
+    cursor: pointer;
+    background-color: #55555500;
+    border: none;
+    margin-right: 0.15rem;
+    z-index: 999;
+}
+
+.button:hover {
+    color: #f1fff5;
+    background-color: #55555597;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.475);
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    z-index: 1000;
+}
+
+.modalContent {
+    width: 80%;
+    max-width: 400px;
+    max-height: 70%;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.modalTitle {
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.playlistItem {
+    padding: 10px;
+    background-color: #222;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    color: #ffffff84;
+    cursor: pointer;
+}
+
+.playlistItem:hover {
+    background-color: #5a5858c2;
+    color: #fff; 
+}
+
+.cancel {
+    background-color: #99999962;
+    color: #a0a0a0;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .cancel {
+        font-size: 15px;
+        padding: 10px 10px;
+    }
+}

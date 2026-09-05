@@ -1,0 +1,27 @@
+.groupsKindButton {
+    cursor: pointer;
+    background-color: #333;
+    border: transparent;
+    color: #d6d6d6;
+    font-size: small;
+    padding: 5px 10px;
+    margin: 20px 2px;
+    border-radius: 2rem;
+    box-shadow: 1px 1px 5px #000000dc;
+}
+
+.groupsKindButton:hover {
+    background-color: #646060;
+}
+
+.groupsKindButtonClicked {
+    box-shadow: 1px 1px 5px #000000dc;
+    background-color: #d3d3d3;
+    border: transparent;
+    color: #292929;
+    font-size: small;
+    font-weight: bolder;
+    padding: 5px 10px;
+    margin: 10px 2px;
+    border-radius: 2rem;
+}

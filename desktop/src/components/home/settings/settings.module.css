@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;    
+}
+
+.SettingsDiv {
+    margin-left: 5rem;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin-top: -2rem;    
+        display: flex;
+        justify-content: center;        
+    }
+
+    .SettingsDiv {
+        margin-left: 0rem;
+    }
+}

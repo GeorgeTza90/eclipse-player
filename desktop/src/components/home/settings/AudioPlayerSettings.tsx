@@ -1,0 +1,29 @@
+import { useEffect } from "react";
+import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
+import { useToast } from "@/contexts/ToastContextWeb";
+import { useAudio } from "@/contexts/AudioContextWeb";
+import LoudnessPresetButton from "@/components/ui/buttons/LoudnessPresetButton";
+import ToggleButton from "@/components/ui/buttons/ToggleButton";
+import styles from "./miniPlayerSettings.module.css";
+
+const AudioPlayerSettings = () => {
+    const {goRGB, setGoRGB, coloredGlow, setColoredGlow} = useMiniPlayer();
+    const { normalization, setNormalization, loudnessPreset, setLoudnessPreset } =useAudio();
+    const { showToast } = useToast();
+
+    useEffect(() => {
+        if (!goRGB) return;
+        showToast("RGB: ON? So you're that kind of ...", "info", 4000);
+    }, [goRGB, showToast]);
+    
+    return (
+        <div className={styles.container2}>                            
+            <ToggleButton heading={"Colored"} isBarMode={false} value={coloredGlow} onChange={setColoredGlow} />                
+            <ToggleButton heading={"Go Full RGB"} isBarMode={!coloredGlow} value={goRGB} onChange={setGoRGB} inActive={coloredGlow ? false : true}/>
+            <ToggleButton heading={"Normilize Sound"} value={normalization} onChange={setNormalization} />                
+            <LoudnessPresetButton heading={"Loudness Level"} value={loudnessPreset} onChange={setLoudnessPreset} disabled={!normalization}/>
+        </div>        
+    );
+};
+
+export default AudioPlayerSettings;

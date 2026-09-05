@@ -1,0 +1,72 @@
+.track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    min-height: 2.1rem;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+
+.trackLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.trackRight {
+    display: flex;
+    align-items: center;
+    gap: 0rem;
+}
+
+.trackNumber {
+    color: #888;
+    width: 2rem;
+    font-size: 1rem;
+}
+
+.trackTitle {
+    color: #fff;
+    font-size: 1rem;
+}
+
+.trackFeature {
+    font-size: 0.82rem;
+    margin-top: 0.2rem;
+    color: #ffffff96;
+}
+
+.trackDuration {
+    font-size: 1rem;
+    color: #888;
+    width: 50px;
+    text-align: right;
+}
+
+.track:hover {
+    /* background: linear-gradient(to right, #252525c4, #11111200); */
+    background-image:url(/assets/images/highlight.png);
+    background-position: center;
+    background-size: cover;
+    border-radius: 0.5rem;
+    transition: 0.5s ease;
+}
+
+@media (max-width: 768px) {
+    .track {
+        padding: 6px 0px;
+        font-size: 14px;
+        max-width: 94%;
+        margin-left: 1rem;
+    }
+
+    .trackTitle {
+        font-size: 0.88rem;
+    }
+
+    .trackFeature {
+        font-size: 0.78rem;
+    }
+}

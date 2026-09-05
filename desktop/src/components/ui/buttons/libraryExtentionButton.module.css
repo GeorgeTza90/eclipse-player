@@ -1,0 +1,30 @@
+.extentionButton{
+    text-decoration: double;
+    font-weight: bolder;
+    border-radius: 1rem;
+    padding: 0.3rem 0rem;    
+    background-color: #33333375;
+    color: #ffffff6a;
+    border-color: #16161671;    
+}
+
+.extentionHoverStyle {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background-color: #9696965a;
+    border-radius: 1rem;
+    z-index: 0;
+    transition: left 0.3s ease;
+}
+
+.extentionButtonsStyle {
+    width: 4rem;
+    background-color: #49444400;
+    cursor: pointer;
+    border-radius: 1rem;    
+    color: #ffffffb0;
+    border-color: #33333300;
+    z-index: 2;
+}

@@ -1,0 +1,29 @@
+.VolButton {
+    background-color: transparent;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+.volIcon {
+    width: 32px;
+    height: 32px;
+    margin-top: -1rem;
+    align-self: center;
+    opacity: 50%;
+}
+
+.volIcon:hover {
+    opacity: 95%;
+}
+
+.volIconActive {
+    width: 32px;
+    height: 32px;
+    margin-top: -1rem;
+    align-self: center;
+    opacity: 80%;
+}
+
+.volIconActive:hover {
+    opacity: 95%;
+}

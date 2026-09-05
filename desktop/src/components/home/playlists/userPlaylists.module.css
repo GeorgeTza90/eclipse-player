@@ -1,0 +1,22 @@
+.container {
+    margin-top: -1rem;
+    margin-bottom: 2rem;
+}
+
+.infoText {
+    color: #aaa;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.playlistsContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 12rem);
+}
+
+@media (max-width: 768px) {
+    .playlistsContainer {
+        display: grid;
+        grid-template-columns: repeat(2, 12rem);
+    }
+}

@@ -1,0 +1,93 @@
+import type { CSSProperties } from "react";
+import hexToRgba from "@/utils/hexToRgba";
+import { CircleStyleProps } from "@/types/ui.types";
+
+export function useStylesCircle(
+    {size, top, zIndex, intensity, heightOffset, shadowColor,
+    goRGB, coloredGlow, gradientColors, left}: CircleStyleProps
+) {
+    const circleRGB: CSSProperties = {
+        position: "fixed",
+        width: size + 10,
+        height: size + 10,
+        borderRadius: "50%",
+        top,
+        zIndex,
+        opacity: intensity / 60 + 0.05,
+        background: "conic-gradient(red, orange, yellow, green, cyan, blue, violet, red)",
+        animation: "spin 2.5s linear infinite",
+        WebkitMask:
+            "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",
+        mask:
+            "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",
+    };
+
+    const circleColored: CSSProperties = {
+        position: "fixed",
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        top,
+        boxShadow:
+            goRGB && coloredGlow
+                ? ""
+                : `0px ${heightOffset}px ${intensity}px ${
+                    hexToRgba(
+                        shadowColor,
+                        Math.min(intensity / 30, 1)
+                    )
+                }`,
+        background: `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`,
+        zIndex,
+        transition: "0.5s",
+    };
+
+    const miniCircleRGB: CSSProperties = {
+        left: left - 2,
+        top,
+        position: "absolute",
+        width: size + 5,
+        height: size + 5,
+        borderRadius: "50%",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        opacity: intensity / 24 + 0.05,
+        background: "conic-gradient(red, orange, yellow, green, cyan, blue, violet, red)",
+        animation: "spin 2.5s linear infinite",
+        WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",
+        zIndex: -10,
+    };
+
+    const miniCircleColored: CSSProperties = {
+        left,
+        top,
+        position: "absolute",
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow:
+            goRGB && coloredGlow
+                ? ""
+                : `0px ${heightOffset}px ${intensity}px ${
+                    hexToRgba(
+                        shadowColor,
+                        Math.min(intensity / 30, 1)
+                    )
+                }`,
+        background: `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`,
+        zIndex: -10,
+        transition: "0.5s",
+    };
+
+    return { circleRGB, circleColored, miniCircleRGB, miniCircleColored };
+};

@@ -1,0 +1,282 @@
+.container {
+    display: flex;
+    justify-content: center;
+    z-index: 0;    
+}
+
+.playerContent {
+    position: absolute;
+    top: 250px;
+    display: block;
+    justify-items: center;    
+}
+
+.infoRow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    z-index: 2;
+}
+
+.image {
+    width: 120px;
+    height: 120px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.title {
+    margin: 0.2rem;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+
+.trackFeature {
+    font-size: 0.9rem;
+    color: #ffffffc4;
+    margin-left: 0.4rem;
+}
+
+.artist {
+    margin-top: 0.2rem;
+    margin-left: 0.4rem;
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    z-index: 2;
+}
+
+.time {
+    color: #fff;
+    font-size: 0.8rem;    
+    text-align: center;
+}
+
+.sliderRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.sliderRowVol {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;    
+}
+
+.VolButton {
+    background-color: transparent;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+.sliderStyle, .volumeSliderStyle {
+    flex: 1;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    outline: none;
+    z-index: 2;
+}
+
+.sliderStyle {
+    height: 6px;
+    width: 23.5rem;
+}
+
+.sliderStyle:hover {
+    cursor: pointer;
+}
+
+.volumeSliderStyle {    
+    height: 5px;
+    width: 14rem;
+}
+
+.volumeSliderStyle:hover {    
+    cursor: pointer;
+}
+
+.sliderRGBStyle, .slidervolumeRGBStyle {
+    position: absolute;
+    border-radius: 3px;
+    background-image: linear-gradient(90deg,
+        red, orange, yellow, green, cyan, blue, violet, red);
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    animation: moveGradient 1.8s linear infinite;
+    outline: none;
+    z-index: 1;
+}
+
+.sliderRGBStyle {
+    margin-left: 2.5rem;
+    width: 23.5rem;
+    height: 6px;
+}
+
+.slidervolumeRGBStyle {
+    margin-left: 4.2rem;
+    height: 5px;
+    width: 13.9rem;    
+}
+
+.volIcon {
+    width: 40px;
+    height: 40px;
+    align-self: center;
+    opacity: 60%;
+}
+
+.volIcon:hover {
+    opacity: 95%;
+}
+
+.volIconActive {
+    width: 40px;
+    height: 40px;
+    align-self: center;
+    opacity: 75%;
+}
+
+.volIconActive:hover {
+    opacity: 95%;
+}
+
+.extentionButton{
+    text-decoration: double;
+    font-weight: bolder;
+    border-radius: 1rem;
+    padding: 0.4rem 0rem;    
+    background-color: #33333375;
+    color: #ffffff9d;
+    border-color: #16161671;
+    margin-bottom: 1rem;
+}
+
+.extentionHoverStyle {
+    position: absolute;
+    top: 0;
+    width: 33%;
+    height: 100%;
+    background-color: #9696965a;
+    border-radius: 1rem;
+    z-index: 0;
+    transition: left 0.3s ease;
+}
+
+.extentionButtonsStyle {
+    width: 5rem;
+    background-color: #49444400;
+    cursor: pointer;
+    border-radius: 1rem;    
+    color: #fff;
+    border-color: #33333300;
+    z-index: 2;
+}
+
+.emptyRow {
+    display: flex;
+    flex-direction: column;    
+    align-items: center;
+    margin-top: 50rem;    
+}
+
+.emptyPlayer, .songsAdd {
+    font-size: larger;
+    color: #ffffff76;    
+}
+
+.songsAdd:hover {
+    color: #ffffff;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .playerContent {
+        position: absolute;
+        top: 150px;
+        display: block;
+        justify-items: center;       
+    }
+
+    .infoRow {
+        margin-bottom: 2.5rem;
+        margin-left: 0.5rem;
+    }
+
+    .image {
+        width: 100px;
+        height: 100px;
+        border-radius: 12px;
+        margin-left: 0.5rem;        
+    }
+
+    .title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        max-width: 15rem;
+    }
+
+    .trackFeature {
+        font-size: 0.8rem;
+        color: #ffffffc4;
+        margin-left: 0.2rem;
+    }
+
+    .controls {
+        gap: 2rem;
+        margin-top: -2rem;
+        margin-bottom: 1rem;
+        z-index: 2;
+    }
+
+    .sliderStyle {
+        height: 6px;
+        width: 15rem;
+    }
+
+    .volumeSliderStyle {
+        height: 4.5px;
+        width: 8rem;
+    }
+
+    .sliderRGBStyle {
+        margin-left: 2.5rem;
+        width: 15rem;
+        height: 6px;
+    }
+
+    .slidervolumeRGBStyle {
+        margin-left: 4.2rem;
+        width: 8rem;
+        height: 4.5px;
+    }
+
+    .emptyRow {
+        margin-top: 34rem;    
+    }
+
+    .emptyPlayer, .songsAdd {
+        font-size: medium;
+        color: #ffffff76;    
+    }
+
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}

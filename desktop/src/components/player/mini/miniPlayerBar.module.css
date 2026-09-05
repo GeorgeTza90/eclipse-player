@@ -1,0 +1,194 @@
+.container {
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.1rem;    
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    flex-wrap: nowrap;
+    width: 60rem;
+}
+
+/* INFO (image + text) */
+.infoRow {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;    
+    margin-left: -2.2rem;
+    min-width: 12rem;
+}
+
+.image {
+    width: 50px;
+    height: auto;
+    border-radius: 2px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.title {
+    margin: 0;    
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+/* FEATURE SCROLL */
+.tickerContainer {
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 8rem;
+}
+
+.tittleTicker {
+    display: inline-block;
+    animation: scroll 20s linear infinite;
+    font-size: 0.9rem;    
+    margin-bottom: -1rem;
+}
+
+.tickerText {
+    display: inline-block;
+    animation: scroll 20s linear infinite;
+    font-size: 0.68rem;
+    color: #e4e4e4;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0rem 1rem;
+    
+}
+
+.sliderRow {
+    display: flex;    
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.sliderRowVol{
+    display: flex;    
+    align-items: center;
+    gap: 0rem;
+    margin-top: 1rem;
+}
+
+.time {
+    font-size: 0.72rem;
+    width: 35px;
+    text-align: center;
+    color: #ffffffc7;
+}
+
+.sliderStyle, .volumeSliderStyle {
+    flex: 1;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    outline: none;
+    z-index: 9999;
+}
+
+.sliderStyle {
+    width: 12rem;
+    height: 5.5px;
+}
+
+.volumeSliderStyle {
+    margin-top: -0.85rem;
+    width: 5.5rem;
+    height: 4px;
+}
+
+.sliderRGBStyle, .slidervolumeRGBStyle {
+    position: absolute;
+    margin-left: 0;
+    border-radius: 3px;
+    background-image: linear-gradient(90deg, 
+        red, orange, yellow, green, cyan, blue, violet, red);
+    background-size: 200% 200%;
+    background-position: 0% 50%;    
+    animation: moveGradient 1.8s linear infinite;
+    outline: none;
+    z-index: 9998;
+}
+
+.sliderRGBStyle {
+    margin-left: 3.4rem;    
+    width: 11.2rem;
+    height: 5.5px;
+}
+
+.slidervolumeRGBStyle {
+    margin-left: 3.7rem;
+    margin-top: -1rem;
+    width: 4.8rem;
+    height: 4px;
+}
+
+.rgbStyleBG {
+    position: absolute;
+    left: -1rem;
+    width: 110%;
+    height: 100%;
+    background-image: linear-gradient(90deg, 
+        red, orange, yellow, green, cyan, blue, violet, red);
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    animation: moveGradient 2.8s linear infinite;
+    outline: none;
+    z-index: -99;
+}
+
+.playerButton,
+.settingsButton {
+    width: 40px;
+    height: 30px;
+    background-image: url("/assets/icons/player.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.3s;    
+    padding-left: 2.5rem;
+}
+
+.playerButton:hover,
+.settingsButton:hover {
+    opacity: 1;
+}
+
+.settingsButton {    
+    background-image: url("/assets/icons/settings.png");
+    width: 35px;
+    height: 22px;
+    opacity: 0.5;
+}
+
+.line { 
+    height: 2rem;
+    margin: 0rem 0.2rem;
+    opacity: 0.1;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(20%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}

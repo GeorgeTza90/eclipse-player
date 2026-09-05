@@ -1,0 +1,238 @@
+.container {
+    width: 100%;    
+    max-width: 600px;
+    margin: 8rem auto 0 auto;
+    position: absolute;    
+    top: 32rem;
+}
+
+.heading {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 5px;
+    padding-bottom: 4.5rem;
+    padding: 0.4rem;
+    border-radius: 1rem;
+    background-color: #00000025;    
+}
+
+.list::-webkit-scrollbar {
+    width: 12px;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.5);
+    border-radius: 3px;
+}
+
+.list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.songItem {
+    margin-top: 0.25rem;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: rgba(30, 30, 30, 0.55);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.songItem.activeSongItem {
+    background-color: rgba(65, 65, 65, 0.8);
+}
+
+.songRow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.songText {
+    flex: 1;
+}
+
+.title {
+    margin: 0;
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.trackFeature {
+    font-size: 0.68rem;
+    color: #ffffffc5;
+}
+
+.artist {
+    margin: 0;
+    color: #aaa;
+    font-size: 0.78rem;
+}
+
+.songImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.notLoggedIn {
+  display: column;
+  font-size: 1rem;
+  margin-top: 12rem;
+  margin-left: 13.5rem;
+  color: #a1a1a1a6;
+}
+
+.SignInButton {
+  font-size: 1rem;
+  border-radius: 0.8rem;
+  padding: 0.4rem 1rem;
+  color: #c2c2c2;
+  background-color: #22222238;
+  margin-bottom: 1rem;
+  margin-left: 2.5rem;
+  cursor: pointer;
+}
+
+.SignInButton:hover {
+  background-color: #c2c2c23c;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        max-width: 370px;
+        margin: -10px auto 0 auto;     
+    }
+
+    .songItem {
+        margin-top: 0.5rem;
+        padding: 5px 10px;
+        border-radius: 15px;
+        background-color: rgba(30, 30, 30, 0.336);
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .songItem.activeSongItem {
+        background-color: rgba(100, 98, 98, 0.301);
+    }
+
+    .heading {
+        color: #fff;
+        font-size: 1rem;
+        font-weight: small;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .title {
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .artist {
+        color: #aaa;
+        font-size: 0.8rem;
+    }
+
+    .list {
+        gap: 0.3rem;
+        max-height: 250px;
+        padding-right: 5px;
+        margin-bottom: 5rem;
+    }
+
+    .songImage {
+        width: 45px;
+        height: 45px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .trackFeature {
+        font-size: 0.75rem;
+        color: #ffffffc5;
+    }
+
+    .notLoggedIn {
+        display: column;
+        font-size: 1rem;
+        margin-top: -4rem;
+        margin-left: 6rem;        
+    }
+
+    .SignInButton {
+        font-size: 1rem;
+        border-radius: 0.8rem;
+        padding: 0.4rem 1rem;
+        color: #c2c2c2;
+        background-color: #22222238;
+        margin-bottom: 1rem;
+        margin-left: 2.5rem;
+        cursor: pointer;
+    }
+}
+
+/* RESPONSIVE */
+@media (max-height: 1310px) {
+    .list {
+        max-height: 500px;
+    }
+}
+
+@media (max-height: 1220px) {
+    .list {
+        max-height: 450px;
+    }
+}
+
+@media (max-height: 1170px) {
+    .list {
+        max-height: 400px;
+    }
+}
+
+@media (max-height: 1120px) {
+    .list {
+        max-height: 320px;
+    }
+}
+
+@media (max-height: 1050px) {
+    .list {
+        max-height: 280px;
+    }
+}
+
+@media (max-height: 1010px) {
+    .list {
+        max-height: 260px;
+    }
+}
+
+@media (max-height: 990px) {
+    .list {
+        max-height: 220px;
+    }
+}
+
+@media (max-height: 780px) {
+    .list {
+        max-height: 150px;
+    }
+}
