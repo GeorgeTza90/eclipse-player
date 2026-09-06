@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAudio } from "@/contexts/AudioContextWeb";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { useAlbumDuration } from "@/utils/formatTime.ts";
 import { useFetchManager, usePutManager } from "@/hooks/useCallManager";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -22,8 +21,7 @@ const PlaylistDetail = () => {
     const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
     const { call: putCall, loading: putLoading } = usePutManager();
     const location = useLocation();
-    const navigate = useNavigate();
-    const isMobile = useIsMobile();
+    const navigate = useNavigate();    
     const { playSong } = useAudio();
     const { barMode } = useMiniPlayer();
     const { user } = useAuth();
@@ -94,7 +92,7 @@ const PlaylistDetail = () => {
 
     return (
         <div className={styles.container}>
-            {!isMobile && user && !barMode && (<MiniPlayer />)}
+            {user && !barMode && (<MiniPlayer />)}
 
             <div>
                 <div className={styles.titleDiv}>

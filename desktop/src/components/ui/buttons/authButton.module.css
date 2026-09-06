@@ -46,14 +46,3 @@
     width: 1rem;
     opacity: 90%;    
 }
-
-@media (max-width: 768px) {
-    .authButton, .logOutButton, .settingsButton, .statsButton {
-        font-size: 13.5px;        
-        height: 30px;
-    }
-
-    .logOutButton {        
-        max-width: 12rem;
-    }
-}

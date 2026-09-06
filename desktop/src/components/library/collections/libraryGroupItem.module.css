@@ -20,15 +20,3 @@
     font-size: 0.9rem;
     margin-top: 0.5rem;
 }
-
-@media (max-width: 768px) {
-    .container{
-        margin-left: 1.5rem;  
-    }
-
-    .horizontalScroll {
-        padding: 0 0;
-        display: grid;    
-        overflow-x: auto;
-    }
-}

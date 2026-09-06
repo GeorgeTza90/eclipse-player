@@ -23,20 +23,23 @@ export const useAudioPlayer = ({
     const normalizationRef = useLatestRef(normalization);
     const loudnessPresetRef = useLatestRef(loudnessPreset);
 
-    useEffect(() => {
+    useEffect(() => {        
         if (!currentSong) return;
 
         const engine = audioEngineRef.current;
         if (!engine) return;
-
-        // Αν είναι πραγματικό restore (reload), κράτα το ήδη-καταγεγραμμένο play flag.
-        // Αν είναι πραγματική αλλαγή τραγουδιού, reset σε false.
+        
         playRecordedRef.current = isInitialLoadRef.current ? getBool("playRecorded", false) : false;
         setJSON("playRecorded", playRecordedRef.current);
 
         const savedPosition = isInitialLoadRef.current ? getJSON<number>("positionRealtime", 0) : 0;
 
         const audioElement = engine.load(currentSong.url, { volume: volumeRef.current, startPosition: savedPosition });
+
+        if (getBool("audio_autoplay", false)) {
+            setJSON("audio_autoplay", false);
+            engine.play()?.catch(console.warn);
+        }
 
         const eq = eqEngineRef.current;
         const loudness = loudnessEngineRef.current;
@@ -86,11 +89,11 @@ export const useAudioPlayer = ({
             },
         });
 
-        if (!isInitialLoadRef.current) {
-            engine.play()?.catch(console.warn);
-        }
+        // if (!isInitialLoadRef.current) {
+        //     engine.play()?.catch(console.warn);
+        // }
 
-        isInitialLoadRef.current = false;
+        // isInitialLoadRef.current = false;
 
         return () => engine.detachListeners();
     }, [

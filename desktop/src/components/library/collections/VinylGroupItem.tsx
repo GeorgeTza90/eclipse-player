@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { useWidth } from "@/hooks/useScreen";
 import { getGridConfig } from "@/utils/sizeSwitch";
 import { useVinylPagination } from "@/hooks/useVinylPagination";
@@ -7,15 +6,14 @@ import type { Song } from "@/types/songs.types";
 import type { VinylGroupItemProps } from "@/types/library.types";
 import VinylCardSlot from "./cards/VinylCardSlot";
 import styles from "./vinylGroupItem.module.css";
+import { useStylesLibrary } from "@/hooks/useStylesLibrary";
 
 const VinylGroupItem = ({ type, group }: VinylGroupItemProps) => {
     const navigate = useNavigate();
+    const width = useWidth();
+    const { containerStyle } = useStylesLibrary({})
 
     const isPrivate = type === "Private";
-
-    const width = useWidth();
-    const isMobile = useIsMobile();
-
     const { columns, rows } = getGridConfig(width);
     const itemsPerRow = columns * 1.8;
     const pages = useVinylPagination(group, itemsPerRow, rows);
@@ -33,8 +31,6 @@ const VinylGroupItem = ({ type, group }: VinylGroupItemProps) => {
 
         navigate(`/library/CollectionDetail/${encodeURIComponent(item.album)}`);
     };
-
-    const containerStyle = { marginLeft: isMobile ? `${width / 1000}rem` : `${width / 100}rem` };
 
     return (
         <div className={styles.container} style={containerStyle}>

@@ -38,18 +38,3 @@
 .mail {
     background-image: url("/assets/icons/mail.png");
 }
-
-@media (max-width: 768px) {
-    .contactIcon {
-        display: block;
-        width: 35px;
-        height: 35px;
-        margin: 0px 2px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        cursor: pointer;
-        transition: background-image 0.30s;
-        opacity: 50%;
-    }
-}

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { usePostManager } from "@/hooks/useCallManager";
 import { useAutoClear } from "@/hooks/useAutoClear";
 import { GOOGLE_CLIENT_ID } from "@/config";
@@ -19,9 +18,8 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 const AuthCard = () => {
     const { loading, error, call } = usePostManager();
     const { login } = useAuth();    
-    const isMobile = useIsMobile();
 
-    const [intensity] = useState(30);    
+    const [intensity] = useState(30);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -88,8 +86,8 @@ const AuthCard = () => {
     return (
         <div className={styles.authContainer}>        
             <Circle 
-                size={isMobile ? 400 : 500} top={isMobile ? 100 : 150} 
-                intensity={isMobile ? intensity * 0.6 : intensity * 0.8} 
+                size={500} top={150} 
+                intensity={intensity * 0.8} 
                 heightOffset={8} shadowColor={shadowColor}
             />
     

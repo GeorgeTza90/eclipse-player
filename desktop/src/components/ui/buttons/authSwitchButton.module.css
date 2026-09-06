@@ -17,10 +17,3 @@
 .switchButton:hover {
     color: #aaa;
 }
-
-@media (max-width: 768px) {
-    .switchButton {
-        margin-top: -55px;
-        font-size: 0.9rem;
-    }
-}

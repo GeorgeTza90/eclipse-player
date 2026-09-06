@@ -23,15 +23,3 @@
     opacity: 80%;
     object-fit: contain;
 }
-
-@media (max-width: 768px) {
-    .icon {
-        width: 30px;
-        height: 30px;
-    }
-
-    .icon:hover {
-        width: 35px;
-        height: 35px;
-    }
-}

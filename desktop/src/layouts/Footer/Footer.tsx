@@ -1,30 +1,16 @@
-import { Link } from 'react-router-dom';
 import { useMiniPlayer } from '@/contexts/MiniPlayerContextWeb';
-import { useAudio } from '@/contexts/AudioContextWeb';
 import { useAuth } from '@/contexts/AuthContextWeb.tsx';
-import { useShadowColor } from '@/hooks/useShadowColor';
 import { useImageToast } from '@/components/ui/toasts/ImageToast';
 import MiniPlayerBar from '@/components/player/mini/MiniPlayerBar';
-import hexToRgba from '@/utils/hexToRgba';
 import styles from "./footer.module.css";
+import { useStylesLayout } from '@/hooks/useStylesLayout';
 
-const Footer = () => {
-    const { currentSong, volume } = useAudio();
-    const { user } = useAuth();
-    const { coloredGlow, showGlow, goRGB } = useMiniPlayer();
+const Footer = () => {    
+    const { user } = useAuth();    
     const { barMode, playerPage, showMiniPlayer } = useMiniPlayer();    
-    const { ImageToastUI, showImageToast } = useImageToast();    
+    const { ImageToastUI, showImageToast } = useImageToast();
 
-    const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe00")
-
-    const MBstyle = {
-        background: goRGB
-            ? ``
-            : `linear-gradient(to top left, ${showGlow ? (!coloredGlow ? "#171717" : hexToRgba(shadowColor, 0.2)) : "#141414"}, ${showGlow ? (!coloredGlow ? "#141414" : "#171717") : "#141414" } ${volume*90}%)`,
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
-        zIndez: 9,  
-    }
+    const { MBstyle } = useStylesLayout();
 
     return (<>
         {/* Desktop */}
@@ -44,18 +30,7 @@ const Footer = () => {
                     <MiniPlayerBar handleImageToast={showImageToast}/>                    
                 </div>
             </>            
-        }
-
-        {/* Mobile */}
-        <div className={styles.nav}>
-            <div className={styles.mobileOnly}>
-                <div className={styles.all} >
-                    <Link to="/" className={styles.homeLogo} />
-                    <Link to="/player" className={styles.playerLogo} />
-                    <Link to="/library" className={styles.libraryLogo} />
-                </div>
-            </div >
-        </div>
+        }       
     </>);
 }
 

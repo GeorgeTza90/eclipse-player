@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { useAudio } from "@/contexts/AudioContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { useFetchManager, useDeleteManager } from "@/hooks/useCallManager";
 import { EQ_BANDS } from "@/utils/defaultEQ";
 import { logger } from "@/utils/logger";
@@ -13,8 +12,7 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 import type { EQGains, EqualizerProps, Presets } from "@/types/player.types";
 import styles from "./equalizer.module.css";
 
-const Equalizer = ({ color }: EqualizerProps) => {
-    const isMobile = useIsMobile();
+const Equalizer = ({ color }: EqualizerProps) => {    
     const navigate = useNavigate();
     const { setEQGain, resetEQ, EQGain } = useAudio();
     const { goRGB } = useMiniPlayer();
@@ -30,11 +28,7 @@ const Equalizer = ({ color }: EqualizerProps) => {
     const [showPresetList, setShowPresetList] = useState(false);
     
     /* --- SET FREQ --- */
-    const frequencies = useMemo(() => (
-        isMobile
-            ? EQ_BANDS.filter(b => [63, 100, 250, 630, 1600, 4000, 10000, 16000].includes(b.value))
-            : EQ_BANDS
-    ), [isMobile]);
+    const frequencies = useMemo(() => EQ_BANDS, []);
 
     /* --- LOAD USER PRESETS --- */
     const loadPresets = async () => {user && await fetchCall("userPresets");}
@@ -72,7 +66,7 @@ const Equalizer = ({ color }: EqualizerProps) => {
             <h3 className={styles.heading}>Graphic EQ</h3>
             <div className={styles.EQcontainer}>
                 <div className={styles.linesDiv}>
-                    {Array(isMobile ? 10 : 16).fill(0).map((_, i) => (
+                    {Array(16).fill(0).map((_, i) => (
                         <hr key={i} className={styles.line} />
                     ))}
                 </div>

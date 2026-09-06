@@ -17,10 +17,3 @@
     color: rgb(255, 255, 255);
     background-color: rgba(122, 122, 122, 0.516);
 }
-
-@media (max-width: 768px) {
-    .input1 {
-        height: 28px;
-        width: 220px;
-    }
-}

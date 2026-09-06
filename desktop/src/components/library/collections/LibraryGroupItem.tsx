@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useIsMobile } from "@/hooks/useIsMobile";
-import { useWidth } from "@/hooks/useScreen";
-import { getGridConfig } from "@/utils/sizeSwitch";
+import { useStylesLibrary } from "@/hooks/useStylesLibrary";
 import CollectionCard from "./cards/CollectionCard";
 import type { GroupItemProps } from "@/types/library.types";
 import type { Song } from "@/types/songs.types";
@@ -10,20 +8,9 @@ import styles from "./libraryGroupItem.module.css";
 
 const LibraryGroupItem = ({ type, group }: GroupItemProps) => {
     const navigate = useNavigate();
-
+    const { containerStyle, horizontalScrollStyle } = useStylesLibrary({})
     const isArtist = type === "Artists";
     const isPrivate = type === "Private";
-    
-    const width = useWidth();
-    const isMobile = useIsMobile();
-    const { columns } = getGridConfig(width);
-
-    /* --- STYLES --- */
-    const containerStyle = {marginLeft: isMobile ? `${width/1000}rem` : `${width/100}rem`  }
-    const horizontalScrollStyle = {        
-        gridTemplateColumns: isMobile ? `repeat(${columns} , 6.5rem)` : `repeat(${columns}, 7rem)`,        
-        gap: isMobile ? "1rem" : "2.4rem",        
-    };    
 
     return (
         <div className={styles.container} style={containerStyle}>

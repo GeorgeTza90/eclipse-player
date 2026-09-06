@@ -27,11 +27,3 @@
     color: #9e9e9e;
     margin-left: auto;
 }
-
-
-@media (max-width: 768px) {
-    .section {
-        padding: 0.2rem;
-        margin-left: -1.2rem;
-    }
-}

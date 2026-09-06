@@ -42,22 +42,3 @@
     margin-left: 5px;
     flex-shrink: 0;
 }
-
-@media (max-width: 768px) {
-    .playlistItem {
-        margin-top: 1rem;
-        padding: 0.5rem 0.2rem;
-        width: 10rem;
-        background-color: #222;
-        border-radius: 6px;
-        border-bottom: 1px solid #333;
-        cursor: pointer;
-        display: grid;
-        grid-template-columns: 6rem 1rem;
-    }
-
-    .titleRow {
-        margin-bottom: 0.1rem;
-        margin-left: 0.1rem;
-    }
-}

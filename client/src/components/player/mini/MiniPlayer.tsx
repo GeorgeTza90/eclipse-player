@@ -11,6 +11,7 @@ import VolButton from "@/components/ui/buttons/VolButton";
 import ArtistButton from "@/components/ui/buttons/ArtistButton";
 import Circle from "@/components/ui/circles/MiniPlayerCircle";
 import styles from "./miniPlayer.module.css";
+import { useStylessliders } from "@/hooks/useStylesliders";
 
 const MiniPlayer = () => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
@@ -25,6 +26,8 @@ const MiniPlayer = () => {
     const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const progress = duration ? (sliderPosition / duration) * 100 : 0;
 
+    const { sliderStyle, volumeSliderStyle, miniPlayerDiv, RGBStyle } = useStylessliders(goRGB, coloredGlow, progress, shadowColor, intensity, volume, pos, transparency);
+
     /* --- UI UPDATE  --- */
     useEffect(() => {
         if (!showTimeBar && !showVolumeBar) {
@@ -37,20 +40,6 @@ const MiniPlayer = () => {
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);        
 
     if (!currentSong) return null;
-
-    /* --- STYLES  --- */
-    const miniPlayerDiv = { left: pos.x, top: pos.y, opacity: transparency ? 0.7 : 1 };
-    const sliderStyle = {        
-        background: goRGB && coloredGlow 
-            ? `linear-gradient(to right, #acacac ${progress}%, #55555572 ${progress}%)`
-            : `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
-    };
-    const volumeSliderStyle = {        
-        background: goRGB && coloredGlow 
-            ? `linear-gradient(to right, #acacac, #acacac ${volume * 100}%, #55555572 ${volume * 100}%)`
-            : `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,
-    };
-    const RGBStyle = { opacity: `${intensity / 24 + 0.1}` };
 
     return (<>
         {ImageToastUI}

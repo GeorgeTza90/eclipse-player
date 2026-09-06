@@ -90,21 +90,3 @@
     color: #030303;
     font-weight: bold;
 }
-
-@media (max-width: 768px) {
-    .container {
-        margin-top: -2rem;    
-        display: flex;
-        justify-content: center;
-    }
-
-    .rangeSelector {        
-        margin-left: 0.2rem;
-    }
-
-    .rangeButton,
-    .rangeActive {        
-        font-size: 0.8rem;
-        padding: 0.3rem 0.5rem;        
-    }
-}

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { SongStatsButtonProps } from "@/types/ui.types";
 import styles from "./showSongStatsButton.module.css"
 
-export const ShowSongStatsButton = ({song, onClick}: SongStatsButtonProps) => {
+export const ShowSongStatsButton = ({song}: SongStatsButtonProps) => {
     const navigate = useNavigate();    
 
     return (<>

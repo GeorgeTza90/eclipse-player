@@ -4,7 +4,6 @@ import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useAudio } from "@/contexts/AudioContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { useLibrary } from "@/contexts/LibraryContextWeb";
-import { useIsMobile } from '@/hooks/useIsMobile';
 import { fetchSongStats, fetchSongTotalPlays } from "@/services/GetService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { formatDuration } from "@/utils/formatTime";
@@ -27,8 +26,7 @@ const SongStats = () => {
     const { playlist: existingPlaylist, playSong } = useAudio();
     const { songs } = useLibrary();
     const { barMode } = useMiniPlayer();
-    const { user } = useAuth();
-    const isMobile = useIsMobile();
+    const { user } = useAuth();    
 
     const [range, setRange] = useState<StatsRange>(rangePreset ?? "1m");
     const [song, setSong] = useState<Song | null>();
@@ -81,7 +79,7 @@ const SongStats = () => {
 
     return (
         <div className={styles.container}>
-            {!isMobile && user && !barMode && (<MiniPlayer />)}
+            {user && !barMode && (<MiniPlayer />)}
             <div>
         {/* User Stats */}
                 <h3 className={styles.text3}>{song?.title} - Statistics</h3>
@@ -137,8 +135,7 @@ const SongStats = () => {
                     </div>
                 )}<br/><br/><br/>
 
-                <BackButton navTo={"/"}/>
-                {isMobile && <><br/><br/><br/></>}
+                <BackButton navTo={"/"}/>                
             </div>
         </div>
     );

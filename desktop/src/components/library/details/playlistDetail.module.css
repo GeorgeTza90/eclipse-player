@@ -91,18 +91,6 @@
     align-items: center;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes flash {
-    to {
-        color: #333;
-    }    
-}
-
 .loadingText,
 .noSongs {
     color: #aaa;
@@ -115,37 +103,14 @@
     gap: 8px;
 }
 
-@media (max-width: 768px) {
-    .container {
-        max-width: fit-content;
-        margin-top: -3rem;
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
+}
 
-    .title {
-        font-size: 0.8rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .centered {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-    }
-
-    .spinner {
-        border: 4px solid #333;
-        border-top: 4px solid #fff;
-        border-radius: 50%;
-        width: 36px;
-        height: 36px;
-        animation: spin 1s linear infinite;
-    }
-
-    .stateNotes{        
-        margin-left: 1rem;
-        font-size: small;        
-    }
+@keyframes flash {
+    to {
+        color: #333;
+    }    
 }

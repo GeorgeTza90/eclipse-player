@@ -27,19 +27,3 @@
     color: rgb(215, 255, 209);    
     font-size: 14px;
 }
-
-@media (max-width: 768px) {
-    .authContainer {
-        margin-top: 18.5rem;
-        margin-bottom: 7rem;
-    }
-
-    .formWrapper {
-        top: -250px;
-    }
-
-    .authButtonsDiv {
-        max-width: 241.5px;
-        margin-bottom: 1rem;
-    }
-}

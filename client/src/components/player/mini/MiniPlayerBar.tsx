@@ -10,10 +10,11 @@ import VolButton from "@/components/ui/buttons/VolButton";
 import ArtistButton from "@/components/ui/buttons/ArtistButton";
 import styles from "./miniPlayerBar.module.css";
 import { MiniPlayerBarProps } from "@/types/player.types";
+import { useStylessliders } from "@/hooks/useStylesliders";
 
 const MiniPlayerBar = ({handleImageToast}: MiniPlayerBarProps) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
-    const { showImage, showMiniPlayer, showTimeBar, showVolumeBar, coloredGlow, goRGB } = useMiniPlayer();
+    const { pos, transparency, showMiniPlayer, coloredGlow, goRGB } = useMiniPlayer();
     const { user } = useAuth();    
    
     const [intensity, setIntensity] = useState(30);
@@ -21,32 +22,20 @@ const MiniPlayerBar = ({handleImageToast}: MiniPlayerBarProps) => {
 
     const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const progress = duration ? (sliderPosition / duration) * 100 : 0;
+
+    const { sliderStyle, volumeSliderStyle, rgbStyleslider, rgbStyleBG } = useStylessliders(goRGB, coloredGlow, progress, shadowColor, intensity, volume, pos, transparency);
    
     /* --- UI UPDATE  --- */
     useEffect(() => { setIntensity(volume * 30); }, [volume]);
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
     
-    if (!currentSong) return null;
-
-    /* --- STYLES  --- */
-    const sliderStyle = {
-        background: goRGB && coloredGlow 
-            ? `linear-gradient(to right, #acacac ${progress}%, #55555572 ${progress}%)`
-            : `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
-    };
-    const volumeSliderStyle = {
-        background: goRGB && coloredGlow 
-            ? `linear-gradient(to right, #acacac, #acacac ${volume * 100}%, #55555572 ${volume * 100}%)`
-            : `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,     
-    };
-    const rgbStyleslider = { opacity: `${intensity / 24 + 0.1}` };
-    const rgbStyleBG = { opacity: `${intensity / 800 + 0.02}` };
+    if (!currentSong) return null;    
 
     return (<>          
         {showMiniPlayer &&
-            <div>
-                {goRGB && <div style={rgbStyleBG} className={styles.rgbStyleBG} />}                    
+            <div>                
                 <div className={styles.container}>
+                    {goRGB && <div style={rgbStyleBG} className={styles.rgbStyleBG} />}
     {/* Info */}
                     <div className={styles.infoRow}>
                         {currentSong?.image && 

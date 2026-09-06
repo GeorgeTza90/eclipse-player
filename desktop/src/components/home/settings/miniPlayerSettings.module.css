@@ -83,32 +83,3 @@
     background-color: #858585;
     border: 1px solid rgb(255, 255, 255)
 }
-
-@media (max-width: 768px) {
-    .container {
-        margin-left: 1rem;
-        display: grid;
-        grid-template-columns: repeat(2, 10rem);
-        align-items: center;
-        line-height: 0.5rem;
-    }
-
-    .container2 {
-        margin-left: 1rem;
-        display: grid;
-        grid-template-columns: repeat(2, 10rem);
-        align-items: center;
-        line-height: 0.5rem;
-    }
-        
-    .notAvailable {
-        font-size: 0.8rem;
-        color: #949494;      
-    }
-
-    .infoText {
-        color: #aaa;
-        font-size: 6px;
-        margin-bottom: 10px;
-    }
-}

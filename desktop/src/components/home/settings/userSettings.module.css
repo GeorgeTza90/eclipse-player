@@ -63,9 +63,3 @@
     
     color: #bef7e5;
 }
-
-@media (max-width: 768px) {
-    .teaserDiv {
-        margin-bottom: 5rem;
-    }
-}

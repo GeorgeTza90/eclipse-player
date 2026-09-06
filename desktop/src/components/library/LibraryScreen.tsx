@@ -1,4 +1,3 @@
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLibrary } from "@/contexts/LibraryContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { useMinimumLoading } from "@/hooks/useMinimumLoading";
@@ -11,8 +10,7 @@ import styles from "./libraryScreen.module.css";
 
 const LibraryScreen = () => {
     const { privateAlbums, singlesEps, albums, artists, loading, vinyl } = useLibrary();
-    const { priv_u } = useAuth();
-    const isMobile = useIsMobile();
+    const { priv_u } = useAuth();    
     
     const showLoader = useMinimumLoading(loading, 1500);
     if (showLoader) return <Loader text="Loading Library" />;
@@ -22,12 +20,12 @@ const LibraryScreen = () => {
     {/* --- MODE CONTROL --- */}
             <div className={styles.formContainer}>
                 <LibrarySearchForm />
-                {!isMobile && <LibraryExtentionButton />}
+                <LibraryExtentionButton />
             </div>
 
             <div className={styles.libraryContainer}>                
     {/* --- VINYL MODE --- */}
-                {!isMobile && vinyl && (
+                {vinyl && (
                     <div className={styles.groupItemDiv}>
                         {priv_u && <VinylGroupItem type="Private" group={privateAlbums} />}
                         <VinylGroupItem type="Singles & EPs" group={singlesEps} />
@@ -37,7 +35,7 @@ const LibraryScreen = () => {
                 )}
 
     {/* --- CARD MODE --- */}
-                {(isMobile || !vinyl) && (
+                {!vinyl && (
                     <div className={styles.groupItemDiv}>
                         {priv_u && <LibraryGroupItem type="Private" group={privateAlbums} />}
                         <LibraryGroupItem type="Singles & EPs" group={singlesEps} />

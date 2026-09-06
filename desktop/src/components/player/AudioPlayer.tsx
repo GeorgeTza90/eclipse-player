@@ -4,7 +4,6 @@ import { useAudio } from "@/contexts/AudioContextWeb";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useShadowColor } from "@/hooks/useShadowColor";
 import { formatTime } from "@/utils/formatTime.ts";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
 import { useImageToast } from "@/components/ui/toasts/ImageToast";
 import PlayButton from "@/components/ui/buttons/PlayButton";
@@ -24,8 +23,7 @@ const AudioPlayer = ({ onToggleExtention }: AudioPlayerProps) => {
     
     const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
-    const progress = duration ? (position / duration) * 100 : 0;
-    const isMobile = useIsMobile();
+    const progress = duration ? (position / duration) * 100 : 0;    
     const navigate = useNavigate();
 
     const handleExtention = (key: "Playlist" | "Lyrics" | "Equalizer"): void => {
@@ -35,7 +33,7 @@ const AudioPlayer = ({ onToggleExtention }: AudioPlayerProps) => {
 
     /* --- UI UPDATE --- */
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
-    useEffect(() => setIntensity(volume * 30), [volume]);      
+    useEffect(() => setIntensity(volume * 30), [volume]);    
 
     /* --- STYLES --- */
     const sliderStyle = {
@@ -54,8 +52,8 @@ const AudioPlayer = ({ onToggleExtention }: AudioPlayerProps) => {
     return (<>
         <div className={styles.container}>
     {/* Circles */}
-            <Circle size={isMobile ? 400 : 600} top={isMobile ? 110 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor} />
-            <Circle size={isMobile ? 230 : 300} top={isMobile ? 550 : 800} intensity={intensity * 0.5} heightOffset={6} shadowColor={shadowColor} color2="#0e0e0eff" color1="#1b1a1aff" />
+            <Circle size={600} top={150} intensity={intensity * 0.8} heightOffset={8} shadowColor={shadowColor} />
+            <Circle size={300} top={800} intensity={intensity * 0.5} heightOffset={6} shadowColor={shadowColor} color2="#0e0e0eff" color1="#1b1a1aff" />
 
     {/* Player UI */}
             <div className={styles.playerContent}>
@@ -70,7 +68,7 @@ const AudioPlayer = ({ onToggleExtention }: AudioPlayerProps) => {
                             </span>
                         )}
                         <p className={styles.artist}>
-                            {mainArtists.map((artist, index) => (
+                            {mainArtists.map((artist) => (
                                 <span key={artist}>
                                     <ArtistButton artist={artist || "Artist Name"} size="0.9rem" />                                    
                                 </span>

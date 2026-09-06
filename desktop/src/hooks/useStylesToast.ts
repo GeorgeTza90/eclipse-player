@@ -1,10 +1,7 @@
-import { useIsMobile } from "./useIsMobile";
 import type { ToastType } from "@/types/ui.types";
 import type { CSSProperties } from "react";
 
-export function useStylesToast(type: ToastType = "info") {
-    const isMobile = useIsMobile();
-
+export function useStylesToast(_type: ToastType = "info") {
     const wrapper: CSSProperties = {
         position: "fixed",
         bottom: 100,
@@ -13,11 +10,11 @@ export function useStylesToast(type: ToastType = "info") {
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-        fontSize: isMobile ? "0.8rem" : "0.9rem",
+        fontSize: "0.9rem",
     };
 
     const toastItemStyle = (type: ToastType): CSSProperties => ({
-        padding: isMobile ? "8px 10px" : "8px 14px",
+        padding: "8px 14px",
         borderRadius: 6,
         color: "#fff",
         fontWeight: "bold",
@@ -80,7 +77,7 @@ export function useStylesToast(type: ToastType = "info") {
 
     const lyricsWrapperStyle: CSSProperties = {
         borderRadius: "0.2rem",
-        padding: isMobile ? "0rem 2rem" : "0rem 5rem",
+        padding: "0rem 5rem",
         maxHeight: "90vh",
         maxWidth: "90vw",
         overflowY: "auto",

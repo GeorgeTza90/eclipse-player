@@ -26,10 +26,3 @@
 .addMusicButton:hover {
     background-color: #555;
 }
-
-@media (max-width: 768px) {
-    .addMusicButton {
-        font-size: 0.85rem;
-        padding: 0.4rem 1rem;
-    }
-}

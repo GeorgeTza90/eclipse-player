@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { usePostManager } from "@/hooks/useCallManager";
 import { useAutoClear } from "@/hooks/useAutoClear";
 import { validatePassword } from "@/utils/validatePassword";
@@ -12,8 +11,7 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const ResetPasswordCard = () => {
     const { loading, error, call } = usePostManager();
-    const [searchParams] = useSearchParams();
-    const isMobile = useIsMobile();
+    const [searchParams] = useSearchParams();    
     const navigate = useNavigate();
 
     const [intensity] = useState(30);
@@ -58,9 +56,9 @@ const ResetPasswordCard = () => {
         {/* Decorative Circle */}
             <div className={`${styles.circleWrapper} ${styles.circle1}`}>
                 <Circle
-                    size={isMobile ? 400 : 500}
-                    top={isMobile ? 100 : 150}
-                    intensity={isMobile ? intensity * 0.6 : intensity * 0.8}
+                    size={500}
+                    top={150}
+                    intensity={intensity * 0.8}
                     heightOffset={8}
                     shadowColor={shadowColor}
                 />

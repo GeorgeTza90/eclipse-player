@@ -62,23 +62,3 @@
     transition: 350ms;
     opacity: 100%;
 }
-
-@media (min-width: 769px) {
-    .mobileOnly {
-        display: none;
-    }
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-    .nav {
-        display: none;        
-    }
-    .desktopOnly {
-        display: none;
-    }
-
-    .mobileOnly {
-        display: block;        
-    }
-}

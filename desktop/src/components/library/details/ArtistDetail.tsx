@@ -5,7 +5,6 @@ import { useLibrary } from "@/contexts/LibraryContextWeb";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useFetchManager } from "@/hooks/useCallManager";
 import { useMinimumLoading } from "@/hooks/useMinimumLoading";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { useWidth } from "@/hooks/useScreen";
 import { byYear } from "@/utils/songsCategorizer";
 import LibraryGroupItem from "@/components/library/collections/LibraryGroupItem";
@@ -15,22 +14,20 @@ import BackButton from "@/components/ui/buttons/BackButton";
 import AlbumSwitchButton from "@/components/ui/buttons/AlbumSwitchButton";
 import Loader from "@/components/ui/loaders/Loader";
 import MediaLink from "@/components/ui/links/MediaLink";
-import styles from "./artistDetail.module.css";
 import { Artist } from "@/types/artists.types";
+import styles from "./artistDetail.module.css";
 
 const ArtistDetail = () => {
     const { state, loading, error, call } = useFetchManager();
     const { name } = useParams();
-
-    const artistName = name ? decodeURIComponent(name) : null;
-    const artist: Artist = state.artist;
-
-    const isMobile = useIsMobile();
     const width = useWidth();
     const { barMode } = useMiniPlayer();
     const { user } = useAuth();
     const { songs, vinyl } = useLibrary();
     const navigate = useNavigate();
+
+    const artistName = name ? decodeURIComponent(name) : null;
+    const artist: Artist = state.artist;
 
     const [groupsKind, setGroupKind] = useState("Singles & EPs");
 
@@ -56,18 +53,16 @@ const ArtistDetail = () => {
     if (error.artist) return <p style={{ color: "#fff", padding: "10px" }}>Error loading artist.</p>;
     if (!artist) return null;
 
-    const backgroundPhoto = { maxWidth: width };
-
     return (
         <div className={styles.container}>
-            {!isMobile && user && !barMode && (<MiniPlayer />)}
+            {user && !barMode && (<MiniPlayer />)}
             {artist.photos?.length > 0 && (
-                <img src={artist.photos[0]} alt="" className={styles.backgroundPhoto} style={backgroundPhoto} />
+                <img src={artist.photos[0]} alt="" className={styles.backgroundPhoto} style={{ maxWidth: width }} />
             )}
 
             {/* Info */}
             <div className={styles.header}>
-                {(artist.image_url && !isMobile) && (
+                {artist.image_url && (
                     <img src={artist.image_url} alt={artist.name} className={styles.Image} />
                 )}
                 <div className={styles.headerInfo}>
@@ -99,7 +94,7 @@ const ArtistDetail = () => {
                         />
                     )}
                     <div className={styles.collectionSectionDiv}>
-                        {(vinyl && !isMobile) ? (
+                        {vinyl ? (
                             <VinylGroupItem type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />
                         ) : (
                             <LibraryGroupItem type={groupsKind} group={groupsKind === "Albums" ? albums : singlesEps} />

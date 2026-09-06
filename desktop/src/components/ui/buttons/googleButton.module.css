@@ -16,9 +16,3 @@
     background-color: #4285f4;
     transition: 0.5s;
 }
-
-@media (max-width: 768px) {
-    .googleButton {
-        height: 30px;
-    }
-}

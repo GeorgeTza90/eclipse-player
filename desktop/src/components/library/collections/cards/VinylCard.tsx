@@ -3,9 +3,8 @@ import { VinylCardProps } from "@/types/library.types";
 import styles from "./vinylCard.module.css";
 
 const VinylCard = ({ item, onClick }: VinylCardProps) => {    
-    const [hover, setHover] = useState(false);    
-
-    /* --- STYLES --- */
+    const [, setHover] = useState(false);
+    
     return (
         <div
             className={styles.trackContainer}

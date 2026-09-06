@@ -28,9 +28,7 @@ export const useAudioPlayer = ({
 
         const engine = audioEngineRef.current;
         if (!engine) return;
-
-        // Αν είναι πραγματικό restore (reload), κράτα το ήδη-καταγεγραμμένο play flag.
-        // Αν είναι πραγματική αλλαγή τραγουδιού, reset σε false.
+        
         playRecordedRef.current = isInitialLoadRef.current ? getBool("playRecorded", false) : false;
         setJSON("playRecorded", playRecordedRef.current);
 

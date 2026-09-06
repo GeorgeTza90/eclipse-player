@@ -13,10 +13,3 @@
     display: grid;
     grid-template-columns: repeat(4, 12rem);
 }
-
-@media (max-width: 768px) {
-    .playlistsContainer {
-        display: grid;
-        grid-template-columns: repeat(2, 12rem);
-    }
-}

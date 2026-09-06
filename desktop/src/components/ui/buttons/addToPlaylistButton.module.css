@@ -68,10 +68,3 @@
     color: #a0a0a0;
     margin-top: 10px;
 }
-
-@media (max-width: 768px) {
-    .cancel {
-        font-size: 15px;
-        padding: 10px 10px;
-    }
-}

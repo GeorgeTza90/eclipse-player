@@ -28,11 +28,3 @@
     background-color: rgba(212, 212, 212, 0.926);    
     transition: 0.5s;
 }
-
-@media (max-width: 768px) {
-    .button {
-        width: 38px;
-        height: 38px;
-    }
-
-}

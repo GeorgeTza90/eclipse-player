@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
-import { useIsMobile } from '@/hooks/useIsMobile';
 import { fetchPlayStats } from "@/services/GetService";
 import { RANGE_OPTIONS } from "@/utils/rangeOption";
 import { getErrorMessage } from "@/utils/getErrorMessage";
@@ -16,8 +15,7 @@ import styles from "./stats.module.css";
 
 const Stats = () => {
     const { barMode } = useMiniPlayer();
-    const { user } = useAuth();
-    const isMobile = useIsMobile();
+    const { user } = useAuth();    
 
     const [range, setRange] = useState<StatsRange>("1m");
     const [stats, setStats] = useState<PlayStats | null>(null);
@@ -41,7 +39,7 @@ const Stats = () => {
 
     return (
         <div className={styles.container}>
-            {!isMobile && user && !barMode && (<MiniPlayer />)}
+            {user && !barMode && (<MiniPlayer />)}
             <div>
                 {/* User Stats */}
                 <h3 className={styles.text3}>Your Statistics</h3>
@@ -93,8 +91,7 @@ const Stats = () => {
                     </div>
                 )}<br/><br/><br/>
 
-                <BackButton navTo={"/"}/>
-                {isMobile && <><br/><br/><br/></>}
+                <BackButton navTo={"/"}/>                
             </div>
         </div>
     );

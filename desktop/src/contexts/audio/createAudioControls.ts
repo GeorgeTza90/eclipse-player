@@ -10,10 +10,7 @@ export const createAudioControls = ({
     setPlaylist, setPlaylistName, setCurrentSong, setCurrentSongIndex, setPositionRealtime, setIsPlaying, setEQGain,
 }: CreateAudioControlsParams) => {
 
-    const playSong = async (song: Song, newPlaylist?: Song[], name: string = "", startPosition: number = 0): Promise<void> => {
-        // Unlocking here (on a user gesture) lets useAudioPlayer's effect
-        // wire up the EQ/Loudness graph as soon as currentSong changes,
-        // instead of waiting for a Player-local button press.
+    const playSong = async (song: Song, newPlaylist?: Song[], name: string = "", startPosition: number = 0): Promise<void> => {        
         await eqEngineRef.current?.unlock();
 
         if (newPlaylist) {
@@ -26,30 +23,44 @@ export const createAudioControls = ({
         setCurrentSong(song);
         setPositionRealtime(startPosition);
         setJSON("positionRealtime", startPosition);
+        setJSON("audio_autoplay", true);
+        // setIsPlaying(true);
     };
 
     const togglePlay = async (): Promise<void> => {
         const engine = audioEngineRef.current;
         if (!engine) return;
 
-        const audioElement = engine.element;
-        if (!audioElement) return;
-
         await eqEngineRef.current?.unlock();
-        
+
         if (eqEngineRef.current && !eqEngineRef.current.initialized) {
             const ctx = eqEngineRef.current.ctx;
 
             if (ctx && loudnessEngineRef.current) {
                 const loudnessGainNode = loudnessEngineRef.current.init(ctx);
-                eqEngineRef.current.init(audioElement, EQGain, loudnessGainNode);
-                if (normalization) loudnessEngineRef.current.applyForSong(currentSong, LOUDNESS_PRESETS[loudnessPreset]);
+
+                eqEngineRef.current.init(
+                    engine.element!,
+                    EQGain,
+                    loudnessGainNode
+                );
+
+                if (normalization) {
+                    loudnessEngineRef.current.applyForSong(
+                        currentSong,
+                        LOUDNESS_PRESETS[loudnessPreset]
+                    );
+                }
             }
         }
 
         if (engine.isPaused) {
-            engine.play()?.catch(console.warn);
-            setIsPlaying(true);
+            try {
+                await engine.play();
+                setIsPlaying(true);
+            } catch (error) {
+                console.error("PLAY FAILED:", error);
+            }
         } else {
             engine.pause();
             setIsPlaying(false);
