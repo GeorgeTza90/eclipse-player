@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getBool, setBool } from "@/utils/localStorageManager";
+import { setBool } from "@/utils/localStorageManager";
 import type { MiniPlayerPersistenceValues } from "@/types/player.types";
 
 const PERSISTED_KEYS: Record<keyof MiniPlayerPersistenceValues, string> = {
@@ -28,9 +28,7 @@ export const useMiniPlayerPersistence = (values: MiniPlayerPersistenceValues): v
         };
 
         for (const [key, storageKey] of Object.entries(PERSISTED_KEYS) as [keyof MiniPlayerPersistenceValues, string][]) {
-            const newValue = currentValues[key];
-            const currentValue = getBool(storageKey, newValue);
-            if (currentValue !== newValue) setBool(storageKey, newValue);
+            setBool(storageKey, currentValues[key]);
         }
     }, [ showImage, showMiniPlayer, showTimeBar, showVolumeBar, showGlow, transparency, barMode, playerPage, coloredGlow, goRGB ]);
 };
