@@ -37,7 +37,7 @@ const Stats = () => {
         loadStats();
     }, [range]);   
 
-    return (
+    return (<>
         <div className={styles.container}>
             {user && !barMode && (<MiniPlayer />)}
             <div>
@@ -89,12 +89,12 @@ const Stats = () => {
                             <HistoryChart history={stats.history} range={range} />
                         </div>
                     </div>
-                )}<br/><br/><br/>
+                )}<br/>
 
                 <BackButton navTo={"/"}/>                
             </div>
-        </div>
-    );
+        </div><br/><br/><br/>
+    </>);
 }
 
 export default Stats;

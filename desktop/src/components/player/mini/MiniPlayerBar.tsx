@@ -12,7 +12,6 @@ import styles from "./miniPlayerBar.module.css";
 import { MiniPlayerBarProps } from "@/types/player.types";
 import { useStylesSliders } from "@/hooks/useStyleSliders";
 
-
 const MiniPlayerBar = ({handleImageToast}: MiniPlayerBarProps) => {
     const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
     const { pos, transparency, showMiniPlayer, coloredGlow, goRGB } = useMiniPlayer();
@@ -36,7 +35,7 @@ const MiniPlayerBar = ({handleImageToast}: MiniPlayerBarProps) => {
         {showMiniPlayer &&
             <div>                
                 <div className={styles.container}>
-                    {goRGB && <div style={rgbStyleBG} className={styles.rgbStyleBG} />}
+                    {goRGB && coloredGlow && <div style={rgbStyleBG} className={styles.rgbStyleBG} />}
     {/* Info */}
                     <div className={styles.infoRow}>
                         {currentSong?.image && 

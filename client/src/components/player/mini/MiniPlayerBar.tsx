@@ -35,7 +35,7 @@ const MiniPlayerBar = ({handleImageToast}: MiniPlayerBarProps) => {
         {showMiniPlayer &&
             <div>                
                 <div className={styles.container}>
-                    {goRGB && <div style={rgbStyleBG} className={styles.rgbStyleBG} />}
+                    {goRGB && coloredGlow && <div style={rgbStyleBG} className={styles.rgbStyleBG} />}
     {/* Info */}
                     <div className={styles.infoRow}>
                         {currentSong?.image && 

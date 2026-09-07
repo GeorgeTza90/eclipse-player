@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { usePostManager } from "@/hooks/useCallManager";
 import { useAutoClear } from "@/hooks/useAutoClear";
-import { GOOGLE_CLIENT_ID } from "@/config";
 import { validateAuth } from "@/utils/validateAuth";
 import AuthButton from "@/components/ui/buttons/AuthButton";
 import GoogleButton from "@/components/ui/buttons/GoogleButton";
@@ -10,9 +9,10 @@ import PasswordInput from "@/components/ui/inputs/PasswordInput";
 import AuthFormError from "@/components/ui/errors/authFormError";
 import Circle from "@/components/ui/circles/Circle";
 import FormInput from "@/components/ui/inputs/FormInput";
+import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import styles from "./authCard.module.css";
 import AuthSwitchButton from "@/components/ui/buttons/AuthSwitchButton";
-import { GoogleTokenResponse } from "@/types/google.types";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const AuthCard = () => {
@@ -52,20 +52,33 @@ const AuthCard = () => {
         }
     };
     
-    const onGoogleLogin = () => {
-        const client = window.google.accounts.oauth2.initTokenClient({
-            client_id: GOOGLE_CLIENT_ID,
-            scope: "openid email profile",
-            callback: async (response: GoogleTokenResponse) => {
+    const onGoogleLogin = async () => {
+        try {
+            const unlisten = await listen<string>("oauth-callback", async (event) => {
+                unlisten();
+
+                const callbackUrl = new URL(event.payload);
+                const code = callbackUrl.searchParams.get("code");
+
+                if (!code) {
+                    setLocalError("Google login failed");
+                    return;
+                }
+
+                const redirectUri = `${callbackUrl.protocol}//${callbackUrl.host}`;
+
                 try {
-                    const data = await call("googleLogin", response.access_token, "web");
+                    const data = await call("googleLoginDesktop", code, redirectUri);
                     login(data.user);
-                } catch (err) {                    
+                } catch (err) {
                     setLocalError(getErrorMessage(err, "Google login failed"));
                 }
-            },
-        });
-        client.requestAccessToken({ prompt: "select_account" });
+            });
+
+            await invoke("start_google_login");
+        } catch (err) {
+            setLocalError(getErrorMessage(err, "Google login failed"));
+        }
     };
 
     const handleForgotPassword = async () => {
@@ -133,14 +146,14 @@ const AuthCard = () => {
                     <GoogleButton
                         onClick={onGoogleLogin}
                         isLogin={isLogin}
-                        loading={loading.registerUser || loading.loginUser || loading.googleLogin}
-                        disabled={loading.googleLogin}
+                        loading={loading.registerUser || loading.loginUser || loading.googleLoginDesktop}
+                        disabled={loading.googleLoginDesktop}
                     />
 
                     <AuthButton
                         onClick={onSubmit}
                         isLogin={isLogin}
-                        loading={loading.registerUser || loading.loginUser || loading.googleLogin}
+                        loading={loading.registerUser || loading.loginUser || loading.googleLoginDesktop}
                     />
                 </div>                
 

@@ -35,6 +35,17 @@ export async function googleLogin(accessToken: string, platform: "web" | "mobile
     return res.json();
 }
 
+export async function googleLoginDesktop(code: string, redirectUri: string) {
+    const res = await fetch(`${API_URL}/api/auth/google-login-desktop`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, redirectUri }),
+        credentials: "include"
+    });
+    await errorChecker(res, "Google login failed");
+    return res.json();
+}
+
 export async function logoutUser() {
     const res = await fetch(`${API_URL}/api/auth/logout`, {
         method: "POST",
