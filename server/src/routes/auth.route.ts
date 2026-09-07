@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { register, login, logout, googleLogin, forgotPassword, resetPassword, changePassword, updateUsername, me } from '@/controllers/auth.controller.js';
+import { register, login, logout, googleLogin, forgotPassword, resetPassword, changePassword, updateUsername, me, googleLoginDesktop } from '@/controllers/auth.controller.js';
 import { verifyToken } from '@/middleware/authMiddleware.js';
 import { createRateLimiter } from '@/middleware/rateLimiter.js';
 import { validateBody } from "@/middleware/validate.js";
-import { loginSchema, googleLoginSchema, registerSchema, changePasswordSchema, resetPasswordSchema, updateUsernameSchema, forgotPasswordSchema } from "@/validation/auth.schema.js";
+import { loginSchema, googleLoginSchema, registerSchema, changePasswordSchema, resetPasswordSchema, updateUsernameSchema, forgotPasswordSchema, googleLoginDesktopSchema } from "@/validation/auth.schema.js";
 
 const router = Router();
 
@@ -12,6 +12,7 @@ const loginLimiter = createRateLimiter(1, 10);
 const registerLimiter = createRateLimiter(10, 5);
 const forgotLimiter = createRateLimiter(15, 3);
 const googleLimiter = createRateLimiter(15, 10);
+const googleDesktopLimiter = createRateLimiter(15, 10);
 const changePassLimiter = createRateLimiter(5, 5);
 const resetLimiter = createRateLimiter(30, 3);
 const updateUsernameLimiter = createRateLimiter(3, 15);
@@ -20,6 +21,7 @@ const updateUsernameLimiter = createRateLimiter(3, 15);
 router.post('/login', loginLimiter, validateBody(loginSchema), login);
 router.post('/register', registerLimiter, validateBody(registerSchema), register);
 router.post('/google-login', googleLimiter, validateBody(googleLoginSchema), googleLogin);
+router.post('/google-login-desktop', googleDesktopLimiter, validateBody(googleLoginDesktopSchema), googleLoginDesktop);
 router.post('/forgot-password', forgotLimiter, validateBody(forgotPasswordSchema), forgotPassword);
 router.post('/reset-password', resetLimiter, validateBody(resetPasswordSchema), resetPassword);
 

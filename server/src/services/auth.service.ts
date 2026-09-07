@@ -4,7 +4,9 @@ import { randomBytes, createHash } from "crypto";
 import { AppError } from "@/errors/AppError.js";
 import { authRepository } from "@/repositories/auth.repository.js";
 import { signToken } from "@/utils/authTokens.js";
-import { FRONTEND_URL, DUMMY_HASH } from "@/config/env.js";
+import {
+    FRONTEND_URL, DUMMY_HASH, GOOGLE_CLIENT_ID_DESKTOP, GOOGLE_CLIENT_SECRET_DESKTOP
+} from "@/config/env.js";
 import { resetEmailHtml } from "@/templates/resetPassword.email.js";
 import sendEmail from "@/utils/sendEmail.js";
 import {
@@ -52,6 +54,20 @@ export const authService = {
         return { user: safeUser, token };
     },
 
+    async resolveOrCreateGoogleUser(email: string, name: string, googleId: string) {
+        ensureGoogleEmail(email);
+
+        let user = await authRepository.findUserByEmailNoPassword(email);
+
+        if (!user) {
+            const result = await authRepository.createGoogleUser(name, email, googleId);
+            user = await authRepository.findUserById(result.insertId);
+            ensureUserExists(user);
+        }
+
+        return user;
+    },
+
     async googleLogin(accessToken: string, platform: string) {
         ensurePlatform(platform);
 
@@ -67,15 +83,44 @@ export const authService = {
         }
 
         const { email, name, sub: googleId } = data;
-        ensureGoogleEmail(email);
+        const user = await this.resolveOrCreateGoogleUser(email, name, googleId);
 
-        let user = await authRepository.findUserByEmailNoPassword(email);
+        const token = signToken(user.id);
+        return { user, token };
+    },
 
-        if (!user) {
-            const result = await authRepository.createGoogleUser(name, email, googleId);
-            user = await authRepository.findUserById(result.insertId);
-            ensureUserExists(user);
+    async googleLoginDesktop(code: string, redirectUri: string) {
+        let tokenData;
+        try {
+            const res = await axios.post(
+                "https://oauth2.googleapis.com/token",
+                new URLSearchParams({
+                    code,
+                    client_id: GOOGLE_CLIENT_ID_DESKTOP,
+                    client_secret: GOOGLE_CLIENT_SECRET_DESKTOP,
+                    redirect_uri: redirectUri,
+                    grant_type: "authorization_code",
+                }),
+                { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+            );
+            tokenData = res.data;
+        } catch {
+            throw new AppError("INVALID_GOOGLE_TOKEN", 401);
         }
+
+        let userInfo;
+        try {
+            const res = await axios.get(
+                "https://www.googleapis.com/oauth2/v3/userinfo",
+                { headers: { Authorization: `Bearer ${tokenData.access_token}` } }
+            );
+            userInfo = res.data;
+        } catch {
+            throw new AppError("INVALID_GOOGLE_TOKEN", 401);
+        }
+
+        const { email, name, sub: googleId } = userInfo;
+        const user = await this.resolveOrCreateGoogleUser(email, name, googleId);
 
         const token = signToken(user.id);
         return { user, token };

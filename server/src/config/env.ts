@@ -16,6 +16,8 @@ export const DUMMY_HASH = requireEnv("DUMMY_HASH");
 export const NODE_ENV = requireEnv("NODE_ENV");
 export const RESEND_API_KEY = requireEnv("RESEND_API_KEY");
 export const CLIENT_ORIGINS = requireEnv("CLIENT_ORIGINS");
+export const GOOGLE_CLIENT_ID_DESKTOP = requireEnv("GOOGLE_CLIENT_ID_DESKTOP");
+export const GOOGLE_CLIENT_SECRET_DESKTOP = requireEnv("GOOGLE_CLIENT_SECRET_DESKTOP");
 
 export const MYSQL_HOST = requireEnv("MYSQL_HOST");
 export const MYSQL_USER = requireEnv("MYSQL_USER");

@@ -59,7 +59,7 @@ export function ensurePasswordLength(password: string, min: number): void {
 }
 
 export function ensurePlatform(platform: string): void {
-    Ensure.that(platform === "web" || platform === "mobile", "INVALID_PLATFORM", 400);
+    Ensure.that(platform === "web" || platform === "mobile" || platform === "desktop", "INVALID_PLATFORM", 400);
 }
 
 export function ensureEmailUniqueConstraint(errorCode?: string): void {

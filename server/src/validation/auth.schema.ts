@@ -22,6 +22,11 @@ export const googleLoginSchema = z.object({
     platform: z.enum(["web", "mobile"]).optional(),
 });
 
+export const googleLoginDesktopSchema = z.object({
+    code: z.string().min(1),
+    redirectUri: z.string().min(1),
+});
+
 export const changePasswordSchema = z.object({
     oldPassword: z.string().min(1),
     newPassword: z.string()

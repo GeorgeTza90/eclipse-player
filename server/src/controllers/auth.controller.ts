@@ -43,6 +43,13 @@ export const googleLogin = asyncHandler(async (req: Request, res: Response) => {
     res.json({ user, token });
 });
 
+export const googleLoginDesktop = asyncHandler(async (req: Request, res: Response) => {
+    const { code, redirectUri } = req.body;
+    const { user, token } = await authService.googleLoginDesktop(code, redirectUri);
+    setAuthCookie(res, token);
+    res.json({ user, token });
+});
+
 // -----------------------------
 // LogOut
 // -----------------------------
