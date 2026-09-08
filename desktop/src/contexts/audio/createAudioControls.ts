@@ -9,6 +9,13 @@ export const createAudioControls = ({
     audioEngineRef, eqEngineRef, loudnessEngineRef, currentSong, normalization, loudnessPreset, playlist, currentSongIndex, EQGain,
     setPlaylist, setPlaylistName, setCurrentSong, setCurrentSongIndex, setPositionRealtime, setIsPlaying, setEQGain,
 }: CreateAudioControlsParams) => {
+    
+    const changeSong = (song: Song, startPosition: number = 0): void => {
+        setCurrentSong(song);
+        setPositionRealtime(startPosition);
+        setJSON("positionRealtime", startPosition);
+        setJSON("audio_autoplay", true);
+    };
 
     const playSong = async (song: Song, newPlaylist?: Song[], name: string = "", startPosition: number = 0): Promise<void> => {        
         await eqEngineRef.current?.unlock();
@@ -20,11 +27,7 @@ export const createAudioControls = ({
             setPlaylistName(name);
         }
 
-        setCurrentSong(song);
-        setPositionRealtime(startPosition);
-        setJSON("positionRealtime", startPosition);
-        setJSON("audio_autoplay", true);
-        // setIsPlaying(true);
+        changeSong(song, startPosition);
     };
 
     const togglePlay = async (): Promise<void> => {
@@ -77,9 +80,7 @@ export const createAudioControls = ({
 
         setCurrentSongIndex((index) => {
             const nextIndex = (index + 1) % playlist.length;
-            setCurrentSong(playlist[nextIndex]);
-            setPositionRealtime(0);
-            setJSON("positionRealtime", 0);
+            changeSong(playlist[nextIndex]);
             return nextIndex;
         });
     };
@@ -88,9 +89,7 @@ export const createAudioControls = ({
         if (!playlist.length) return;
         const previousIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
         setCurrentSongIndex(previousIndex);
-        setCurrentSong(playlist[previousIndex]);
-        setPositionRealtime(0);
-        setJSON("positionRealtime", 0);
+        changeSong(playlist[previousIndex]);
     };
 
     const seekTo = (pos: number): void => {

@@ -35,12 +35,6 @@ export const useAudioPlayer = ({
         const savedPosition = isInitialLoadRef.current ? getJSON<number>("positionRealtime", 0) : 0;
 
         const audioElement = engine.load(currentSong.url, { volume: volumeRef.current, startPosition: savedPosition });
-
-        if (getBool("audio_autoplay", false)) {
-            setJSON("audio_autoplay", false);
-            engine.play()?.catch(console.warn);
-        }
-
         const eq = eqEngineRef.current;
         const loudness = loudnessEngineRef.current;
 
@@ -52,6 +46,11 @@ export const useAudioPlayer = ({
                 loudness.applyForSong(currentSong, LOUDNESS_PRESETS[loudnessPresetRef.current]);
             }
         }
+
+        if (getBool("audio_autoplay", false)) {
+            setJSON("audio_autoplay", false);
+            engine.play()?.catch(console.warn);
+        }        
 
         engine.attachListeners({
             onLoaded: () => setDuration(engine.duration),
@@ -88,12 +87,6 @@ export const useAudioPlayer = ({
                 nextRef.current?.();
             },
         });
-
-        // if (!isInitialLoadRef.current) {
-        //     engine.play()?.catch(console.warn);
-        // }
-
-        // isInitialLoadRef.current = false;
 
         return () => engine.detachListeners();
     }, [
