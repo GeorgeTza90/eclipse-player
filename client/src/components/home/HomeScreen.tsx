@@ -9,7 +9,7 @@ import StatsButton from "../ui/buttons/StatsButton";
 import Loader from "@/components/ui/loaders/Loader";
 import styles from "./homeScreen.module.css";
 import LogOutButton from "../ui/buttons/LogOutButton";
-import TeaserSection from "./teasers/teaserSection";
+import TeaserSection from "./teasers/TeaserSection";
 
 const HomeScreen = () => {
     const { user, logout, authLoading } = useAuth();
