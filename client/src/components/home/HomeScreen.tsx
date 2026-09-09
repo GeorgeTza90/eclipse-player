@@ -1,17 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
-import { API_URL } from "@/config";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useMinimumLoading } from "@/hooks/useMinimumLoading";
-import { CURRENT_APK_VERSION } from "@/config";
 import AuthCard from "./auth/AuthCard";
 import UserPlaylists from "./playlists/UserPlaylists";
 import SettingsButton from "@/components/ui/buttons/SettingsButton";
 import StatsButton from "../ui/buttons/StatsButton";
-import Teaser from "@/components/ui/teasers/Teaser";
 import Loader from "@/components/ui/loaders/Loader";
 import styles from "./homeScreen.module.css";
 import LogOutButton from "../ui/buttons/LogOutButton";
+import TeaserSection from "./teasers/teaserSection";
 
 const HomeScreen = () => {
     const { user, logout, authLoading } = useAuth();
@@ -41,20 +39,8 @@ const HomeScreen = () => {
                 </div>
             )}
 
-        {/* Teasers */}        
-            <div className={styles.teaserDiv}>
-                <Teaser 
-                    link={`/library/CollectionDetail/${encodeURIComponent("No Gods In Heaven")}`} 
-                    source={"/assets/vids/Video Teaser 2.mp4"}
-                    video={true}
-                />
-                <Teaser
-                    link = {`${API_URL}/api/download/apk?version=${CURRENT_APK_VERSION}`}
-                    source={"/assets/images/App_Teaser_1.jpg"}
-                    download
-                    video={false}
-                />
-            </div>
+        {/* Teasers */}
+            <TeaserSection />
         </div>
     );
 }

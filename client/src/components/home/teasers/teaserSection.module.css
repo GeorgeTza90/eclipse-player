@@ -1,0 +1,12 @@
+.teaserDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .teaserDiv {
+        margin-bottom: 5rem;
+    }
+}
