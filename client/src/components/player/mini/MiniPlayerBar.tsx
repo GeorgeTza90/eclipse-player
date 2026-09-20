@@ -5,7 +5,7 @@ import { useAudio } from "@/contexts/AudioContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { useShadowColor } from "@/hooks/useShadowColor";
 import { MiniPlayerBarProps } from "@/types/player.types";
-import { useStylesSliders } from "@/hooks/useStyleSliders";
+import { useStyleSliders } from "@/hooks/useStyleSliders";
 import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
 import MiniControls from "./parts/MiniControls";
 import MiniInfoRow from "./parts/MiniInfoRow";
@@ -26,7 +26,7 @@ const MiniPlayerBar = ({handleImageToast}: MiniPlayerBarProps) => {
     const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
     const progress = duration ? (sliderPosition / duration) * 100 : 0;
 
-    const { sliderStyle, volumeSliderStyle, rgbStyleslider, rgbStyleBG } = useStylesSliders(goRGB, coloredGlow, progress, shadowColor, intensity, volume, pos, transparency);
+    const { sliderStyle, volumeSliderStyle, rgbStyleslider, rgbStyleBG } = useStyleSliders(goRGB, coloredGlow, progress, shadowColor, intensity, volume, pos, transparency);
    
     /* --- UI UPDATE  --- */
     useEffect(() => { setIntensity(volume * 30); }, [volume]);
