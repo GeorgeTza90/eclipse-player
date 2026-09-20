@@ -1,0 +1,14 @@
+.controlsBar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0rem 0.6rem;    
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+}

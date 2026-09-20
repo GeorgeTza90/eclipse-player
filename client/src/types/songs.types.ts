@@ -7,7 +7,7 @@ export interface SongLoudness {
 }
 
 export interface Song {
-    id: string;
+    id: string | number;
     title: string;
     artist: string;
     artists?: ArtistRole[];

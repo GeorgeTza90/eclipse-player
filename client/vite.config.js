@@ -14,4 +14,9 @@ export default defineConfig({
       "/api": "https://portfolio-production-6bae.up.railway.app",
     },
   },
+  test: {
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
+    globals: true,
+  },
 })

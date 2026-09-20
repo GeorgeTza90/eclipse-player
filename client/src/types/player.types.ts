@@ -1,5 +1,5 @@
 import { Song } from "./songs.types";
-import type { Dispatch, SetStateAction } from "react";
+import type { CSSProperties, Dispatch, SetStateAction } from "react";
 
 export interface AudioPlayerProps {
     onToggleExtention: (key: Extention) => void;
@@ -11,6 +11,8 @@ export interface LyricsProps {
 }
 
 export type Extention = "Playlist" | "Lyrics" | "Equalizer"
+
+export type RepeatMode = "off" | "all" | "one";
 
 export interface MiniPlayerBarProps {
     handleImageToast: (imageUrl: string) => void;
@@ -106,4 +108,41 @@ export interface Presets {
     title: string;
     preset?: EQGains;
     created_at: Date;
+}
+
+export interface InfoRowProps {
+    currentSong: Song | null;
+    featArtists: string[];
+    mainArtists: string[];
+    onClick: () => void;
+}
+
+export interface TimeSliderProps {
+    width?: number;
+    position: number;
+    goRGB: boolean;    
+    duration: number;
+    sliderPosition: number | null;    
+    sliderStyle: CSSProperties;
+    RGBStyle: CSSProperties;
+}
+
+export interface VolumeSliderProps {
+    width: number;
+    volume: number;
+    goRGB: boolean;
+    RGBStyle: CSSProperties;    
+    volumeSliderStyle: CSSProperties;
+}
+
+export interface ExtentionButtonsProps {
+    extentionHoverStyle: CSSProperties;
+    onPlaylist: () => void;
+    onLyrics: () => void;
+    onEqualizer: () => void;
+}
+
+export interface MiniControlsProps {
+    size: number;
+    isPlaying: boolean;
 }

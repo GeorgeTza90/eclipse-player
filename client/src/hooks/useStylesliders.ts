@@ -1,6 +1,6 @@
 import { MiniPlayerPosition } from "@/types/player.types";
 
-export function useStylessliders(
+export function useStylesSliders(
     goRGB: boolean,
     coloredGlow: boolean,
     progress: number,

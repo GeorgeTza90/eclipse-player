@@ -1,0 +1,36 @@
+.sliderRow {
+    display: flex;    
+    align-items: center;
+    justify-content: center;
+    padding: 0rem 0.4rem;
+    gap: 0.4rem;
+}
+
+.time {
+    font-size: 0.72rem;    
+    text-align: center;
+    color: #ffffffc7;
+}
+
+.sliderRGBStyle {    
+    height: 5.5px;
+    position: absolute;    
+    border-radius: 3px;
+    background-image: linear-gradient(90deg, 
+        red, orange, yellow, green, cyan, blue, violet, red);
+    background-size: 200% 200%;
+    background-position: 0% 50%;    
+    animation: moveGradient 1.8s linear infinite;
+    outline: none;
+    z-index: 9998;
+}
+
+.sliderStyle {
+    flex: 1;
+    height: 5.5px;    
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    outline: none;
+    z-index: 9999;
+}

@@ -1,146 +1,96 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAudio } from "@/contexts/AudioContextWeb";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useShadowColor } from "@/hooks/useShadowColor";
-import { formatTime } from "@/utils/formatTime.ts";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
 import { useImageToast } from "@/components/ui/toasts/ImageToast";
-import PlayButton from "@/components/ui/buttons/PlayButton";
-import ArtistButton from "@/components/ui/buttons/ArtistButton";
+import { useStylesPlayer } from "@/hooks/useStylesPlayer";
+import { AudioPlayerProps, Extention } from "@/types/player.types";
 import Circle from "@/components/ui/circles/Circle";
+import Controls from "./parts/Controls";
+import InfoRow from "./parts/InfoRow";
+import TimeSlider from "./parts/TimeSlider";
+
+import ExtentionButtons from "./parts/ExtentionButtons";
+import EmptyPlayer from "./parts/EmptyPlayer";
 import styles from "./audioPlayer.module.css";
-import { AudioPlayerProps } from "@/types/player.types";
+import VolumeSlider from "./parts/VolumeSlider";
 
 const AudioPlayer = ({ onToggleExtention }: AudioPlayerProps) => {
-    const { currentSong, isPlaying, position, duration, volume, togglePlay, stop, next, previous, setVolume, seekTo } = useAudio();
+    const { currentSong, position, duration, volume } = useAudio();
     const { coloredGlow, goRGB } = useMiniPlayer();
-    const { showImageToast, ImageToastUI } = useImageToast();    
+    const { showImageToast, ImageToastUI } = useImageToast();
     
-    const [extention, setExtention] = useState("Playlist");
+    const [extention, setExtention] = useState<Extention>("Playlist");
     const [intensity, setIntensity] = useState(30);  
     const [sliderPosition, setSliderPosition] = useState<number | null>(null);
     
     const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
     const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
-    const progress = duration ? (position / duration) * 100 : 0;    
-    const navigate = useNavigate();
+    const progress = duration ? (position / duration) * 100 : 0;
+    const isMobile = useIsMobile();    
 
-    const handleExtention = (key: "Playlist" | "Lyrics" | "Equalizer"): void => {
+    const handleExtention = (key: Extention): void => {
         setExtention(key);
         onToggleExtention(key);
     };
+    
+    const { sliderStyle, volumeSliderStyle, RGBStyle, extentionHoverStyle } = useStylesPlayer(goRGB, coloredGlow, progress, shadowColor, volume, intensity, extention);
 
     /* --- UI UPDATE --- */
     useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
     useEffect(() => setIntensity(volume * 30), [volume]);    
 
-    /* --- STYLES --- */
-    const sliderStyle = {
-        background: goRGB && coloredGlow 
-            ? `linear-gradient(to right, #acacac ${progress}%, #55555572 ${progress}%)`
-            : `linear-gradient(to right, ${shadowColor} ${progress}%, #555 ${progress}%)`,
-    };  
-    const volumeSliderStyle = {
-        background: goRGB && coloredGlow 
-            ? `linear-gradient(to right, #acacac, #acacac ${volume * 100}%, #55555572 ${volume * 100}%)`
-            : `linear-gradient(to right, ${shadowColor}, ${shadowColor} ${volume * 100}%, #555 ${volume * 100}%)`,  
-    };
-    const RGBStyle = { opacity: `${intensity / 24 + 0.1}` };    
-    const extentionHoverStyle = { left: `${extention === "Playlist" ? 0 : extention === "Lyrics" ? 33.5 : 66}%` }
-
     return (<>
         <div className={styles.container}>
     {/* Circles */}
-            <Circle size={600} top={150} intensity={intensity * 0.8} heightOffset={8} shadowColor={shadowColor} />
-            <Circle size={300} top={800} intensity={intensity * 0.5} heightOffset={6} shadowColor={shadowColor} color2="#0e0e0eff" color1="#1b1a1aff" />
+            <Circle size={isMobile ? 400 : 600} top={isMobile ? 110 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor} />
+            <Circle size={isMobile ? 230 : 300} top={isMobile ? 550 : 800} intensity={intensity * 0.5} heightOffset={6} shadowColor={shadowColor} color2="#0e0e0eff" color1="#1b1a1aff" />
 
     {/* Player UI */}
             <div className={styles.playerContent}>
-    {/* Info */}
-                <div className={styles.infoRow}>
-                    {currentSong?.image && <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={() => currentSong.imageHQ && showImageToast(currentSong.imageHQ)} />}
-                    <div>
-                        <h3 className={styles.title}>{currentSong?.title || "Song Title"}</h3>
-                        {featArtists.length > 0 && (
-                            <span className={styles.trackFeature}>
-                                feat. {featArtists.join(", ")}
-                            </span>
-                        )}
-                        <p className={styles.artist}>
-                            {mainArtists.map((artist) => (
-                                <span key={artist}>
-                                    <ArtistButton artist={artist || "Artist Name"} size="0.9rem" />                                    
-                                </span>
-                            ))} 
-                        </p>
-                    </div>
-                </div>
+        {/* Info */}
+                <InfoRow
+                    currentSong={currentSong}
+                    featArtists={featArtists}
+                    mainArtists={mainArtists}
+                    onClick={() => currentSong?.imageHQ && showImageToast(currentSong.imageHQ)}
+                />
 
-    {/* Controls */}
-                <div className={styles.controls}>
-                    <PlayButton type="previous" onClick={previous} />
-                    <PlayButton type="stop" onClick={stop} />
-                    <PlayButton type={isPlaying ? "pause" : "play"} onClick={togglePlay} />
-                    <PlayButton type="next" onClick={next} />
-                </div><br />
+        {/* Controls */}
+                <Controls /><br/>
 
-    {/* Time Slider */}
-                <div className={styles.sliderRow}>                    
-                    <span className={styles.time}>{formatTime(position * 1000)}</span>
-                    {goRGB && <div style={RGBStyle} className={styles.sliderRGBStyle}></div>}
-                    <input
-                        type="range"
-                        min={0}
-                        max={duration || 0}
-                        step="0.1"
-                        value={sliderPosition ?? 0}
-                        onChange={(e) => seekTo(Number(e.target.value))}
-                        style={sliderStyle}
-                        className={styles.sliderStyle}
-                    />                    
-                    <span className={styles.time}>{formatTime(duration * 1000)}</span>                    
-                </div>
-                
+        {/* Time Slider */}
+                <TimeSlider
+                    position={position}
+                    goRGB={goRGB}
+                    duration={duration}
+                    sliderPosition={sliderPosition}                    
+                    RGBStyle={RGBStyle}
+                    sliderStyle={sliderStyle}
+                />                
 
-    {/* Volume */}
-                <div className={styles.sliderRowVol}>
-                    <button className={styles.VolButton} onClick={() => setVolume(0)}>
-                        <img className={volume === 0 ? styles.volIconActive : styles.volIcon} src="/assets/icons/volMin2.png" />
-                    </button>                    
-                    {goRGB && <div style={RGBStyle} className={styles.slidervolumeRGBStyle}></div>}
-                    <input
-                        type="range"
-                        min={0}
-                        max={1}
-                        step="0.01"
-                        value={volume}
-                        onChange={(e) => setVolume(Number(e.target.value))}
-                        style={volumeSliderStyle}
-                        className={styles.volumeSliderStyle}
-                    />
-                    <button className={styles.VolButton} onClick={() => setVolume(1)}>
-                        <img className={volume === 1 ? styles.volIconActive : styles.volIcon} src="/assets/icons/volMax2.png" />
-                    </button>
-                </div>
+        {/* Volume */}
+                <VolumeSlider
+                    volume={volume}
+                    goRGB={goRGB}
+                    RGBStyle={RGBStyle}
+                    volumeSliderStyle={volumeSliderStyle}
+                />                
 
-    {/* Extention Buttons */}
-                <div className={styles.extentionButton} style={{ position: "relative" }}>        
-                    <div style={extentionHoverStyle} className={styles.extentionHoverStyle}/>
-                    {/* Buttons */}
-                    <button onClick={() => handleExtention("Playlist")} className={styles.extentionButtonsStyle}>Playlist</button>
-                    <button onClick={() => handleExtention("Lyrics")} className={styles.extentionButtonsStyle}>Lyrics</button>
-                    <button onClick={() => handleExtention("Equalizer")} className={styles.extentionButtonsStyle}>Equalizer</button>
-                </div>
+        {/* Extention Buttons */}
+                <ExtentionButtons
+                    extentionHoverStyle={extentionHoverStyle}
+                    onPlaylist={() => handleExtention("Playlist")}
+                    onLyrics={() => handleExtention("Lyrics")}
+                    onEqualizer={() => handleExtention("Equalizer")}
+                />
             </div>
 
     {/* Empty Player */}
-            {!currentSong && (
-                <div className={styles.emptyRow}>
-                    <p className={styles.emptyPlayer}>Player Is Empty</p>
-                    <p className={styles.songsAdd} onClick={() => navigate(`/library`)}>Add Songs Here</p>
-                </div>   
-            )}   
+            {!currentSong && <EmptyPlayer />}
+            
         </div>
         {ImageToastUI}
     </>);

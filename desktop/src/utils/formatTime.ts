@@ -1,4 +1,5 @@
 import type { Song } from "@/types/songs.types";
+import { logger } from "./logger";
 
 export function formatTime(millis: number): string {
     if (!millis || millis < 0) return "0:00";
@@ -9,7 +10,13 @@ export function formatTime(millis: number): string {
 }
 
 export function useAlbumDuration(songs: Song[]): string {
-    const totalSeconds = songs.reduce((acc, song) => acc + (song.duration || 0), 0);
+    const totalSeconds = Math.floor(
+        songs.reduce((acc, song) => {
+            const duration = song.duration || 0;
+            if (duration < 0) logger.error(`Negative duration detected: ${duration}`);
+            return acc + Math.abs(duration);
+        }, 0)
+    );
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
@@ -17,7 +24,8 @@ export function useAlbumDuration(songs: Song[]): string {
     return durationString;
 }
 
-export const formatDuration = (seconds: number): string => {    
+export const formatDuration = (seconds: number): string => {
+    if (!seconds || seconds < 0) return "0h 0m";
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     if (hours > 0) return `${hours}h ${minutes}m`;

@@ -1,0 +1,35 @@
+.sliderRowVol{
+    display: flex;    
+    align-items: center;
+    justify-content: center;
+    gap: 0rem;    
+    margin-top: 1rem;
+    
+}
+
+.sliderVolumeRGBStyle {           
+    height: 4px;
+    margin-top: -1rem;    
+    position: absolute;
+    margin-left: 0;
+    border-radius: 3px;
+    background-image: linear-gradient(90deg, 
+        red, orange, yellow, green, cyan, blue, violet, red);
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    animation: moveGradient 1.8s linear infinite;
+    outline: none;
+    z-index: 9998;
+}
+
+.volumeSliderStyle {
+    width: 80px;
+    flex: 1;
+    margin-top: -0.85rem;
+    height: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    outline: none;
+    z-index: 9999;
+}

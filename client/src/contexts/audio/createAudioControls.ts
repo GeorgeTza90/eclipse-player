@@ -10,10 +10,7 @@ export const createAudioControls = ({
     setPlaylist, setPlaylistName, setCurrentSong, setCurrentSongIndex, setPositionRealtime, setIsPlaying, setEQGain,
 }: CreateAudioControlsParams) => {
 
-    const playSong = async (song: Song, newPlaylist?: Song[], name: string = "", startPosition: number = 0): Promise<void> => {
-        // Unlocking here (on a user gesture) lets useAudioPlayer's effect
-        // wire up the EQ/Loudness graph as soon as currentSong changes,
-        // instead of waiting for a Player-local button press.
+    const playSong = async (song: Song, newPlaylist?: Song[], name: string = "", startPosition: number = 0): Promise<void> => {        
         await eqEngineRef.current?.unlock();
 
         if (newPlaylist) {

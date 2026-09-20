@@ -8,6 +8,8 @@ const icons = {
     stop: "/assets/icons/stopButton.png",
     previous: "/assets/icons/prevButton.png",
     next: "/assets/icons/nextButton.png",
+    shuffle: "assets/icons/shuffle.png",
+    repeat: "assets/icons/repeat.png",
 };
 
 const PlayButton = ({ type = "play", onClick, size = "40px" }: PlayButtonProps) => {
