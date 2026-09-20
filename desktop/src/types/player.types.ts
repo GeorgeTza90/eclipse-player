@@ -12,6 +12,8 @@ export interface LyricsProps {
 
 export type Extention = "Playlist" | "Lyrics" | "Equalizer"
 
+export type RepeatMode = "off" | "all" | "one";
+
 export interface MiniPlayerBarProps {
     handleImageToast: (imageUrl: string) => void;
 }
