@@ -14,7 +14,13 @@ const MiniInfoRow = ({
     return (
         <div className={styles.infoRow} style={{ marginLeft: barMode ? "-1rem" : showImage ? "-3.6rem" : "-1.8rem"}}>
             {currentSong?.image && showImage && (
-                <img src={currentSong.image} alt={currentSong.title} className={styles.image} onClick={onClick} />
+                <img
+                    src={currentSong.image}
+                    alt={currentSong.title}
+                    className={styles.image}
+                    onClick={onClick}
+                    onMouseDown={(e) => e.stopPropagation()}
+                />
             )}
 
             <div className={styles.infoContent}>

@@ -9,7 +9,7 @@ const MiniVolumeSlider = ({ width = 120, goRGB, volume, RGBStyle, volumeSliderSt
     return(
         <div className={styles.sliderRowVol}>
             <VolButton type="Min" onClick={() => setVolume(0)} active={volume === 0 && true} />
-            {goRGB && <div style={RGBStyle && {width: `${width}rem`}} className={styles.sliderVolumeRGBStyle}></div>}
+            {goRGB && <div style={{...RGBStyle, width: `${width}rem`}} className={styles.sliderVolumeRGBStyle}></div>}
             <input
                 type="range"
                 min={0}
@@ -17,6 +17,8 @@ const MiniVolumeSlider = ({ width = 120, goRGB, volume, RGBStyle, volumeSliderSt
                 step="0.01"
                 value={volume}
                 onChange={(e) => setVolume(Number(e.target.value))}
+                onMouseDown={(e) => e.stopPropagation()}
+                onTouchStart={(e) => e.stopPropagation()}
                 style={volumeSliderStyle}
                 className={styles.volumeSliderStyle}
             />

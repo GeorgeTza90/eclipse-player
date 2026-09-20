@@ -34,3 +34,26 @@
     outline: none;
     z-index: 9999;
 }
+
+@media (max-width: 768px) {
+    .sliderStyle {
+        height: 6px;
+        width: 15rem;
+    }
+
+    .sliderRGBStyle {
+        margin-left: 2.5rem;
+        width: 15rem;
+        height: 6px;
+    }
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}

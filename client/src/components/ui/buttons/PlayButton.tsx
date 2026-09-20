@@ -24,7 +24,13 @@ const PlayButton = ({ type = "play", onClick, size = "40px", active = false }: P
     ].filter(Boolean).join(" ");
 
     return (
-        <button onClick={onClick} className={buttonClass} style={buttonStyle}>
+        <button
+            onClick={onClick}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            className={buttonClass}
+            style={buttonStyle}
+        >
             <img src={iconSrc} alt={type} className={styles.icon} />
         </button>
     );
