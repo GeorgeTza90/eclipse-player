@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useShadowColor } from "@/hooks/useShadowColor";
 import { useImageToast } from "@/components/ui/toasts/ImageToast";
-import { useStylesSliders } from "@/hooks/useStyleSliders";
+import { useStyleSliders } from "@/hooks/useStyleSliders";
 import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
 import Circle from "@/components/ui/circles/MiniPlayerCircle";
 import MiniControls from "./parts/MiniControls";
@@ -28,7 +28,7 @@ const MiniPlayer = () => {
     const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
     const progress = duration ? (sliderPosition / duration) * 100 : 0;
 
-    const { sliderStyle, volumeSliderStyle, miniPlayerDiv, RGBStyle } = useStylesSliders(goRGB, coloredGlow, progress, shadowColor, intensity, volume, pos, transparency);
+    const { sliderStyle, volumeSliderStyle, miniPlayerDiv, RGBStyle } = useStyleSliders(goRGB, coloredGlow, progress, shadowColor, intensity, volume, pos, transparency);
 
     /* --- UI UPDATE  --- */
     useEffect(() => {

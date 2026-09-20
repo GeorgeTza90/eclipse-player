@@ -1,6 +1,6 @@
 import { MiniPlayerPosition } from "@/types/player.types";
 
-export function useStylesSliders(
+export function useStyleSliders(
     goRGB: boolean,
     coloredGlow: boolean,
     progress: number,
@@ -27,6 +27,7 @@ export function useStylesSliders(
     const miniPlayerDiv = { left: pos.x, top: pos.y, opacity: transparency ? 0.7 : 1 };
 
     const RGBStyle = { opacity: `${intensity / 24 + 0.1}` };
+
 
     return { sliderStyle, volumeSliderStyle, rgbStyleslider, rgbStyleBG, miniPlayerDiv, RGBStyle };
 }
