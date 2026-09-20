@@ -11,7 +11,7 @@ const PLAY_THRESHOLD_PERCENTAGE = 0.5;
 
 export const useAudioPlayer = ({
     currentSong, volume, audioEngineRef, eqEngineRef, loudnessEngineRef,
-    EQGain, normalization, loudnessPreset, isInitialLoadRef, nextRef,
+    EQGain, normalization, loudnessPreset, repeatMode, isInitialLoadRef, nextRef,
     setDuration, setPositionRealtime, setIsPlaying,
 }: AudioPlayerProps): void => {
     const lastSavedPosRef = useRef<number>(-1);
@@ -22,6 +22,7 @@ export const useAudioPlayer = ({
     const volumeRef = useLatestRef(volume);
     const normalizationRef = useLatestRef(normalization);
     const loudnessPresetRef = useLatestRef(loudnessPreset);
+    const repeatModeRef = useLatestRef(repeatMode);
 
     useEffect(() => {
         if (!currentSong) return;
@@ -74,7 +75,14 @@ export const useAudioPlayer = ({
                 }
             },
 
-            onEnded: () => nextRef.current?.(),
+            onEnded: () => {
+                if (repeatModeRef.current === "one") {
+                    engine.seek(0);
+                    engine.play()?.catch(console.warn);
+                    return;
+                }
+                nextRef.current?.();
+            },
             onPlay: () => setIsPlaying(true),
             onPause: () => setIsPlaying(false),
             onError: () => {
@@ -95,7 +103,7 @@ export const useAudioPlayer = ({
         currentSong, audioEngineRef, eqEngineRef, loudnessEngineRef,
         isInitialLoadRef, nextRef,
         setDuration, setPositionRealtime, setIsPlaying, showToast,
-        EQGainRef, volumeRef, normalizationRef, loudnessPresetRef,
+        EQGainRef, volumeRef, normalizationRef, loudnessPresetRef, repeatModeRef,
     ]);
 
     useEffect(() => {

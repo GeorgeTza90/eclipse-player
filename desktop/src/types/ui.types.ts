@@ -20,9 +20,10 @@ export interface GeneralButtonProps {
 }
 
 export interface PlayButtonProps {
-    type: "play" | "pause" | "stop" | "previous" | "next" | "shuffle" | "repeat";
+    type: "play" | "pause" | "stop" | "previous" | "next" | "shuffle" | "repeat" | "repeat-one";
     onClick?: (event:MouseEvent<HTMLButtonElement>) => void;
     size?: string | number;
+    active?: boolean;
 }
 
 export interface ToggleButtonProps {

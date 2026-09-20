@@ -2,7 +2,7 @@ import { useAudio } from "@/contexts/AudioContextWeb";
 import styles from "./volumeSlider.module.css"
 import { VolumeSliderProps } from "@/types/player.types";
 
-const VolumeSlider = ({ volume, goRGB, RGBStyle, volumeSliderStyle }: VolumeSliderProps) => {
+const VolumeSlider = ({ width = 50, volume, goRGB, RGBStyle, volumeSliderStyle }: VolumeSliderProps) => {
     const { setVolume } = useAudio();
 
     return(

@@ -72,6 +72,7 @@ const AudioPlayer = ({ onToggleExtention }: AudioPlayerProps) => {
 
         {/* Volume */}
                 <VolumeSlider
+                    width={50}
                     volume={volume}
                     goRGB={goRGB}
                     RGBStyle={RGBStyle}

@@ -122,7 +122,7 @@ export interface TimeSliderProps {
     position: number;
     goRGB: boolean;    
     duration: number;
-    sliderPosition: number | null;    
+    sliderPosition: number | null;
     sliderStyle: CSSProperties;
     RGBStyle: CSSProperties;
 }

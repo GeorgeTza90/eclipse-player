@@ -3,7 +3,7 @@ import type { Song } from "./songs.types";
 import type { AudioEngine } from "@/contexts/audio/audioEngine";
 import type { EQEngine } from "@/contexts/audio/eqEngine";
 import type { LoudnessEngine } from "@/contexts/audio/loudnessEngine";
-import type { EQGains } from "@/types/player.types";
+import type { EQGains, RepeatMode } from "@/types/player.types";
 import type { LoudnessPresetKey } from "@/utils/loudnessPresets";
 
 export interface AudioEngineLoadOptions {
@@ -22,6 +22,7 @@ export interface AudioPlayerProps {
     loudnessPreset: LoudnessPresetKey;
     isInitialLoadRef: React.RefObject<boolean>;
     nextRef: React.RefObject<(() => void) | null>;
+    repeatMode: RepeatMode;
     setDuration: React.Dispatch<React.SetStateAction<number>>;
     setPositionRealtime: React.Dispatch<React.SetStateAction<number>>;
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,6 +38,8 @@ export interface AudioPersistenceProps {
     audioEngineRef: React.RefObject<AudioEngine | null>;
     loudnessPreset: LoudnessPresetKey;
     normalization: boolean;
+    shuffle: boolean;
+    repeatMode: RepeatMode;
 }
 
 export interface LoudnessNormalizationProps {
@@ -56,6 +59,9 @@ export interface CreateAudioControlsParams {
     playlist: Song[];
     currentSongIndex: number;
     EQGain: EQGains;
+    shuffle: boolean;
+    repeatMode: RepeatMode;
+    shuffleOrder: number[];
     setPlaylist: React.Dispatch<React.SetStateAction<Song[]>>;
     setPlaylistName: React.Dispatch<React.SetStateAction<string>>;
     setCurrentSong: React.Dispatch<React.SetStateAction<Song | null>>;
@@ -76,6 +82,11 @@ export interface AudioContextValue {
     position: number;
     normalization: boolean;    
     loudnessPreset: LoudnessPresetKey;
+    
+    shuffle: boolean;
+    repeatMode: RepeatMode;
+    toggleShuffle: () => void;
+    cycleRepeatMode: () => void;
     
     setCurrentSong: React.Dispatch<React.SetStateAction<Song | null>>;
     setNormalization: React.Dispatch<React.SetStateAction<boolean>>;

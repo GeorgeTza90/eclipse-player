@@ -4,7 +4,7 @@ import type { AudioPersistenceProps } from "@/types/audio.types";
 
 export const useAudioPersistence = ({
     playlist, playlistName, currentSongIndex, currentSong, EQGain,
-    volume, audioEngineRef, loudnessPreset, normalization,
+    volume, audioEngineRef, loudnessPreset, normalization, shuffle, repeatMode,
 }: AudioPersistenceProps): void => {
 
     useEffect(() => setJSON("audio_playlist", playlist), [playlist]);
@@ -13,6 +13,8 @@ export const useAudioPersistence = ({
     useEffect(() => setJSON("EQGain", EQGain), [EQGain]);
     useEffect(() => setJSON("audio_loudnessPreset", loudnessPreset), [loudnessPreset]);
     useEffect(() => setBool("audio_normalization", normalization), [normalization]);
+    useEffect(() => setBool("audio_shuffle", shuffle), [shuffle]);
+    useEffect(() => setJSON("audio_repeatMode", repeatMode), [repeatMode]);
     useEffect(() => { if (currentSong) setJSON("audio_currentSong", currentSong); }, [currentSong]);
     useEffect(() => { setJSON("audio_volume", volume); audioEngineRef.current?.setVolume(volume); }, [volume, audioEngineRef]);
 };

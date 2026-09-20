@@ -11,7 +11,7 @@ const PLAY_THRESHOLD_PERCENTAGE = 0.5;
 
 export const useAudioPlayer = ({
     currentSong, volume, audioEngineRef, eqEngineRef, loudnessEngineRef,
-    EQGain, normalization, loudnessPreset, isInitialLoadRef, nextRef,
+    EQGain, normalization, loudnessPreset, repeatMode, isInitialLoadRef, nextRef,
     setDuration, setPositionRealtime, setIsPlaying,
 }: AudioPlayerProps): void => {
     const lastSavedPosRef = useRef<number>(-1);
@@ -22,8 +22,9 @@ export const useAudioPlayer = ({
     const volumeRef = useLatestRef(volume);
     const normalizationRef = useLatestRef(normalization);
     const loudnessPresetRef = useLatestRef(loudnessPreset);
+    const repeatModeRef = useLatestRef(repeatMode);
 
-    useEffect(() => {        
+    useEffect(() => {
         if (!currentSong) return;
 
         const engine = audioEngineRef.current;
@@ -35,6 +36,7 @@ export const useAudioPlayer = ({
         const savedPosition = isInitialLoadRef.current ? getJSON<number>("positionRealtime", 0) : 0;
 
         const audioElement = engine.load(currentSong.url, { volume: volumeRef.current, startPosition: savedPosition });
+
         const eq = eqEngineRef.current;
         const loudness = loudnessEngineRef.current;
 
@@ -46,11 +48,6 @@ export const useAudioPlayer = ({
                 loudness.applyForSong(currentSong, LOUDNESS_PRESETS[loudnessPresetRef.current]);
             }
         }
-
-        if (getBool("audio_autoplay", false)) {
-            setJSON("audio_autoplay", false);
-            engine.play()?.catch(console.warn);
-        }        
 
         engine.attachListeners({
             onLoaded: () => setDuration(engine.duration),
@@ -78,7 +75,14 @@ export const useAudioPlayer = ({
                 }
             },
 
-            onEnded: () => nextRef.current?.(),
+            onEnded: () => {
+                if (repeatModeRef.current === "one") {
+                    engine.seek(0);
+                    engine.play()?.catch(console.warn);
+                    return;
+                }
+                nextRef.current?.();
+            },
             onPlay: () => setIsPlaying(true),
             onPause: () => setIsPlaying(false),
             onError: () => {
@@ -88,12 +92,18 @@ export const useAudioPlayer = ({
             },
         });
 
+        if (!isInitialLoadRef.current) {
+            engine.play()?.catch(console.warn);
+        }
+
+        isInitialLoadRef.current = false;
+
         return () => engine.detachListeners();
     }, [
         currentSong, audioEngineRef, eqEngineRef, loudnessEngineRef,
         isInitialLoadRef, nextRef,
         setDuration, setPositionRealtime, setIsPlaying, showToast,
-        EQGainRef, volumeRef, normalizationRef, loudnessPresetRef,
+        EQGainRef, volumeRef, normalizationRef, loudnessPresetRef, repeatModeRef,
     ]);
 
     useEffect(() => {

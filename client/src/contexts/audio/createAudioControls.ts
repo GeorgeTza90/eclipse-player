@@ -7,6 +7,7 @@ import type { CreateAudioControlsParams } from "@/types/audio.types";
 
 export const createAudioControls = ({
     audioEngineRef, eqEngineRef, loudnessEngineRef, currentSong, normalization, loudnessPreset, playlist, currentSongIndex, EQGain,
+    shuffle, repeatMode, shuffleOrder,
     setPlaylist, setPlaylistName, setCurrentSong, setCurrentSongIndex, setPositionRealtime, setIsPlaying, setEQGain,
 }: CreateAudioControlsParams) => {
 
@@ -58,21 +59,43 @@ export const createAudioControls = ({
         setIsPlaying(false);
     };
 
+    const getOrder = (): number[] =>
+        shuffle && shuffleOrder.length === playlist.length
+            ? shuffleOrder
+            : playlist.map((_, i) => i);
+
     const next = (): void => {
         if (!playlist.length) return;
+        const order = getOrder();
 
         setCurrentSongIndex((index) => {
-            const nextIndex = (index + 1) % playlist.length;
+            const currentPos = order.indexOf(index);
+            const isLast = currentPos === order.length - 1;
+
+            if (isLast && repeatMode === "off") {
+                setIsPlaying(false);
+                return index;
+            }
+
+            const nextPos = (currentPos + 1) % order.length;
+            const nextIndex = order[nextPos];
+
             setCurrentSong(playlist[nextIndex]);
             setPositionRealtime(0);
             setJSON("positionRealtime", 0);
+
             return nextIndex;
         });
     };
 
     const previous = (): void => {
         if (!playlist.length) return;
-        const previousIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+        const order = getOrder();
+
+        const currentPos = order.indexOf(currentSongIndex);
+        const previousPos = (currentPos - 1 + order.length) % order.length;
+        const previousIndex = order[previousPos];
+
         setCurrentSongIndex(previousIndex);
         setCurrentSong(playlist[previousIndex]);
         setPositionRealtime(0);

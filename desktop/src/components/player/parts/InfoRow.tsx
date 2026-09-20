@@ -15,7 +15,7 @@ const InfoRow = ({currentSong, featArtists, mainArtists, onClick}: InfoRowProps)
                     </span>
                 )}
                 <p className={styles.artist}>
-                    {mainArtists.map((artist, index) => (
+                    {mainArtists.map((artist) => (
                         <span key={artist}>
                             <ArtistButton artist={artist || "Artist Name"} size="0.9rem" />                                    
                         </span>
