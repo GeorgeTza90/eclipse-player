@@ -5,79 +5,67 @@ import { useAudio } from "@/contexts/AudioContextWeb";
 import { useLibrary } from "@/contexts/LibraryContextWeb";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useAlbumDuration } from "@/utils/formatTime.ts";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useImageToast } from "../../ui/toasts/ImageToast";
-import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
+import hexToRgba from "@/utils/hexToRgba";
 import MiniPlayer from "@/components/player/mini/MiniPlayer";
 import Loader from "@/components/ui/loaders/Loader";
-import ArtistButton from "@/components/ui/buttons/ArtistButton";
-import BackButton from "@/components/ui/buttons/BackButton";
-import TrackItem from "./items/TrackItem";
 import type { Song } from "@/types/songs.types";
+import AlbumInfo from "./parts/AlbumInfo";
+import AlbumSongs from "./parts/AlbumSongs";
+import BackButton from "@/components/ui/buttons/BackButton";
 import styles from "./collectionDetail.module.css";
-import { useStylesLibrary } from "@/hooks/useStylesLibrary";
 
 const CollectionDetail = () => {
-    const { user } = useAuth();    
+    const { user } = useAuth();   
     const { songs } = useLibrary();    
     const { playSong } = useAudio();
     const { showImageToast, ImageToastUI } = useImageToast();
-    const { barMode } = useMiniPlayer();    
-    const navigate = useNavigate();    
-
+    const { barMode } = useMiniPlayer();
+    const isMobile = useIsMobile();
+    const navigate = useNavigate();
     const { album } = useParams();
+
     const albumSongs = useMemo(() => songs.filter(s => s.album === album) ,[songs, album]);    
-    const durationString = useAlbumDuration(albumSongs);    
-    const { headerStyle, containerStyle2 } = useStylesLibrary({ averageColor: albumSongs[0]?.averageColor });
-
-    /* --- LOADING --- */
-    if (!albumSongs || albumSongs.length === 0) return (<div className={styles.loadingContainer}><Loader text={"Loading Collection"}/></div>);
-    const albumInfo: Song = albumSongs[0]; 
+    const durationString = useAlbumDuration(albumSongs);
+    const albumInfo: Song = albumSongs[0];    
     
-    const { mainArtists } = groupArtistsByRole(albumInfo.artists);    
-
+    /* --- STYLES --- */    
+    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }      
+    
     /* --- PRESS SONG --- */
     const handlePressSong = async (song: Song) => {
-        await playSong(song, albumSongs, album);     
+        await playSong(song, albumSongs, album);        
         navigate("/player");
-    };
+    }; 
+
+    /* --- LOADING --- */
+    if (!albumSongs || albumSongs.length === 0) return (
+        <div className={styles.loadingContainer}>
+            <Loader text={"Loading Collection"}/>
+        </div>
+    );    
     
-    return (
-        <>
-            {user && !barMode && (<MiniPlayer />)}
-            <div className={styles.container} style={containerStyle2}>
+    return (    
+        <div className={styles.container} style={containerStyle}>
+            {!isMobile && user && !barMode && (<MiniPlayer />)}
 
-        {/* Info */}
-                <div className={styles.header} style={headerStyle}>
-                    {albumInfo.image && (
-                        <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => {if (albumInfo.imageHQ) showImageToast(albumInfo.imageHQ)}} />
-                    )}
-                    {ImageToastUI}
-                    <div className={styles.headerInfo}>
-                        <p className={styles.type}>{albumInfo.type.toUpperCase()}</p>
-                        <p className={styles.albumName}>{albumInfo.album}</p>
-                        <p className={styles.artistInfo}>
-                            {mainArtists.map((artist) => (
-                                <span key={artist}>
-                                    <ArtistButton artist={artist || "Artist Name"} size="0.9rem" />
-                                    {"• "}
-                                </span>
-                            ))}                            
-                            {albumSongs.length} songs • {durationString}
-                        </p>
-                    </div>
-                </div>
-
-        {/* Tracks */}
-                <div>
-                    {albumSongs.map((item, index) => (
-                        <TrackItem key={item.id} track={item} index={index} onPress={handlePressSong} user={user} isPrivate={false}/>
-                    ))}
-                    
-                    <BackButton navTo={`/library`} />
-                </div>
-            </div>
-            <br/>
-        </>
+    {/* Info */}
+            {ImageToastUI}
+            <AlbumInfo
+                albumInfo={albumInfo}
+                albumSongs={albumSongs}
+                onImageClick={() => {if (albumInfo.imageHQ) showImageToast(albumInfo.imageHQ)}}
+                durationString={durationString}
+            />
+            
+    {/* Tracks */}
+            <AlbumSongs 
+                albumSongs={albumSongs}
+                onPress={handlePressSong}
+            />
+            <BackButton navTo={`/library`} />
+        </div>
     );
 }
 

@@ -92,8 +92,11 @@ export const useAudioPlayer = ({
             },
         });
 
-        if (!isInitialLoadRef.current) {
+        const shouldAutoplay = getBool("audio_autoplay", false);
+
+        if (shouldAutoplay) {
             engine.play()?.catch(console.warn);
+            setJSON("audio_autoplay", false);
         }
 
         isInitialLoadRef.current = false;

@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { fetchPlayStats } from "@/services/GetService";
-import { RANGE_OPTIONS } from "@/utils/rangeOption";
 import { getErrorMessage } from "@/utils/getErrorMessage";
-import { formatDuration } from "@/utils/formatTime";
+import { PlayStats, StatsRange } from "@/types/stats.types";
 import Loader from "@/components/ui/loaders/Loader";
 import MiniPlayer from "@/components/player/mini/MiniPlayer";
 import BackButton from "@/components/ui/buttons/BackButton";
-import { PlayStats, StatsRange } from "@/types/stats.types";
-import TopSongsList from "./TopSongsList";
-import HistoryChart from "./HistoryChart";
+import TopSongsList from "./topSongList/TopSongsList";
+import HistoryChart from "./historyChart/HistoryChart";
 import styles from "./stats.module.css";
+import TotalListeningTime from "./total/TotalListeningTime";
+import RangeSelector from "./rangeSelector/RangeSelector";
 
 const Stats = () => {
     const { barMode } = useMiniPlayer();
@@ -35,27 +35,17 @@ const Stats = () => {
             }
         };
         loadStats();
-    }, [range]);   
+    }, [range]);    
 
     return (<>
         <div className={styles.container}>
             {user && !barMode && (<MiniPlayer />)}
             <div>
-                {/* User Stats */}
+        {/* User Stats */}
                 <h3 className={styles.text3}>Your Statistics</h3>
 
-                {/* Range selector */}
-                <div className={styles.rangeSelector}>
-                    {RANGE_OPTIONS.map((opt) => (
-                        <button
-                            key={opt.value}
-                            className={range === opt.value ? styles.rangeActive : styles.rangeButton}
-                            onClick={() => setRange(opt.value)}
-                        >
-                            {opt.label}
-                        </button>
-                    ))}
-                </div>
+        {/* Range selector */}
+                <RangeSelector range={range} onClick={setRange}/>
 
         {/* Loaders & Errors */}
                 {loading && <Loader text="Loading Listening Stats ..." size="5vh" />}
@@ -72,29 +62,20 @@ const Stats = () => {
                     <div className={styles.statsContainer}>
                         
         {/* Total listening time */}
-                        <div className={styles.userInfo}>
-                            Total Listening Time:
-                            <p className={styles.statValue}>{formatDuration(stats.totalSeconds)}</p>
-                        </div>
+                        <TotalListeningTime total={stats.totalSeconds} />
 
-        {/* Top songs */}
-                        <h3>Top Songs</h3>
-                        <div>
-                            <TopSongsList topSongs={stats.topSongs}/>
-                        </div><br/><br/>
+        {/* Top songs */}                        
+                        <TopSongsList topSongs={stats.topSongs}/>                        
 
-        {/* History chart */}
-                        <div className={styles.section}>
-                            <h3>Listening History</h3>
-                            <HistoryChart history={stats.history} range={range} />
-                        </div>
+        {/* History chart */}                                                    
+                        <HistoryChart history={stats.history} range={range} />                        
                     </div>
-                )}<br/>
+                )}
 
                 <BackButton navTo={"/"}/>                
             </div>
-        </div><br/><br/><br/>
-    </>);
+        </div>
+   </>);
 }
 
 export default Stats;

@@ -1,0 +1,23 @@
+.songsContainer {
+    margin-top: 0rem;
+    padding: 10px;
+    margin-left: 0.5rem;    
+}
+
+.collectionSectionDiv {
+    margin-left: -10rem;
+}
+
+@media (max-width: 768px) {
+    .songsContainer {
+        margin-top: 0rem;        
+        width: 25rem;
+        padding: 2px;
+        margin-left: 0rem;
+        margin-bottom: -5rem;
+    }
+
+    .collectionSectionDiv {
+        margin-left: 0rem;
+    }
+}

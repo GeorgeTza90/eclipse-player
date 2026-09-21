@@ -79,3 +79,23 @@ export interface VinylGroupItemProps {
     type: string;
     group: Song[];
 }
+
+export interface ArtistInfoProps {
+    artist: Artist;
+}
+
+export interface ArtistSongsProps {
+    artist: Artist;    
+}
+
+export interface AlbumInfoProps {
+    albumInfo: Song;
+    albumSongs: Song[];
+    onImageClick: () => void;
+    durationString: string;
+}
+
+export interface AlbumSongsProps {
+    albumSongs: Song[];
+    onPress: (song: Song) => Promise<void>;
+}

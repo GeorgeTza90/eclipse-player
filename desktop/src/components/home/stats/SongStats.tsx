@@ -6,17 +6,18 @@ import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { useLibrary } from "@/contexts/LibraryContextWeb";
 import { fetchSongStats, fetchSongTotalPlays } from "@/services/GetService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
-import { formatDuration } from "@/utils/formatTime";
 import { getSongData } from "@/utils/getSong";
-import { RANGE_OPTIONS } from "@/utils/rangeOption";
+import { HistoryBucket, StatsRange } from "@/types/stats.types";
+import { Song } from "@/types/songs.types";
 import MiniPlayer from "@/components/player/mini/MiniPlayer";
 import BackButton from "@/components/ui/buttons/BackButton";
 import Loader from "@/components/ui/loaders/Loader";
-import HistoryChart from "./HistoryChart";
-import ListSongItem from "./ListSongItem";
-import { HistoryBucket, StatsRange } from "@/types/stats.types";
-import { Song } from "@/types/songs.types";
+import HistoryChart from "./historyChart/HistoryChart";
+import ListSongItem from "./topSongList/parts/ListSongItem";
 import styles from "./stats.module.css";
+import RangeSelector from "./rangeSelector/RangeSelector";
+import TotalListeningTime from "./total/TotalListeningTime";
+import TotalPlays from "./total/TotalPlays";
 
 const SongStats = () => {
     const [searchParams] = useSearchParams();
@@ -85,17 +86,8 @@ const SongStats = () => {
                 <h3 className={styles.text3}>{song?.title} - Statistics</h3>
 
         {/* Range selector */}
-                <div className={styles.rangeSelector}>
-                    {RANGE_OPTIONS.map((opt) => (
-                        <button
-                            key={opt.value}
-                            className={range === opt.value ? styles.rangeActive : styles.rangeButton}
-                            onClick={() => setRange(opt.value)}
-                        >
-                            {opt.label}
-                        </button>
-                    ))}
-                </div>
+                <RangeSelector range={range} onClick={setRange}/>
+
         {/* Loaders & Errors */}
                 {loading && <Loader text="Loading Listening Stats ..." size="1rem" />}
         
@@ -113,27 +105,15 @@ const SongStats = () => {
         {/* Song Info */}
                         {song && <ListSongItem song={song} onClick={() => handlePlaySong(Number(song.id))}/>}<br/>
 
-        {/* Total listening time */}
-                        <div className={styles.songInfo}>
-                            <div className={styles.songInfoDiv}>
-                                Total Listening Time:
-                                <p className={styles.statValue}>{formatDuration(totalPlaytime)}</p>
-                            </div>
-                            
-                            <div className={styles.songInfoDiv}>
-                                Total Plays:
-                                <p className={styles.statValue}>{totalPlays}</p>    
-                            </div>
-                            
-                        </div><br/>
+        {/* Total listening time */}                        
+                        <TotalListeningTime total={totalPlaytime} />
+                        <TotalPlays total={totalPlays} />
+                        
 
-        {/* History chart */}
-                        <div className={styles.section}>
-                            <h3>Listening History</h3>
-                            <HistoryChart history={stats} range={range} />
-                        </div>
+        {/* History chart */}                                                    
+                        <HistoryChart history={stats} range={range} />                        
                     </div>
-                )}<br/><br/><br/>
+                )}
 
                 <BackButton navTo={"/"}/>                
             </div>

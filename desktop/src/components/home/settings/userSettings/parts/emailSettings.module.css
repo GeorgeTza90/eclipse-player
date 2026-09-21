@@ -1,0 +1,28 @@
+.userInfo {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    color: #9e9e9e;
+    height: 3rem;
+}
+
+.premiumInfo{    
+    color: #f7f7f7;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+}
+
+.switchButton {
+    background: none;
+    border: none;
+    color: #c2c2c2;    
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: color 0.2s ease;
+    margin-left: 0.5rem;
+    margin-top: 0.8rem;
+}
+
+.switchButton:hover {
+    color: #ffffff;
+}

@@ -5,32 +5,33 @@ import { useLibrary } from "@/contexts/LibraryContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb";
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useAlbumDuration } from "@/utils/formatTime";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useImageToast } from "@/components/ui/toasts/ImageToast";
-import TrackItem from "./items/TrackItem";
+import hexToRgba from "@/utils/hexToRgba";
 import BackButton from "@/components/ui/buttons/BackButton";
 import Loader from "@/components/ui/loaders/Loader";
 import MiniPlayer from "@/components/player/mini/MiniPlayer";
 import type { Song } from "@/types/songs.types";
 import styles from "./collectionDetail.module.css";
-import { useStylesLibrary } from "@/hooks/useStylesLibrary";
+import AlbumSongs from "./parts/AlbumSongs";
+import AlbumInfo from "./parts/AlbumInfo";
 
 const PrivateCollectionDetail = () => {
-    const { user } = useAuth();    
-    const { privateSongs } = useLibrary();    
+    const { user } = useAuth();
+    const { privateSongs } = useLibrary();
     const { barMode } = useMiniPlayer();
     const { playSong } = useAudio();
-    const { showImageToast, ImageToastUI } = useImageToast();    
-    const navigate = useNavigate(); 
-
+    const { showImageToast, ImageToastUI } = useImageToast();
+    const isMobile = useIsMobile();
+    const navigate = useNavigate();
     const { album } = useParams();
+
     const albumSongs = useMemo(() => privateSongs.filter(s => s.album === album) ,[privateSongs, album]);
     const durationString = useAlbumDuration(albumSongs);
-    const { headerStyle, containerStyle2 } = useStylesLibrary({ averageColor: albumSongs[0]?.averageColor });
-
-    /* --- LOADING --- */
-    if (!albumSongs || albumSongs.length === 0) return (<div className={styles.loadingContainer}><Loader text={"Loading Collection"}/></div>)
-
     const albumInfo = albumSongs[0];
+
+    /* --- STYLES --- */    
+    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }
 
     /* --- PRESS SONG --- */
     const handlePressSong = async (song: Song) => {
@@ -38,33 +39,31 @@ const PrivateCollectionDetail = () => {
         navigate("/player");
     };    
 
-    return (
-        <div className={styles.container} style={containerStyle2}>
+    /* --- LOADING --- */
+    if (!albumSongs || albumSongs.length === 0) return (
+        <div className={styles.loadingContainer}>
+            <Loader text={"Loading Collection"}/>
+        </div>
+    )
 
-            {user && !barMode && (<MiniPlayer />)}
+    return (
+        <div className={styles.container} style={containerStyle}>
+            {!isMobile && user && !barMode && (<MiniPlayer />)}            
     {/* Info */}
-            <div className={styles.header} style={headerStyle}>
-                {albumInfo.image && (
-                    <img src={albumInfo.image} alt={albumInfo.album} className={styles.albumImage} onClick={() => albumInfo.imageHQ && showImageToast(albumInfo.imageHQ)} />
-                )}
-                {ImageToastUI}
-                <div className={styles.headerInfo}>
-                    <p className={styles.type}>{albumInfo.type.toUpperCase()}</p>
-                    <p className={styles.albumName}>{albumInfo.album}</p>
-                    <p className={styles.artistInfo}>
-                        {albumInfo.artist || "Artist Name"} • {albumSongs.length} songs • {durationString}
-                    </p>
-                </div>
-            </div>
+            {ImageToastUI}
+            <AlbumInfo
+                albumInfo={albumInfo}
+                albumSongs={albumSongs}
+                onImageClick={() => {if (albumInfo.imageHQ) showImageToast(albumInfo.imageHQ)}}
+                durationString={durationString}
+            />
 
     {/* Tracks */}
-            <div>
-                {albumSongs.map((item, index) => (
-                    <TrackItem key={item.id} track={item} index={index} onPress={handlePressSong} user={user} isPrivate={true} />
-                ))}
-
-                <BackButton navTo={`/library`} />
-            </div>
+            <AlbumSongs                
+                albumSongs={albumSongs}
+                onPress={handlePressSong}
+            />
+            <BackButton navTo={`/library`} />            
         </div>
     );
 }

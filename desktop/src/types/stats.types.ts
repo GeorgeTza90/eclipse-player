@@ -38,7 +38,7 @@ export interface HistoryBucket {
 export interface HistoryBucket {
     bucket: string;
     playCount: number;
-    totalSeconds: number;
+    totalSeconds: number;    
 }
 
 export interface HistoryChartProps {
@@ -46,5 +46,11 @@ export interface HistoryChartProps {
     range: StatsRange;
 }
 
+export interface TotalProps {
+    total: number;
+}
 
-
+export interface RangeSelectorProps {
+    range: StatsRange;
+    onClick: (value: StatsRange) => void;
+}
