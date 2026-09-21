@@ -46,5 +46,11 @@ export interface HistoryChartProps {
     range: StatsRange;
 }
 
+export interface TotalProps {
+    total: number;
+}
 
-
+export interface RangeSelectorProps {
+    range: StatsRange;
+    onClick: (value: StatsRange) => void;
+}

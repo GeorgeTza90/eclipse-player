@@ -2,9 +2,9 @@ import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { useIsMobile } from '@/hooks/useIsMobile';
 import MiniPlayer from "@/components/player/mini/MiniPlayer";
-import UserSettings from "./UserSettings";
-import MiniPlayerSettings from "./MiniPlayerSettings";
-import AudioPlayerSettings from "./AudioPlayerSettings";
+import UserSettings from "./userSettings/UserSettings";
+import MiniPlayerSettings from "./playerSettings/MiniPlayerSettings";
+import AudioPlayerSettings from "./playerSettings/AudioPlayerSettings";
 import BackButton from "@/components/ui/buttons/BackButton";
 import styles from "./settings.module.css";
 
@@ -16,7 +16,8 @@ const Settings = () => {
     return (
         <div className={styles.container}>
             {!isMobile && user && !barMode && (<MiniPlayer />)}
-            <div className={styles.SettingsDiv}>
+
+            <div className={styles.SettingsDiv}>                
     {/* User Settings */}
                 <h3>User Settings</h3>
                 <UserSettings />

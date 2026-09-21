@@ -3,7 +3,7 @@ import { TopSongsListProps } from "@/types/stats.types";
 import { useAudio } from "@/contexts/AudioContextWeb";
 import { useLibrary } from "@/contexts/LibraryContextWeb";
 import styles from "./topSongsList.module.css";
-import ListSongItem from "./ListSongItem";
+import ListSongItem from "./parts/ListSongItem";
 
 const TopSongsList = ({ topSongs }: TopSongsListProps) => {
     const { playlist: existingPlaylist, playSong } = useAudio();
@@ -15,7 +15,8 @@ const TopSongsList = ({ topSongs }: TopSongsListProps) => {
         song && playSong(song, newPlaylist);
     };
 
-    return (
+    return (<>
+        <h3>Top Songs</h3>
         <div className={styles.section}>
             <ul className={styles.topSongsList}>
                 {topSongs.map((song, i) => (
@@ -32,7 +33,7 @@ const TopSongsList = ({ topSongs }: TopSongsListProps) => {
                 ))}
             </ul>
         </div>
-    );
+    </>);
 };
 
 export default TopSongsList;

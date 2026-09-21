@@ -58,3 +58,13 @@ export interface AuthUserProps {
     setUser: Dispatch<SetStateAction<User | null>>;
     setAuthLoading: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface PremiumSettingsProps {
+    user: User | null;
+    onClick: () => void;
+}
+
+export interface EmailSettingsProps {
+    user: User | null;    
+    onClick: () => void;
+}
