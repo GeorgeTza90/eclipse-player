@@ -15,7 +15,7 @@ const Equalizer = ({ color }: EqualizerProps) => {
             <div className={styles.EQcontainer}>
                 <LinedBackground />
                 <EqSliders goRGB={goRGB} color={color} />
-            </div>
+            </div>            
 
     {/* Presets */}
             <EqPresets />

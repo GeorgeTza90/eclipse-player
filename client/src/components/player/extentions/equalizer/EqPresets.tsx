@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
 import { useAudio } from "@/contexts/AudioContextWeb";
 import { useDeleteManager, useFetchManager } from "@/hooks/useCallManager";
@@ -16,8 +15,7 @@ import Loader from "@/components/ui/loaders/Loader";
 import styles from "./eqPresets.module.css";
 import NotLoggedIn from "@/components/ui/other/NotLoggedIn";
 
-const EqPresets = () => {
-    const navigate = useNavigate();
+const EqPresets = () => {    
     const { user } = useAuth();
     const { setEQGain, resetEQ, EQGain } = useAudio();
 

@@ -12,8 +12,8 @@ import DeleteButton from "@/components/ui/buttons/DeleteButton";
 import UpdateButton from "@/components/ui/buttons/UpdateButton";
 import PresetsButtons from "./PresetsButtons";
 import Loader from "@/components/ui/loaders/Loader";
-import NotLoggedIn from "@/components/ui/other/NotLoggedIn";
 import styles from "./eqPresets.module.css";
+import NotLoggedIn from "@/components/ui/other/NotLoggedIn";
 
 const EqPresets = () => {    
     const { user } = useAuth();
@@ -64,7 +64,7 @@ const EqPresets = () => {
 
     return (<>
         {user ? (
-            <>
+            <>  
                 <PresetsButtons showPresetList={showPresetList} onReset={resetEQ} onSave={() => setModalVisible(true)} onLoad={() => setShowPresetList(prev => !prev)} />
 
                 {showPresetList && (
