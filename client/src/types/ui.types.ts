@@ -55,11 +55,26 @@ export interface BackButtonProps {
     navTo: string;
 }
 
-export interface DeleteButtonProps {
+export interface DeletePlaylistButtonProps {
     playlistId: number;
     onDeleted: () => void;
     songId?: number
 }
+
+export interface PresetButtonProps {
+    type: "Reset" | "Save" | "Load";
+    showPresetList?: boolean;
+    onClick: () => void | void;
+}
+
+export type UpdateButtonProps = {
+    onClick: (e: React.MouseEvent) => void;
+};
+
+export type DeleteButtonProps = {
+    onClick: (e: React.MouseEvent) => void;
+    disabled?: boolean;
+};
 
 // CIRCLE
 export interface CircleStyleProps {
@@ -234,4 +249,9 @@ export interface ErrorMessageProps {
 export interface SongStatsButtonProps {
     song: Song;
     onClick?: () => void;
+}
+
+// OTHER
+export interface NotLoggedInProps {
+    text: string;
 }

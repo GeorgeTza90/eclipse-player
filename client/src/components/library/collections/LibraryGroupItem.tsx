@@ -19,7 +19,7 @@ const LibraryGroupItem = ({ type, group }: GroupItemProps) => {
     const { columns } = getGridConfig(width);
 
     /* --- STYLES --- */
-    const containerStyle = {marginLeft: isMobile ? `${width/1000}rem` : `${width/100}rem`  }
+    const containerStyle = {marginLeft: isMobile ? `${width/1000}rem` : `${width/100}rem` }
     const horizontalScrollStyle = {        
         gridTemplateColumns: isMobile ? `repeat(${columns} , 6.5rem)` : `repeat(${columns}, 7rem)`,        
         gap: isMobile ? "1rem" : "2.4rem",        

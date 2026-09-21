@@ -1,6 +1,6 @@
 import { groupArtistsByRole } from "@/utils/groupArtistsByRole";
-import styles from "./playlistSongItem.module.css"
 import { PlaylistSongItemProps } from "@/types/playlists.types";
+import styles from "./playlistSongItem.module.css"
 
 const PlaylistsongItem = ({item, currentSong, onClick}: PlaylistSongItemProps) => {
     const { mainArtists, featArtists } = groupArtistsByRole(item.artists);    
@@ -18,14 +18,10 @@ const PlaylistsongItem = ({item, currentSong, onClick}: PlaylistSongItemProps) =
                 <div className={styles.songText}>
                     <span className={styles.title}>{item.title}<br />
                         {featArtists.length > 0 && (
-                            <span className={styles.trackFeature}>
-                                feat. {featArtists.join(", ")}
-                            </span>
+                            <span className={styles.trackFeature}>feat. {featArtists.join(", ")}</span>
                         )}
                     </span>
-                    <p className={styles.artist}>
-                        {mainArtists.join(", ")}
-                    </p>
+                    <p className={styles.artist}>{mainArtists.join(", ")}</p>
                 </div>
             </div>
         </div>

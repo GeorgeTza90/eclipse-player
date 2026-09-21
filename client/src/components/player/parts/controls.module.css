@@ -7,10 +7,7 @@
 }
 
 @media (max-width: 768px) {
-    .controls {
-        gap: 2rem;
-        margin-top: -2rem;
-        margin-bottom: 1rem;
-        z-index: 2;
+    .controls {        
+        margin-top: -1.5rem;
     }
 }

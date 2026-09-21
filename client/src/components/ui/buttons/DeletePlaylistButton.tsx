@@ -4,10 +4,10 @@ import { useToast } from "@/contexts/ToastContextWeb";
 import { logger } from "@/utils/logger";
 import ConfirmModal from "@/components/ui/modals/ConfirmModal";
 import { getErrorMessage } from "@/utils/getErrorMessage";
-import type { DeleteButtonProps } from "@/types/ui.types";
+import type { DeletePlaylistButtonProps } from "@/types/ui.types";
 import styles from "./deletePlaylistButton.module.css";
 
-const DeletePlaylistButton = ({ playlistId, onDeleted }: DeleteButtonProps) => {    
+const DeletePlaylistButton = ({ playlistId, onDeleted }: DeletePlaylistButtonProps) => {    
     const { showToast } = useToast();
     const [confirmVisible, setConfirmVisible] = useState(false);
 

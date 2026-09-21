@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState, useEffect } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 import { AudioEngine } from "./audio/audioEngine";
 import { EQEngine } from "./audio/eqEngine";
 import { LoudnessEngine } from "./audio/loudnessEngine";
@@ -6,12 +6,12 @@ import { useAudioPlayer } from "./audio/useAudioPlayer";
 import { createAudioControls } from "./audio/createAudioControls";
 import { useAudioPersistence } from "./audio/useAudioPersistence";
 import { useLoudnessNormalization } from "./audio/useLoudnessNormalization";
-import { buildShuffleOrder } from "./audio/shuffleOrder";
+import { usePlaybackMode } from "./audio/usePlaybackMode";
 import { DEFAULT_EQ } from "@/utils/defaultEQ";
 import { getBool, getJSON } from "@/utils/localStorageManager";
 import { DEFAULT_LOUDNESS_PRESET } from "@/utils/loudnessPresets";
 import type { Song } from "@/types/songs.types";
-import type { EQGains, RepeatMode } from "@/types/player.types";
+import type { EQGains } from "@/types/player.types";
 import type { LoudnessPresetKey } from "@/utils/loudnessPresets";
 import type { AudioContextValue, AudioProviderProps } from "@/types/audio.types";
 
@@ -27,9 +27,6 @@ export const AudioProvider = ({ children }: AudioProviderProps) => {
     const [loudnessPreset, setLoudnessPreset] = useState<LoudnessPresetKey>(() => getJSON<LoudnessPresetKey>("audio_loudnessPreset", DEFAULT_LOUDNESS_PRESET));
     const [positionRealtime, setPositionRealtime] = useState<number>(() => getJSON<number>("positionRealtime", 0));
     const [EQGain, setEQGain] = useState<EQGains>(() => getJSON<EQGains>("EQGain", DEFAULT_EQ));
-    const [shuffle, setShuffleState] = useState<boolean>(() => getBool("audio_shuffle", false));
-    const [repeatMode, setRepeatModeState] = useState<RepeatMode>(() => getJSON<RepeatMode>("audio_repeatMode", "off"));
-    const [shuffleOrder, setShuffleOrder] = useState<number[]>([]);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [duration, setDuration] = useState<number>(0);
 
@@ -45,12 +42,7 @@ export const AudioProvider = ({ children }: AudioProviderProps) => {
     const isInitialLoadRef = useRef<boolean>(true);
     const nextRef = useRef<(() => void) | null>(null);
 
-    // regenerate shuffle order only when shuffle is toggled on or the playlist changes
-    useEffect(() => {
-        if (!shuffle) return;
-        setShuffleOrder(buildShuffleOrder(playlist.length, currentSongIndex));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [shuffle, playlist]);
+    const { shuffle, repeatMode, shuffleOrder, toggleShuffle, cycleRepeatMode } = usePlaybackMode(playlist, currentSongIndex);
 
     useAudioPersistence({
         playlist, playlistName, loudnessPreset, normalization, currentSongIndex, currentSong, EQGain, volume, audioEngineRef,
@@ -78,17 +70,12 @@ export const AudioProvider = ({ children }: AudioProviderProps) => {
 
     nextRef.current = next;
 
-    const toggleShuffle = (): void => setShuffleState((prev) => !prev);
-    const cycleRepeatMode = (): void => {
-        setRepeatModeState((prev) => (prev === "off" ? "all" : prev === "all" ? "one" : "off"));
-    };
-
     const value: AudioContextValue = {
-        currentSong, playlist, playlistName, volume, loudnessPreset, EQGain, isPlaying, duration, position: positionRealtime, normalization,
-        shuffle, repeatMode,
-        setCurrentSong, setNormalization, setLoudnessPreset,setVolume: setVolumeState, setPlaylist, setPlaylistName, setEQGain: updateEQGain,
-        playSong, togglePlay, stop, next, previous, seekTo, resetEQ,
-        toggleShuffle, cycleRepeatMode,
+        currentSong, playlist, playlistName, volume, loudnessPreset, EQGain, isPlaying, duration, 
+        position: positionRealtime, normalization, shuffle, repeatMode,
+        setCurrentSong, setNormalization, setLoudnessPreset,setVolume: setVolumeState, setPlaylist, 
+        setPlaylistName, setEQGain: updateEQGain, playSong, togglePlay, stop, next, previous, seekTo,
+        resetEQ, toggleShuffle, cycleRepeatMode,
     };
 
     return (

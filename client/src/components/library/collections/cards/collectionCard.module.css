@@ -31,7 +31,7 @@
 
 .artistContainer {    
     width: 9rem;
-    height: 8.8rem;
+    height: 10rem;
     margin-right: 15px;
     border-radius: 1rem;
     overflow: hidden;
@@ -122,9 +122,9 @@
     }
 
     .artistContainer {
-        width: 7.2rem;
+        width: 6rem;
         height: 9em;
-        margin-right: 3px;
+        margin-left: 4px;
         border-radius: 7px;
         line-height: 1.3rem;
     }

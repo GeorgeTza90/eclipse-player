@@ -146,3 +146,15 @@ export interface MiniControlsProps {
     size: number;
     isPlaying: boolean;
 }
+
+export interface EqSlidersProps {    
+    goRGB: boolean;
+    color: string;
+}
+
+export interface PresetsButtonsProps {
+    showPresetList: boolean;
+    onReset: () => void;
+    onSave: () => void;
+    onLoad: () => void;    
+}

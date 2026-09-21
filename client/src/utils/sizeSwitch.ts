@@ -24,3 +24,24 @@ export function getGridConfig(width: number): GridConfig {
 
     return { columns, rows };
 }
+
+export function getHeightConfig(height: number, isLogin?: boolean, isMobile?: boolean ) {
+    let maxHeight: number;
+
+    switch (true) {
+        case height >= 1309: maxHeight = isLogin ? 500 : 440; break;
+        case height >= 1298: maxHeight = isLogin ? 480 : 420; break;
+        case height >= 1232: maxHeight = isLogin ? 420 : 360; break;
+        case height >= 1180: maxHeight = isLogin ? 380 : 320; break;
+        case height >= 1147: maxHeight = isLogin ? 340 : 280; break;
+        case height >= 1108: maxHeight = isLogin ? 300 : 240; break;
+        case height >= 1030: maxHeight = isLogin ? 240 : 180; break;
+        case height >= 990: maxHeight = isLogin ? (isMobile ? 300 : 180) : 120; break;
+        case height >= 960: maxHeight = isLogin ? (isMobile ? 280 : 140) : 80; break;
+        case height >= 935: maxHeight = isLogin ? (isMobile ? 240 : 120) : 60; break;
+        case height >= 895: maxHeight = isLogin ? (isMobile ? 200 : 80) : 40; break;
+        default: maxHeight = isLogin ? (isMobile ? 200 : 80) : 40;
+    }
+
+    return { maxHeight };
+}

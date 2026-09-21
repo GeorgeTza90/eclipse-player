@@ -1,9 +1,18 @@
 import { LyricsProps } from "@/types/player.types";
 import { useLyricsToast } from "@/components/ui/toasts/LyricsToast";
+import { getHeightConfig } from "@/utils/sizeSwitch";
+import { useHeight } from "@/hooks/useScreen";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import styles from "./lyrics.module.css";
 
 const Lyrics = ({ currentSong }: LyricsProps) => {     
     const { showLyricsToast, LyricsToastUI } = useLyricsToast(currentSong.lyrics ?? "No Lyrics Yet");
+    const isMobile = useIsMobile()
+    const height = useHeight();
+    const { maxHeight } = getHeightConfig(height, true, isMobile);
+    const ListStyle = { maxHeight: `${maxHeight}px` }    
+
+    console.log(height, ListStyle, isMobile);
 
     return (<>
         <div className={styles.container}>
@@ -15,7 +24,7 @@ const Lyrics = ({ currentSong }: LyricsProps) => {
                     className={styles.magnifyButton}
                 />
             </div>
-            <div className={styles.list}>
+            <div className={styles.list} style={ListStyle}>
                 {currentSong?.lyrics ? (
                     currentSong.lyrics.split("\n").map((line, i) => (
                         <p key={i} className={styles.lyrics}>{line || "\u00A0"}</p>
@@ -24,7 +33,7 @@ const Lyrics = ({ currentSong }: LyricsProps) => {
                     !currentSong ? (<p className={styles.lyrics}>No Song Loaded</p>) : (<p className={styles.lyrics}>No Lyrics Yet</p>)                    
                 )}
             </div>
-        </div><br/><br/><br/><br/>
+        </div><br/><br/><br/>
         {LyricsToastUI}
     </>);
 }
