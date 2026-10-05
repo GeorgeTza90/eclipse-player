@@ -30,9 +30,6 @@ const CollectionDetail = () => {
     const durationString = useAlbumDuration(albumSongs);
     const albumInfo: Song = albumSongs[0];    
     
-    /* --- STYLES --- */    
-    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }      
-    
     /* --- PRESS SONG --- */
     const handlePressSong = async (song: Song) => {
         await playSong(song, albumSongs, album);        
@@ -44,7 +41,10 @@ const CollectionDetail = () => {
         <div className={styles.loadingContainer}>
             <Loader text={"Loading Collection"}/>
         </div>
-    );    
+    );
+
+    /* --- STYLES --- */    
+    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }      
     
     return (    
         <div className={styles.container} style={containerStyle}>
