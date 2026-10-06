@@ -7,17 +7,18 @@ import { useLibrary } from "@/contexts/LibraryContextWeb";
 import { fetchSongStats, fetchSongTotalPlays } from "@/services/GetService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { getSongData } from "@/utils/getSong";
-import { HistoryBucket, StatsRange } from "@/types/stats.types";
+import { HistoryBucket, Listeners, StatsRange } from "@/types/stats.types";
+import { formatDuration } from "@/utils/formatTime";
+import { useTotalListeners, useTotalPlaytime } from "@/hooks/useTotalCounts";
 import { Song } from "@/types/songs.types";
 import MiniPlayer from "@/components/player/mini/MiniPlayer";
 import BackButton from "@/components/ui/buttons/BackButton";
 import Loader from "@/components/ui/loaders/Loader";
 import HistoryChart from "./historyChart/HistoryChart";
 import ListSongItem from "./topSongList/parts/ListSongItem";
-import styles from "./stats.module.css";
 import RangeSelector from "./rangeSelector/RangeSelector";
-import TotalListeningTime from "./total/TotalListeningTime";
-import TotalPlays from "./total/TotalPlays";
+import TotalShow from "./total/TotalShow";
+import styles from "./stats.module.css";
 
 const SongStats = () => {
     const [searchParams] = useSearchParams();
@@ -32,10 +33,13 @@ const SongStats = () => {
     const [range, setRange] = useState<StatsRange>(rangePreset ?? "1m");
     const [song, setSong] = useState<Song | null>();
     const [stats, setStats] = useState<HistoryBucket[] | null>(null);
-    const [totalPlays, setTotalPlays] = useState<number>(0);
-    const [totalPlaytime, setTotalPlaytime] = useState<number>(0);
+    const [listeners, setListeners] = useState<Listeners[] | null>(null);
+    const [totalPlays, setTotalPlays] = useState<number>(0);    
     const [loading, setLoading] = useState<boolean>(true);
-    const [localError, setLocalError] = useState<string>("");    
+    const [localError, setLocalError] = useState<string>("");
+
+    const totalPlaytime = useTotalPlaytime(stats);
+    const totalListeners = useTotalListeners(listeners);
 
     const handlePlaySong = (songId: number) => {
         const song = getSongData(songId, songs);
@@ -44,24 +48,18 @@ const SongStats = () => {
     };
 
     useEffect(() => {
-        let total = 0;
-        stats?.forEach((s) => total += Number(s.totalSeconds));
-        setTotalPlaytime(total);
-    }, [stats]);
-
-    useEffect(() => {
         const loadStats = async () => {
             if (Number.isNaN(songId)) {
                 setLocalError("Missing song ID");
                 setLoading(false);
                 return;
             }
-
             setLoading(true);
 
             try {
-                const [statsData, totalPlays] = await Promise.all([fetchSongStats(songId, range), fetchSongTotalPlays(songId)]);
-                setStats(statsData);
+                const [statsData, totalPlays] = await Promise.all([fetchSongStats(songId, range), fetchSongTotalPlays(songId)]);                
+                setStats(statsData.history);
+                setListeners(statsData.listeners)
                 setTotalPlays(totalPlays);
             } catch (err) {
                 setLocalError(getErrorMessage(err, "Failed to load listening stats"));
@@ -94,7 +92,7 @@ const SongStats = () => {
                 {!loading && localError && (
                     <p className={styles.message}>{localError}</p>
                 )}
-
+                
                 {!loading && !localError && !stats && (
                     <p className={styles.emptyState}>No listening history yet — play something!</p>
                 )}
@@ -105,10 +103,10 @@ const SongStats = () => {
         {/* Song Info */}
                         {song && <ListSongItem song={song} onClick={() => handlePlaySong(Number(song.id))}/>}<br/>
 
-        {/* Total listening time */}                        
-                        <TotalListeningTime total={totalPlaytime} />
-                        <TotalPlays total={totalPlays} />
-                        
+        {/* Total listening time */}
+                        <TotalShow total={formatDuration(totalPlaytime)} text="Total Listening Time:"/>
+                        <TotalShow total={totalPlays} text="Total Plays:"/>
+                        <TotalShow total={totalListeners} text="Total Listeners:"/>
 
         {/* History chart */}                                                    
                         <HistoryChart history={stats} range={range} />                        

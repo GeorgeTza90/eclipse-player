@@ -1,6 +1,6 @@
 import db from "@/db/db.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { Play } from "@/types/plays.types.js";
+import { Play, SongListener } from "@/types/plays.types.js";
 import { Song } from "@/types/songs.types.js";
 import { User } from "@/types/auth.types.js";
 
@@ -123,5 +123,26 @@ export const playsRepository = {
     async countPlaysFotSong(songId: number) {
         const [rows] = await db.query<RowDataPacket[]>(`SELECT COUNT(*) AS playCount FROM plays WHERE song_id = ?`, [songId]);        
         return Number(rows[0].playCount);
-    }
+    },
+
+    async findSongListeners(songId: number, sinceDate: Date | null): Promise<SongListener[]> {
+        const params: (number | Date)[] = [songId];
+        let dateFilter = "";
+
+        if (sinceDate) {
+            dateFilter = "AND p.played_at >= ?";
+            params.push(sinceDate);
+        }
+
+        const [rows] = await db.query<SongListener[]>(
+            `SELECT u.id, u.username, COUNT(*) AS total_plays
+            FROM plays p
+            JOIN users u ON u.id = p.user_id
+            WHERE p.song_id = ? ${dateFilter} AND p.completed = TRUE
+            GROUP BY u.id, u.username
+            ORDER BY total_plays DESC`,
+            params
+        );
+        return rows;
+    },
 };

@@ -29,6 +29,12 @@ export interface TopSongsListProps {
 
 export type StatsRange = "7d" | "1m" | "3m" | "all";
 
+export interface Listeners {
+    bucket: string;
+    playCount: number;
+    totalSeconds: string;
+}
+
 export interface HistoryBucket {
     bucket: string;
     playCount: number;
@@ -38,7 +44,7 @@ export interface HistoryBucket {
 export interface HistoryBucket {
     bucket: string;
     playCount: number;
-    totalSeconds: number;    
+    totalSeconds: number;
 }
 
 export interface HistoryChartProps {
@@ -47,7 +53,8 @@ export interface HistoryChartProps {
 }
 
 export interface TotalProps {
-    total: number;
+    total: number | string;
+    text?: string;
 }
 
 export interface RangeSelectorProps {

@@ -11,8 +11,9 @@ import BackButton from "@/components/ui/buttons/BackButton";
 import TopSongsList from "./topSongList/TopSongsList";
 import HistoryChart from "./historyChart/HistoryChart";
 import styles from "./stats.module.css";
-import TotalListeningTime from "./total/TotalListeningTime";
 import RangeSelector from "./rangeSelector/RangeSelector";
+import TotalShow from "./total/TotalShow";
+import { formatDuration } from "@/utils/formatTime";
 
 const Stats = () => {
     const { barMode } = useMiniPlayer();
@@ -64,17 +65,17 @@ const Stats = () => {
                     <div className={styles.statsContainer}>
                         
         {/* Total listening time */}
-                        <TotalListeningTime total={stats.totalSeconds} />
+                        <TotalShow total={formatDuration(stats.totalSeconds)} text="Total Listening Time:" />
 
-        {/* Top songs */}                        
-                        <TopSongsList topSongs={stats.topSongs}/>                        
+        {/* Top songs */}
+                        <TopSongsList topSongs={stats.topSongs}/><br/>
 
-        {/* History chart */}                                                    
-                        <HistoryChart history={stats.history} range={range} />                        
+        {/* History chart */}
+                        <HistoryChart history={stats.history} range={range} />
                     </div>
                 )}
 
-                <BackButton navTo={"/"}/>                
+                <BackButton navTo={"/"}/>
             </div>
         </div>
    </>);

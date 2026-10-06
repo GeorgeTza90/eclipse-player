@@ -9,3 +9,9 @@ export interface Play extends RowDataPacket {
     song_duration_seconds: number;
     completed: boolean;
 }
+
+export interface SongListener extends RowDataPacket {
+    id: number;
+    username: string;
+    total_plays: number;
+}

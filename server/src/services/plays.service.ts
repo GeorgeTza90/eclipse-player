@@ -50,8 +50,11 @@ export const playsService = {
         const config = RANGE_CONFIG[range] ?? RANGE_CONFIG["1m"];
         const sinceDate = resolveSinceDate(config.days);
                 
-        const songHistory = await playsRepository.findSongHistory(songId, sinceDate, config.groupFormat);
-        return songHistory;        
+        const [history, listeners] = await Promise.all([
+            playsRepository.findSongHistory(songId, sinceDate, config.groupFormat),
+            playsRepository.findSongListeners(songId, sinceDate),
+        ]) 
+        return { history, listeners };
     },
 
     async getSongPlayCount(songId: number) {
