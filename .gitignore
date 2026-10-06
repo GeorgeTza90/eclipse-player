@@ -1,6 +1,8 @@
 # Dependencies (matches in every subfolder)
 node_modules/
 package-lock.json
+# Allow only this package-lock.json inside eclipse_player/mobile
+!eclipse_player/mobile/package-lock.json
  
 # Environment files (keep the example)
 .env
