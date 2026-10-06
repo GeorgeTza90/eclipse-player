@@ -3,6 +3,7 @@
 A music streaming platform I designed and built solo, end to end: REST API, web app, mobile app and desktop app. It is live at **[eclipseplayer.com](https://eclipseplayer.com/)** with 50+ real users.
 
 <!-- TODO: add 3-4 screenshots (player, library, stats dashboard, mobile) and one short GIF of the player here -->
+![Player](docs/screenshots/eclipsePlayer_4.jpg)
 
 ## Platforms
 
