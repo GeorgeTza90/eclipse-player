@@ -24,6 +24,7 @@ export const errorMap = {
     EMAIL_REQUIRED: { status: 400, message: "Email is required" },
     EMAIL_EXISTS: { status: 400, message: "Email already in use" },
     GOOGLE_NO_EMAIL: { status: 400, message: "This is not a Google Email"},
+    EMAIL_SEND_FAILED: { status: 502, message: "Failed to send email" },
 
     //--- PLATFORM ---//
     INVALID_PLATFORM: {status: 400, message:"Invalid Platform" },

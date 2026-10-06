@@ -143,7 +143,11 @@ export const authService = {
         const resetLink = `${FRONTEND_URL}/reset-password?token=${resetToken}`;
         const html = resetEmailHtml(user.username, resetLink, minEXP);
 
-        await sendEmail(user.email, "Reset Your Password", html);
+        try {
+            await sendEmail(user.email, "Reset Your Password", html);
+        } catch {
+            // sendEmail handled the error
+        }
     },
 
     async changePassword(userId: number, oldPassword?: string, newPassword?: string): Promise<void> {
