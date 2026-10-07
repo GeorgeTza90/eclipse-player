@@ -5,50 +5,50 @@ import type { Toast, ToastContextValue, ToastProviderProps, ToastType } from "@/
 const ToastContext = createContext<ToastContextValue | undefined>(undefined);
 
 export const ToastProvider = ({ children }: ToastProviderProps) => {
-    const [toasts, setToasts] = useState<Toast[]>([]);
-    const timeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const timeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
 
-    const showToast = useCallback((message: string, type: ToastType = "info", duration: number = 5000): void => {
-        const id = `${Date.now()}-${Math.random()}`;
+  const showToast = useCallback((message: string, type: ToastType = "info", duration: number = 5000): void => {
+    const id = `${Date.now()}-${Math.random()}`;
 
-        setToasts(prev => {
-            if (prev.length >= 5) return prev;
-            return [...prev, { id, message, type }];
-        });
+    setToasts((prev) => {
+      if (prev.length >= 5) return prev;
+      return [...prev, { id, message, type }];
+    });
 
-        const timeout = setTimeout(() => {
-            setToasts(prev => prev.filter(t => t.id !== id));
-            timeoutsRef.current.delete(id);
-        }, duration);
+    const timeout = setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+      timeoutsRef.current.delete(id);
+    }, duration);
 
-        timeoutsRef.current.set(id, timeout);
-    }, []);
+    timeoutsRef.current.set(id, timeout);
+  }, []);
 
-    const closeToast = useCallback((id: string): void => {
-        const timeout = timeoutsRef.current.get(id);
+  const closeToast = useCallback((id: string): void => {
+    const timeout = timeoutsRef.current.get(id);
 
-        if (timeout) {
-            clearTimeout(timeout);
-            timeoutsRef.current.delete(id);
-        }
+    if (timeout) {
+      clearTimeout(timeout);
+      timeoutsRef.current.delete(id);
+    }
 
-        setToasts(prev => prev.filter(t => t.id !== id));
-    }, []);
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
 
-    useEffect(() => {
-        return () => timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
-    }, []);
+  useEffect(() => {
+    return () => timeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
+  }, []);
 
-    return (
-        <ToastContext.Provider value={{ showToast }}>
-            {children}
-            <ToastContainer toasts={toasts} closeToast={closeToast} />
-        </ToastContext.Provider>
-    );
+  return (
+    <ToastContext.Provider value={{ showToast }}>
+      {children}
+      <ToastContainer toasts={toasts} closeToast={closeToast} />
+    </ToastContext.Provider>
+  );
 };
 
 export const useToast = (): ToastContextValue => {
-    const context = useContext(ToastContext);
-    if (!context) throw new Error("useToast must be used within ToastProvider");
-    return context;
+  const context = useContext(ToastContext);
+  if (!context) throw new Error("useToast must be used within ToastProvider");
+  return context;
 };

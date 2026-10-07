@@ -6,34 +6,33 @@ import styles from "./topSongsList.module.css";
 import ListSongItem from "./parts/ListSongItem";
 
 const TopSongsList = ({ topSongs }: TopSongsListProps) => {
-    const { playlist: existingPlaylist, playSong } = useAudio();
-    const { songs } = useLibrary();    
+  const { playlist: existingPlaylist, playSong } = useAudio();
+  const { songs } = useLibrary();
 
-    const handlePlaySong = (songId: number) => {
-        const song = getSongData(songId, songs);
-        const newPlaylist = song ? [song] : existingPlaylist;
-        song && playSong(song, newPlaylist);
-    };
+  const handlePlaySong = (songId: number) => {
+    const song = getSongData(songId, songs);
+    const newPlaylist = song ? [song] : existingPlaylist;
+    song && playSong(song, newPlaylist);
+  };
 
-    return (<>
-        <h3>Top Songs</h3>
-        <div className={styles.section}>
-            <ul className={styles.topSongsList}>
-                {topSongs.map((song, i) => (
-                    <li key={song.song_id} className={styles.topSongItem}>
-                        <span className={styles.rank}>{i + 1}. </span>
+  return (
+    <>
+      <h3>Top Songs</h3>
+      <div className={styles.section}>
+        <ul className={styles.topSongsList}>
+          {topSongs.map((song, i) => (
+            <li key={song.song_id} className={styles.topSongItem}>
+              <span className={styles.rank}>{i + 1}. </span>
 
-                        <ListSongItem
-                            song={getSongData(song.song_id, songs)}
-                            onClick={() => handlePlaySong(song.song_id)}
-                        />
+              <ListSongItem song={getSongData(song.song_id, songs)} onClick={() => handlePlaySong(song.song_id)} />
 
-                        <span className={styles.playCount}>{song.playCount} plays</span>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    </>);
+              <span className={styles.playCount}>{song.playCount} plays</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
 };
 
 export default TopSongsList;

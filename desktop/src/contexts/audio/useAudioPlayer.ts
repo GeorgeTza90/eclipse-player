@@ -10,106 +10,130 @@ const PLAY_THRESHOLD_SECONDS = 30;
 const PLAY_THRESHOLD_PERCENTAGE = 0.5;
 
 export const useAudioPlayer = ({
-    currentSong, volume, audioEngineRef, eqEngineRef, loudnessEngineRef,
-    EQGain, normalization, loudnessPreset, repeatMode, isInitialLoadRef, nextRef,
-    setDuration, setPositionRealtime, setIsPlaying,
+  currentSong,
+  volume,
+  audioEngineRef,
+  eqEngineRef,
+  loudnessEngineRef,
+  EQGain,
+  normalization,
+  loudnessPreset,
+  repeatMode,
+  isInitialLoadRef,
+  nextRef,
+  setDuration,
+  setPositionRealtime,
+  setIsPlaying,
 }: AudioPlayerProps): void => {
-    const lastSavedPosRef = useRef<number>(-1);
-    const playRecordedRef = useRef<boolean>(false);
-    const { showToast } = useToast();
+  const lastSavedPosRef = useRef<number>(-1);
+  const playRecordedRef = useRef<boolean>(false);
+  const { showToast } = useToast();
 
-    const EQGainRef = useLatestRef(EQGain);
-    const volumeRef = useLatestRef(volume);
-    const normalizationRef = useLatestRef(normalization);
-    const loudnessPresetRef = useLatestRef(loudnessPreset);
-    const repeatModeRef = useLatestRef(repeatMode);
+  const EQGainRef = useLatestRef(EQGain);
+  const volumeRef = useLatestRef(volume);
+  const normalizationRef = useLatestRef(normalization);
+  const loudnessPresetRef = useLatestRef(loudnessPreset);
+  const repeatModeRef = useLatestRef(repeatMode);
 
-    useEffect(() => {
-        if (!currentSong) return;
+  useEffect(() => {
+    if (!currentSong) return;
 
-        const engine = audioEngineRef.current;
-        if (!engine) return;
-        
-        playRecordedRef.current = isInitialLoadRef.current ? getBool("playRecorded", false) : false;
-        setJSON("playRecorded", playRecordedRef.current);
+    const engine = audioEngineRef.current;
+    if (!engine) return;
 
-        const savedPosition = isInitialLoadRef.current ? getJSON<number>("positionRealtime", 0) : 0;
+    playRecordedRef.current = isInitialLoadRef.current ? getBool("playRecorded", false) : false;
+    setJSON("playRecorded", playRecordedRef.current);
 
-        const audioElement = engine.load(currentSong.url, { volume: volumeRef.current, startPosition: savedPosition });
+    const savedPosition = isInitialLoadRef.current ? getJSON<number>("positionRealtime", 0) : 0;
 
-        const eq = eqEngineRef.current;
-        const loudness = loudnessEngineRef.current;
+    const audioElement = engine.load(currentSong.url, {
+      volume: volumeRef.current,
+      startPosition: savedPosition,
+    });
 
-        if (eq && loudness && eq.ctx && !eq.initialized) {
-            const loudnessGainNode = loudness.init(eq.ctx);
-            eq.init(audioElement, EQGainRef.current, loudnessGainNode);
+    const eq = eqEngineRef.current;
+    const loudness = loudnessEngineRef.current;
 
-            if (normalizationRef.current) {
-                loudness.applyForSong(currentSong, LOUDNESS_PRESETS[loudnessPresetRef.current]);
-            }
+    if (eq && loudness && eq.ctx && !eq.initialized) {
+      const loudnessGainNode = loudness.init(eq.ctx);
+      eq.init(audioElement, EQGainRef.current, loudnessGainNode);
+
+      if (normalizationRef.current) {
+        loudness.applyForSong(currentSong, LOUDNESS_PRESETS[loudnessPresetRef.current]);
+      }
+    }
+
+    engine.attachListeners({
+      onLoaded: () => setDuration(engine.duration),
+
+      onTimeUpdate: () => {
+        const pos = engine.currentTime;
+        setPositionRealtime(pos);
+
+        const flooredPos = Math.floor(pos);
+
+        if (flooredPos !== lastSavedPosRef.current) {
+          setJSON("positionRealtime", pos);
+          lastSavedPosRef.current = flooredPos;
         }
 
-        engine.attachListeners({
-            onLoaded: () => setDuration(engine.duration),
+        if (!playRecordedRef.current && engine.duration > 0 && !currentSong.isPrivate) {
+          const threshold = Math.min(PLAY_THRESHOLD_SECONDS, engine.duration * PLAY_THRESHOLD_PERCENTAGE);
 
-            onTimeUpdate: () => {
-                const pos = engine.currentTime;
-                setPositionRealtime(pos);
-
-                const flooredPos = Math.floor(pos);
-
-                if (flooredPos !== lastSavedPosRef.current) {
-                    setJSON("positionRealtime", pos);
-                    lastSavedPosRef.current = flooredPos;
-                }
-
-                if (!playRecordedRef.current && engine.duration > 0 && !currentSong.isPrivate) {
-                    const threshold = Math.min(PLAY_THRESHOLD_SECONDS, engine.duration * PLAY_THRESHOLD_PERCENTAGE);
-
-                    if (pos >= threshold) {
-                        playRecordedRef.current = true;
-                        setJSON("playRecorded", true);
-                        recordPlay(Number(currentSong.id), Math.floor(pos), Math.floor(engine.duration))
-                            .catch(console.warn);
-                    }
-                }
-            },
-
-            onEnded: () => {
-                if (repeatModeRef.current === "one") {
-                    engine.seek(0);
-                    engine.play()?.catch(console.warn);
-                    return;
-                }
-                nextRef.current?.();
-            },
-            onPlay: () => setIsPlaying(true),
-            onPause: () => setIsPlaying(false),
-            onError: () => {
-                setIsPlaying(false);
-                showToast(`Failed to play "${currentSong.title}"`, "error");
-                nextRef.current?.();
-            },
-        });
-
-        const shouldAutoplay = getBool("audio_autoplay", false);
-
-        if (shouldAutoplay) {
-            engine.play()?.catch(console.warn);
-            setJSON("audio_autoplay", false);
+          if (pos >= threshold) {
+            playRecordedRef.current = true;
+            setJSON("playRecorded", true);
+            recordPlay(Number(currentSong.id), Math.floor(pos), Math.floor(engine.duration)).catch(console.warn);
+          }
         }
+      },
 
-        isInitialLoadRef.current = false;
+      onEnded: () => {
+        if (repeatModeRef.current === "one") {
+          engine.seek(0);
+          engine.play()?.catch(console.warn);
+          return;
+        }
+        nextRef.current?.();
+      },
+      onPlay: () => setIsPlaying(true),
+      onPause: () => setIsPlaying(false),
+      onError: () => {
+        setIsPlaying(false);
+        showToast(`Failed to play "${currentSong.title}"`, "error");
+        nextRef.current?.();
+      },
+    });
 
-        return () => engine.detachListeners();
-    }, [
-        currentSong, audioEngineRef, eqEngineRef, loudnessEngineRef,
-        isInitialLoadRef, nextRef,
-        setDuration, setPositionRealtime, setIsPlaying, showToast,
-        EQGainRef, volumeRef, normalizationRef, loudnessPresetRef, repeatModeRef,
-    ]);
+    const shouldAutoplay = getBool("audio_autoplay", false);
 
-    useEffect(() => {
-        audioEngineRef.current?.setVolume(volume);
-    }, [volume, audioEngineRef]);
+    if (shouldAutoplay) {
+      engine.play()?.catch(console.warn);
+      setJSON("audio_autoplay", false);
+    }
+
+    isInitialLoadRef.current = false;
+
+    return () => engine.detachListeners();
+  }, [
+    currentSong,
+    audioEngineRef,
+    eqEngineRef,
+    loudnessEngineRef,
+    isInitialLoadRef,
+    nextRef,
+    setDuration,
+    setPositionRealtime,
+    setIsPlaying,
+    showToast,
+    EQGainRef,
+    volumeRef,
+    normalizationRef,
+    loudnessPresetRef,
+    repeatModeRef,
+  ]);
+
+  useEffect(() => {
+    audioEngineRef.current?.setVolume(volume);
+  }, [volume, audioEngineRef]);
 };

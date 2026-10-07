@@ -7,19 +7,19 @@ import Loader from "../ui/loaders/Loader";
 
 const { width } = Dimensions.get("window");
 
-export default function LibraryScreen() {  
-    const { privateAlbums, singlesEps, albums, artists, loading } = useLibrary();
-    const { priv_u } = useAuth()
-    
-    if (loading) return <Loader text="Loading Library" />;    
+export default function LibraryScreen() {
+  const { privateAlbums, singlesEps, albums, artists, loading } = useLibrary();
+  const { priv_u } = useAuth();
 
-    return (
-        <ScrollView style={{ width: width * 0.96}}>
-            <SearchForm />
-            {priv_u && <LibraryGroupItem type="Private" group={privateAlbums}/>}
-            <LibraryGroupItem type="Singles & EPs" group={singlesEps} />
-            <LibraryGroupItem type="Albums" group={albums}/>
-            <LibraryGroupItem type="Artists" group={artists}/>   
-        </ScrollView>
-    );
+  if (loading) return <Loader text="Loading Library" />;
+
+  return (
+    <ScrollView style={{ width: width * 0.96 }}>
+      <SearchForm />
+      {priv_u && <LibraryGroupItem type="Private" group={privateAlbums} />}
+      <LibraryGroupItem type="Singles & EPs" group={singlesEps} />
+      <LibraryGroupItem type="Albums" group={albums} />
+      <LibraryGroupItem type="Artists" group={artists} />
+    </ScrollView>
+  );
 }

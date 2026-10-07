@@ -2,12 +2,12 @@ import { Song } from "@/types/songs";
 import { Artist } from "@/types/artists";
 
 export type Cards = {
-    songItem?: Song;
-    artistItem?: Artist;
-    onPress: () => void;
+  songItem?: Song;
+  artistItem?: Artist;
+  onPress: () => void;
 };
 
 export type SongArtist = {
-    name: string;
-    role: "main" | "feat";
-}
+  name: string;
+  role: "main" | "feat";
+};

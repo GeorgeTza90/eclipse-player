@@ -1,75 +1,75 @@
 .container {
-    z-index: 9999;
-    position: fixed;
-    width: 5.7rem;
-    height: 5.7rem;
-    cursor: grab;
+  z-index: 9999;
+  position: fixed;
+  width: 5.7rem;
+  height: 5.7rem;
+  cursor: grab;
 }
 
 .partsDiv {
-    row-gap: 1rem;
+  row-gap: 1rem;
 }
 
 .playerButton,
 .smallPlayerButton {
-    position: absolute;
-    left: 25%;
-    transform: translateX(-50%);
-    background-image: url("/assets/icons/player.png");    
-    width: 100px;
-    height: 30px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: 500ms;
-    margin-top: 0.28rem;
+  position: absolute;
+  left: 25%;
+  transform: translateX(-50%);
+  background-image: url("/assets/icons/player.png");
+  width: 100px;
+  height: 30px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 500ms;
+  margin-top: 0.28rem;
 }
 
 .smallPlayerButton {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .playerButton:hover {
-    opacity: 1;
-    transition: 500ms;
+  opacity: 1;
+  transition: 500ms;
 }
 
 .settingsButton,
 .smallSettingsButton {
-    position: absolute;
-    left: 75%;
-    transform: translateX(-50%);
-    background-image: url("/assets/icons/settings.png");
-    width: 80px;
-    height: 20px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: 500ms;
-    margin-top: 0.6rem;    
+  position: absolute;
+  left: 75%;
+  transform: translateX(-50%);
+  background-image: url("/assets/icons/settings.png");
+  width: 80px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 500ms;
+  margin-top: 0.6rem;
 }
 
-.smallSettingsButton  {
-    margin-top: 2.35rem;
-} 
+.smallSettingsButton {
+  margin-top: 2.35rem;
+}
 
 .settingsButton:hover {
-    opacity: 1;
-    transition: 500ms;
+  opacity: 1;
+  transition: 500ms;
 }
 
 @keyframes scroll {
-    0% {
-        transform: translateX(25%);
-    }
+  0% {
+    transform: translateX(25%);
+  }
 
-    100% {
-        transform: translateX(-100%);
-    }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 @keyframes moveGradient {

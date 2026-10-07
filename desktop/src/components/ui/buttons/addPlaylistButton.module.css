@@ -1,19 +1,19 @@
 .addButton {
-    padding: 10px 5px;
-    margin: 0.5rem;
-    background-color: #55555581;
-    border-radius: 6px;
-    color: #ffffff8c;
-    font-weight: bold;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    display: inline-block;
+  padding: 10px 5px;
+  margin: 0.5rem;
+  background-color: #55555581;
+  border-radius: 6px;
+  color: #ffffff8c;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
 }
 
 .addButton:hover {
-    background-color: #555555c5;
-    color: #ffffffd3;
-    transition: 0.5s;
+  background-color: #555555c5;
+  color: #ffffffd3;
+  transition: 0.5s;
 }

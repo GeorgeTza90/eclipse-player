@@ -1,17 +1,17 @@
 import { RowDataPacket } from "mysql2";
 
 export interface Play extends RowDataPacket {
-    id: number;
-    user_id: number;
-    song_id: number;
-    played_at: Date;
-    duration_listened_seconds: number;
-    song_duration_seconds: number;
-    completed: boolean;
+  id: number;
+  user_id: number;
+  song_id: number;
+  played_at: Date;
+  duration_listened_seconds: number;
+  song_duration_seconds: number;
+  completed: boolean;
 }
 
 export interface SongListener extends RowDataPacket {
-    id: number;
-    username: string;
-    total_plays: number;
+  id: number;
+  username: string;
+  total_plays: number;
 }

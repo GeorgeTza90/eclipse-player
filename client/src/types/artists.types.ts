@@ -1,29 +1,29 @@
 export interface ArtistMedia {
-    mail?: string;
-    twitter?: string;
-    youtube?: string;
-    bandcamp?: string;
-    facebook?: string;
-    instagram?: string;
+  mail?: string;
+  twitter?: string;
+  youtube?: string;
+  bandcamp?: string;
+  facebook?: string;
+  instagram?: string;
 }
 
 export interface Artist {
-    id: string;
-    name: string;
-    description: string;
-    media?: ArtistMedia;
-    image_url: string;
-    photos: string[];
-    roles: string[];
-    album: string;
+  id: string;
+  name: string;
+  description: string;
+  media?: ArtistMedia;
+  image_url: string;
+  photos: string[];
+  roles: string[];
+  album: string;
 }
 
 export interface ArtistRole {
-    name: string;
-    role: "main" | "feat";
+  name: string;
+  role: "main" | "feat";
 }
 
 export interface GroupedArtists {
-    mainArtists: string[];
-    featArtists: string[];
+  mainArtists: string[];
+  featArtists: string[];
 }

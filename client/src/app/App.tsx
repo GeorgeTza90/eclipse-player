@@ -8,22 +8,22 @@ import { MiniPlayerProvider } from "@/contexts/MiniPlayerContextWeb";
 import PrivacyGuard from "@/contexts/guards/PrivacyGuard.ts";
 
 const App = () => {
-    return (
-        <ToastProvider>
-            <AuthProvider>
-                <LibraryProvider>
-                    <AudioProvider>
-                        <MiniPlayerProvider>
-                            <PrivacyGuard />
-                            <Router>
-                                <AppRouter />
-                            </Router>
-                        </MiniPlayerProvider>
-                    </AudioProvider>
-                </LibraryProvider>
-            </AuthProvider>
-        </ToastProvider>
-    );
-}
+  return (
+    <ToastProvider>
+      <AuthProvider>
+        <LibraryProvider>
+          <AudioProvider>
+            <MiniPlayerProvider>
+              <PrivacyGuard />
+              <Router>
+                <AppRouter />
+              </Router>
+            </MiniPlayerProvider>
+          </AudioProvider>
+        </LibraryProvider>
+      </AuthProvider>
+    </ToastProvider>
+  );
+};
 
 export default App;

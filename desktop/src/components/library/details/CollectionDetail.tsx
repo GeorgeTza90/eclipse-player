@@ -17,56 +17,58 @@ import BackButton from "@/components/ui/buttons/BackButton";
 import styles from "./collectionDetail.module.css";
 
 const CollectionDetail = () => {
-    const { user } = useAuth();   
-    const { songs } = useLibrary();    
-    const { playSong } = useAudio();
-    const { showImageToast, ImageToastUI } = useImageToast();
-    const { barMode } = useMiniPlayer();
-    const isMobile = useIsMobile();
-    const navigate = useNavigate();
-    const { album } = useParams();
+  const { user } = useAuth();
+  const { songs } = useLibrary();
+  const { playSong } = useAudio();
+  const { showImageToast, ImageToastUI } = useImageToast();
+  const { barMode } = useMiniPlayer();
+  const isMobile = useIsMobile();
+  const navigate = useNavigate();
+  const { album } = useParams();
 
-    const albumSongs = useMemo(() => songs.filter(s => s.album === album) ,[songs, album]);    
-    const durationString = useAlbumDuration(albumSongs);
-    const albumInfo: Song = albumSongs[0];    
-    
-    /* --- PRESS SONG --- */
-    const handlePressSong = async (song: Song) => {
-        await playSong(song, albumSongs, album);        
-        navigate("/player");
-    }; 
+  const albumSongs = useMemo(() => songs.filter((s) => s.album === album), [songs, album]);
+  const durationString = useAlbumDuration(albumSongs);
+  const albumInfo: Song = albumSongs[0];
 
-    /* --- LOADING --- */
-    if (!albumSongs || albumSongs.length === 0) return (
-        <div className={styles.loadingContainer}>
-            <Loader text={"Loading Collection"}/>
-        </div>
+  /* --- PRESS SONG --- */
+  const handlePressSong = async (song: Song) => {
+    await playSong(song, albumSongs, album);
+    navigate("/player");
+  };
+
+  /* --- LOADING --- */
+  if (!albumSongs || albumSongs.length === 0)
+    return (
+      <div className={styles.loadingContainer}>
+        <Loader text={"Loading Collection"} />
+      </div>
     );
 
-    /* --- STYLES --- */    
-    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }      
-    
-    return (    
-        <div className={styles.container} style={containerStyle}>
-            {!isMobile && user && !barMode && (<MiniPlayer />)}
+  /* --- STYLES --- */
+  const containerStyle = {
+    background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )`,
+  };
 
-    {/* Info */}
-            {ImageToastUI}
-            <AlbumInfo
-                albumInfo={albumInfo}
-                albumSongs={albumSongs}
-                onImageClick={() => {if (albumInfo.imageHQ) showImageToast(albumInfo.imageHQ)}}
-                durationString={durationString}
-            />
-            
-    {/* Tracks */}
-            <AlbumSongs 
-                albumSongs={albumSongs}
-                onPress={handlePressSong}
-            />
-            <BackButton navTo={`/library`} />
-        </div>
-    );
-}
+  return (
+    <div className={styles.container} style={containerStyle}>
+      {!isMobile && user && !barMode && <MiniPlayer />}
+
+      {/* Info */}
+      {ImageToastUI}
+      <AlbumInfo
+        albumInfo={albumInfo}
+        albumSongs={albumSongs}
+        onImageClick={() => {
+          if (albumInfo.imageHQ) showImageToast(albumInfo.imageHQ);
+        }}
+        durationString={durationString}
+      />
+
+      {/* Tracks */}
+      <AlbumSongs albumSongs={albumSongs} onPress={handlePressSong} />
+      <BackButton navTo={`/library`} />
+    </div>
+  );
+};
 
 export default CollectionDetail;

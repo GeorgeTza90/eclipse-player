@@ -1,7 +1,6 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 export type Tabs = {
-    title: string;
-    children?: ReactNode;
+  title: string;
+  children?: ReactNode;
 };
-

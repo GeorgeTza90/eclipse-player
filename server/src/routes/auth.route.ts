@@ -1,9 +1,29 @@
 import { Router } from "express";
-import { register, login, logout, googleLogin, forgotPassword, resetPassword, changePassword, updateUsername, me, googleLoginDesktop } from '@/controllers/auth.controller.js';
-import { verifyToken } from '@/middleware/authMiddleware.js';
-import { createRateLimiter } from '@/middleware/rateLimiter.js';
+import {
+  register,
+  login,
+  logout,
+  googleLogin,
+  forgotPassword,
+  resetPassword,
+  changePassword,
+  updateUsername,
+  me,
+  googleLoginDesktop,
+} from "@/controllers/auth.controller.js";
+import { verifyToken } from "@/middleware/authMiddleware.js";
+import { createRateLimiter } from "@/middleware/rateLimiter.js";
 import { validateBody } from "@/middleware/validate.js";
-import { loginSchema, googleLoginSchema, registerSchema, changePasswordSchema, resetPasswordSchema, updateUsernameSchema, forgotPasswordSchema, googleLoginDesktopSchema } from "@/validation/auth.schema.js";
+import {
+  loginSchema,
+  googleLoginSchema,
+  registerSchema,
+  changePasswordSchema,
+  resetPasswordSchema,
+  updateUsernameSchema,
+  forgotPasswordSchema,
+  googleLoginDesktopSchema,
+} from "@/validation/auth.schema.js";
 
 const router = Router();
 
@@ -18,19 +38,19 @@ const resetLimiter = createRateLimiter(30, 3);
 const updateUsernameLimiter = createRateLimiter(3, 15);
 
 // Public routes
-router.post('/login', loginLimiter, validateBody(loginSchema), login);
-router.post('/register', registerLimiter, validateBody(registerSchema), register);
-router.post('/google-login', googleLimiter, validateBody(googleLoginSchema), googleLogin);
-router.post('/google-login-desktop', googleDesktopLimiter, validateBody(googleLoginDesktopSchema), googleLoginDesktop);
-router.post('/forgot-password', forgotLimiter, validateBody(forgotPasswordSchema), forgotPassword);
-router.post('/reset-password', resetLimiter, validateBody(resetPasswordSchema), resetPassword);
+router.post("/login", loginLimiter, validateBody(loginSchema), login);
+router.post("/register", registerLimiter, validateBody(registerSchema), register);
+router.post("/google-login", googleLimiter, validateBody(googleLoginSchema), googleLogin);
+router.post("/google-login-desktop", googleDesktopLimiter, validateBody(googleLoginDesktopSchema), googleLoginDesktop);
+router.post("/forgot-password", forgotLimiter, validateBody(forgotPasswordSchema), forgotPassword);
+router.post("/reset-password", resetLimiter, validateBody(resetPasswordSchema), resetPassword);
 
 // Protected routes
 router.use(verifyToken);
 
-router.get('/me', me);
-router.post('/logout', logout);
-router.post('/change-password', changePassLimiter, validateBody(changePasswordSchema), changePassword);
-router.put('/update-username', updateUsernameLimiter, validateBody(updateUsernameSchema), updateUsername);
+router.get("/me", me);
+router.post("/logout", logout);
+router.post("/change-password", changePassLimiter, validateBody(changePasswordSchema), changePassword);
+router.put("/update-username", updateUsernameLimiter, validateBody(updateUsernameSchema), updateUsername);
 
 export default router;

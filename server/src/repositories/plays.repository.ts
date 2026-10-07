@@ -5,52 +5,52 @@ import { Song } from "@/types/songs.types.js";
 import { User } from "@/types/auth.types.js";
 
 export const playsRepository = {
-    async createPlay(
-        userId: number,
-        songId: number,
-        durationListenedSeconds: number,
-        songDurationSeconds: number,
-        completed: boolean
-    ): Promise<number> {
-        const [result] = await db.query<ResultSetHeader>(
-            `INSERT INTO plays (user_id, song_id, duration_listened_seconds, song_duration_seconds, completed)
+  async createPlay(
+    userId: number,
+    songId: number,
+    durationListenedSeconds: number,
+    songDurationSeconds: number,
+    completed: boolean,
+  ): Promise<number> {
+    const [result] = await db.query<ResultSetHeader>(
+      `INSERT INTO plays (user_id, song_id, duration_listened_seconds, song_duration_seconds, completed)
              VALUES (?, ?, ?, ?, ?)`,
-            [userId, songId, durationListenedSeconds, songDurationSeconds, completed]
-        );
-        return result.insertId;
-    },
+      [userId, songId, durationListenedSeconds, songDurationSeconds, completed],
+    );
+    return result.insertId;
+  },
 
-    async findById(id: number): Promise<Play[]> {
-        const [rows] = await db.query<Play[]>("SELECT * FROM plays WHERE id = ?", [id]);
-        return rows;
-    },
+  async findById(id: number): Promise<Play[]> {
+    const [rows] = await db.query<Play[]>("SELECT * FROM plays WHERE id = ?", [id]);
+    return rows;
+  },
 
-    async findTopSongsForUser(userId: number, sinceDate: Date, limit: number) {
-        const [rows] = await db.query<RowDataPacket[]>(
-            `SELECT song_id, COUNT(*) AS playCount
+  async findTopSongsForUser(userId: number, sinceDate: Date, limit: number) {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT song_id, COUNT(*) AS playCount
              FROM plays
              WHERE user_id = ? AND completed = TRUE AND played_at >= ?
              GROUP BY song_id
              ORDER BY playCount DESC
              LIMIT ?`,
-            [userId, sinceDate, limit]
-        );
-        return rows;
-    },
+      [userId, sinceDate, limit],
+    );
+    return rows;
+  },
 
-    async findTotalListeningTime(userId: number, sinceDate: Date) {
-        const [rows] = await db.query<RowDataPacket[]>(
-            `SELECT COALESCE(SUM(duration_listened_seconds), 0) AS totalSeconds
+  async findTotalListeningTime(userId: number, sinceDate: Date) {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT COALESCE(SUM(duration_listened_seconds), 0) AS totalSeconds
             FROM plays
             WHERE user_id = ? AND completed = TRUE AND played_at >= ?`,
-            [userId, sinceDate]
-        );
-        return rows[0].totalSeconds as number;
-    },
+      [userId, sinceDate],
+    );
+    return rows[0].totalSeconds as number;
+  },
 
-    async findMonthlyHistory(userId: number, monthsBack: number) {
-        const [rows] = await db.query<RowDataPacket[]>(
-            `SELECT
+  async findMonthlyHistory(userId: number, monthsBack: number) {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT
                 DATE_FORMAT(played_at, '%Y-%m') AS month,
                 COUNT(*) AS playCount,
                 SUM(duration_listened_seconds) AS totalSeconds
@@ -59,22 +59,22 @@ export const playsRepository = {
             AND played_at >= DATE_SUB(NOW(), INTERVAL ? MONTH)
             GROUP BY month
             ORDER BY month DESC`,
-            [userId, monthsBack]
-        );
-        return rows;
-    },
+      [userId, monthsBack],
+    );
+    return rows;
+  },
 
-    async findHistory(userId: number, sinceDate: Date | null, groupFormat: string) {
-        const params: (number | Date)[] = [userId];
-        let dateFilter = "";
+  async findHistory(userId: number, sinceDate: Date | null, groupFormat: string) {
+    const params: (number | Date)[] = [userId];
+    let dateFilter = "";
 
-        if (sinceDate) {
-            dateFilter = "AND played_at >= ?";
-            params.push(sinceDate);
-        }
+    if (sinceDate) {
+      dateFilter = "AND played_at >= ?";
+      params.push(sinceDate);
+    }
 
-        const [rows] = await db.query<RowDataPacket[]>(
-            `SELECT
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT
                 DATE_FORMAT(played_at, '${groupFormat}') AS bucket,
                 COUNT(*) AS playCount,
                 SUM(duration_listened_seconds) AS totalSeconds
@@ -82,27 +82,27 @@ export const playsRepository = {
             WHERE user_id = ? ${dateFilter} AND completed = TRUE
             GROUP BY bucket
             ORDER BY bucket ASC`,
-            params
-        );
-        return rows;
-    },
+      params,
+    );
+    return rows;
+  },
 
-    async findSongById(songId: number): Promise<Song[]> {
-        const [rows] = await db.query<Song[]>("SELECT * FROM songs WHERE id = ? LIMIT 1", [songId]);
-        return rows;
-    },
+  async findSongById(songId: number): Promise<Song[]> {
+    const [rows] = await db.query<Song[]>("SELECT * FROM songs WHERE id = ? LIMIT 1", [songId]);
+    return rows;
+  },
 
-    async findSongHistory(songId: number, sinceDate: Date | null, groupFormat: string) {
-        const params: (number | Date)[] = [songId];
-        let dateFilter = "";
+  async findSongHistory(songId: number, sinceDate: Date | null, groupFormat: string) {
+    const params: (number | Date)[] = [songId];
+    let dateFilter = "";
 
-        if (sinceDate) {
-            dateFilter = "AND played_at >= ?";
-            params.push(sinceDate);
-        }
+    if (sinceDate) {
+      dateFilter = "AND played_at >= ?";
+      params.push(sinceDate);
+    }
 
-        const [rows] = await db.query<RowDataPacket[]>(
-            `SELECT
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT
                 DATE_FORMAT(played_at, '${groupFormat}') AS bucket,
                 COUNT(*) AS playCount,
                 SUM(duration_listened_seconds) AS totalSeconds
@@ -110,39 +110,41 @@ export const playsRepository = {
             WHERE song_id = ? ${dateFilter} AND completed = TRUE
             GROUP BY bucket
             ORDER BY bucket ASC`,
-            params
-        );
-        return rows;
-    },
+      params,
+    );
+    return rows;
+  },
 
-    async findUserPrivateFlag(userId: number): Promise<User | null> {
-        const [rows] = await db.query<User[]>("SELECT private FROM users WHERE id = ?", [userId]);
-        return rows[0] ?? null;
-    },
+  async findUserPrivateFlag(userId: number): Promise<User | null> {
+    const [rows] = await db.query<User[]>("SELECT private FROM users WHERE id = ?", [userId]);
+    return rows[0] ?? null;
+  },
 
-    async countPlaysFotSong(songId: number) {
-        const [rows] = await db.query<RowDataPacket[]>(`SELECT COUNT(*) AS playCount FROM plays WHERE song_id = ?`, [songId]);        
-        return Number(rows[0].playCount);
-    },
+  async countPlaysFotSong(songId: number) {
+    const [rows] = await db.query<RowDataPacket[]>(`SELECT COUNT(*) AS playCount FROM plays WHERE song_id = ?`, [
+      songId,
+    ]);
+    return Number(rows[0].playCount);
+  },
 
-    async findSongListeners(songId: number, sinceDate: Date | null): Promise<SongListener[]> {
-        const params: (number | Date)[] = [songId];
-        let dateFilter = "";
+  async findSongListeners(songId: number, sinceDate: Date | null): Promise<SongListener[]> {
+    const params: (number | Date)[] = [songId];
+    let dateFilter = "";
 
-        if (sinceDate) {
-            dateFilter = "AND p.played_at >= ?";
-            params.push(sinceDate);
-        }
+    if (sinceDate) {
+      dateFilter = "AND p.played_at >= ?";
+      params.push(sinceDate);
+    }
 
-        const [rows] = await db.query<SongListener[]>(
-            `SELECT u.id, u.username, COUNT(*) AS total_plays
+    const [rows] = await db.query<SongListener[]>(
+      `SELECT u.id, u.username, COUNT(*) AS total_plays
             FROM plays p
             JOIN users u ON u.id = p.user_id
             WHERE p.song_id = ? ${dateFilter} AND p.completed = TRUE
             GROUP BY u.id, u.username
             ORDER BY total_plays DESC`,
-            params
-        );
-        return rows;
-    },
+      params,
+    );
+    return rows;
+  },
 };

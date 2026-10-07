@@ -1,7 +1,7 @@
 import { escapeHtml } from "@/utils/escapeHtml.js";
 
 export function resetEmailHtml(username: string, resetLink: string, minEXP: number) {
-    const html = `
+  const html = `
         <h2>Password Reset Request</h2>
         <p>Hello ${escapeHtml(username || "")},</p>
         <p>Click the link below to reset your password:</p>
@@ -10,5 +10,5 @@ export function resetEmailHtml(username: string, resetLink: string, minEXP: numb
         <br/>
         <p>If you didn’t request this, you can ignore this email.</p>
     `;
-    return html;
+  return html;
 }

@@ -15,88 +15,142 @@ import MiniVolumeSlider from "./parts/MiniVolumeSlider";
 import styles from "./miniPlayer.module.css";
 
 const MiniPlayer = () => {
-    const { currentSong, isPlaying, position, duration, volume } = useAudio();
-    const { pos, onMouseDown, showImage, showMiniPlayer, showTimeBar, showVolumeBar, transparency, showGlow, coloredGlow, goRGB } = useMiniPlayer();
-    const { showImageToast, ImageToastUI } = useImageToast();
-    const { user } = useAuth();
-        
-    const [intensity, setIntensity] = useState(30);
-    const [circleParams, setCircleParams] = useState({size: 295, left: -100, top: -40})
-    const [sliderPosition, setSliderPosition] = useState(0);    
-    
-    const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
-    const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
-    const progress = duration ? (sliderPosition / duration) * 100 : 0;
+  const { currentSong, isPlaying, position, duration, volume } = useAudio();
+  const {
+    pos,
+    onMouseDown,
+    showImage,
+    showMiniPlayer,
+    showTimeBar,
+    showVolumeBar,
+    transparency,
+    showGlow,
+    coloredGlow,
+    goRGB,
+  } = useMiniPlayer();
+  const { showImageToast, ImageToastUI } = useImageToast();
+  const { user } = useAuth();
 
-    const { sliderStyle, volumeSliderStyle, miniPlayerDiv, RGBStyle } = useStyleSliders(goRGB, coloredGlow, progress, shadowColor, intensity, volume, pos, transparency);
+  const [intensity, setIntensity] = useState(30);
+  const [circleParams, setCircleParams] = useState({
+    size: 295,
+    left: -100,
+    top: -40,
+  });
+  const [sliderPosition, setSliderPosition] = useState(0);
 
-    /* --- UI UPDATE  --- */
-    useEffect(() => {
-        if (!showTimeBar && !showVolumeBar) {
-            setCircleParams({ size: 250, left: -80, top: -50 });           
-        } else setCircleParams({ size: 290, left: -100, top: -40 });
-    }, [showVolumeBar, showTimeBar, showImage]);    
-    
-    useEffect(() => { setIntensity(volume * 30); }, [volume]);
-    useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);        
+  const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
+  const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
+  const progress = duration ? (sliderPosition / duration) * 100 : 0;
 
-    if (!currentSong) return null;
+  const { sliderStyle, volumeSliderStyle, miniPlayerDiv, RGBStyle } = useStyleSliders(
+    goRGB,
+    coloredGlow,
+    progress,
+    shadowColor,
+    intensity,
+    volume,
+    pos,
+    transparency,
+  );
 
-    return (<>
-        {ImageToastUI}
-        {showMiniPlayer &&
-            <div
-                onMouseDown={onMouseDown}         
-                onTouchStart={(e) => onMouseDown(e.touches[0])}
-                onTouchMove={(e) => { e.preventDefault(); }}                
-                style={miniPlayerDiv}
-                className={styles.container}
-            >
-                <Circle size={circleParams.size} intensity={intensity * 0.8} heightOffset={6} shadowColor={showGlow ? shadowColor : "#000000ff"} left={circleParams.left} top={circleParams.top} />
+  /* --- UI UPDATE  --- */
+  useEffect(() => {
+    if (!showTimeBar && !showVolumeBar) {
+      setCircleParams({ size: 250, left: -80, top: -50 });
+    } else setCircleParams({ size: 290, left: -100, top: -40 });
+  }, [showVolumeBar, showTimeBar, showImage]);
 
-    {/* Info */}
-                <div className={styles.partsDiv}>
-                    <MiniInfoRow
-                        currentSong={currentSong}
-                        mainArtists={mainArtists}
-                        featArtists={featArtists}
-                        onClick={() => currentSong.imageHQ && showImageToast(currentSong?.imageHQ)}
-                    /> 
+  useEffect(() => {
+    setIntensity(volume * 30);
+  }, [volume]);
+  useEffect(() => {
+    if (position != null) setSliderPosition(position);
+  }, [position]);
 
-    {/* Controls */}
-                    <MiniControls size={30} isPlaying={isPlaying} />
+  if (!currentSong) return null;
 
-    {/* Time Slider */}
-                    {showTimeBar && (<><br/><br/>
-                        <MiniTimeSlider
-                            width={8}
-                            goRGB={goRGB}
-                            position={position}
-                            duration={duration}
-                            sliderPosition={sliderPosition}
-                            RGBStyle={RGBStyle}
-                            sliderStyle={sliderStyle}
-                        />
-                    </>)}
+  return (
+    <>
+      {ImageToastUI}
+      {showMiniPlayer && (
+        <div
+          onMouseDown={onMouseDown}
+          onTouchStart={(e) => onMouseDown(e.touches[0])}
+          onTouchMove={(e) => {
+            e.preventDefault();
+          }}
+          style={miniPlayerDiv}
+          className={styles.container}
+        >
+          <Circle
+            size={circleParams.size}
+            intensity={intensity * 0.8}
+            heightOffset={6}
+            shadowColor={showGlow ? shadowColor : "#000000ff"}
+            left={circleParams.left}
+            top={circleParams.top}
+          />
 
-    {/* Volume */}
-                    {showVolumeBar && (<><br/>
-                        <MiniVolumeSlider
-                            width={5}
-                            goRGB={goRGB}
-                            volume={volume}
-                            RGBStyle={RGBStyle}
-                            volumeSliderStyle={volumeSliderStyle}
-                        />
-                    </>)}
+          {/* Info */}
+          <div className={styles.partsDiv}>
+            <MiniInfoRow
+              currentSong={currentSong}
+              mainArtists={mainArtists}
+              featArtists={featArtists}
+              onClick={() => currentSong.imageHQ && showImageToast(currentSong?.imageHQ)}
+            />
 
-    {/* Link Button */}
-                        <Link to="/player" className={!showVolumeBar || !showTimeBar ? styles.smallPlayerButton : styles.playerButton} />
-                        {user && <Link to="/user-settings" className={!showVolumeBar || !showTimeBar ? styles.smallSettingsButton : styles.settingsButton} />}
-                </div>
-            </div>
-        }        
-    </>);
+            {/* Controls */}
+            <MiniControls size={30} isPlaying={isPlaying} />
+
+            {/* Time Slider */}
+            {showTimeBar && (
+              <>
+                <br />
+                <br />
+                <MiniTimeSlider
+                  width={8}
+                  goRGB={goRGB}
+                  position={position}
+                  duration={duration}
+                  sliderPosition={sliderPosition}
+                  RGBStyle={RGBStyle}
+                  sliderStyle={sliderStyle}
+                />
+              </>
+            )}
+
+            {/* Volume */}
+            {showVolumeBar && (
+              <>
+                <br />
+                <MiniVolumeSlider
+                  width={5}
+                  goRGB={goRGB}
+                  volume={volume}
+                  RGBStyle={RGBStyle}
+                  volumeSliderStyle={volumeSliderStyle}
+                />
+              </>
+            )}
+
+            {/* Link Button */}
+            <Link
+              to="/player"
+              className={!showVolumeBar || !showTimeBar ? styles.smallPlayerButton : styles.playerButton}
+            />
+            {user && (
+              <Link
+                to="/user-settings"
+                className={!showVolumeBar || !showTimeBar ? styles.smallSettingsButton : styles.settingsButton}
+              />
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default MiniPlayer;

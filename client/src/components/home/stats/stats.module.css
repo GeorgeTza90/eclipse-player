@@ -1,35 +1,35 @@
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2rem;    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
 }
 
 .text3 {
-    color: #9e9e9e;
-    margin-left: 1rem;
+  color: #9e9e9e;
+  margin-left: 1rem;
 }
 
 .message {
-    font-size: 1rem;
-    margin-left: 2rem;
-    margin-top: 1rem;
-    color: #bef7e5;
+  font-size: 1rem;
+  margin-left: 2rem;
+  margin-top: 1rem;
+  color: #bef7e5;
 }
 
 .emptyState {
-    color: #9e9e9e;
-    margin-left: 1rem;
+  color: #9e9e9e;
+  margin-left: 1rem;
 }
 
 .statsContainer {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 
 @media (max-width: 768px) {
-    .container {
-        margin-top: -2rem;    
-        display: flex;
-        justify-content: center;
-    }
+  .container {
+    margin-top: -2rem;
+    display: flex;
+    justify-content: center;
+  }
 }

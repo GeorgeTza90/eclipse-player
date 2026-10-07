@@ -6,258 +6,257 @@ import type { Song } from "./songs.types";
 
 // BUTTONS
 export interface GeneralButtonProps {
-    loading?: boolean;
-    isLogin?: boolean;
-    title?: string;
-    onClick: () => void;
-    disabled?: boolean;
-    width?: string; 
-    groupsKind?: string;
-    type?: string;
-    message?: string;
-    size?: string | number;
-    active?: boolean;
+  loading?: boolean;
+  isLogin?: boolean;
+  title?: string;
+  onClick: () => void;
+  disabled?: boolean;
+  width?: string;
+  groupsKind?: string;
+  type?: string;
+  message?: string;
+  size?: string | number;
+  active?: boolean;
 }
 
 export interface PlayButtonProps {
-    type: "play" | "pause" | "stop" | "previous" | "next" | "shuffle" | "repeat" | "repeat-one";
-    onClick?: (event:MouseEvent<HTMLButtonElement>) => void;
-    size?: string | number;
-    active?: boolean;
+  type: "play" | "pause" | "stop" | "previous" | "next" | "shuffle" | "repeat" | "repeat-one";
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  size?: string | number;
+  active?: boolean;
 }
 
 export interface ToggleButtonProps {
-    heading: string;
-    isBarMode?: boolean;
-    value: boolean;
-    onChange: (value: boolean) => void;
-    inActive?: boolean;    
+  heading: string;
+  isBarMode?: boolean;
+  value: boolean;
+  onChange: (value: boolean) => void;
+  inActive?: boolean;
 }
 
 export interface LoudnessButtonProps {
-    heading: string;    
-    value: LoudnessPreset;
-    onChange: (value: LoudnessPreset) => void;
-    disabled?: boolean;    
+  heading: string;
+  value: LoudnessPreset;
+  onChange: (value: LoudnessPreset) => void;
+  disabled?: boolean;
 }
 
 export interface PlaylistButtonProps {
-    song: Song;    
+  song: Song;
 }
 
 export interface ArtistButtonProps {
-    artist:string;
-    size: string | number;
-    marginTop?: string | number;
+  artist: string;
+  size: string | number;
+  marginTop?: string | number;
 }
 
 export interface BackButtonProps {
-    navTo: string;
+  navTo: string;
 }
 
 export interface DeletePlaylistButtonProps {
-    playlistId: number;
-    onDeleted: () => void;
-    songId?: number
+  playlistId: number;
+  onDeleted: () => void;
+  songId?: number;
 }
 
 export interface DeleteSongButtonProps {
-    playlistId: number;
-    songId: number;
-    onDeleted: () => void;
+  playlistId: number;
+  songId: number;
+  onDeleted: () => void;
 }
 
 export interface PresetButtonProps {
-    type: "Reset" | "Save" | "Load";
-    showPresetList?: boolean;
-    onClick: () => void | void;
+  type: "Reset" | "Save" | "Load";
+  showPresetList?: boolean;
+  onClick: () => void | void;
 }
 
 export type UpdateButtonProps = {
-    onClick: (e: React.MouseEvent) => void;
+  onClick: (e: React.MouseEvent) => void;
 };
 
 export type DeleteButtonProps = {
-    onClick: (e: React.MouseEvent) => void;
-    disabled?: boolean;
+  onClick: (e: React.MouseEvent) => void;
+  disabled?: boolean;
 };
 
 // CIRCLE
 export interface CircleStyleProps {
-    size: number;
-    top: number;
-    left: number;
-    zIndex: number;
-    intensity: number;
-    heightOffset: number;
-    shadowColor:string;
-    goRGB: boolean;
-    coloredGlow: boolean;
-    gradientColors: string[];    
+  size: number;
+  top: number;
+  left: number;
+  zIndex: number;
+  intensity: number;
+  heightOffset: number;
+  shadowColor: string;
+  goRGB: boolean;
+  coloredGlow: boolean;
+  gradientColors: string[];
 }
 
 export interface CircleProps {
-    size: number;
-    top: number;
-    left?: number;
-    shadowColor?: string;
-    color1?: string;
-    color2?: string;
-    colors?: string[];
-    intensity: number;
-    heightOffset?: number;
-    zIndex?: number;
+  size: number;
+  top: number;
+  left?: number;
+  shadowColor?: string;
+  color1?: string;
+  color2?: string;
+  colors?: string[];
+  intensity: number;
+  heightOffset?: number;
+  zIndex?: number;
 }
 
 // INPUT
 export interface FormInputProps {
-    type: string;
-    name?: string;
-    placeholder?: string;
-    value?: string;
-    onChangeText: (value: string) => void;
-    isForm?: boolean;
+  type: string;
+  name?: string;
+  placeholder?: string;
+  value?: string;
+  onChangeText: (value: string) => void;
+  isForm?: boolean;
 }
 
 export interface PasswordInputProps {
-    value: string;
-    show: boolean;
-    placeholder?: string;
-    onChangeText: (value: string) => void;
-    setShow: Dispatch<SetStateAction<boolean>>;
+  value: string;
+  show: boolean;
+  placeholder?: string;
+  onChangeText: (value: string) => void;
+  setShow: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface SearchInputProps {
-    placeholder?: string;
-    value: string;
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  value: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 // LINKS
 export interface MediaLinkProps {
-    platform: string;
-    link: string;
+  platform: string;
+  link: string;
 }
 
 export type ArtistMedia = Record<string, string>;
 
 // LOADER
 export interface LoaderProps {
-    text: string;
-    size?: string;
+  text: string;
+  size?: string;
 }
 
 export interface LoadingMessageProps {
-    message?: string;
-    height?: string;
+  message?: string;
+  height?: string;
 }
 
 // MODAL
 export interface AddPlaylistModalProps {
-    visible: boolean;
-    onClose: () => void;
-    onCreated?: () => void;
+  visible: boolean;
+  onClose: () => void;
+  onCreated?: () => void;
 }
 
 export interface AddPresetModalProps {
-    visible: boolean;
-    onClose: () => void;
-    onCreated?: () => void;
-    eqGains: EQGains;
+  visible: boolean;
+  onClose: () => void;
+  onCreated?: () => void;
+  eqGains: EQGains;
 }
 
 export interface ConfirmModalProps {
-    message: string;
-    onConfirm: () => void;
-    onCancel: () => void;
+  message: string;
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 
 export interface EditPlaylistModalProps {
-    visible: boolean;
-    onClose: () => void;
-    onUpdated?: (title: string, description: string) => void;
-    currentTitle: string;
-    currentDescription: string;
-    playlistId: number;
+  visible: boolean;
+  onClose: () => void;
+  onUpdated?: (title: string, description: string) => void;
+  currentTitle: string;
+  currentDescription: string;
+  playlistId: number;
 }
 
 export interface Preset {
-    id: number;
-    title: string;
-    preset: EQGains;
+  id: number;
+  title: string;
+  preset: EQGains;
 }
 
 export interface UpdatePresetModalProps {
-    visible: boolean;
-    onClose: () => void;
-    onCreated?: () => void;
-    presetNew: Presets;
-    newEQ: EQGains;
+  visible: boolean;
+  onClose: () => void;
+  onCreated?: () => void;
+  presetNew: Presets;
+  newEQ: EQGains;
 }
 
 // TEASER
 export interface TeaserProps {
-    link: string;
-    source: string;
-    download?: boolean;
-    video: boolean;
+  link: string;
+  source: string;
+  download?: boolean;
+  video: boolean;
 }
-
 
 // TOAST
 export type ToastType = "info" | "success" | "warning" | "error";
 
 export interface Toast {
-    id: string;
-    message: string;
-    type: ToastType;
+  id: string;
+  message: string;
+  type: ToastType;
 }
 
 export interface ToastProps {
-    message: string;
-    type?: ToastType;
-    onClose: () => void;
-    duration?: number;
+  message: string;
+  type?: ToastType;
+  onClose: () => void;
+  duration?: number;
 }
 
-export interface ToastItemProps {    
-    toast: Toast;    
-    onClose: (id: string) => void;
+export interface ToastItemProps {
+  toast: Toast;
+  onClose: (id: string) => void;
 }
 
 export interface ToastContainerProps {
-    toasts: Toast[];    
-    closeToast: (id: string) => void;    
+  toasts: Toast[];
+  closeToast: (id: string) => void;
 }
 
 export interface ToastProviderProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export interface ToastContextValue {
-    showToast: (message: string, type?: ToastType, duration?: number) => void;
+  showToast: (message: string, type?: ToastType, duration?: number) => void;
 }
 
 // ERROR
 export interface ErrorStyleProps {
-    height?: string | number;
-    visible?: boolean;
+  height?: string | number;
+  visible?: boolean;
 }
 
 export interface AuthFormErrorProps {
-    message: string | null;
+  message: string | null;
 }
 export interface ErrorMessageProps {
-    message: string;
-    height: string | number;
+  message: string;
+  height: string | number;
 }
 
 export interface SongStatsButtonProps {
-    song: Song;
-    onClick?: () => void;
+  song: Song;
+  onClick?: () => void;
 }
 
 // OTHER
 export interface NotLoggedInProps {
-    text: string;
+  text: string;
 }

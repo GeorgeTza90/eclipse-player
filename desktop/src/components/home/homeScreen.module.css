@@ -1,32 +1,32 @@
 .container {
-    margin-top: 2rem;
-    margin-bottom: 5rem;
-    max-width: 95%;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+  max-width: 95%;
 }
 
 .text {
-    color: #fff;
-    font-size: 18px;
-    font-weight: bold;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .text2 {
-    color: #fff;
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 2rem;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 2rem;
 }
 
 .userDiv {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .teaserDiv {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

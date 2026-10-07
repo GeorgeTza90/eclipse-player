@@ -2,20 +2,20 @@
 import { z } from "zod";
 
 export const createPlaySchema = z.object({
-    songId: z.number().int().positive(),
-    durationListenedSeconds: z.number().int().nonnegative(),
-    songDurationSeconds: z.number().int().positive(),
+  songId: z.number().int().positive(),
+  durationListenedSeconds: z.number().int().nonnegative(),
+  songDurationSeconds: z.number().int().positive(),
 });
 
 export const statsRangeSchema = z.object({
-    range: z.enum(["7d", "1m", "3m", "all"]).default("1m"),
+  range: z.enum(["7d", "1m", "3m", "all"]).default("1m"),
 });
 
 export const statsBySongSchema = z.object({
-    songId: z.coerce.number().int().positive(),
-    range: z.enum(["7d", "1m", "3m", "all"]).default("1m"),
+  songId: z.coerce.number().int().positive(),
+  range: z.enum(["7d", "1m", "3m", "all"]).default("1m"),
 });
 
 export const songPlayCountSchema = z.object({
-    songId: z.coerce.number().int().positive(),
+  songId: z.coerce.number().int().positive(),
 });

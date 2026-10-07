@@ -18,24 +18,22 @@ export const fetchPrivateSongs = () => apiFetch<Song[]>("/api/songs/private");
 export const fetchArtists = () => apiFetch<any[]>("/api/artists");
 
 export const fetchArtist = (artistName: string) => {
-    if (!artistName) throw new Error("Artist name is required");
-    return apiFetch<any>(`/api/artists/${encodeURIComponent(artistName)}`);
+  if (!artistName) throw new Error("Artist name is required");
+  return apiFetch<any>(`/api/artists/${encodeURIComponent(artistName)}`);
 };
 
 // -------------------- Playlists --------------------
 export const fetchUserPlaylists = () => apiFetch<Playlist[]>("/api/playlists");
 
 export const fetchPlaylistSongs = (playlistId: number) => {
-    if (!playlistId) throw new Error("Playlist ID is required");
-    return apiFetch<PlaylistSong[]>(`/api/playlists/${playlistId}/songs`);
+  if (!playlistId) throw new Error("Playlist ID is required");
+  return apiFetch<PlaylistSong[]>(`/api/playlists/${playlistId}/songs`);
 };
 
 // -------------------- Plays --------------------
-export const fetchPlayStats = (range: StatsRange = "1m") =>
-    apiFetch<PlayStats>(`/api/plays/stats?range=${range}`);
+export const fetchPlayStats = (range: StatsRange = "1m") => apiFetch<PlayStats>(`/api/plays/stats?range=${range}`);
 
 export const fetchSongStats = (songId: number, range: StatsRange = "1m") =>
-    apiFetch<HistoryBucket[]>(`/api/plays/stats/song?songId=${songId}&range=${range}`);
+  apiFetch<HistoryBucket[]>(`/api/plays/stats/song?songId=${songId}&range=${range}`);
 
-export const fetchSongTotalPlays = (songId: number) =>
-    apiFetch<any>(`/api/plays/stats/song/plays?songId=${songId}`);
+export const fetchSongTotalPlays = (songId: number) => apiFetch<any>(`/api/plays/stats/song/plays?songId=${songId}`);

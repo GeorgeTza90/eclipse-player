@@ -14,9 +14,7 @@
     },
     "android": {
       "package": "com.georgetza.EclipsePlayer",
-      "permissions": [
-        "FOREGROUND_SERVICE"
-      ],
+      "permissions": ["FOREGROUND_SERVICE"],
       "foregroundService": {
         "notificationTitle": "Eclipse Player",
         "notificationBody": "Music is playing"
@@ -53,7 +51,7 @@
       "expo-asset",
       "expo-web-browser",
       "expo-secure-store",
-      "expo-video"      
+      "expo-video"
     ],
     "experiments": {
       "typedRoutes": true,

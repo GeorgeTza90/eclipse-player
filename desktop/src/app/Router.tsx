@@ -14,29 +14,27 @@ import SongStats from "@/components/home/stats/SongStats";
 import NotFound from "@/pages/NotFound/index";
 
 const AppRouter = () => {
-    return (
-        <Routes>
-            <Route element={<MainLayout />}>
+  return (
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/user-settings" element={<Settings />} />
+        <Route path="/user-stats" element={<Stats />} />
+        <Route path="/stats/song" element={<SongStats />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
-                <Route path="/" element={<Home />} />
-                <Route path="/user-settings" element={<Settings />} />
-                <Route path="/user-stats" element={<Stats />} />
-                <Route path="/stats/song" element={<SongStats />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/player" element={<Player />} />
 
-                <Route path="/player" element={<Player />} />
+        <Route path="/library" element={<Library />} />
+        <Route path="/library/CollectionDetail/:album" element={<CollectionDetail />} />
+        <Route path="/library/PrivateCollectionDetail/:album" element={<PrivateCollectionDetail />} />
+        <Route path="/library/ArtistInfo/:name" element={<ArtistDetail />} />
+        <Route path="/library/PlaylistDetail" element={<PlaylistDetail />} />
 
-                <Route path="/library" element={<Library />} />
-                <Route path="/library/CollectionDetail/:album" element={<CollectionDetail />} />
-                <Route path="/library/PrivateCollectionDetail/:album" element={<PrivateCollectionDetail />} />                
-                <Route path="/library/ArtistInfo/:name" element={<ArtistDetail />} />
-                <Route path="/library/PlaylistDetail" element={<PlaylistDetail />} />
-
-                <Route path="*" element={<NotFound />} />
-
-            </Route>
-        </Routes>
-    );
-}
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  );
+};
 
 export default AppRouter;

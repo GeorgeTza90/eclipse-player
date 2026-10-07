@@ -17,55 +17,57 @@ import AlbumSongs from "./parts/AlbumSongs";
 import AlbumInfo from "./parts/AlbumInfo";
 
 const PrivateCollectionDetail = () => {
-    const { user } = useAuth();
-    const { privateSongs } = useLibrary();
-    const { barMode } = useMiniPlayer();
-    const { playSong } = useAudio();
-    const { showImageToast, ImageToastUI } = useImageToast();
-    const isMobile = useIsMobile();
-    const navigate = useNavigate();
-    const { album } = useParams();
+  const { user } = useAuth();
+  const { privateSongs } = useLibrary();
+  const { barMode } = useMiniPlayer();
+  const { playSong } = useAudio();
+  const { showImageToast, ImageToastUI } = useImageToast();
+  const isMobile = useIsMobile();
+  const navigate = useNavigate();
+  const { album } = useParams();
 
-    const albumSongs = useMemo(() => privateSongs.filter(s => s.album === album) ,[privateSongs, album]);
-    const durationString = useAlbumDuration(albumSongs);
-    const albumInfo = albumSongs[0];
+  const albumSongs = useMemo(() => privateSongs.filter((s) => s.album === album), [privateSongs, album]);
+  const durationString = useAlbumDuration(albumSongs);
+  const albumInfo = albumSongs[0];
 
-    /* --- STYLES --- */    
-    const containerStyle = { background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )` }
+  /* --- STYLES --- */
+  const containerStyle = {
+    background: `linear-gradient(to bottom, ${hexToRgba(albumSongs[0].averageColor, 0.2)}, #131316f3 )`,
+  };
 
-    /* --- PRESS SONG --- */
-    const handlePressSong = async (song: Song) => {
-        await playSong(song, albumSongs, album);
-        navigate("/player");
-    };    
+  /* --- PRESS SONG --- */
+  const handlePressSong = async (song: Song) => {
+    await playSong(song, albumSongs, album);
+    navigate("/player");
+  };
 
-    /* --- LOADING --- */
-    if (!albumSongs || albumSongs.length === 0) return (
-        <div className={styles.loadingContainer}>
-            <Loader text={"Loading Collection"}/>
-        </div>
-    )
-
+  /* --- LOADING --- */
+  if (!albumSongs || albumSongs.length === 0)
     return (
-        <div className={styles.container} style={containerStyle}>
-            {!isMobile && user && !barMode && (<MiniPlayer />)}            
-    {/* Info */}
-            {ImageToastUI}
-            <AlbumInfo
-                albumInfo={albumInfo}
-                albumSongs={albumSongs}
-                onImageClick={() => {if (albumInfo.imageHQ) showImageToast(albumInfo.imageHQ)}}
-                durationString={durationString}
-            />
-
-    {/* Tracks */}
-            <AlbumSongs                
-                albumSongs={albumSongs}
-                onPress={handlePressSong}
-            />
-            <BackButton navTo={`/library`} />            
-        </div>
+      <div className={styles.loadingContainer}>
+        <Loader text={"Loading Collection"} />
+      </div>
     );
-}
+
+  return (
+    <div className={styles.container} style={containerStyle}>
+      {!isMobile && user && !barMode && <MiniPlayer />}
+      {/* Info */}
+      {ImageToastUI}
+      <AlbumInfo
+        albumInfo={albumInfo}
+        albumSongs={albumSongs}
+        onImageClick={() => {
+          if (albumInfo.imageHQ) showImageToast(albumInfo.imageHQ);
+        }}
+        durationString={durationString}
+      />
+
+      {/* Tracks */}
+      <AlbumSongs albumSongs={albumSongs} onPress={handlePressSong} />
+      <BackButton navTo={`/library`} />
+    </div>
+  );
+};
 
 export default PrivateCollectionDetail;

@@ -3,14 +3,13 @@ import styles from "./presetsButtons.module.css";
 import { PresetsButtonsProps } from "@/types/player.types";
 
 const PresetsButtons = ({ showPresetList, onReset, onSave, onLoad }: PresetsButtonsProps) => {
-
-    return(
-        <div className={styles.buttons}>
-            <PresetButton type="Reset" onClick={onReset}/>
-            <PresetButton type="Save" onClick={onSave}/>
-            <PresetButton type="Load" showPresetList={showPresetList} onClick={onLoad}/>
-        </div>
-    );
-}
+  return (
+    <div className={styles.buttons}>
+      <PresetButton type="Reset" onClick={onReset} />
+      <PresetButton type="Save" onClick={onSave} />
+      <PresetButton type="Load" showPresetList={showPresetList} onClick={onLoad} />
+    </div>
+  );
+};
 
 export default PresetsButtons;

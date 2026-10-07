@@ -23,24 +23,24 @@ export type LibraryContextType = {
 };
 
 export interface UseLibraryFetchProps {
-    fetchCall: ReturnType<typeof useFetchManager>["call"];
-    user: User | null;
-    setSongs: (songs: Song[]) => void;
-    setPrivateSongs: (songs: Song[]) => void;
-    setArtists: (artists: Artist[]) => void;
-    setOriginalSongs: (songs: Song[]) => void;
-    setOriginalPrivateSongs: (songs: Song[]) => void;
-    setOriginalArtists: (artists: Artist[]) => void;
-    setLoading: (val: boolean) => void;
+  fetchCall: ReturnType<typeof useFetchManager>["call"];
+  user: User | null;
+  setSongs: (songs: Song[]) => void;
+  setPrivateSongs: (songs: Song[]) => void;
+  setArtists: (artists: Artist[]) => void;
+  setOriginalSongs: (songs: Song[]) => void;
+  setOriginalPrivateSongs: (songs: Song[]) => void;
+  setOriginalArtists: (artists: Artist[]) => void;
+  setLoading: (val: boolean) => void;
 }
 
 export interface UseLibraryCategoriesProps {
-    songs: Song[];
-    privateSongs: Song[];
+  songs: Song[];
+  privateSongs: Song[];
 }
 
 export type LibraryGroupItemProps = {
-    type: "Singles & EPs" | "Albums" | "Artists" | "Private";
-    group: Song[] | Artist[];
-    title?: boolean;
+  type: "Singles & EPs" | "Albums" | "Artists" | "Private";
+  group: Song[] | Artist[];
+  title?: boolean;
 };

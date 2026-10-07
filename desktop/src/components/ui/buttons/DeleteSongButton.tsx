@@ -6,45 +6,47 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 import type { DeleteSongButtonProps } from "@/types/ui.types";
 import styles from "./deleteSongButton.module.css";
 
-const DeleteSongButton = ({ playlistId, songId, onDeleted }: DeleteSongButtonProps) => {    
-    const { showToast } = useToast();    
-    const [confirmVisible, setConfirmVisible] = useState(false);
-    const {loading: deleteLoading, call: deleteCall} = useDeleteManager();
-    const loading = deleteLoading?.deleteSongFromPlaylist;
+const DeleteSongButton = ({ playlistId, songId, onDeleted }: DeleteSongButtonProps) => {
+  const { showToast } = useToast();
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const { loading: deleteLoading, call: deleteCall } = useDeleteManager();
+  const loading = deleteLoading?.deleteSongFromPlaylist;
 
-    const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation();
-        setConfirmVisible(true);
-    };
+  const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setConfirmVisible(true);
+  };
 
-    const handleConfirmDelete = async () => {
-        setConfirmVisible(false);
-        await handleDelete();
-    };
+  const handleConfirmDelete = async () => {
+    setConfirmVisible(false);
+    await handleDelete();
+  };
 
-    const handleDelete = async () => {
-        try {            
-            await deleteCall("deleteSongFromPlaylist", playlistId, songId);
-            showToast("Song removed from playlist", "success");
-            onDeleted?.();
-        } catch (err) {            
-            showToast(getErrorMessage(err, "Failed to delete song"), "error");
-        }
-    };
+  const handleDelete = async () => {
+    try {
+      await deleteCall("deleteSongFromPlaylist", playlistId, songId);
+      showToast("Song removed from playlist", "success");
+      onDeleted?.();
+    } catch (err) {
+      showToast(getErrorMessage(err, "Failed to delete song"), "error");
+    }
+  };
 
-    return (
-        <>
-            <button className={styles.button} onClick={handleDeleteClick} >{loading ? "..." : "X"}</button>
+  return (
+    <>
+      <button className={styles.button} onClick={handleDeleteClick}>
+        {loading ? "..." : "X"}
+      </button>
 
-            {confirmVisible && (
-                <ConfirmModal
-                    message="Are you sure you want to remove this song from the playlist?"
-                    onConfirm={handleConfirmDelete}
-                    onCancel={() => setConfirmVisible(false)}
-                />
-            )}
-        </>
-    );
-}
+      {confirmVisible && (
+        <ConfirmModal
+          message="Are you sure you want to remove this song from the playlist?"
+          onConfirm={handleConfirmDelete}
+          onCancel={() => setConfirmVisible(false)}
+        />
+      )}
+    </>
+  );
+};
 
 export default DeleteSongButton;

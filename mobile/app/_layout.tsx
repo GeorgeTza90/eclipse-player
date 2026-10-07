@@ -9,29 +9,25 @@ import { ToastProvider } from "@/contexts/ToastContext";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export default function RootLayout() {
-    const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
 
-    return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
-
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <AuthProvider>
-                    <ToastProvider>        
-                        <LibraryProvider>
-                            <AudioProvider>
-
-                                <Stack screenOptions={{ headerShown: false }}>
-                                    <Stack.Screen name="(tabs)" />
-                                    <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-                                </Stack>
-                                <StatusBar style="auto" />
-
-                            </AudioProvider>
-                        </LibraryProvider>   
-                    </ToastProvider>        
-                </AuthProvider>  
-            </ThemeProvider>
-          
-        </GestureHandlerRootView>
-    );
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <AuthProvider>
+          <ToastProvider>
+            <LibraryProvider>
+              <AudioProvider>
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(tabs)" />
+                  <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+                </Stack>
+                <StatusBar style="auto" />
+              </AudioProvider>
+            </LibraryProvider>
+          </ToastProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
+  );
 }

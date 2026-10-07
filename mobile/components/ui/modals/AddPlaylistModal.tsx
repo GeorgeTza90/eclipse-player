@@ -4,53 +4,76 @@ import { usePostManager } from "@/hooks/useCallManager";
 import { AddPlaylistModalProps } from "@/types/playlists";
 import { useToast } from "@/contexts/ToastContext";
 
-export default function AddPlaylistModal({ visible, onClose, onCreated }: AddPlaylistModalProps) {    
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const { showToast } = useToast();
-    const {call: postCall} = usePostManager();
+export default function AddPlaylistModal({ visible, onClose, onCreated }: AddPlaylistModalProps) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const { showToast } = useToast();
+  const { call: postCall } = usePostManager();
 
-    const handleCreate = async () => {        
-        if (!title.trim()) return showToast("Playlist title is required", "error");      
-        if (title.length < 2 ) return showToast("Playlist title minimum length is 2 characters", "error")
-        if (title.length > 20 ) return showToast("Playlist title maximum length is 20 characters", "error")
-        
-        try {
-            await postCall("createPlaylist", title, description);
-            showToast(`Playlist "${title}" created successfully`, "success");
-            setTitle("");
-            setDescription("");
-            onCreated();
-            onClose();
-        } catch (err: any) {
-            console.error("Failed to create playlist:", err);
-            showToast(err?.message || "Could not create playlist", "error");
-        }
-    };
+  const handleCreate = async () => {
+    if (!title.trim()) return showToast("Playlist title is required", "error");
+    if (title.length < 2) return showToast("Playlist title minimum length is 2 characters", "error");
+    if (title.length > 20) return showToast("Playlist title maximum length is 20 characters", "error");
 
-    return (
-        <Modal visible={visible} transparent animationType="slide">
-            <View style={styles.modalOverlay}>
-                <View style={styles.modalContent}>
-                    <TextInput placeholder="Playlist Title" value={title} onChangeText={setTitle} style={styles.input} placeholderTextColor="#aaaaaa50" />
-                    <TextInput placeholder="Description (optional)" value={description} onChangeText={setDescription} style={styles.input} placeholderTextColor="#aaaaaa50"/>
-                    <TouchableOpacity style={styles.modalButton} onPress={handleCreate}>
-                        <Text style={styles.modalButtonText}>Create</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.modalButton, styles.modalCancel]} onPress={onClose}>
-                        <Text style={styles.modalButtonText}>Cancel</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-      </Modal>
-    );
-};
+    try {
+      await postCall("createPlaylist", title, description);
+      showToast(`Playlist "${title}" created successfully`, "success");
+      setTitle("");
+      setDescription("");
+      onCreated();
+      onClose();
+    } catch (err: any) {
+      console.error("Failed to create playlist:", err);
+      showToast(err?.message || "Could not create playlist", "error");
+    }
+  };
+
+  return (
+    <Modal visible={visible} transparent animationType="slide">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <TextInput
+            placeholder="Playlist Title"
+            value={title}
+            onChangeText={setTitle}
+            style={styles.input}
+            placeholderTextColor="#aaaaaa50"
+          />
+          <TextInput
+            placeholder="Description (optional)"
+            value={description}
+            onChangeText={setDescription}
+            style={styles.input}
+            placeholderTextColor="#aaaaaa50"
+          />
+          <TouchableOpacity style={styles.modalButton} onPress={handleCreate}>
+            <Text style={styles.modalButtonText}>Create</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.modalButton, styles.modalCancel]} onPress={onClose}>
+            <Text style={styles.modalButtonText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  );
+}
 
 const styles = StyleSheet.create({
-    modalOverlay: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.5)" },
-    modalContent: { width: "80%", backgroundColor: "#333", padding: 20, borderRadius: 8 },
-    input: { backgroundColor: "#222", color: "#fff", padding: 10, marginBottom: 10, borderRadius: 4 },
-    modalButton: { padding: 12, backgroundColor: "#555", borderRadius: 6, alignItems: "center", marginBottom: 10 },
-    modalButtonText: { color: "#fff", fontWeight: "bold" },
-    modalCancel: { backgroundColor: "#999" }
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: { width: "80%", backgroundColor: "#333", padding: 20, borderRadius: 8 },
+  input: { backgroundColor: "#222", color: "#fff", padding: 10, marginBottom: 10, borderRadius: 4 },
+  modalButton: {
+    padding: 12,
+    backgroundColor: "#555",
+    borderRadius: 6,
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  modalButtonText: { color: "#fff", fontWeight: "bold" },
+  modalCancel: { backgroundColor: "#999" },
 });

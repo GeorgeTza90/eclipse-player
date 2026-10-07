@@ -1,35 +1,35 @@
 {
-    "cli": {
-        "version": ">= 16.25.0",
-        "appVersionSource": "local"
+  "cli": {
+    "version": ">= 16.25.0",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "production": {
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "android": {
+        "buildType": "app-bundle",
+        "withoutCredentials": false
+      },
+      "ios": {
+        "buildConfiguration": "Release"
+      }
     },
-    "build": {
-        "production": {
-            "env": {
-                "NODE_ENV": "production"
-            },
-            "android": {
-                "buildType": "app-bundle",
-                "withoutCredentials": false
-            },
-            "ios": {
-                "buildConfiguration": "Release"
-            }
-        },
-        "development": {
-            "env": {
-                "NODE_ENV": "development"
-            },
-            "android": {
-                "buildType": "apk",
-                "withoutCredentials": true
-            },
-            "ios": {
-                "buildConfiguration": "Debug"
-            }
-        }
-    },
-    "submit": {
-        "production": {}
+    "development": {
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "android": {
+        "buildType": "apk",
+        "withoutCredentials": true
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
+      }
     }
+  },
+  "submit": {
+    "production": {}
+  }
 }

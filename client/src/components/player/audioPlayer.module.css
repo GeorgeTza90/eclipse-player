@@ -1,21 +1,21 @@
 .container {
-    display: flex;
-    justify-content: center;
-    z-index: 0;    
+  display: flex;
+  justify-content: center;
+  z-index: 0;
 }
 
 .playerContent {
-    position: absolute;
-    top: 250px;
-    display: block;
-    justify-items: center;
+  position: absolute;
+  top: 250px;
+  display: block;
+  justify-items: center;
 }
 
 @media (max-width: 768px) {
-    .playerContent {
-        position: absolute;
-        top: 150px;
-        display: block;
-        justify-items: center;       
-    }
+  .playerContent {
+    position: absolute;
+    top: 150px;
+    display: block;
+    justify-items: center;
+  }
 }

@@ -3,28 +3,71 @@ import ToggleButton from "@/components/ui/buttons/ToggleButton";
 import styles from "./miniPlayerSettings.module.css";
 
 const MiniPlayerSettings = () => {
-    const {
-        showImage, setShowImage,  showMiniPlayer, setShowMiniPlayer, showTimeBar, setShowTimeBar,
-        showVolumeBar, setShowVolumeBar, transparency, setTransparency, showGlow, setShowGlow,
-        barMode, setBarMode, setPos, goRGB,
-    } = useMiniPlayer();   
-    
-    const posReset = () => setPos({ x: window.innerWidth * 45 / 100, y: window.innerHeight * 74 / 100 });   
+  const {
+    showImage,
+    setShowImage,
+    showMiniPlayer,
+    setShowMiniPlayer,
+    showTimeBar,
+    setShowTimeBar,
+    showVolumeBar,
+    setShowVolumeBar,
+    transparency,
+    setTransparency,
+    showGlow,
+    setShowGlow,
+    barMode,
+    setBarMode,
+    setPos,
+    goRGB,
+  } = useMiniPlayer();
 
-    return (
-        <div className={styles.container}>                
-            <ToggleButton heading={"Show MiniPlayer"} isBarMode={false} value={showMiniPlayer} onChange={setShowMiniPlayer} />                
-            <ToggleButton heading={"Song's Image"} isBarMode={barMode} value={showImage} onChange={setShowImage} inActive={!barMode ? false : true} />                
-            <ToggleButton heading={"Time Bar"} isBarMode={barMode} value={showTimeBar} onChange={setShowTimeBar} inActive={!barMode ? false : true} />                
-            <ToggleButton heading={"Bar Mode"} isBarMode={false} value={barMode} onChange={setBarMode} />                                
-            <ToggleButton heading={"Show Glow"} isBarMode={false} value={showGlow} onChange={setShowGlow} inActive={!goRGB ? false : true }/>                                
-            <ToggleButton heading={"Volume Bar"} isBarMode={barMode} value={showVolumeBar} onChange={setShowVolumeBar} inActive={!barMode ? false : true} />                
-            <ToggleButton heading={"Transparent"} isBarMode={barMode} value={transparency} onChange={setTransparency} inActive={!barMode ? false : true} />                                
-                            
-            <h4 className={!barMode ? styles.text1 : styles.text2}>Reset Position</h4>
-            <button onClick={posReset} className={!barMode ? styles.resetMPPosition : styles.resetMPPositionInActive} />
-        </div>        
-    );
+  const posReset = () => setPos({ x: (window.innerWidth * 45) / 100, y: (window.innerHeight * 74) / 100 });
+
+  return (
+    <div className={styles.container}>
+      <ToggleButton heading={"Show MiniPlayer"} isBarMode={false} value={showMiniPlayer} onChange={setShowMiniPlayer} />
+      <ToggleButton
+        heading={"Song's Image"}
+        isBarMode={barMode}
+        value={showImage}
+        onChange={setShowImage}
+        inActive={!barMode ? false : true}
+      />
+      <ToggleButton
+        heading={"Time Bar"}
+        isBarMode={barMode}
+        value={showTimeBar}
+        onChange={setShowTimeBar}
+        inActive={!barMode ? false : true}
+      />
+      <ToggleButton heading={"Bar Mode"} isBarMode={false} value={barMode} onChange={setBarMode} />
+      <ToggleButton
+        heading={"Show Glow"}
+        isBarMode={false}
+        value={showGlow}
+        onChange={setShowGlow}
+        inActive={!goRGB ? false : true}
+      />
+      <ToggleButton
+        heading={"Volume Bar"}
+        isBarMode={barMode}
+        value={showVolumeBar}
+        onChange={setShowVolumeBar}
+        inActive={!barMode ? false : true}
+      />
+      <ToggleButton
+        heading={"Transparent"}
+        isBarMode={barMode}
+        value={transparency}
+        onChange={setTransparency}
+        inActive={!barMode ? false : true}
+      />
+
+      <h4 className={!barMode ? styles.text1 : styles.text2}>Reset Position</h4>
+      <button onClick={posReset} className={!barMode ? styles.resetMPPosition : styles.resetMPPositionInActive} />
+    </div>
+  );
 };
 
 export default MiniPlayerSettings;

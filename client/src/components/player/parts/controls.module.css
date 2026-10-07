@@ -1,13 +1,13 @@
 .controls {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  z-index: 2;
 }
 
 @media (max-width: 768px) {
-    .controls {        
-        margin-top: -1.5rem;
-    }
+  .controls {
+    margin-top: -1.5rem;
+  }
 }

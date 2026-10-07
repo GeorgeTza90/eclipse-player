@@ -5,37 +5,43 @@ import { useHeight } from "@/hooks/useScreen";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import styles from "./lyrics.module.css";
 
-const Lyrics = ({ currentSong }: LyricsProps) => {     
-    const { showLyricsToast, LyricsToastUI } = useLyricsToast(currentSong.lyrics ?? "No Lyrics Yet");
-    const isMobile = useIsMobile()
-    const height = useHeight();
-    const { maxHeight } = getHeightConfig(height, true, isMobile);
-    const ListStyle = { maxHeight: `${maxHeight}px` }    
+const Lyrics = ({ currentSong }: LyricsProps) => {
+  const { showLyricsToast, LyricsToastUI } = useLyricsToast(currentSong.lyrics ?? "No Lyrics Yet");
+  const isMobile = useIsMobile();
+  const height = useHeight();
+  const { maxHeight } = getHeightConfig(height, true, isMobile);
+  const ListStyle = { maxHeight: `${maxHeight}px` };
 
-    console.log(height, ListStyle, isMobile);
+  console.log(height, ListStyle, isMobile);
 
-    return (<>
-        <div className={styles.container}>
-            <div className={styles.heading}>
-                <h3>{currentSong?.title} - Lyrics {" "} </h3>
-                
-                <button
-                    onClick={() => showLyricsToast()}
-                    className={styles.magnifyButton}
-                />
-            </div>
-            <div className={styles.list} style={ListStyle}>
-                {currentSong?.lyrics ? (
-                    currentSong.lyrics.split("\n").map((line, i) => (
-                        <p key={i} className={styles.lyrics}>{line || "\u00A0"}</p>
-                    ))
-                ) : (
-                    !currentSong ? (<p className={styles.lyrics}>No Song Loaded</p>) : (<p className={styles.lyrics}>No Lyrics Yet</p>)                    
-                )}
-            </div>
-        </div><br/><br/><br/>
-        {LyricsToastUI}
-    </>);
-}
+  return (
+    <>
+      <div className={styles.container}>
+        <div className={styles.heading}>
+          <h3>{currentSong?.title} - Lyrics </h3>
+
+          <button onClick={() => showLyricsToast()} className={styles.magnifyButton} />
+        </div>
+        <div className={styles.list} style={ListStyle}>
+          {currentSong?.lyrics ? (
+            currentSong.lyrics.split("\n").map((line, i) => (
+              <p key={i} className={styles.lyrics}>
+                {line || "\u00A0"}
+              </p>
+            ))
+          ) : !currentSong ? (
+            <p className={styles.lyrics}>No Song Loaded</p>
+          ) : (
+            <p className={styles.lyrics}>No Lyrics Yet</p>
+          )}
+        </div>
+      </div>
+      <br />
+      <br />
+      <br />
+      {LyricsToastUI}
+    </>
+  );
+};
 
 export default Lyrics;

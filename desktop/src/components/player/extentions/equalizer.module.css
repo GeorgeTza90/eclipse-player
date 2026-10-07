@@ -1,28 +1,27 @@
-.divContainer{
-    width: 100%;    
-    max-width: 600px;
-    margin: 6.5rem auto 0 auto;
-    position: absolute;
-    top: 32rem;
-    margin-bottom: 2rem;
+.divContainer {
+  width: 100%;
+  max-width: 600px;
+  margin: 6.5rem auto 0 auto;
+  position: absolute;
+  top: 32rem;
+  margin-bottom: 2rem;
 }
 
 .heading {
-    color: #fff;
-    font-size: 1rem;
-    font-weight: bold;
-    margin-top: 2.5rem;
-    text-align: center;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 2.5rem;
+  text-align: center;
 }
 
 .EQcontainer {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    position: relative;
-    height: 100%;
-    background-color: #00000030;
-    border-radius: 2rem;  
-    padding: 0.5rem;
-    
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  height: 100%;
+  background-color: #00000030;
+  border-radius: 2rem;
+  padding: 0.5rem;
 }

@@ -1,29 +1,29 @@
 .authContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 21rem;
-    margin-bottom: 16rem;
-    position: relative;    
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 21rem;
+  margin-bottom: 16rem;
+  position: relative;
 }
 
 .formWrapper {
-    position: absolute;
-    top: -220px;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  position: absolute;
+  top: -220px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .authButtonsDiv {
-    max-width: 280px;
-    margin-bottom: 1rem;
+  max-width: 280px;
+  margin-bottom: 1rem;
 }
 
 .messageText {
-    color: rgb(215, 255, 209);    
-    font-size: 14px;
+  color: rgb(215, 255, 209);
+  font-size: 14px;
 }

@@ -12,37 +12,50 @@ import LogOutButton from "../ui/buttons/LogOutButton";
 import TeaserSection from "./teasers/TeaserSection";
 
 const HomeScreen = () => {
-    const { user, logout, authLoading } = useAuth();
-    const isMobile = useIsMobile();
-    const navigate = useNavigate();
-    
-    const showLoader = useMinimumLoading(authLoading, 1500);
-    if (showLoader) return <Loader text="Checking login status"/>;    
+  const { user, logout, authLoading } = useAuth();
+  const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
-    return (
-        <div className={styles.container}>
-            <div style={{ display: 'none' }}>Eclipse Player is an online music player that lets you play playlists and stream Neperia and more content easily on any device.</div>
-            
-            {!user && <AuthCard />}
+  const showLoader = useMinimumLoading(authLoading, 1500);
+  if (showLoader) return <Loader text="Checking login status" />;
 
-            {user && (
-                <div className={styles.UserDiv}>
-                    {/* Auth */}
-                    <h2 className={styles.text}>Welcome, {user.username}!</h2>
-                    <LogOutButton title="Logout" loading={false} onClick={logout} width={isMobile ? '80%' : '90%'}/>
-                    <SettingsButton title="Settings" loading={false} onClick={() => navigate("/user-settings")}width={isMobile ? '10%' : '5%'}/>
-                    <StatsButton title="Stats" loading={false} onClick={() => navigate("/user-stats")}width={isMobile ? '10%' : '5%'}/>
+  return (
+    <div className={styles.container}>
+      <div style={{ display: "none" }}>
+        Eclipse Player is an online music player that lets you play playlists and stream Neperia and more content easily
+        on any device.
+      </div>
 
-                    {/* Playlists */}
-                    <h3 className={styles.text2}>Your Playlists</h3>
-                    <UserPlaylists />                   
-                </div>
-            )}
+      {!user && <AuthCard />}
 
-        {/* Teasers */}
-            <TeaserSection />
+      {user && (
+        <div className={styles.UserDiv}>
+          {/* Auth */}
+          <h2 className={styles.text}>Welcome, {user.username}!</h2>
+          <LogOutButton title="Logout" loading={false} onClick={logout} width={isMobile ? "80%" : "90%"} />
+          <SettingsButton
+            title="Settings"
+            loading={false}
+            onClick={() => navigate("/user-settings")}
+            width={isMobile ? "10%" : "5%"}
+          />
+          <StatsButton
+            title="Stats"
+            loading={false}
+            onClick={() => navigate("/user-stats")}
+            width={isMobile ? "10%" : "5%"}
+          />
+
+          {/* Playlists */}
+          <h3 className={styles.text2}>Your Playlists</h3>
+          <UserPlaylists />
         </div>
-    );
-}
+      )}
+
+      {/* Teasers */}
+      <TeaserSection />
+    </div>
+  );
+};
 
 export default HomeScreen;

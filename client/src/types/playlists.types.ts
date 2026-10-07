@@ -2,41 +2,41 @@ import { MouseEventHandler } from "react";
 import { Song } from "./songs.types";
 
 export interface Playlist {
-    id: number;
-    user_id: number;
-    title: string;
-    description?: string;
-    created_at: Date;
-    songCount?: number;
+  id: number;
+  user_id: number;
+  title: string;
+  description?: string;
+  created_at: Date;
+  songCount?: number;
 }
 
 export interface PlaylistSong {
-    id: number;
-    playlist_id: number;
-    song_id: number;
-    order: number;    
+  id: number;
+  playlist_id: number;
+  song_id: number;
+  order: number;
 }
 
 export interface PlaylistItemProps {
-    playlist: Playlist;
-    onDelete: () => void;
-    onPress: (playlist: Playlist) => void;
+  playlist: Playlist;
+  onDelete: () => void;
+  onPress: (playlist: Playlist) => void;
 }
 
 export interface PlaylistProps {
-    name: string;
+  name: string;
 }
 
 export interface PlaylistSongItemProps {
-    item: Song;
-    currentSong: Song | null;
-    onClick: MouseEventHandler<HTMLDivElement>;
+  item: Song;
+  currentSong: Song | null;
+  onClick: MouseEventHandler<HTMLDivElement>;
 }
 
 export interface PlayerPlaylistSongItemProps {
-    item: Song;
-    index: number;
-    playlistId: number;
-    onPlay: (item: Song) => void;
-    onDelete: (id: number) => void;    
+  item: Song;
+  index: number;
+  playlistId: number;
+  onPlay: (item: Song) => void;
+  onDelete: (id: number) => void;
 }

@@ -17,83 +17,109 @@ import EmptyPlayer from "./parts/EmptyPlayer";
 import styles from "./audioPlayer.module.css";
 
 const AudioPlayer = ({ onToggleExtention }: AudioPlayerProps) => {
-    const { currentSong, position, duration, volume } = useAudio();
-    const { coloredGlow, goRGB } = useMiniPlayer();
-    const { showImageToast, ImageToastUI } = useImageToast();
-    
-    const [extention, setExtention] = useState<Extention>("Playlist");
-    const [intensity, setIntensity] = useState(30);  
-    const [sliderPosition, setSliderPosition] = useState<number | null>(null);
-    
-    const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
-    const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
-    const progress = duration ? (position / duration) * 100 : 0;
-    const isMobile = useIsMobile();    
+  const { currentSong, position, duration, volume } = useAudio();
+  const { coloredGlow, goRGB } = useMiniPlayer();
+  const { showImageToast, ImageToastUI } = useImageToast();
 
-    const handleExtention = (key: Extention): void => {
-        setExtention(key);
-        onToggleExtention(key);
-    };
-    
-    const { sliderStyle, volumeSliderStyle, RGBStyle, extentionHoverStyle } = useStylesPlayer(goRGB, coloredGlow, progress, shadowColor, volume, intensity, extention);
+  const [extention, setExtention] = useState<Extention>("Playlist");
+  const [intensity, setIntensity] = useState(30);
+  const [sliderPosition, setSliderPosition] = useState<number | null>(null);
 
-    /* --- UI UPDATE --- */
-    useEffect(() => { if (position != null) setSliderPosition(position); }, [position]);
-    useEffect(() => setIntensity(volume * 30), [volume]);    
+  const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
+  const { mainArtists, featArtists } = groupArtistsByRole(currentSong?.artists ?? []);
+  const progress = duration ? (position / duration) * 100 : 0;
+  const isMobile = useIsMobile();
 
-    return (<>
-        <div className={styles.container}>
-    {/* Circles */}
-            <Circle size={isMobile ? 400 : 600} top={isMobile ? 110 : 150} intensity={isMobile ? intensity * 0.6 : intensity * 0.8} heightOffset={8} shadowColor={shadowColor} />
-            <Circle size={isMobile ? 230 : 300} top={isMobile ? 550 : 800} intensity={intensity * 0.5} heightOffset={6} shadowColor={shadowColor} color2="#0e0e0eff" color1="#1b1a1aff" />
+  const handleExtention = (key: Extention): void => {
+    setExtention(key);
+    onToggleExtention(key);
+  };
 
-    {/* Player UI */}
-            <div className={styles.playerContent}>
-        {/* Info */}
-                <InfoRow
-                    currentSong={currentSong}
-                    featArtists={featArtists}
-                    mainArtists={mainArtists}
-                    onClick={() => currentSong?.imageHQ && showImageToast(currentSong.imageHQ)}
-                />
+  const { sliderStyle, volumeSliderStyle, RGBStyle, extentionHoverStyle } = useStylesPlayer(
+    goRGB,
+    coloredGlow,
+    progress,
+    shadowColor,
+    volume,
+    intensity,
+    extention,
+  );
 
-        {/* Controls */}
-                <Controls /><br/>
+  /* --- UI UPDATE --- */
+  useEffect(() => {
+    if (position != null) setSliderPosition(position);
+  }, [position]);
+  useEffect(() => setIntensity(volume * 30), [volume]);
 
-        {/* Time Slider */}
-                <TimeSlider
-                    position={position}
-                    goRGB={goRGB}
-                    duration={duration}
-                    sliderPosition={sliderPosition}                    
-                    RGBStyle={RGBStyle}
-                    sliderStyle={sliderStyle}
-                />                
+  return (
+    <>
+      <div className={styles.container}>
+        {/* Circles */}
+        <Circle
+          size={isMobile ? 400 : 600}
+          top={isMobile ? 110 : 150}
+          intensity={isMobile ? intensity * 0.6 : intensity * 0.8}
+          heightOffset={8}
+          shadowColor={shadowColor}
+        />
+        <Circle
+          size={isMobile ? 230 : 300}
+          top={isMobile ? 550 : 800}
+          intensity={intensity * 0.5}
+          heightOffset={6}
+          shadowColor={shadowColor}
+          color2="#0e0e0eff"
+          color1="#1b1a1aff"
+        />
 
-        {/* Volume */}
-                <VolumeSlider
-                    width={50}
-                    volume={volume}
-                    goRGB={goRGB}
-                    RGBStyle={RGBStyle}
-                    volumeSliderStyle={volumeSliderStyle}
-                />
+        {/* Player UI */}
+        <div className={styles.playerContent}>
+          {/* Info */}
+          <InfoRow
+            currentSong={currentSong}
+            featArtists={featArtists}
+            mainArtists={mainArtists}
+            onClick={() => currentSong?.imageHQ && showImageToast(currentSong.imageHQ)}
+          />
 
-        {/* Extention Buttons */}
-                <ExtentionButtons
-                    extentionHoverStyle={extentionHoverStyle}
-                    onPlaylist={() => handleExtention("Playlist")}
-                    onLyrics={() => handleExtention("Lyrics")}
-                    onEqualizer={() => handleExtention("Equalizer")}
-                />
-            </div>
+          {/* Controls */}
+          <Controls />
+          <br />
 
-    {/* Empty Player */}
-            {!currentSong && <EmptyPlayer />}
-            
+          {/* Time Slider */}
+          <TimeSlider
+            position={position}
+            goRGB={goRGB}
+            duration={duration}
+            sliderPosition={sliderPosition}
+            RGBStyle={RGBStyle}
+            sliderStyle={sliderStyle}
+          />
+
+          {/* Volume */}
+          <VolumeSlider
+            width={50}
+            volume={volume}
+            goRGB={goRGB}
+            RGBStyle={RGBStyle}
+            volumeSliderStyle={volumeSliderStyle}
+          />
+
+          {/* Extention Buttons */}
+          <ExtentionButtons
+            extentionHoverStyle={extentionHoverStyle}
+            onPlaylist={() => handleExtention("Playlist")}
+            onLyrics={() => handleExtention("Lyrics")}
+            onEqualizer={() => handleExtention("Equalizer")}
+          />
         </div>
-        {ImageToastUI}
-    </>);
-}
+
+        {/* Empty Player */}
+        {!currentSong && <EmptyPlayer />}
+      </div>
+      {ImageToastUI}
+    </>
+  );
+};
 
 export default AudioPlayer;

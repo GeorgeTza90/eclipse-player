@@ -13,48 +13,51 @@ import styles from "./homeScreen.module.css";
 import LogOutButton from "../ui/buttons/LogOutButton";
 
 const HomeScreen = () => {
-    const { user, logout, authLoading } = useAuth();    
-    const navigate = useNavigate();
-    
-    const showLoader = useMinimumLoading(authLoading, 1500);
-    if (showLoader) return <Loader text="Checking login status"/>;    
+  const { user, logout, authLoading } = useAuth();
+  const navigate = useNavigate();
 
-    return (
-        <div className={styles.container}>
-            <div style={{ display: 'none' }}>Eclipse Player is an online music player that lets you play playlists and stream Neperia and more content easily on any device.</div>
-            
-            {!user && <AuthCard />}
+  const showLoader = useMinimumLoading(authLoading, 1500);
+  if (showLoader) return <Loader text="Checking login status" />;
 
-            {user && (
-                <div className={styles.UserDiv}>
-                    {/* Auth */}
-                    <h2 className={styles.text}>Welcome, {user.username}!</h2>
-                    <LogOutButton title="Logout" loading={false} onClick={logout} width={'90%'}/>
-                    <SettingsButton title="Settings" loading={false} onClick={() => navigate("/user-settings")}width={'5%'}/>
-                    <StatsButton title="Stats" loading={false} onClick={() => navigate("/user-stats")}width={'5%'}/>
+  return (
+    <div className={styles.container}>
+      <div style={{ display: "none" }}>
+        Eclipse Player is an online music player that lets you play playlists and stream Neperia and more content easily
+        on any device.
+      </div>
 
-                    {/* Playlists */}
-                    <h3 className={styles.text2}>Your Playlists</h3>
-                    <UserPlaylists />                   
-                </div>
-            )}
+      {!user && <AuthCard />}
 
-        {/* Teasers */}        
-            <div className={styles.teaserDiv}>
-                <Teaser 
-                    link={`/library/CollectionDetail/${encodeURIComponent("No Gods In Heaven")}`} 
-                    source={"/assets/vids/Video Teaser 2.mp4"}
-                    video={true}
-                />
-                <Teaser
-                    link = {`${API_URL}/api/download/apk?version=${CURRENT_APK_VERSION}`}
-                    source={"/assets/images/App_Teaser_1.jpg"}
-                    download
-                    video={false}
-                />
-            </div>
+      {user && (
+        <div className={styles.UserDiv}>
+          {/* Auth */}
+          <h2 className={styles.text}>Welcome, {user.username}!</h2>
+          <LogOutButton title="Logout" loading={false} onClick={logout} width={"90%"} />
+          <SettingsButton title="Settings" loading={false} onClick={() => navigate("/user-settings")} width={"5%"} />
+          <StatsButton title="Stats" loading={false} onClick={() => navigate("/user-stats")} width={"5%"} />
+
+          {/* Playlists */}
+          <h3 className={styles.text2}>Your Playlists</h3>
+          <UserPlaylists />
         </div>
-    );
-}
+      )}
+
+      {/* Teasers */}
+      <div className={styles.teaserDiv}>
+        <Teaser
+          link={`/library/CollectionDetail/${encodeURIComponent("No Gods In Heaven")}`}
+          source={"/assets/vids/Video Teaser 2.mp4"}
+          video={true}
+        />
+        <Teaser
+          link={`${API_URL}/api/download/apk?version=${CURRENT_APK_VERSION}`}
+          source={"/assets/images/App_Teaser_1.jpg"}
+          download
+          video={false}
+        />
+      </div>
+    </div>
+  );
+};
 
 export default HomeScreen;

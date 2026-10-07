@@ -1,20 +1,14 @@
 import type { GeneralButtonProps } from "@/types/ui.types";
 import styles from "./authButton.module.css";
 
-const LogOutButton = ({ loading, isLogin,title, onClick, width = "100%" }: GeneralButtonProps) => {
-    const buttonText = title || (loading ? "Loading..." : isLogin ? "Login" : "Register");
+const LogOutButton = ({ loading, isLogin, title, onClick, width = "100%" }: GeneralButtonProps) => {
+  const buttonText = title || (loading ? "Loading..." : isLogin ? "Login" : "Register");
 
-    return (
-        <button
-            type="button"
-            className={styles.logOutButton}
-            onClick={onClick}       
-            disabled={loading}
-            style={{width: width}}
-        >
-            {buttonText}
-        </button>
-    );
-}
+  return (
+    <button type="button" className={styles.logOutButton} onClick={onClick} disabled={loading} style={{ width: width }}>
+      {buttonText}
+    </button>
+  );
+};
 
 export default LogOutButton;

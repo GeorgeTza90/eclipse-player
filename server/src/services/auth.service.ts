@@ -4,220 +4,223 @@ import { randomBytes, createHash } from "crypto";
 import { AppError } from "@/errors/AppError.js";
 import { authRepository } from "@/repositories/auth.repository.js";
 import { signToken } from "@/utils/authTokens.js";
-import {
-    FRONTEND_URL, DUMMY_HASH, GOOGLE_CLIENT_ID_DESKTOP, GOOGLE_CLIENT_SECRET_DESKTOP
-} from "@/config/env.js";
+import { FRONTEND_URL, DUMMY_HASH, GOOGLE_CLIENT_ID_DESKTOP, GOOGLE_CLIENT_SECRET_DESKTOP } from "@/config/env.js";
 import { resetEmailHtml } from "@/templates/resetPassword.email.js";
 import sendEmail from "@/utils/sendEmail.js";
 import {
-    ensureUsername, ensureEmail, ensurePassword, ensureUserExists, ensurePlatform,
-    ensureGoogleEmail, ensurePasswordLength, ensureUserPassword, ensurePasswordMatch,
-    ensureCredentialsMatch, ensureToken, ensureRequest, ensurePasswordDontMatch,
-    ensureUsernameLength, ensureEmailUniqueConstraint, ensureResult
+  ensureUsername,
+  ensureEmail,
+  ensurePassword,
+  ensureUserExists,
+  ensurePlatform,
+  ensureGoogleEmail,
+  ensurePasswordLength,
+  ensureUserPassword,
+  ensurePasswordMatch,
+  ensureCredentialsMatch,
+  ensureToken,
+  ensureRequest,
+  ensurePasswordDontMatch,
+  ensureUsernameLength,
+  ensureEmailUniqueConstraint,
+  ensureResult,
 } from "@/guards/auth.guard.js";
 
 export const authService = {
-    async register(username?: string, email?: string, password?: string) {
-        ensureUsername(username);
-        ensureEmail(email);
-        ensurePassword(password);
+  async register(username?: string, email?: string, password?: string) {
+    ensureUsername(username);
+    ensureEmail(email);
+    ensurePassword(password);
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-        try {
-            const result = await authRepository.createUser(username, email, hashedPassword);
-            const user = await authRepository.findUserById(result.insertId);
-            ensureUserExists(user);
+    try {
+      const result = await authRepository.createUser(username, email, hashedPassword);
+      const user = await authRepository.findUserById(result.insertId);
+      ensureUserExists(user);
 
-            const token = signToken(user.id);
-            return { user, token };
-        } catch (err: any) {
-            ensureEmailUniqueConstraint(err.code);
-            throw err;
-        }
-    },
+      const token = signToken(user.id);
+      return { user, token };
+    } catch (err: any) {
+      ensureEmailUniqueConstraint(err.code);
+      throw err;
+    }
+  },
 
-    async login(email?: string, password?: string) {
-        ensureEmail(email);
-        ensurePassword(password);
+  async login(email?: string, password?: string) {
+    ensureEmail(email);
+    ensurePassword(password);
 
-        const user = await authRepository.findUserByEmail(email);
-        const hashToCheck = user?.password ?? DUMMY_HASH;
-        const passwordMatch = await bcrypt.compare(password, hashToCheck);
+    const user = await authRepository.findUserByEmail(email);
+    const hashToCheck = user?.password ?? DUMMY_HASH;
+    const passwordMatch = await bcrypt.compare(password, hashToCheck);
 
-        ensureUserExists(user);
-        ensureUserPassword(user);
-        ensureCredentialsMatch(passwordMatch);
+    ensureUserExists(user);
+    ensureUserPassword(user);
+    ensureCredentialsMatch(passwordMatch);
 
-        const { password: _, ...safeUser } = user;
-        const token = signToken(user.id);
-        return { user: safeUser, token };
-    },
+    const { password: _, ...safeUser } = user;
+    const token = signToken(user.id);
+    return { user: safeUser, token };
+  },
 
-    async resolveOrCreateGoogleUser(email: string, name: string, googleId: string) {
-        ensureGoogleEmail(email);
+  async resolveOrCreateGoogleUser(email: string, name: string, googleId: string) {
+    ensureGoogleEmail(email);
 
-        let user = await authRepository.findUserByEmailNoPassword(email);
+    let user = await authRepository.findUserByEmailNoPassword(email);
 
-        if (!user) {
-            const result = await authRepository.createGoogleUser(name, email, googleId);
-            user = await authRepository.findUserById(result.insertId);
-            ensureUserExists(user);
-        }
+    if (!user) {
+      const result = await authRepository.createGoogleUser(name, email, googleId);
+      user = await authRepository.findUserById(result.insertId);
+      ensureUserExists(user);
+    }
 
-        return user;
-    },
+    return user;
+  },
 
-    async googleLogin(accessToken: string, platform: string) {
-        ensurePlatform(platform);
+  async googleLogin(accessToken: string, platform: string) {
+    ensurePlatform(platform);
 
-        let data;
-        try {
-            const res = await axios.get(
-                "https://www.googleapis.com/oauth2/v3/userinfo",
-                { headers: { Authorization: `Bearer ${accessToken}` } }
-            );
-            data = res.data;
-        } catch {
-            throw new AppError("INVALID_GOOGLE_TOKEN", 401);
-        }
+    let data;
+    try {
+      const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      data = res.data;
+    } catch {
+      throw new AppError("INVALID_GOOGLE_TOKEN", 401);
+    }
 
-        const { email, name, sub: googleId } = data;
-        const user = await this.resolveOrCreateGoogleUser(email, name, googleId);
+    const { email, name, sub: googleId } = data;
+    const user = await this.resolveOrCreateGoogleUser(email, name, googleId);
 
-        const token = signToken(user.id);
-        return { user, token };
-    },
+    const token = signToken(user.id);
+    return { user, token };
+  },
 
-    async googleLoginDesktop(code: string, redirectUri: string) {
-        let tokenData;
-        try {
-            const res = await axios.post(
-                "https://oauth2.googleapis.com/token",
-                new URLSearchParams({
-                    code,
-                    client_id: GOOGLE_CLIENT_ID_DESKTOP,
-                    client_secret: GOOGLE_CLIENT_SECRET_DESKTOP,
-                    redirect_uri: redirectUri,
-                    grant_type: "authorization_code",
-                }),
-                { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
-            );
-            tokenData = res.data;
-        } catch {
-            throw new AppError("INVALID_GOOGLE_TOKEN", 401);
-        }
+  async googleLoginDesktop(code: string, redirectUri: string) {
+    let tokenData;
+    try {
+      const res = await axios.post(
+        "https://oauth2.googleapis.com/token",
+        new URLSearchParams({
+          code,
+          client_id: GOOGLE_CLIENT_ID_DESKTOP,
+          client_secret: GOOGLE_CLIENT_SECRET_DESKTOP,
+          redirect_uri: redirectUri,
+          grant_type: "authorization_code",
+        }),
+        { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
+      );
+      tokenData = res.data;
+    } catch {
+      throw new AppError("INVALID_GOOGLE_TOKEN", 401);
+    }
 
-        let userInfo;
-        try {
-            const res = await axios.get(
-                "https://www.googleapis.com/oauth2/v3/userinfo",
-                { headers: { Authorization: `Bearer ${tokenData.access_token}` } }
-            );
-            userInfo = res.data;
-        } catch {
-            throw new AppError("INVALID_GOOGLE_TOKEN", 401);
-        }
+    let userInfo;
+    try {
+      const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: { Authorization: `Bearer ${tokenData.access_token}` },
+      });
+      userInfo = res.data;
+    } catch {
+      throw new AppError("INVALID_GOOGLE_TOKEN", 401);
+    }
 
-        const { email, name, sub: googleId } = userInfo;
-        const user = await this.resolveOrCreateGoogleUser(email, name, googleId);
+    const { email, name, sub: googleId } = userInfo;
+    const user = await this.resolveOrCreateGoogleUser(email, name, googleId);
 
-        const token = signToken(user.id);
-        return { user, token };
-    },
+    const token = signToken(user.id);
+    return { user, token };
+  },
 
-    async forgotPassword(email?: string): Promise<void> {
-        ensureEmail(email);
+  async forgotPassword(email?: string): Promise<void> {
+    ensureEmail(email);
 
-        const user = await authRepository.findUserByEmailNoPassword(email);
-        if (!user) return;
+    const user = await authRepository.findUserByEmailNoPassword(email);
+    if (!user) return;
 
-        const minEXP = 30;
-        const resetToken = randomBytes(32).toString("hex");
-        const tokenHash = createHash("sha256").update(resetToken).digest("hex");
-        const expiresAt = new Date(Date.now() + minEXP * 60 * 1000)
-            .toISOString().slice(0, 19).replace("T", " ");
+    const minEXP = 30;
+    const resetToken = randomBytes(32).toString("hex");
+    const tokenHash = createHash("sha256").update(resetToken).digest("hex");
+    const expiresAt = new Date(Date.now() + minEXP * 60 * 1000).toISOString().slice(0, 19).replace("T", " ");
 
-        await authRepository.createPasswordResetRequest(user.id, tokenHash, expiresAt);
+    await authRepository.createPasswordResetRequest(user.id, tokenHash, expiresAt);
 
-        const resetLink = `${FRONTEND_URL}/reset-password?token=${resetToken}`;
-        const html = resetEmailHtml(user.username, resetLink, minEXP);
+    const resetLink = `${FRONTEND_URL}/reset-password?token=${resetToken}`;
+    const html = resetEmailHtml(user.username, resetLink, minEXP);
 
-        try {
-            await sendEmail(user.email, "Reset Your Password", html);
-        } catch {
-            // sendEmail handled the error
-        }
-    },
+    try {
+      await sendEmail(user.email, "Reset Your Password", html);
+    } catch {
+      // sendEmail handled the error
+    }
+  },
 
-    async changePassword(userId: number, oldPassword?: string, newPassword?: string): Promise<void> {
-        ensurePassword(oldPassword);
-        ensurePassword(newPassword);
-        ensurePasswordLength(newPassword, 8);
+  async changePassword(userId: number, oldPassword?: string, newPassword?: string): Promise<void> {
+    ensurePassword(oldPassword);
+    ensurePassword(newPassword);
+    ensurePasswordLength(newPassword, 8);
 
-        const user = await authRepository.findUserPassword(userId);
-        ensureUserExists(user);
-        ensureUserPassword(user);
+    const user = await authRepository.findUserPassword(userId);
+    ensureUserExists(user);
+    ensureUserPassword(user);
 
-        const isMatch = await bcrypt.compare(oldPassword, user.password);
-        ensurePasswordMatch(isMatch);
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    ensurePasswordMatch(isMatch);
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await authRepository.updateUserPassword(hashedPassword, userId);
-    },
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await authRepository.updateUserPassword(hashedPassword, userId);
+  },
 
-    async resetPassword(token?: string, newPassword?: string): Promise<string> {
-        ensureToken(token);
-        ensurePassword(newPassword);
-        ensurePasswordLength(newPassword, 8);
+  async resetPassword(token?: string, newPassword?: string): Promise<string> {
+    ensureToken(token);
+    ensurePassword(newPassword);
+    ensurePasswordLength(newPassword, 8);
 
-        const tokenHash = createHash("sha256").update(token).digest("hex");
-        const rows = await authRepository.findPasswordResetRequest(tokenHash);
+    const tokenHash = createHash("sha256").update(token).digest("hex");
+    const rows = await authRepository.findPasswordResetRequest(tokenHash);
 
-        const request = rows[0];
-        ensureRequest(request);
+    const request = rows[0];
+    ensureRequest(request);
 
-        const user = await authRepository.findUserPassword(request.user_id);
-        ensureUserExists(user);
-        ensureUserPassword(user);
+    const user = await authRepository.findUserPassword(request.user_id);
+    ensureUserExists(user);
+    ensureUserPassword(user);
 
-        const isSamePassword = await bcrypt.compare(newPassword, user.password);
-        ensurePasswordDontMatch(isSamePassword);
+    const isSamePassword = await bcrypt.compare(newPassword, user.password);
+    ensurePasswordDontMatch(isSamePassword);
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        await authRepository.updateUserPasswordTransaction(
-            request.user_id,
-            request.id,
-            hashedPassword
-        );
+    await authRepository.updateUserPasswordTransaction(request.user_id, request.id, hashedPassword);
 
-        return signToken(request.user_id);
-    },
+    return signToken(request.user_id);
+  },
 
-    async updateUsername(userId: number, newUsername?: string): Promise<string> {
-        ensureUsername(newUsername);
+  async updateUsername(userId: number, newUsername?: string): Promise<string> {
+    ensureUsername(newUsername);
 
-        const cleanedUsername = newUsername.trim();
-        ensureUsernameLength(cleanedUsername, 2);
+    const cleanedUsername = newUsername.trim();
+    ensureUsernameLength(cleanedUsername, 2);
 
-        const result = await authRepository.updateUsername(cleanedUsername, userId);
-        ensureResult(result);
+    const result = await authRepository.updateUsername(cleanedUsername, userId);
+    ensureResult(result);
 
-        return cleanedUsername;
-    },
+    return cleanedUsername;
+  },
 
-    async premiumCheck(userId: number) {
-        const user = await authRepository.findUserPremium(userId);
-        ensureUserExists(user);
+  async premiumCheck(userId: number) {
+    const user = await authRepository.findUserPremium(userId);
+    ensureUserExists(user);
 
-        return {
-            premium: Boolean(user.premium),
-            private: Boolean(user.private),
-        };
-    },
+    return {
+      premium: Boolean(user.premium),
+      private: Boolean(user.private),
+    };
+  },
 
-    async findUserById(userId: number) {
-        return await authRepository.findUserById(userId);
-    },
-}
+  async findUserById(userId: number) {
+    return await authRepository.findUserById(userId);
+  },
+};

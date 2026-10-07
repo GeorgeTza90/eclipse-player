@@ -15,49 +15,53 @@ import styles from "./artistDetail.module.css";
 import ArtistSongs from "./parts/ArtistSongs";
 
 const ArtistDetail = () => {
-    const { state, loading, error, call } = useFetchManager();
-    const { name } = useParams();
-    const isMobile = useIsMobile();
-    const width = useWidth();
-    const { barMode } = useMiniPlayer();
-    const { user } = useAuth();    
-    const navigate = useNavigate();    
+  const { state, loading, error, call } = useFetchManager();
+  const { name } = useParams();
+  const isMobile = useIsMobile();
+  const width = useWidth();
+  const { barMode } = useMiniPlayer();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-    const artistName = name ? decodeURIComponent(name) : null;
-    const artist: Artist = state.artist;
+  const artistName = name ? decodeURIComponent(name) : null;
+  const artist: Artist = state.artist;
 
-    useEffect(() => {
-        if (!artistName) return;
-        call("artist", artistName).catch(() => navigate("/library"));
-    }, [artistName, call, navigate]);
+  useEffect(() => {
+    if (!artistName) return;
+    call("artist", artistName).catch(() => navigate("/library"));
+  }, [artistName, call, navigate]);
 
-    const showLoader = useMinimumLoading(loading.artist || !artist, 500);
+  const showLoader = useMinimumLoading(loading.artist || !artist, 500);
 
-    if (showLoader) return (<div style={{ display: "flex", justifyContent: "center" }}><Loader text={"Loading artist"} /></div>);    
-    if (error.artist) return <p style={{ color: "#fff", padding: "10px" }}>Error loading artist.</p>;
-    if (!artist) return null;
-
-    const backgroundPhoto = { maxWidth: width };
-
+  if (showLoader)
     return (
-        <div className={styles.container}>
-            {!isMobile && user && !barMode && (<MiniPlayer />)}
-            
-            {artist.photos?.length > 0 && (
-                <img src={artist.photos[0]} alt="" className={styles.backgroundPhoto} style={backgroundPhoto} />
-            )}
-
-            {/* Info */}
-            <ArtistInfo artist={artist}/>
-
-            {/* Songs */}
-            <ArtistSongs artist={artist}/>
-            
-            {/* Back Button */}
-            <BackButton navTo={"/library"} />
-            
-        </div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Loader text={"Loading artist"} />
+      </div>
     );
+  if (error.artist) return <p style={{ color: "#fff", padding: "10px" }}>Error loading artist.</p>;
+  if (!artist) return null;
+
+  const backgroundPhoto = { maxWidth: width };
+
+  return (
+    <div className={styles.container}>
+      {!isMobile && user && !barMode && <MiniPlayer />}
+
+      {artist.photos?.length > 0 && (
+        <img src={artist.photos[0]} alt="" className={styles.backgroundPhoto} style={backgroundPhoto} />
+      )}
+
+      {/* Info */}
+      <ArtistInfo artist={artist} />
+
+      {/* Songs */}
+      <ArtistSongs artist={artist} />
+
+      {/* Back Button */}
+      <BackButton navTo={"/library"} />
+    </div>
+  );
 };
 
 export default ArtistDetail;

@@ -7,30 +7,26 @@ import type { AuthContextValue, AuthProviderProps, User } from "@/types/auth.typ
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const { call: fetchCall } = useFetchManager();
-    const { loading: postLoading, call: postCall } = usePostManager();
+  const { call: fetchCall } = useFetchManager();
+  const { loading: postLoading, call: postCall } = usePostManager();
 
-    const [user, setUser] = useState<User | null>(null);
-    const [authLoading, setAuthLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState<boolean>(true);
 
-    const loading = Boolean(postLoading.user);
-    const priv_u = Boolean(user?.private);
+  const loading = Boolean(postLoading.user);
+  const priv_u = Boolean(user?.private);
 
-    useAuthUser({ fetchCall, setUser, setAuthLoading });
+  useAuthUser({ fetchCall, setUser, setAuthLoading });
 
-    const { login, logout } = useAuthSession({ postCall, setUser });
+  const { login, logout } = useAuthSession({ postCall, setUser });
 
-    const value: AuthContextValue = { user, setUser, loading, authLoading, priv_u, login, logout };
+  const value: AuthContextValue = { user, setUser, loading, authLoading, priv_u, login, logout };
 
-    return (
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextValue => {
-    const context = useContext(AuthContext);
-    if (!context) throw new Error("useAuth must be used within AuthProvider");
-    return context;
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth must be used within AuthProvider");
+  return context;
 };

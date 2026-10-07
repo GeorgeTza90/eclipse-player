@@ -9,27 +9,37 @@ import Playlist from "@/components/player/extentions/Playlist";
 import Circle from "@/components/ui/circles/Circle";
 import type { Extention } from "@/types/player.types";
 
-const Player = () => {    
-    const { playlistName, currentSong, volume } = useAudio();
-    const { setPlayerPage, coloredGlow } = useMiniPlayer();    
-    const [extention, setExtention] = useState<Extention>("Playlist");
-    const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
-    const handleExtention = (key: Extention) => setExtention(key);
+const Player = () => {
+  const { playlistName, currentSong, volume } = useAudio();
+  const { setPlayerPage, coloredGlow } = useMiniPlayer();
+  const [extention, setExtention] = useState<Extention>("Playlist");
+  const shadowColor = useShadowColor(coloredGlow, currentSong, "#bebebe");
+  const handleExtention = (key: Extention) => setExtention(key);
 
-    useEffect(() => setPlayerPage(true), []);   
+  useEffect(() => setPlayerPage(true), []);
 
-    return (<>
-        <div id="heading" style={{ display: "flex", justifyContent: "center" }}>
-            <img src="/assets/images/logo.png" style={{ position: 'fixed', width: 180, top: 55, zIndex: "99" }} />
-            <Circle size={1000} top={-880} shadowColor={"#201f1fff"} intensity={volume * 30} color2="#0b0b0bff" color1="#1f1e1eff" zIndex={98} />
+  return (
+    <>
+      <div id="heading" style={{ display: "flex", justifyContent: "center" }}>
+        <img src="/assets/images/logo.png" style={{ position: "fixed", width: 180, top: 55, zIndex: "99" }} />
+        <Circle
+          size={1000}
+          top={-880}
+          shadowColor={"#201f1fff"}
+          intensity={volume * 30}
+          color2="#0b0b0bff"
+          color1="#1f1e1eff"
+          zIndex={98}
+        />
 
-            <AudioPlayer onToggleExtention={handleExtention} />
+        <AudioPlayer onToggleExtention={handleExtention} />
 
-            {extention === "Playlist" && <Playlist name={playlistName} />}
-            {extention === "Lyrics" && currentSong && <Lyrics currentSong={currentSong} />}
-            {extention === "Equalizer" && <Equalizer color={shadowColor}/>}            
-        </div>
-    </>);
-}
+        {extention === "Playlist" && <Playlist name={playlistName} />}
+        {extention === "Lyrics" && currentSong && <Lyrics currentSong={currentSong} />}
+        {extention === "Equalizer" && <Equalizer color={shadowColor} />}
+      </div>
+    </>
+  );
+};
 
 export default Player;

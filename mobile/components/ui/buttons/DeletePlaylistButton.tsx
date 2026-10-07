@@ -3,45 +3,41 @@ import { useDeleteManager } from "@/hooks/useCallManager";
 import { DeletePlaylistButtonProps } from "@/types/buttons";
 import { useToast } from "@/contexts/ToastContext";
 
-export default function DeletePlaylistButton({ playlistId, onDeleted }: DeletePlaylistButtonProps) {        
-    const { showToast } = useToast();
-    
-    const { loading: deleteLoading, call: deleteCall } = useDeleteManager();
-    const loading = deleteLoading?.deletePlaylist;
+export default function DeletePlaylistButton({ playlistId, onDeleted }: DeletePlaylistButtonProps) {
+  const { showToast } = useToast();
 
-    const confirmDelete = () => {
-        Alert.alert(
-            "Delete Playlist",
-            "Are you sure you want to delete this playlist?",
-            [
-                { text: "Cancel", style: "cancel" },
-                { text: "Delete", style: "destructive", onPress: handleDelete }
-            ]
-        );
-    };
+  const { loading: deleteLoading, call: deleteCall } = useDeleteManager();
+  const loading = deleteLoading?.deletePlaylist;
 
-    const handleDelete = async () => {
-        try {            
-            await deleteCall("deletePlaylist", playlistId);
-            showToast("Playlist deleted successfully", "success");
-            onDeleted?.();
-        } catch (err: any) {
-            console.error(err);
-            showToast(err?.message || "Failed to delete playlist", "error");
-        }
-    };
+  const confirmDelete = () => {
+    Alert.alert("Delete Playlist", "Are you sure you want to delete this playlist?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Delete", style: "destructive", onPress: handleDelete },
+    ]);
+  };
 
-    return (
-        <View style={styles.container}>
-            <Pressable onPress={confirmDelete} style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}>
-            {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.buttonText}>X</Text>}
-            </Pressable>
-        </View>      
-    );
+  const handleDelete = async () => {
+    try {
+      await deleteCall("deletePlaylist", playlistId);
+      showToast("Playlist deleted successfully", "success");
+      onDeleted?.();
+    } catch (err: any) {
+      console.error(err);
+      showToast(err?.message || "Failed to delete playlist", "error");
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Pressable onPress={confirmDelete} style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}>
+        {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.buttonText}>X</Text>}
+      </Pressable>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: { marginLeft: "auto" },
-    button: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, alignItems: "center" },
-    buttonText: { color: "#8b4646ff", fontWeight: "bold", fontSize: 14 },
+  container: { marginLeft: "auto" },
+  button: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, alignItems: "center" },
+  buttonText: { color: "#8b4646ff", fontWeight: "bold", fontSize: 14 },
 });

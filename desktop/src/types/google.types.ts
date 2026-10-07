@@ -1,3 +1,3 @@
 export interface GoogleTokenResponse {
-    access_token: string;
+  access_token: string;
 }

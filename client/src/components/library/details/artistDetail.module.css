@@ -1,35 +1,35 @@
 .container {
-    padding: 10rem;    
-    display: flex;
-    flex-direction: column;
-    justify-content: center;      
-    margin-top: -5rem;
+  padding: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: -5rem;
 }
 
 .backgroundPhoto {
-    position: absolute;
-    top: 15rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    opacity: 0.35;    
-    object-fit: cover;
+  position: absolute;
+  top: 15rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  opacity: 0.35;
+  object-fit: cover;
 }
 
 @media (max-width: 768px) {
-    .container {
-        padding: 1rem;        
-        margin-top: -40%;
-        margin-left: 0px;
-    }
+  .container {
+    padding: 1rem;
+    margin-top: -40%;
+    margin-left: 0px;
+  }
 
-    .backgroundPhoto {
-        position: absolute;
-        top: 5rem;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-        opacity: 0.35;    
-        object-fit: cover;
-    }
+  .backgroundPhoto {
+    position: absolute;
+    top: 5rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0.35;
+    object-fit: cover;
+  }
 }

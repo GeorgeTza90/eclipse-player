@@ -1,13 +1,13 @@
 function requireEnv(name: string): string {
-    const value = process.env[name];
-    if (!value) throw new Error(`Missing ${name} env variable`);
-    return value;
+  const value = process.env[name];
+  if (!value) throw new Error(`Missing ${name} env variable`);
+  return value;
 }
 
 function requireEnvNumber(name: string): number {
-    const value = Number(requireEnv(name));
-    if (Number.isNaN(value)) throw new Error(`Invalid number for ${name} env variable`);
-    return value;
+  const value = Number(requireEnv(name));
+  if (Number.isNaN(value)) throw new Error(`Invalid number for ${name} env variable`);
+  return value;
 }
 
 export const JWT_SECRET = requireEnv("JWT_SECRET");

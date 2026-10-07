@@ -5,73 +5,87 @@ const POLL_INTERVAL_MS = 200;
 const END_THRESHOLD_SECONDS = 0.25;
 
 export class AudioEngine {
-    private player: AudioPlayer | null = null;
-    private intervalId: ReturnType<typeof setInterval> | null = null;
-    private listeners: AudioEngineListeners = {};
-    private hasFiredEnded = false;    
-    private hasFiredPlayRecorded = false;
-    private wasPlaying = false;
+  private player: AudioPlayer | null = null;
+  private intervalId: ReturnType<typeof setInterval> | null = null;
+  private listeners: AudioEngineListeners = {};
+  private hasFiredEnded = false;
+  private hasFiredPlayRecorded = false;
+  private wasPlaying = false;
 
-    attach(player: AudioPlayer, listeners: AudioEngineListeners = {}) {
-        this.release();
+  attach(player: AudioPlayer, listeners: AudioEngineListeners = {}) {
+    this.release();
 
-        this.player = player;
-        this.listeners = listeners;
-        this.hasFiredEnded = false;
-        this.hasFiredPlayRecorded = false;
-        this.wasPlaying = player.playing;
+    this.player = player;
+    this.listeners = listeners;
+    this.hasFiredEnded = false;
+    this.hasFiredPlayRecorded = false;
+    this.wasPlaying = player.playing;
 
-        this.intervalId = setInterval(() => this.poll(), POLL_INTERVAL_MS);
+    this.intervalId = setInterval(() => this.poll(), POLL_INTERVAL_MS);
+  }
+
+  private poll() {
+    if (!this.player) return;
+    const { currentTime, duration, playing } = this.player;
+
+    this.listeners.onTimeUpdate?.(currentTime, duration);
+
+    if (playing !== this.wasPlaying) {
+      this.wasPlaying = playing;
+      this.listeners.onPlayingChange?.(playing);
     }
 
-    private poll() {
-        if (!this.player) return;
-        const { currentTime, duration, playing } = this.player;
-
-        this.listeners.onTimeUpdate?.(currentTime, duration);
-
-        if (playing !== this.wasPlaying) {
-            this.wasPlaying = playing;
-            this.listeners.onPlayingChange?.(playing);
-        }
-
-        if (!this.hasFiredPlayRecorded && duration > 0) {
-            const threshold = Math.min(30, duration * 0.5);
-            if (currentTime >= threshold) {
-                this.hasFiredPlayRecorded = true;
-                this.listeners.onPlayThresholdReached?.(currentTime, duration);
-            }
-        }
-
-        const reachedEnd = duration > 0 && currentTime >= duration - END_THRESHOLD_SECONDS && !playing;
-        if (reachedEnd && !this.hasFiredEnded) {
-            this.hasFiredEnded = true;
-            this.listeners.onEnded?.();
-        }
+    if (!this.hasFiredPlayRecorded && duration > 0) {
+      const threshold = Math.min(30, duration * 0.5);
+      if (currentTime >= threshold) {
+        this.hasFiredPlayRecorded = true;
+        this.listeners.onPlayThresholdReached?.(currentTime, duration);
+      }
     }
 
-    play() { this.player?.play(); }
-    pause() { this.player?.pause(); }
-
-    stop() {
-        if (!this.player) return;
-        this.player.pause();
-        this.player.seekTo(0);
+    const reachedEnd = duration > 0 && currentTime >= duration - END_THRESHOLD_SECONDS && !playing;
+    if (reachedEnd && !this.hasFiredEnded) {
+      this.hasFiredEnded = true;
+      this.listeners.onEnded?.();
     }
+  }
 
-    seek(pos: number) { this.player?.seekTo(pos); }
-    setVolume(vol: number) { if (this.player) this.player.volume = vol; }
+  play() {
+    this.player?.play();
+  }
+  pause() {
+    this.player?.pause();
+  }
 
-    get isPlaying() { return this.player?.playing ?? false; }
-    get currentTime() { return this.player?.currentTime ?? 0; }
-    get duration() { return this.player?.duration ?? 0; }
+  stop() {
+    if (!this.player) return;
+    this.player.pause();
+    this.player.seekTo(0);
+  }
 
-    release() {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-        }
-        if (this.player) this.player = null;
-        this.listeners = {};
+  seek(pos: number) {
+    this.player?.seekTo(pos);
+  }
+  setVolume(vol: number) {
+    if (this.player) this.player.volume = vol;
+  }
+
+  get isPlaying() {
+    return this.player?.playing ?? false;
+  }
+  get currentTime() {
+    return this.player?.currentTime ?? 0;
+  }
+  get duration() {
+    return this.player?.duration ?? 0;
+  }
+
+  release() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
     }
+    if (this.player) this.player = null;
+    this.listeners = {};
+  }
 }

@@ -3,20 +3,18 @@ import { useStylesLoader } from "@/hooks/useStylesLoader";
 import type { LoaderProps } from "@/types/ui.types";
 
 export const Loader = ({ text, size }: LoaderProps) => {
-    const { goRGB } = useMiniPlayer();
+  const { goRGB } = useMiniPlayer();
 
-    const { 
-        containerStyle, textStyle, spinner1Style, spinner2Style, spinner3Style
-    } = useStylesLoader(goRGB, size);
+  const { containerStyle, textStyle, spinner1Style, spinner2Style, spinner3Style } = useStylesLoader(goRGB, size);
 
-    return (
-        <div style={containerStyle}>
-            <div style={spinner3Style}></div>
-            <div style={spinner1Style}></div>
-            <p style={textStyle}>{text}</p>
-            <div style={spinner2Style}></div>
-        </div>
-    );
+  return (
+    <div style={containerStyle}>
+      <div style={spinner3Style}></div>
+      <div style={spinner1Style}></div>
+      <p style={textStyle}>{text}</p>
+      <div style={spinner2Style}></div>
+    </div>
+  );
 };
 
 export default Loader;

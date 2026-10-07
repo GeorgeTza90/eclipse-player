@@ -7,25 +7,25 @@ import { User, AuthContextType } from "@/types/auth";
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const { loading: fetchLoading, call: fetchCall } = useFetchManager();
-    const { call: postCall } = usePostManager();
-    const loading: boolean = fetchLoading?.user || false;
-    const [user, setUser] = useState<User | null>(null);
+  const { loading: fetchLoading, call: fetchCall } = useFetchManager();
+  const { call: postCall } = usePostManager();
+  const loading: boolean = fetchLoading?.user || false;
+  const [user, setUser] = useState<User | null>(null);
 
-    const priv_u = Boolean(user?.private);
+  const priv_u = Boolean(user?.private);
 
-    useAuthUser({ fetchCall, setUser });
-    const { loginWithUser, logout } = useAuthSession({ postCall, setUser });
+  useAuthUser({ fetchCall, setUser });
+  const { loginWithUser, logout } = useAuthSession({ postCall, setUser });
 
-    return (
-        <AuthContext.Provider value={{ user, setUser, loading, priv_u, loginWithUser, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={{ user, setUser, loading, priv_u, loginWithUser, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) throw new Error("useAuth must be used within AuthProvider");
-    return context;
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth must be used within AuthProvider");
+  return context;
 };

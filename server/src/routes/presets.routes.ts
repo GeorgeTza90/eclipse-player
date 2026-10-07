@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { verifyToken } from "@/middleware/authMiddleware.js";
-import { createRateLimiter }  from '@/middleware/rateLimiter.js';
+import { createRateLimiter } from "@/middleware/rateLimiter.js";
 import { createPresets, deletePresets, getPresets, updatePresets } from "@/controllers/presets.controller.js";
 import { validateBody, validateParams } from "@/middleware/validate.js";
 import { createPresetSchema, presetIdSchema, updatePresetSchema } from "@/validation/presets.schema.js";
@@ -17,7 +17,13 @@ router.use(verifyToken);
 // Presets CRUD
 router.get("/", getPresets);
 router.post("/", createPresetsLimiter, validateBody(createPresetSchema), createPresets);
-router.put("/:id", updatePresetsLimiter, validateParams(presetIdSchema), validateBody(updatePresetSchema), updatePresets);
+router.put(
+  "/:id",
+  updatePresetsLimiter,
+  validateParams(presetIdSchema),
+  validateBody(updatePresetSchema),
+  updatePresets,
+);
 router.delete("/:id", deletePresetsLimiter, validateParams(presetIdSchema), deletePresets);
 
 export default router;

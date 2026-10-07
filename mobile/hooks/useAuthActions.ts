@@ -3,54 +3,53 @@ import { useAuth } from "@/contexts/AuthContext";
 import { usePostManager } from "./useCallManager";
 
 export default function useAuthActions() {
-    const { loginWithUser } = useAuth();
-    const { call: postCall } = usePostManager();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+  const { loginWithUser } = useAuth();
+  const { call: postCall } = usePostManager();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    // ---------- Login με email/password ----------
-    const handleLogin = async (email: string, password: string) => {
-        setLoading(true); 
-        setError(null);
-        try {
-            const data = await postCall("loginUser", email, password);            
-            await loginWithUser(data);
+  // ---------- Login με email/password ----------
+  const handleLogin = async (email: string, password: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await postCall("loginUser", email, password);
+      await loginWithUser(data);
+    } catch (err: any) {
+      setError(err.message || "Login Failed");
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        } catch (err: any) {
-            setError(err.message || "Login Failed");
-            throw err; 
-        } finally {
-            setLoading(false);
-        }
-    };
+  //---------- Login με Google ----------
+  const handleGoogleLogin = async (idToken: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await postCall("googleLogin", idToken, "mobile");
+      await loginWithUser(data);
+    } catch (err: any) {
+      setError(err.message || "Google login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    //---------- Login με Google ----------
-    const handleGoogleLogin = async (idToken: string) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await postCall("googleLogin", idToken, "mobile");
-            await loginWithUser(data);
-        } catch (err: any) {
-            setError(err.message || "Google login failed");
-        } finally {
-            setLoading(false);
-        }
-    };
+  // ---------- Register ----------
+  const handleRegister = async (username: string, email: string, password: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const newUser = await postCall("registerUser", username, email, password);
+      await loginWithUser(newUser);
+    } catch (err: any) {
+      setError(err.message || "Register Failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    // ---------- Register ----------
-    const handleRegister = async (username: string, email: string, password: string) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const newUser = await postCall("registerUser", username, email, password);
-            await loginWithUser(newUser);
-        } catch (err: any) {
-            setError(err.message || "Register Failed");
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return { handleLogin, handleRegister, loading, error };
+  return { handleLogin, handleRegister, loading, error };
 }

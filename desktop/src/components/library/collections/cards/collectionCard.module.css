@@ -1,113 +1,106 @@
 .trackContainer {
-    position: relative;
-    overflow: hidden;
-    width: 9rem;
-    height: 12.8rem;    
-    border-radius: 1rem;  
-    background-color: rgba(24, 24, 24, 0);
-    backdrop-filter: blur(2px);
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1.2rem;    
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.166);
-    transition: 1s;
-    transform:
-        perspective(20rem)
-        rotateX(0deg)
-        rotateY(20deg)
-        scale(0.9);
+  position: relative;
+  overflow: hidden;
+  width: 9rem;
+  height: 12.8rem;
+  border-radius: 1rem;
+  background-color: rgba(24, 24, 24, 0);
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2rem;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.166);
+  transition: 1s;
+  transform: perspective(20rem) rotateX(0deg) rotateY(20deg) scale(0.9);
 }
 
 .trackContainer:hover {
-    background-color: rgba(153, 153, 153, 0.289);
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.735);
-    transition: 0.5s;
-    transform:
-        rotateY(0deg)
-        scale(1.0);
+  background-color: rgba(153, 153, 153, 0.289);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.735);
+  transition: 0.5s;
+  transform: rotateY(0deg) scale(1);
 }
 
-.artistContainer {    
-    width: 9rem;
-    height: 10rem;
-    margin-right: 15px;
-    border-radius: 1rem;
-    overflow: hidden;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.artistContainer {
+  width: 9rem;
+  height: 10rem;
+  margin-right: 15px;
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .glowDiv {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        -55deg,
-        rgb(0, 0, 0),
-        rgba(17, 17, 17, 0.405),
-        rgba(68, 68, 68, 0.093),
-        rgba(173, 173, 173, 0.172),
-        rgba(255, 255, 255, 0.111),
-        rgba(255, 255, 255, 0.111),
-        rgba(255, 255, 255, 0.234),
-        rgba(255, 255, 255, 0.912),
-        rgba(255, 255, 255, 0.272),
-        rgba(255, 255, 255, 0.065)    
-    );
-    opacity: 0.2;
-    z-index: 3;
-    pointer-events: none;
-    transition: 2s;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    -55deg,
+    rgb(0, 0, 0),
+    rgba(17, 17, 17, 0.405),
+    rgba(68, 68, 68, 0.093),
+    rgba(173, 173, 173, 0.172),
+    rgba(255, 255, 255, 0.111),
+    rgba(255, 255, 255, 0.111),
+    rgba(255, 255, 255, 0.234),
+    rgba(255, 255, 255, 0.912),
+    rgba(255, 255, 255, 0.272),
+    rgba(255, 255, 255, 0.065)
+  );
+  opacity: 0.2;
+  z-index: 3;
+  pointer-events: none;
+  transition: 2s;
 }
 
 .trackContainer:hover .glowDiv {
-    opacity: 0;
-    transition: 2s;
+  opacity: 0;
+  transition: 2s;
 }
 
-.albumImage {    
-    aspect-ratio: 1 / 1;        
-    object-fit: cover;
-    transition: 0.5s;    
-    z-index: 2;
+.albumImage {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: 0.5s;
+  z-index: 2;
 }
 
-.artistImage {    
-    aspect-ratio: 1 / 1;        
-    object-fit: cover;
-    transition: 0.5s;
-    
+.artistImage {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: 0.5s;
 }
 
 .trackInfo {
-    padding: 0 5px;
-    margin-top: 5px;
-    text-align: center;
+  padding: 0 5px;
+  margin-top: 5px;
+  text-align: center;
 }
 
 .artistInfo {
-    padding: 0 5px;
-    margin-top: 4px;
-    margin-top: 5px;
-    text-align: center;
+  padding: 0 5px;
+  margin-top: 4px;
+  margin-top: 5px;
+  text-align: center;
 }
 
 .trackTitle {
-    color: #fff;
-    font-weight: bold;    
-    margin: 2px 0;
-    transition: 0.5s;
+  color: #fff;
+  font-weight: bold;
+  margin: 2px 0;
+  transition: 0.5s;
 }
 
 .trackArtist {
-    color: #d6d6d6;
-    font-size: 0.8rem;
-    margin: 2px 0;   
+  color: #d6d6d6;
+  font-size: 0.8rem;
+  margin: 2px 0;
 }
 
 .trackYear {
-    transition: 0.5s;
+  transition: 0.5s;
 }

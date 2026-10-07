@@ -13,7 +13,7 @@ const getPrivateSongsLimiter = createRateLimiter(1, 30);
 router.get("/", getSongsLimiter, getSongs);
 
 // Protected routes
-router.use(verifyToken)
+router.use(verifyToken);
 router.get("/private", getPrivateSongsLimiter, getPrivateSongs);
 
 export default router;

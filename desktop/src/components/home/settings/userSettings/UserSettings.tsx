@@ -10,78 +10,83 @@ import PremiumSettings from "./parts/PremiumSettings";
 import EmailSettings from "./parts/EmailSettings";
 
 const UserSettings = () => {
-    const { call: postCall } = usePostManager();
-    const { call: putCall } = usePutManager();
-    const { user, setUser, authLoading } = useAuth();    
+  const { call: postCall } = usePostManager();
+  const { call: putCall } = usePutManager();
+  const { user, setUser, authLoading } = useAuth();
 
-    const [username, setUsername] = useState("");
-    const [localError, setLocalError] = useState<string>("");
-    const [message, setMessage] = useState("...");
+  const [username, setUsername] = useState("");
+  const [localError, setLocalError] = useState<string>("");
+  const [message, setMessage] = useState("...");
 
-    const updateUsername = async (username: string) => {
-        if (!user) return;
-        try {
-            await putCall('updateUsername', username)
-            setUser(prev => {
-                if (!prev) return prev;
-                return { ...prev, username}
-            });
-            setMessage("Username Updated");
-        } catch (err) {
-            setLocalError(getErrorMessage(err, "Failed to update username"));
-        }
-    };
-    
-    const getPremium = () => setMessage("Premium service is not available yet");
+  const updateUsername = async (username: string) => {
+    if (!user) return;
+    try {
+      await putCall("updateUsername", username);
+      setUser((prev) => {
+        if (!prev) return prev;
+        return { ...prev, username };
+      });
+      setMessage("Username Updated");
+    } catch (err) {
+      setLocalError(getErrorMessage(err, "Failed to update username"));
+    }
+  };
 
-    const handleForgotPassword = async (email: string) => {        
-        if (!user) return;
-        try {
-            await postCall("forgotPassword", email);
-            setMessage(`An email to reset Password has been sent to: ${email}`);
-        } catch {
-            setLocalError("Failed to send reset email. Try again later.");
-        }
-    };
+  const getPremium = () => setMessage("Premium service is not available yet");
 
-    /* --- AUTO-CLEAR  --- */
-    useAutoClear(localError, setLocalError, "", 4000);
-    useAutoClear(message, setMessage, "...", 6000);
+  const handleForgotPassword = async (email: string) => {
+    if (!user) return;
+    try {
+      await postCall("forgotPassword", email);
+      setMessage(`An email to reset Password has been sent to: ${email}`);
+    } catch {
+      setLocalError("Failed to send reset email. Try again later.");
+    }
+  };
 
-    /* --- UPDATE USERNAME  --- */
-    useEffect(() => {if (user?.username) setUsername(user?.username || "")}, [user]);
+  /* --- AUTO-CLEAR  --- */
+  useAutoClear(localError, setLocalError, "", 4000);
+  useAutoClear(message, setMessage, "...", 6000);
 
-    /* --- LOADING  --- */
-    if (authLoading) return <LoadingMessage message="Loading User Info ..." height="5vh"/>
+  /* --- UPDATE USERNAME  --- */
+  useEffect(() => {
+    if (user?.username) setUsername(user?.username || "");
+  }, [user]);
 
-    return (<>              
-{/* Username */}
-        <div className={styles.userInfo}>
-            Username: 
-            <FormInput 
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={username}
-                onChangeText={setUsername}
-                isForm={false}
-            />                    
-            <button className={styles.updateButton} onClick={() => updateUsername(username)}>↺</button>                    
-        </div>
-        
-{/* Premium */}
-        <PremiumSettings
-            user={user}
-            onClick={getPremium}
+  /* --- LOADING  --- */
+  if (authLoading) return <LoadingMessage message="Loading User Info ..." height="5vh" />;
+
+  return (
+    <>
+      {/* Username */}
+      <div className={styles.userInfo}>
+        Username:
+        <FormInput
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+          isForm={false}
         />
+        <button className={styles.updateButton} onClick={() => updateUsername(username)}>
+          ↺
+        </button>
+      </div>
 
-{/* Email */}
-        <EmailSettings
-            user={user}            
-            onClick={() => {if (user) handleForgotPassword(user?.email);}}
-        />
-        <p className={styles.message}>{message}</p>              
-    </>);
-}
+      {/* Premium */}
+      <PremiumSettings user={user} onClick={getPremium} />
+
+      {/* Email */}
+      <EmailSettings
+        user={user}
+        onClick={() => {
+          if (user) handleForgotPassword(user?.email);
+        }}
+      />
+      <p className={styles.message}>{message}</p>
+    </>
+  );
+};
 
 export default UserSettings;

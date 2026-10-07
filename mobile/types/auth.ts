@@ -2,28 +2,28 @@ import { useFetchManager, usePostManager } from "@/hooks/useCallManager";
 import { Dispatch, SetStateAction } from "react";
 
 export type User = {
-      id: number;
-      username: string;
-      email: string;
-      premium: boolean;
-      private: boolean;
+  id: number;
+  username: string;
+  email: string;
+  premium: boolean;
+  private: boolean;
 };
 
 export type AuthContextType = {
-    user: User | null;
-    setUser: Dispatch<SetStateAction<User | null>>;
-    priv_u: Boolean; 
-    loading: boolean;  
-    loginWithUser: (user: User) => Promise<void>;
-    logout: () => Promise<void>;
+  user: User | null;
+  setUser: Dispatch<SetStateAction<User | null>>;
+  priv_u: Boolean;
+  loading: boolean;
+  loginWithUser: (user: User) => Promise<void>;
+  logout: () => Promise<void>;
 };
 
 export interface UseAuthUserProps {
-    fetchCall: ReturnType<typeof useFetchManager>["call"];
-    setUser: (user: User | null) => void;
+  fetchCall: ReturnType<typeof useFetchManager>["call"];
+  setUser: (user: User | null) => void;
 }
 
 export interface UseAuthSessionProps {
-    postCall: ReturnType<typeof usePostManager>["call"];
-    setUser: (user: User | null) => void;
+  postCall: ReturnType<typeof usePostManager>["call"];
+  setUser: (user: User | null) => void;
 }

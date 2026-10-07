@@ -5,9 +5,9 @@ export async function up(knex: Knex): Promise<void> {
     table.increments("id");
     table.integer("user_id").unsigned().notNullable().references("id").inTable("users").onDelete("CASCADE");
     table.string("title").notNullable();
-    table.tinyint("is_public").nullable()
+    table.tinyint("is_public").nullable();
     table.string("preset").nullable();
-    table.timestamps(true, true);    
+    table.timestamps(true, true);
   });
 }
 

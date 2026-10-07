@@ -2,69 +2,69 @@ import type { Dispatch, ReactNode, SetStateAction } from "react";
 import type { HookFunction } from "./callManager.types";
 
 export interface User {
-    id: number;
-    username: string;
-    email: string;
-    premium: boolean;
-    private: boolean;
-    google_id: string;
+  id: number;
+  username: string;
+  email: string;
+  premium: boolean;
+  private: boolean;
+  google_id: string;
 }
 
 export interface JwtUser {
-    id: number;
+  id: number;
 }
 
 export interface AuthenticatedRequest {
-    user: JwtUser;
+  user: JwtUser;
 }
 
 export interface PasswordResetTypes {
-    id: number;
-    user_id: number;
-    token_hash: string;
-    expires_at: Date;
-    used_at: Date;
+  id: number;
+  user_id: number;
+  token_hash: string;
+  expires_at: Date;
+  used_at: Date;
 }
 
 export interface ValidateAuthParams {
-    isLogin: boolean;
-    username?: string;
-    email: string;
-    password: string;
-    confirmPassword?: string;
+  isLogin: boolean;
+  username?: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
 }
 
 export interface AuthContextValue {
-    user: User | null;
-    setUser: Dispatch<SetStateAction<User | null>>;
-    loading: boolean;
-    authLoading: boolean;
-    priv_u: boolean;
-    login: (user: User) => void;
-    logout: () => Promise<void>;
+  user: User | null;
+  setUser: Dispatch<SetStateAction<User | null>>;
+  loading: boolean;
+  authLoading: boolean;
+  priv_u: boolean;
+  login: (user: User) => void;
+  logout: () => Promise<void>;
 }
 
 export interface AuthProviderProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export interface AuthSessionProps {
-    postCall: HookFunction;
-    setUser: Dispatch<SetStateAction<User | null>>;
+  postCall: HookFunction;
+  setUser: Dispatch<SetStateAction<User | null>>;
 }
 
 export interface AuthUserProps {
-    fetchCall: HookFunction;
-    setUser: Dispatch<SetStateAction<User | null>>;
-    setAuthLoading: Dispatch<SetStateAction<boolean>>;
+  fetchCall: HookFunction;
+  setUser: Dispatch<SetStateAction<User | null>>;
+  setAuthLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface PremiumSettingsProps {
-    user: User | null;
-    onClick: () => void;
+  user: User | null;
+  onClick: () => void;
 }
 
 export interface EmailSettingsProps {
-    user: User | null;    
-    onClick: () => void;
+  user: User | null;
+  onClick: () => void;
 }

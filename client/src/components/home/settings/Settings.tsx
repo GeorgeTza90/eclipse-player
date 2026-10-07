@@ -1,6 +1,6 @@
 import { useMiniPlayer } from "@/contexts/MiniPlayerContextWeb";
 import { useAuth } from "@/contexts/AuthContextWeb.tsx";
-import { useIsMobile } from '@/hooks/useIsMobile';
+import { useIsMobile } from "@/hooks/useIsMobile";
 import MiniPlayer from "@/components/player/mini/MiniPlayer";
 import UserSettings from "./userSettings/UserSettings";
 import MiniPlayerSettings from "./playerSettings/MiniPlayerSettings";
@@ -8,36 +8,47 @@ import AudioPlayerSettings from "./playerSettings/AudioPlayerSettings";
 import BackButton from "@/components/ui/buttons/BackButton";
 import styles from "./settings.module.css";
 
-const Settings = () => {   
-    const { barMode } = useMiniPlayer();
-    const { user } = useAuth();
-    const isMobile = useIsMobile();
+const Settings = () => {
+  const { barMode } = useMiniPlayer();
+  const { user } = useAuth();
+  const isMobile = useIsMobile();
 
-    return (
-        <div className={styles.container}>
-            {!isMobile && user && !barMode && (<MiniPlayer />)}
+  return (
+    <div className={styles.container}>
+      {!isMobile && user && !barMode && <MiniPlayer />}
 
-            <div className={styles.SettingsDiv}>                
-    {/* User Settings */}
-                <h3>User Settings</h3>
-                <UserSettings />
-                <br/>
+      <div className={styles.SettingsDiv}>
+        {/* User Settings */}
+        <h3>User Settings</h3>
+        <UserSettings />
+        <br />
 
-    {/* Audio Player Settings */}
-                <h3>Audio Player Settings</h3>
-                <AudioPlayerSettings />
-                <br/>
+        {/* Audio Player Settings */}
+        <h3>Audio Player Settings</h3>
+        <AudioPlayerSettings />
+        <br />
 
-    {/* Mini Player Settings */}
-                <h3>Mini Player Settings</h3>
-                <MiniPlayerSettings />
-                {!isMobile && <><br/><br/></>}
-    
-                <BackButton navTo={"/"}/>
-                {isMobile && <><br/><br/><br/></>}
-            </div>            
-        </div>
-    );
-}
+        {/* Mini Player Settings */}
+        <h3>Mini Player Settings</h3>
+        <MiniPlayerSettings />
+        {!isMobile && (
+          <>
+            <br />
+            <br />
+          </>
+        )}
+
+        <BackButton navTo={"/"} />
+        {isMobile && (
+          <>
+            <br />
+            <br />
+            <br />
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default Settings;
