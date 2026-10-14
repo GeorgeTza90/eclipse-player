@@ -1,5 +1,5 @@
 .presetsContainer {
-  background-color: #00000029;
+  background-color: #00000082;
   border-radius: 1rem;
   padding: 0.3rem 0;
   margin-top: 1.2rem;
@@ -61,8 +61,9 @@
 /* MOBILE */
 @media (max-width: 768px) {
   .presetsContainer {
-    margin: 2rem 1rem;
+    margin: 1rem 1.5rem;
     height: 10.2rem;
+    margin-bottom: 5rem;
   }
 
   .preset {

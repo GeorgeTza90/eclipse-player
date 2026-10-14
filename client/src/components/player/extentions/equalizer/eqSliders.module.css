@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   width: 2.4rem;
-  height: 4rem;
+  height: 4.85rem;
   margin-top: 3.5rem;
 }
 
@@ -44,9 +44,18 @@
 
 /* MOBILE */
 @media (max-width: 768px) {
+  .sliderWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 2.4rem;
+    height: 4.85rem;
+    margin-top: 2.8rem;
+  }
+
   .verticalSlider {
-    width: 8rem;
-    margin-top: 0rem;
+    width: 7rem;
+    margin-bottom: 3.5rem;
   }
 
   .label {

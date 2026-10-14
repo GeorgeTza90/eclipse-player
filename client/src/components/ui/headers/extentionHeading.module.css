@@ -1,0 +1,19 @@
+.heading {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    max-width: 370px;
+    margin: -10px auto 0 auto;
+  }
+
+  .list {
+    margin-bottom: -1rem;
+  }
+}

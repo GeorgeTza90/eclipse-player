@@ -6,7 +6,7 @@ const LinedBackground = () => {
 
   return (
     <div className={styles.linesDiv}>
-      {Array(isMobile ? 10 : 16)
+      {Array(isMobile ? 11 : 16)
         .fill(0)
         .map((_, i) => (
           <hr key={i} className={styles.line} />

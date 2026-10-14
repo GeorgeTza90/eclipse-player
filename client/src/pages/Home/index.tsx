@@ -17,7 +17,7 @@ const Home = () => {
 
   return (
     <>
-      <div id="heading" style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+      <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
         <img
           src="/assets/images/HomeLogo.png"
           style={{
@@ -28,8 +28,8 @@ const Home = () => {
           }}
         />
         <Circle
-          size={isMobile ? 400 : 1000}
-          top={isMobile ? -320 : -880}
+          size={isMobile ? 480 : 1000}
+          top={-isMobile ? -410 : -880}
           shadowColor={"#201f1fff"}
           intensity={volume * 30}
           color2="#0b0b0bff"

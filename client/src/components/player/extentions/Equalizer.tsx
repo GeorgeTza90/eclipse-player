@@ -4,14 +4,15 @@ import LinedBackground from "@/components/ui/lines/LinedBackground";
 import EqSliders from "./equalizer/EqSliders";
 import EqPresets from "./equalizer/EqPresets";
 import styles from "./equalizer.module.css";
+import ExtentionHeading from "@/components/ui/headers/ExtentionHeading";
 
 const Equalizer = ({ color }: EqualizerProps) => {
   const { goRGB } = useMiniPlayer();
 
   return (
-    <div className={styles.divContainer}>
+    <div className={styles.container}>
       {/* Equalizer */}
-      <h3 className={styles.heading}>Graphic EQ</h3>
+      <ExtentionHeading text={"Graphic EQ"} />
       <div className={styles.EQcontainer}>
         <LinedBackground />
         <EqSliders goRGB={goRGB} color={color} />

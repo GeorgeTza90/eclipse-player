@@ -4,6 +4,7 @@ import { useAudio } from "@/contexts/AudioContextWeb";
 import { useDeleteManager, useFetchManager } from "@/hooks/useCallManager";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { logger } from "@/utils/logger";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import type { EQGains, Presets } from "@/types/player.types";
 import AddPresetModal from "@/components/ui/modals/AddPresetModal";
 import UpdatePresetModal from "@/components/ui/modals/UpdatePresetModal";
@@ -17,6 +18,7 @@ import NotLoggedIn from "@/components/ui/other/NotLoggedIn";
 
 const EqPresets = () => {
   const { user } = useAuth();
+  const isMobile = useIsMobile();
   const { setEQGain, resetEQ, EQGain } = useAudio();
 
   const { state: fetchState, loading: fetchLoading, call: fetchCall } = useFetchManager();
@@ -111,13 +113,9 @@ const EqPresets = () => {
               )}
             </div>
           )}
-          <br />
-          <br />
-          <br />
-          <br />
         </>
       ) : (
-        <div style={{ marginTop: "-10rem" }}>
+        <div style={{ marginTop: isMobile ? "-1rem" : "-12rem" }}>
           <NotLoggedIn text={"to access EQ presets"} />
         </div>
       )}

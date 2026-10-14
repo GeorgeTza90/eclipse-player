@@ -56,14 +56,14 @@ const AudioPlayer = ({ onToggleExtention }: AudioPlayerProps) => {
       <div className={styles.container}>
         {/* Circles */}
         <Circle
-          size={isMobile ? 400 : 600}
+          size={isMobile ? 380 : 600}
           top={isMobile ? 110 : 150}
           intensity={isMobile ? intensity * 0.6 : intensity * 0.8}
           heightOffset={8}
           shadowColor={shadowColor}
         />
         <Circle
-          size={isMobile ? 230 : 300}
+          size={isMobile ? 200 : 300}
           top={isMobile ? 550 : 800}
           intensity={intensity * 0.5}
           heightOffset={6}

@@ -254,3 +254,7 @@ export interface SongStatsButtonProps {
 export interface NotLoggedInProps {
   text: string;
 }
+
+export interface headingProps {
+  text: string;
+}

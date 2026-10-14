@@ -14,12 +14,12 @@
   border-radius: 0.8rem;
   padding: 0.4rem 1rem;
   color: #c2c2c2;
-  background-color: #22222238;
+  background-color: #0c0c0cd4;
   cursor: pointer;
 }
 
 .SignInButton:hover {
-  background-color: #c2c2c23c;
+  background-color: #3e3d3da6;
 }
 
 @media (max-width: 768px) {

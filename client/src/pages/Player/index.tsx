@@ -22,7 +22,7 @@ const Player = () => {
 
   return (
     <>
-      <div id="heading" style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <img
           src="/assets/images/logo.png"
           style={{
@@ -33,8 +33,8 @@ const Player = () => {
           }}
         />
         <Circle
-          size={isMobile ? 400 : 1000}
-          top={-isMobile ? -320 : -880}
+          size={isMobile ? 480 : 1000}
+          top={-isMobile ? -410 : -880}
           shadowColor={"#201f1fff"}
           intensity={volume * 30}
           color2="#0b0b0bff"

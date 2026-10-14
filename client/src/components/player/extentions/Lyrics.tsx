@@ -4,24 +4,29 @@ import { getHeightConfig } from "@/utils/sizeSwitch";
 import { useHeight } from "@/hooks/useScreen";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import styles from "./lyrics.module.css";
+import { useEffect, useState } from "react";
+import ExtentionHeading from "@/components/ui/headers/ExtentionHeading";
 
 const Lyrics = ({ currentSong }: LyricsProps) => {
   const { showLyricsToast, LyricsToastUI } = useLyricsToast(currentSong.lyrics ?? "No Lyrics Yet");
   const isMobile = useIsMobile();
+
+  const [heading, setHeading] = useState("Lyrics");
+
   const height = useHeight();
   const { maxHeight } = getHeightConfig(height, true, isMobile);
   const ListStyle = { maxHeight: `${maxHeight}px` };
 
-  console.log(height, ListStyle, isMobile);
+  useEffect(() => setHeading(`${currentSong.title} - Lyrics`), [currentSong.title]);
 
   return (
     <>
       <div className={styles.container}>
         <div className={styles.heading}>
-          <h3>{currentSong?.title} - Lyrics </h3>
-
+          <ExtentionHeading text={heading} />
           <button onClick={() => showLyricsToast()} className={styles.magnifyButton} />
         </div>
+
         <div className={styles.list} style={ListStyle}>
           {currentSong?.lyrics ? (
             currentSong.lyrics.split("\n").map((line, i) => (
@@ -36,9 +41,7 @@ const Lyrics = ({ currentSong }: LyricsProps) => {
           )}
         </div>
       </div>
-      <br />
-      <br />
-      <br />
+
       {LyricsToastUI}
     </>
   );

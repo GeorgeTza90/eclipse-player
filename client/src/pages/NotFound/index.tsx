@@ -16,7 +16,7 @@ const NotFound = () => {
 
   return (
     <>
-      <div id="heading" style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <img
           src="/assets/images/logo.png"
           style={{
@@ -27,8 +27,8 @@ const NotFound = () => {
           }}
         />
         <Circle
-          size={isMobile ? 400 : 1000}
-          top={isMobile ? -320 : -880}
+          size={isMobile ? 480 : 1000}
+          top={-isMobile ? -410 : -880}
           intensity={intensity * 0.7}
           color2="#0b0b0bff"
           color1="#1f1e1eff"

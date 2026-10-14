@@ -88,7 +88,7 @@ const AuthCard = () => {
   return (
     <div className={styles.authContainer}>
       <Circle
-        size={isMobile ? 400 : 500}
+        size={isMobile ? 380 : 500}
         top={isMobile ? 100 : 150}
         intensity={isMobile ? intensity * 0.6 : intensity * 0.8}
         heightOffset={8}

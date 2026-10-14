@@ -26,6 +26,7 @@ export function useStylesCircle({
     animation: "spin 2.5s linear infinite",
     WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",
     mask: "radial-gradient(farthest-side, transparent calc(100% - 10px), black 0)",
+    transition: "0.5s",
   };
 
   const circleColored: CSSProperties = {

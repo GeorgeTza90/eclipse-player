@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAudio } from "@/contexts/AudioContextWeb";
 import { PlaylistProps } from "@/types/playlists.types.ts";
 import PlaylistsongItem from "./playlist/PlaylistSongItem";
@@ -8,6 +8,7 @@ import { useAuth } from "@/contexts/AuthContextWeb";
 import { useHeight } from "@/hooks/useScreen";
 import { getHeightConfig } from "@/utils/sizeSwitch";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import ExtentionHeading from "../../ui/headers/ExtentionHeading";
 
 const Playlist = ({ name = "Playlist" }: PlaylistProps) => {
   const { playlist, currentSong, playSong } = useAudio();
@@ -15,18 +16,20 @@ const Playlist = ({ name = "Playlist" }: PlaylistProps) => {
   const isMobile = useIsMobile();
   const height = useHeight();
 
-  const [currentName, setCurrentName] = useState(name);
+  const [currentName, setCurrentName] = useState(useMemo(() => name, [name]));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [heading, setHeading] = useState("- Playlist");
 
   const { maxHeight } = getHeightConfig(height, isLoggedIn, isMobile);
   const ListStyle = { maxHeight: `${maxHeight}px` };
 
   useEffect(() => setCurrentName(name), [name]);
   useEffect(() => setIsLoggedIn(user ? true : false), [user]);
+  useEffect(() => setHeading(`${currentName} - Playlist`), [currentName]);
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.heading}>{currentName} - Playlist</h3>
+      <ExtentionHeading text={heading} />
       <div className={styles.list} style={ListStyle}>
         {playlist &&
           playlist.map((item) => (
@@ -35,15 +38,7 @@ const Playlist = ({ name = "Playlist" }: PlaylistProps) => {
             </span>
           ))}
       </div>
-      {!user && (
-        <>
-          <NotLoggedIn text={"to create your playlist"} />
-          <br />
-          <br />
-          <br />
-          <br />
-        </>
-      )}
+      {!user && <NotLoggedIn text={"to create your playlist"} />}
     </div>
   );
 };

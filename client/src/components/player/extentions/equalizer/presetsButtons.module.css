@@ -5,3 +5,9 @@
   gap: 1rem;
   margin-top: 4rem;
 }
+
+@media (max-width: 768px) {
+  .buttons {
+    margin-top: 1rem;
+  }
+}

@@ -1,24 +1,13 @@
 .container {
   width: 100%;
   max-width: 600px;
-  margin: 8rem auto 0 auto;
   position: absolute;
-  top: 32rem;
-}
-
-.heading {
-  color: #fff;
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
+  top: 39rem;
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
-  max-height: 445px;
   overflow-y: auto;
   padding-right: 5px;
   padding: 0.4rem;
@@ -42,20 +31,12 @@
 
 @media (max-width: 768px) {
   .container {
-    width: 100%;
-    max-width: 370px;
-    margin: -10px auto 0 auto;
-  }
-
-  .heading {
-    color: #fff;
-    font-size: 1rem;
-    font-weight: small;
-    margin-bottom: 1rem;
-    text-align: center;
+    top: 31rem;
+    width: 90%;
   }
 
   .list {
+    min-height: 150px;
     margin-bottom: -1rem;
   }
 }

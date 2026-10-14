@@ -24,12 +24,6 @@
   }
 
   .backgroundPhoto {
-    position: absolute;
     top: 5rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    opacity: 0.35;
-    object-fit: cover;
   }
 }
