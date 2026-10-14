@@ -2,6 +2,7 @@
   margin-top: 0rem;
   padding: 10px;
   margin-left: 0.5rem;
+  width: 100%;
 }
 
 .collectionSectionDiv {
@@ -10,14 +11,13 @@
 
 @media (max-width: 768px) {
   .songsContainer {
-    margin-top: 0rem;
-    width: 25rem;
-    padding: 2px;
-    margin-left: 0rem;
+    width: 99%;
     margin-bottom: -5rem;
+    padding: 2px;
   }
 
   .collectionSectionDiv {
-    margin-left: 0rem;
+    margin-left: -1.5rem;
+    width: 99%;
   }
 }
