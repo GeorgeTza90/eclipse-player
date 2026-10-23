@@ -2,7 +2,7 @@ use tauri::{AppHandle, Emitter};
 use tauri_plugin_oauth::start;
 use tauri_plugin_opener::OpenerExt;
 
-const GOOGLE_CLIENT_ID: &str = "819729741703-d1lorkik1vt0sfl05p281ostt68bgceo.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID: &str = "819729741703-guliauf6roop75uvuuv57j52di2gh2l0.apps.googleusercontent.com";
 
 #[tauri::command]
 async fn start_google_login(app: AppHandle) -> Result<(), String> {
